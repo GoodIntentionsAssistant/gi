@@ -72,12 +72,12 @@ socket.on('request_result', function(data){
 		}
 
 	}
-	/*else if(data.type == 'start') {
-		console.log('\033[31m','Devi: ...\033[0m');
+	else if(data.type == 'start') {
+		console.log('\033[31m','Devi: start\033[0m');
 	}
 	else if(data.type == 'end') {
 		console.log('\033[31m','Devi: end\033[0m');
-	}*/
+	}
 
 });
 
@@ -107,11 +107,6 @@ function prompt_me() {
 }
 
 
-function who_am_i() {
-	send('who am i');
-}
-
-
 function ident() {
 	socket.emit('identify',{
 		agent: 'test',
@@ -129,12 +124,7 @@ function send(input, hide) {
 		token: 'NrCgyKqvyB',
 		text: input,
 		type: 'message',
-		event: 'direct_message',
-		channel: null,
-		user: 'darren-direct2444',
-		source: 'direct',
-		timestamp: '121213232',
-		fast: true
+		event: 'direct_message'
 	};
 	socket.emit('request',input);
 }

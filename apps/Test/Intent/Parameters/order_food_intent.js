@@ -25,6 +25,8 @@ function OrderFoodIntent() {
 			},
 			force: true
 		});
+		request.attachment.add_action('Yes');
+		request.attachment.add_action('No');
 		return 'Order for here?';
 	}
 	

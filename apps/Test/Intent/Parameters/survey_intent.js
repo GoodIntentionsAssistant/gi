@@ -28,6 +28,8 @@ function SurveyIntent() {
 				'key': 'survey.sports_tv'
 			}
 		});
+		request.attachment.add_action('Yes');
+		request.attachment.add_action('No');
 		return 'Do you watch sports TV?';
 	}
 	

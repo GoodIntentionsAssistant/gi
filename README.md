@@ -4,14 +4,13 @@
 ## Overview
 GI is a chat bot framework.
 
-It is very much experimental and in its infancy but I've been really interested to make it open source to see if the community can build, improve and provide feedback on the framework.
+It is very much experimental and in its infancy but I've been really interested to make it open source to see if the community can build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you're prepared to dive into the code.
 
 The framework comes with a collection of examples.
 
 The bot server cannot just be run by itself, it requires clients (known as agents) to act as middleware.
 
-The system has inspirations from Api.ai so some of their documentation found at
-https://docs.api.ai/ can also be used to get an overview of some aspects of this system.
+The system has inspirations from Api.ai so some of their documentation found at https://docs.api.ai/ can also be used to get an overview of some aspects of this system.
 
 
 
@@ -27,19 +26,34 @@ node server.js
 node client.js
 ```
 
+## To do
+
+There is still a lot of cleaning up and tweaks to make this framework beautiful. I welcome contributions to the code.
+
+* Handle sessions in a local database and not in memory
+* Use modern ECMA
+* Handle config better with environments
+* Clean up unit test cases and add more intent auto tests
+* Parameter validation improvements and optionally change the routing when errors
+* Parameters to be parsed and stored better
+* Agent identify should return a new unique token for every other request and not reuse the identifying token
+* Fix the 'fast' passed parameter in a request
+* Make sure the user is passed in the request header
+* Look at adding more security on the user request header
+
 
 ## Key elements
 
 These key elements are described in more detail in this documentation.
 
 **Apps**
-Collection of entities and intents
+Collection of entities, intents and data sets
 
 **Agents**
-The interface between the brain and the end-point
+The interface between the framework and the end-point
 
 **Queue**
-Queues user input requests for memory and flood protection
+Queue user input requests for memory and flood protection
 
 **Request**
 Handles the user input, finding which intent to use and calling the intent
@@ -48,13 +62,13 @@ Handles the user input, finding which intent to use and calling the intent
 User pesistent sessions over multiple calls, with API token and context information
 
 **Learn**
-NLP interface for user input text to intent
+Classifier interfaces for matching user input to an intent
 
 **Entities**
-Data source for training the system and parsing parameters from user input. Compares to a model.
+Data source for training the system and parsing parameters from user input. Comparable to a model in MVC.
 
 **Intents**
-Business logic for the users input. Compares to a controller.
+Business logic for the users input. Comparable to a controller in MVC.
 
 **Parameters**
 Parses user input text
@@ -84,28 +98,87 @@ To run unit tests for one spec use `-m` for matching
 
 
 ## Agents
-Agents are not included in this repository but client.js acts as a simple test interface that
-connects to the server and enables live input.
+Agents are not included in this repository but client.js acts as a simple test interface that connects to the server and enables live input.
 
 Agents would include bots that connect to Slack, Hipchat, Line, Facebook, etc...
 
 Some platforms like Facebook currently only allow webhooks and not connected bots but it's possible to create an agent which will handle the webhooks. I may publish some agents that handle webhooks once the code is better.
 
 
+### White listing a new agent
 
-
-## App (Brain)
-The app will load what is required and handle incoming requests with queuing and basic flood protection.
-See the queue section for more information about flood protection.
-
-When loading the app you need to specify which apps you want to load.
+For security only white listed agents can connect and send input to the framework. In the config file are settings to define the name and the agent secret token. If you create a new agent you must add the key and token to the configuration file first.
 
 ```javascript
-var App = require('./brain/app');
-App.load(['Admin','Common','Devi']);
+this.agents = {
+	'facebook': {
+		'token': 'this-is-my-secret-token'
+	}
+};
 ```
 
-The app will load all entities and intents from each app directory before the queue is started.
+
+### Authorizing and identifying an agent
+
+The agent you create by default will have no authorization to send commands to the app until it has identified itself. The name and token must exactly match.
+
+```javascript
+socket.emit('identify',{
+	agent: 'facebook',
+	token: 'this-is-my-secret-token'
+});
+```
+
+
+### Sending a request to the app
+
+After identifing the agent successfully input can be sent to the app. Certain fields must be passed along with the input. As soon as the request has been approved it is directly sent to the request queue. The user must be passed and should be unique for different people using the agent otherwise the session for different users will get mixed up.
+
+```javascript
+var input = {
+	agent: 'facebook',
+	token: 'this-is-my-secret-token',
+	user: 'bob',
+	text: 'hello to my new app!',
+};
+socket.emit('request',input);
+```
+
+The result can be caught to output the result from the server.
+
+```javascript
+socket.on('request_result', function(data){
+	if(data.type == 'message') {
+		for(var ii=0; ii<data.messages.length; ii++) {
+			console.log('\033[31m','Message: ',data.messages[ii],'\033[0m');
+		}
+	}
+});
+```
+
+
+### Creating a basic agent
+
+To be written
+
+
+
+## App
+The app will load the framework and requested apps then handle incoming requests with queuing and basic flood protection.
+
+When loading the app you need to specify which apps you want to load, this can be found in server.js.
+
+```javascript
+const App = require('./src/app');
+
+App.load([
+    'Common',
+    'Admin',
+    'Fun',
+    'Productivity',
+    'Test'
+]);
+```
 
 To create a new set of Entities and Intents create a new directory in /apps/ directory.
 App directory, it's intents and entities must use CamelCase directory names.
@@ -146,22 +219,13 @@ Multiple classifiers can be used for training and searching for intents based on
 
 
 
-## API
-
-To be written
-
-
-
 ## Entities
-Entities are used for training the system and parsing parameters.
+Entities are used for training the classifiers and parsing parameters.
 They can almost be seen as a dictionary of words.
 
 They are only used with intents to train the brain on a list of words.
 
 Before an intent is called parameters are parsed using entity data.
-
-
-
 
 
 
@@ -210,8 +274,45 @@ For example you may want to call the API for employee list, but this requires th
 authorised with the API server. If you set the Session.set_authorized('api_server'); and set `auth` to 'api_server' then the intent can be called. If the session has not authorized with 'api_server' then 'Errors/NoAuth' intent is called and the user is returned an error.
 
 
+### Attachments
 
-### Basic example
+The response from the intent can hold additional meta data such as options, images and smaller detail. This can be useful when you're handling different types of agents who support different types of meta data. For example you could return two action attachments "Yes" and "No" which could be passed to Facebook to show two buttons with the message.
+
+```javascript
+request.attachment.add_action('Yes');
+request.attachment.add_action('No');
+```
+
+Supported attachment types are currently:
+
+* Actions - Used for options to show the user
+* Images - Send image URL's to be displayed
+* Fields - Additional small information, e.g. citation
+* Links - A list of links
+* Input - Possibility to hide the user input and only give them actions to choose from
+
+
+### Expects and chaining a conversation
+
+To be written
+
+
+### Using Promises in an Intent
+
+To be written
+
+
+### Automatic testing
+
+To be written
+
+
+### Returning a result
+
+To be written
+
+
+### Intent Basic example
 
 ```javascript
 var Intent = require('../../../../src/Intent/intent');
@@ -241,10 +342,10 @@ module.exports = HelpIntent;
 Some intents require parameters to work.
 
 The key of the parameter is used when fetching parameters in your intent.
-If your key was 'date' in your intent you can call, `request.param('date');` and the value will be returned.
+If your key was 'date' in your intent you can call, `request.param('date');` for the value.
 
 If a parameter is required and is not specified by the users input request.js will change the
-intent to be Errors/ParametersFailed and an error message is displayed.
+intent to be Errors/ParametersFailed and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.
 
 Parameters can use Entities that require live session data so delay in parsing might occur while it loads
 that data. This is the reason Parameters uses Promise. An example would be trying to parse an employee name.
