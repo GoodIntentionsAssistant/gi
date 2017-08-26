@@ -16,9 +16,6 @@ var Config = function() {
 		},
 		'webhook': {
 			'token': 'qkkl7Xb0Cc'
-		},
-		'devi-hybrid': {
-			'token': 'ChzBlEM6VC'
 		}
 	};
 

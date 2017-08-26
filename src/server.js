@@ -1,9 +1,9 @@
 /**
  * Server
  */
-var EventEmitter = require('events').EventEmitter;
-var util = require('util');
-var Agent = require('./agent.js');
+const EventEmitter = require('events').EventEmitter;
+const util = require('util');
+const Agent = require('./agent.js');
 
 var Server = function() {
 	this.object = null;

@@ -39,27 +39,10 @@ function GreetingIntent() {
 			}
 			var output = 'Good '+time_of_day+' to you too';
 		}
-		else if(type == 'hello') {
-			return new Promise(function(resolve, reject) {
-				var giphy = require('giphy-api')();
-				giphy.search('hello', function(err, res) {
-					//url, https://media.giphy.com/media/3ohA31GE4iCdTfpgSA/giphy.gif
-					if(!res || !res.data) {
-						resolve('Hello!');
-						return;
-					}
-					var rand = _.sample(res.data);
-					var img_url = rand.images.original.url;
-					request.attachment.add_image(img_url);
-					resolve('Hello!');
-				});
-			});
-		}
 		else {
 			var output = [
-				"Hi! I'm Devi",
-				"I'm all about productivity and getting things done!",
-				"I can help you keep your office organised and help you with useful business things"
+				"Hi! I'm the Good Intentions bot!",
+				"I'm all about productivity and getting things done!"
 			];
 		}
 

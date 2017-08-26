@@ -6,6 +6,8 @@ GI is a chat bot framework.
 
 It is very much experimental and in its infancy but I've been really interested to make it open source to see if the community can build, improve and provide feedback on the framework.
 
+The framework comes with a collection of examples.
+
 The bot server cannot just be run by itself, it requires clients (known as agents) to act as middleware.
 
 The system has inspirations from Api.ai so some of their documentation found at
@@ -15,9 +17,7 @@ https://docs.api.ai/ can also be used to get an overview of some aspects of this
 
 ## Installation
 
-GI uses NodeJS 8.x and the code has only been tested on Linux Mint.
-
-To install NodeJs find the instructions from https://nodejs.org
+GI uses NodeJS 8.x and the code has only been tested on Linux Mint. Install node.js from https://nodejs.org. It is also recommended to use nvm (node version manager) to manage your node.js versions.
 
 
 ## How to Run
