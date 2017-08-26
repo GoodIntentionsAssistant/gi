@@ -1,0 +1,30 @@
+{
+  "name": "GoodIntentionsChatbot",
+  "description": "Good Intentions Chatbot is a basic Chatbot framework",
+  "version": "0.0.2",
+  "license": "MIT",
+  "author": {
+    "name": "Darren Moore",
+    "email": "darren.m@firecreekweb.com",
+    "url": "firecreekweb.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darrenmoore/GoodIntentionsChatBot.git"
+  },
+  "licenses": [],
+  "engines": {
+    "~node": "0.10.0"
+  },
+  "devDependencies": {
+    "grunt": ">=0.4.5",
+    "jasmine": "^2.5.2"
+  },
+  "scripts": {
+    "test": "jasmine-node --verbose --captureExceptions spec/"
+  },
+  "dependencies": {
+    "promise": "^8.0.1"
+  },
+  "keywords": []
+}

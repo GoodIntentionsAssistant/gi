@@ -1,0 +1,591 @@
+{
+  "entries": {
+   "mm":{
+      "label":"Millimeters",
+      "measure":"length",
+      "synonyms":[
+         "Millimeters",
+         "Millimeter",
+         "mm"
+      ]
+   },
+   "cm":{
+      "label":"Centimeters",
+      "measure":"length",
+      "synonyms":[
+         "Centimeters",
+         "Centimeter",
+         "cm"
+      ]
+   },
+   "m":{
+      "label":"Meters",
+      "measure":"length",
+      "synonyms":[
+         "Meters",
+         "Meter",
+         "m"
+      ]
+   },
+   "km":{
+      "label":"Kilometers",
+      "measure":"length",
+      "synonyms":[
+         "Kilometers",
+         "Kilometer",
+         "km"
+      ]
+   },
+   "in":{
+      "label":"Inches",
+      "measure":"length",
+      "synonyms":[
+         "Inches",
+         "Inch",
+         "in"
+      ]
+   },
+   "yd":{
+      "label":"Yards",
+      "measure":"length",
+      "synonyms":[
+         "Yards",
+         "Yard",
+         "yd"
+      ]
+   },
+   "ft":{
+      "label":"Feet",
+      "measure":"length",
+      "synonyms":[
+         "Feet",
+         "Foot",
+         "ft"
+      ]
+   },
+   "mi":{
+      "label":"Miles",
+      "measure":"length",
+      "synonyms":[
+         "Miles",
+         "Mile",
+         "mi"
+      ]
+   },
+   "mm2":{
+      "label":"Square Millimeters",
+      "measure":"area",
+      "synonyms":[
+         "Square Millimeters",
+         "Square Millimeter",
+         "mm2"
+      ]
+   },
+   "cm2":{
+      "label":"Centimeters",
+      "measure":"area",
+      "synonyms":[
+         "Centimeters",
+         "Centimeter",
+         "cm2"
+      ]
+   },
+   "m2":{
+      "label":"Square Meters",
+      "measure":"area",
+      "synonyms":[
+         "Square Meters",
+         "Square Meter",
+         "m2"
+      ]
+   },
+   "ha":{
+      "label":"Hectares",
+      "measure":"area",
+      "synonyms":[
+         "Hectares",
+         "Hectare",
+         "ha"
+      ]
+   },
+   "km2":{
+      "label":"Square Kilometers",
+      "measure":"area",
+      "synonyms":[
+         "Square Kilometers",
+         "Square Kilometer",
+         "km2"
+      ]
+   },
+   "in2":{
+      "label":"Square Inches",
+      "measure":"area",
+      "synonyms":[
+         "Square Inches",
+         "Square Inch",
+         "in2"
+      ]
+   },
+   "ft2":{
+      "label":"Square Feet",
+      "measure":"area",
+      "synonyms":[
+         "Square Feet",
+         "Square Foot",
+         "ft2"
+      ]
+   },
+   "ac":{
+      "label":"Acres",
+      "measure":"area",
+      "synonyms":[
+         "Acres",
+         "Acre",
+         "ac"
+      ]
+   },
+   "mi2":{
+      "label":"Square Miles",
+      "measure":"area",
+      "synonyms":[
+         "Square Miles",
+         "Square Mile",
+         "mi2"
+      ]
+   },
+   "mcg":{
+      "label":"Micrograms",
+      "measure":"mass",
+      "synonyms":[
+         "Micrograms",
+         "Microgram",
+         "mcg"
+      ]
+   },
+   "mg":{
+      "label":"Milligrams",
+      "measure":"mass",
+      "synonyms":[
+         "Milligrams",
+         "Milligram",
+         "mg"
+      ]
+   },
+   "g":{
+      "label":"Grams",
+      "measure":"mass",
+      "synonyms":[
+         "Grams",
+         "Gram",
+         "g"
+      ]
+   },
+   "kg":{
+      "label":"Kilograms",
+      "measure":"mass",
+      "synonyms":[
+         "Kilograms",
+         "Kilogram",
+         "kg"
+      ]
+   },
+   "oz":{
+      "label":"Ounces",
+      "measure":"mass",
+      "synonyms":[
+         "Ounces",
+         "Ounce",
+         "oz"
+      ]
+   },
+   "lb":{
+      "label":"Pounds",
+      "measure":"mass",
+      "synonyms":[
+         "Pounds",
+         "Pound",
+         "lb"
+      ]
+   },
+   "mm3":{
+      "label":"Cubic Millimeters",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic Millimeters",
+         "Cubic Millimeter",
+         "mm3"
+      ]
+   },
+   "cm3":{
+      "label":"Cubic Centimeters",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic Centimeters",
+         "Cubic Centimeter",
+         "cm3"
+      ]
+   },
+   "ml":{
+      "label":"Millilitres",
+      "measure":"volume",
+      "synonyms":[
+         "Millilitres",
+         "Millilitre",
+         "ml"
+      ]
+   },
+   "l":{
+      "label":"Litres",
+      "measure":"volume",
+      "synonyms":[
+         "Litres",
+         "Litre",
+         "l"
+      ]
+   },
+   "m3":{
+      "label":"Cubic meters",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic meters",
+         "Cubic meter",
+         "m3"
+      ]
+   },
+   "km3":{
+      "label":"Cubic kilometers",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic kilometers",
+         "Cubic kilometer",
+         "km3"
+      ]
+   },
+   "tsp":{
+      "label":"Teaspoons",
+      "measure":"volume",
+      "synonyms":[
+         "Teaspoons",
+         "Teaspoon",
+         "tsp"
+      ]
+   },
+   "Tbs":{
+      "label":"Tablespoons",
+      "measure":"volume",
+      "synonyms":[
+         "Tablespoons",
+         "Tablespoon",
+         "Tbs"
+      ]
+   },
+   "in3":{
+      "label":"Cubic inches",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic inches",
+         "Cubic inch",
+         "in3"
+      ]
+   },
+   "fl-oz":{
+      "label":"Fluid Ounces",
+      "measure":"volume",
+      "synonyms":[
+         "Fluid Ounces",
+         "Fluid Ounce",
+         "fl-oz"
+      ]
+   },
+   "cup":{
+      "label":"Cups",
+      "measure":"volume",
+      "synonyms":[
+         "Cups",
+         "Cup",
+         "cup"
+      ]
+   },
+   "pnt":{
+      "label":"Pints",
+      "measure":"volume",
+      "synonyms":[
+         "Pints",
+         "Pint",
+         "pnt"
+      ]
+   },
+   "qt":{
+      "label":"Quarts",
+      "measure":"volume",
+      "synonyms":[
+         "Quarts",
+         "Quart",
+         "qt"
+      ]
+   },
+   "gal":{
+      "label":"Gallons",
+      "measure":"volume",
+      "synonyms":[
+         "Gallons",
+         "Gallon",
+         "gal"
+      ]
+   },
+   "ft3":{
+      "label":"Cubic feet",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic feet",
+         "Cubic foot",
+         "ft3"
+      ]
+   },
+   "yd3":{
+      "label":"Cubic yards",
+      "measure":"volume",
+      "synonyms":[
+         "Cubic yards",
+         "Cubic yard",
+         "yd3"
+      ]
+   },
+   "ea":{
+      "label":"Each",
+      "measure":"each",
+      "synonyms":[
+         "Each",
+         "Each",
+         "ea"
+      ]
+   },
+   "C":{
+      "label":"degrees Celsius",
+      "measure":"temperature",
+      "synonyms":[
+         "degrees Celsius",
+         "degree Celsius",
+         "C"
+      ]
+   },
+   "K":{
+      "label":"degrees Kelvin",
+      "measure":"temperature",
+      "synonyms":[
+         "degrees Kelvin",
+         "degree Kelvin",
+         "K"
+      ]
+   },
+   "F":{
+      "label":"degrees Fahrenheit",
+      "measure":"temperature",
+      "synonyms":[
+         "degrees Fahrenheit",
+         "degree Fahrenheit",
+         "F"
+      ]
+   },
+   "ms":{
+      "label":"Milliseconds",
+      "measure":"time",
+      "synonyms":[
+         "Milliseconds",
+         "Millisecond",
+         "ms"
+      ]
+   },
+   "s":{
+      "label":"Seconds",
+      "measure":"time",
+      "synonyms":[
+         "Seconds",
+         "Second",
+         "s"
+      ]
+   },
+   "min":{
+      "label":"Minutes",
+      "measure":"time",
+      "synonyms":[
+         "Minutes",
+         "Minute",
+         "min",
+         "mins"
+      ]
+   },
+   "h":{
+      "label":"Hours",
+      "measure":"time",
+      "synonyms":[
+         "Hours",
+         "Hour",
+         "hrs",
+         "h"
+      ]
+   },
+   "d":{
+      "label":"Days",
+      "measure":"time",
+      "synonyms":[
+         "Days",
+         "Day",
+         "d"
+      ]
+   },
+   "week":{
+      "label":"Weeks",
+      "measure":"time",
+      "synonyms":[
+         "Weeks",
+         "Week",
+         "week"
+      ]
+   },
+   "month":{
+      "label":"Months",
+      "measure":"time",
+      "synonyms":[
+         "Months",
+         "Month",
+         "month"
+      ]
+   },
+   "year":{
+      "label":"Years",
+      "measure":"time",
+      "synonyms":[
+         "Years",
+         "Year",
+         "year"
+      ]
+   },
+   "b":{
+      "label":"Bits",
+      "measure":"digital",
+      "synonyms":[
+         "Bits",
+         "Bit",
+         "b"
+      ]
+   },
+   "Kb":{
+      "label":"Kilobits",
+      "measure":"digital",
+      "synonyms":[
+         "Kilobits",
+         "Kilobit",
+         "Kb"
+      ]
+   },
+   "Mb":{
+      "label":"Megabits",
+      "measure":"digital",
+      "synonyms":[
+         "Megabits",
+         "Megabit",
+         "Mb"
+      ]
+   },
+   "Gb":{
+      "label":"Gigabits",
+      "measure":"digital",
+      "synonyms":[
+         "Gigabits",
+         "Gigabit",
+         "Gb"
+      ]
+   },
+   "Tb":{
+      "label":"Terabits",
+      "measure":"digital",
+      "synonyms":[
+         "Terabits",
+         "Terabit",
+         "Tb"
+      ]
+   },
+   "B":{
+      "label":"Bytes",
+      "measure":"digital",
+      "synonyms":[
+         "Bytes",
+         "Byte",
+         "B"
+      ]
+   },
+   "KB":{
+      "label":"Kilobytes",
+      "measure":"digital",
+      "synonyms":[
+         "Kilobytes",
+         "Kilobyte",
+         "KB"
+      ]
+   },
+   "MB":{
+      "label":"Megabytes",
+      "measure":"digital",
+      "synonyms":[
+         "Megabytes",
+         "Megabyte",
+         "MB"
+      ]
+   },
+   "GB":{
+      "label":"Gigabytes",
+      "measure":"digital",
+      "synonyms":[
+         "Gigabytes",
+         "Gigabyte",
+         "GB"
+      ]
+   },
+   "TB":{
+      "label":"Terabytes",
+      "measure":"digital",
+      "synonyms":[
+         "Terabytes",
+         "Terabyte",
+         "TB"
+      ]
+   },
+   "ppm":{
+      "label":"Parts-per Million",
+      "measure":"partsPer",
+      "synonyms":[
+         "Parts-per Million",
+         "Part-per Million",
+         "ppm"
+      ]
+   },
+   "ppb":{
+      "label":"Parts-per Billion",
+      "measure":"partsPer",
+      "synonyms":[
+         "Parts-per Billion",
+         "Part-per Billion",
+         "ppb"
+      ]
+   },
+   "ppt":{
+      "label":"Parts-per Trillion",
+      "measure":"partsPer",
+      "synonyms":[
+         "Parts-per Trillion",
+         "Part-per Trillion",
+         "ppt"
+      ]
+   },
+   "ppq":{
+      "label":"Parts-per Quadrillion",
+      "measure":"partsPer",
+      "synonyms":[
+         "Parts-per Quadrillion",
+         "Part-per Quadrillion",
+         "ppq"
+      ]
+   }
+  }
+}

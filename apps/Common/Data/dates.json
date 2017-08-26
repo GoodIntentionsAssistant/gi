@@ -1,0 +1,85 @@
+{
+	"entries": {
+		"today": {
+			"synonyms":[]
+		},
+		"tomorrow": {
+			"synonyms":[]
+		},
+		"yesterday": {
+			"synonyms":[]
+		},
+		"next week": {
+			"synonyms":[]
+		},
+		"january": {
+			"synonyms":["jan"],
+			"type": "month"
+		},
+		"february": {
+			"synonyms":["feb"],
+			"type": "month"
+		},
+		"march": {
+			"synonyms":["mar"],
+			"type": "month"
+		},
+		"april": {
+			"synonyms":["apr"],
+			"type": "month"
+		},
+		"may": {
+			"synonyms":[],
+			"type": "month"
+		},
+		"june": {
+			"synonyms":["jun"],
+			"type": "month"
+		},
+		"july": {
+			"synonyms":["jul"],
+			"type": "month"
+		},
+		"august": {
+			"synonyms":["aug"],
+			"type": "month"
+		},
+		"september": {
+			"synonyms":["sep"],
+			"type": "month"
+		},
+		"october": {
+			"synonyms":["oct"],
+			"type": "month"
+		},
+		"november": {
+			"synonyms":["nov"],
+			"type": "month"
+		},
+		"december": {
+			"synonyms":["dec"],
+			"type": "month"
+		},
+		"monday": {
+			"synonyms":["mon"]
+		},
+		"tuesday": {
+			"synonyms":["tue"]
+		},
+		"wednesday": {
+			"synonyms":["wed"]
+		},
+		"thursday": {
+			"synonyms":["thur"]
+		},
+		"friday": {
+			"synonyms":["fri"]
+		},
+		"saturday": {
+			"synonyms":["sat"]
+		},
+		"sunday": {
+			"synonyms":["sun"]
+		}
+	}
+}

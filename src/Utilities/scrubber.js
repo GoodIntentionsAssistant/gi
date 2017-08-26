@@ -1,0 +1,79 @@
+
+
+exports.brackets = function(str) {
+	return str.replace('(','').replace(')','');
+}
+
+
+exports.token_length = function(str, length) {
+	if(!length) { length = 2; }
+	var tokens = str.split(/\s+/);
+	return tokens.filter(function(token){ return token.length > length}).join(' ');
+}
+
+
+exports.lower = function(str) {
+	return str.toLowerCase();
+}
+
+
+exports.sentence_case = function(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+exports.stop_words = function(str) {
+	var stopwords = [
+		' a ',
+		' an ',
+		' in ',
+		' the ',
+		' is ',
+		' it ',
+		' of ',
+	];
+	for(var ii=0; ii<stopwords.length; ii++) {
+		var regex = new RegExp(stopwords[ii], "gi");
+		str = str.replace(regex,' ');
+	}
+	return str;
+}
+
+
+exports.grammar = function(str) {
+	var stopwords = [
+		',',
+		'\\.',
+		'\\!',
+		'\\?'
+	];
+	for(var ii=0; ii<stopwords.length; ii++) {
+		var regex = new RegExp(stopwords[ii], "gi");
+		str = str.replace(regex,'');
+	}
+	return str;
+}
+
+
+exports.contractions = function(str) {
+	var contractions = [
+		["what's", "what is"],
+		["i'm","i am"],
+		["you're","you are"],
+		["it's","it is"],
+		["we're","we are"],
+		["they're","they are"],
+		["that's","that is"],
+		["who's","who is"],
+		["what's","what is"],
+		["where's","where is"],
+		["when's","when is"],
+		["why's","why is"],
+		["how's","how is"],
+	];
+	for(var ii=0; ii<contractions.length; ii++) {
+		var regex = new RegExp(contractions[ii][0], "gi");
+		str = str.replace(contractions[ii][0],contractions[ii][1]);
+	}
+	return str;
+}
