@@ -1,6 +1,6 @@
 // intent.js
-var extend = require('extend');
-var Promise = require('promise');
+const extend = require('extend');
+const Promise = require('promise');
 
 function Intent() {
 	var input = null;

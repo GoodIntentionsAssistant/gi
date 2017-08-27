@@ -1,5 +1,5 @@
 
-var Classify = require('../../library/classify.js');
+const Classify = require('../../library/classify.js');
 
 
 var ClassifyClassifier = function() {

@@ -1,14 +1,14 @@
 /**
  * Request
  */
-var _ = require('underscore');
-var extend = require('extend');
-var Promise = require('promise');
+const _ = require('underscore');
+const extend = require('extend');
+const Promise = require('promise');
 
-var Parameters = require('./parameters.js');
-var Expecting = require('./expecting.js');
-var Response = require('./response.js');
-var Attachment = require('./attachment.js');
+const Parameters = require('./parameters.js');
+const Expecting = require('./expecting.js');
+const Response = require('./response.js');
+const Attachment = require('./attachment.js');
 
 
 var Request = function() {

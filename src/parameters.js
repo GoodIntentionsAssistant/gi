@@ -1,8 +1,8 @@
 /**
  * Parameters
  */
-var Promise = require('promise');
-var Scrubber = require('../src/Utilities/scrubber');
+const Promise = require('promise');
+const Scrubber = require('../src/Utilities/scrubber');
 
 
 var Parameters = function() {

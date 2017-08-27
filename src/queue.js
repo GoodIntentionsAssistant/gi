@@ -1,7 +1,7 @@
 /**
  * Queue
  */
-var Request = require('./request.js');
+const Request = require('./request.js');
 
 
 var Queue = function() {

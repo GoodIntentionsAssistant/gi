@@ -1,8 +1,8 @@
 /**
  * Learn
  */
-var extend = require('extend');
-var Scrubber = require('../src/Utilities/scrubber');
+const extend = require('extend');
+const Scrubber = require('../src/Utilities/scrubber');
 
 var Learn = function() {
 	this.classifiers = {};

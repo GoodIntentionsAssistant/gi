@@ -1,7 +1,7 @@
 /**
  * Session
  */
-var dotty = require("dotty");
+const dotty = require("dotty");
 
 var Session = function() {
 	this._data = {};

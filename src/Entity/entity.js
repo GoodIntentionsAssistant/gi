@@ -1,7 +1,7 @@
 // entity.js
-var extend = require('extend');
-var Promise = require('promise');
-var _ = require('underscore');
+const extend = require('extend');
+const Promise = require('promise');
+const _ = require('underscore');
 
 function Entity() {
 

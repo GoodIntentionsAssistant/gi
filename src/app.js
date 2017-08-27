@@ -1,18 +1,18 @@
 // brain.js
-var Promise = require('promise');
-var fs = require('fs');
-var moment = require('moment');
-var extend = require('extend');
-var util = require("util");
-var EventEmitter = require('events').EventEmitter;
+const Promise = require('promise');
+const fs = require('fs');
+const moment = require('moment');
+const extend = require('extend');
+const util = require("util");
+const EventEmitter = require('events').EventEmitter;
 
-var Config = require('./config.js');
-var Auth = require('./auth.js');
-var Learn = require('./learn.js');
-var Entities = require('./entities.js');
-var Intents = require('./intents.js');
-var Queue = require('./queue.js');
-var Server = require('./server.js');
+const Config = require('./config.js');
+const Auth = require('./auth.js');
+const Learn = require('./learn.js');
+const Entities = require('./entities.js');
+const Intents = require('./intents.js');
+const Queue = require('./queue.js');
+const Server = require('./server.js');
 
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
 
 	
 	load: function(apps) {
-		var obj = new EventEmitter();
+		const obj = new EventEmitter();
 		this.__proto__ = obj;
 
 		this.config = new Config();

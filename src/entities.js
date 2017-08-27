@@ -1,10 +1,10 @@
 /**
  * Entities
  */
-var extend = require('extend');
-var Promise = require('promise');
-var fs = require('fs');
-var _ = require('underscore');
+const extend = require('extend');
+const Promise = require('promise');
+const fs = require('fs');
+const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
 

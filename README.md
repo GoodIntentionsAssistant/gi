@@ -1,8 +1,8 @@
-# Good Intentions Chat Bot
+# Good Intentions Chatbot Framework
 
 
 ## Overview
-GI is a chat bot framework.
+GI is a chatbot framework.
 
 It is very much experimental and in its infancy but I've been really interested to make it open source to see if the community can build, improve and provide feedback on the framework. This documentation is not fully complete so it is only recommended to use this framework if you're prepared to dive into the code.
 
@@ -30,16 +30,7 @@ node client.js
 
 There is still a lot of cleaning up and tweaks to make this framework beautiful. I welcome contributions to the code.
 
-* Handle sessions in a local database and not in memory
-* Use modern ECMA
-* Handle config better with environments
-* Clean up unit test cases and add more intent auto tests
-* Parameter validation improvements and optionally change the routing when errors
-* Parameters to be parsed and stored better
-* Agent identify should return a new unique token for every other request and not reuse the identifying token
-* Fix the 'fast' passed parameter in a request
-* Make sure the user is passed in the request header
-* Look at adding more security on the user request header
+See the Github Issues for a list of things that need to be done.
 
 
 ## Key elements
@@ -419,7 +410,7 @@ module.exports = HelpIntent;
 
 
 
-## Parameters
+### Parameters
 Some intents require parameters to work.
 
 The key of the parameter is used when fetching parameters in your intent.
@@ -473,4 +464,14 @@ are not found in the users input then the intent cannot be called.
 `default` *optional*
 
 If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
+
+
+## Scrubber
+
+To be written
+
+
+## Classifiers
+
+To be written
 

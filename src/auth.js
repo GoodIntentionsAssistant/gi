@@ -1,8 +1,8 @@
 /**
  * Auth
  */
-var Session = require('./session.js');
-var _ = require('underscore');
+const Session = require('./session.js');
+const _ = require('underscore');
 
 
 var Auth = function() {
