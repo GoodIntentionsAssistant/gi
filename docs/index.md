@@ -1,5 +1,5 @@
 ---
-permalink: /docs/
+title: Good Intentions
 ---
 
 ## Getting Started
