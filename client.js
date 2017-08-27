@@ -24,6 +24,7 @@ socket.on('event', function(data){
 });
 
 socket.on('request_result', function(data){
+	//console.log(data);
 	if(data.type == 'message') {
 
 		for(var ii=0; ii<data.messages.length; ii++) {
@@ -73,10 +74,10 @@ socket.on('request_result', function(data){
 
 	}
 	else if(data.type == 'start') {
-		console.log('\033[31m','Devi: start\033[0m');
+		//console.log('\033[31m','Devi: start\033[0m');
 	}
 	else if(data.type == 'end') {
-		console.log('\033[31m','Devi: end\033[0m');
+		//console.log('\033[31m','Devi: end\033[0m');
 	}
 
 });
@@ -124,7 +125,12 @@ function send(input, hide) {
 		token: 'NrCgyKqvyB',
 		text: input,
 		type: 'message',
-		event: 'direct_message'
+		event: 'direct_message',
+		channel: null,
+		user: 'darren-direct2444',
+		source: 'direct',
+		timestamp: '121213232',
+		fast: true
 	};
 	socket.emit('request',input);
 }

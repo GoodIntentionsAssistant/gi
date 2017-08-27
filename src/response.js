@@ -1,14 +1,16 @@
 /**
  * Response
  */
-var EventEmitter = require('events').EventEmitter;
-var util = require('util');
-var extend = require('extend');
+const EventEmitter = require('events').EventEmitter;
+const util = require('util');
+const extend = require('extend');
+const moment = require('moment');
 
 
 var Response = function() {
 	this.queue = [];
 	this.namespace = 'request_result';
+	this.sequence_count = 0;
 
 	this.timer = null;
 	this.min_reply_time = 500;
@@ -118,7 +120,7 @@ Response.prototype._send = function() {
 	var data = this.build(result, message);
 
 	//Send to client
-	this.request.client.emit(this.namespace, data);
+	this._emit(data);
 
 	//Update the request last activity
 	//This stops the queue timing out the request if it's still doing something
@@ -136,6 +138,21 @@ Response.prototype._send = function() {
 	this.timer = setTimeout(function() {
 		that._send();
 	}, this.speed(this.queue[0][1]));
+}
+
+
+/**
+ * Emit message
+ *
+ * @access public
+ * @return void
+ */
+Response.prototype._emit = function(data) {
+	data.ident 			= this.ident;
+	data.namespace 	= this.namespace;
+	data.sequence 	= this.sequence_count++;
+	data.microtime 	= moment().valueOf();
+	this.request.client.emit(this.namespace, data);
 }
 
 
@@ -184,8 +201,7 @@ Response.prototype.build = function(data, message) {
 		attachments: 	attachments,
 		ident: 				this.request.ident,
 		intent: 			this.request.intent.name,
-		action: 			this.request.action,
-		namespace: 		this.namespace
+		action: 			this.request.action
 	};
 
 	return result;
@@ -200,7 +216,8 @@ Response.prototype.build = function(data, message) {
  * @return void
  */
 Response.prototype.start = function() {
-	this.request.client.emit(this.namespace, {
+	var that = this;
+	this._emit({
 		type: 'start'
 	});
 }
@@ -213,7 +230,8 @@ Response.prototype.start = function() {
  * @return void
  */
 Response.prototype.end = function() {
-	this.request.client.emit(this.namespace, {
+	var that = this;
+	this._emit({
 		type: 'end'
 	});
 }

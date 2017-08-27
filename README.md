@@ -140,11 +140,78 @@ var input = {
 	token: 'this-is-my-secret-token',
 	user: 'bob',
 	text: 'hello to my new app!',
+	fast: true
 };
 socket.emit('request',input);
 ```
 
-The result can be caught to output the result from the server.
+**Agent**
+Whitelisted agent name. Each agent should have a unique name. This must be provided for every request.
+
+**Token**
+Secret token key. Must be provided for every request
+
+**User**
+User unique name or identifer for the user interfacing with the app.
+
+**Text**
+Raw text input from the user
+
+**Fast**
+Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It's advisable to enable fast when debugging.
+
+
+### Getting responses from the app
+
+The response from the app will return JSON formatted data. A response will come in multiple parts and have the same ident and an increasing sequence number.
+
+Multipart sending can be useful when the result could be delayed by latency when calling a remote API, such as flight searches. It's possible to send the first message telling the user to wait a moment.
+
+Example response
+
+```json
+{
+	type: 'message',
+  messages: [ 'Hi! I\'m the Good Intentions bot!\nI\'m all about productivity and getting things done!' ],
+  attachments: {},
+  intent: 'Fun/Greeting',
+  action: 'response',
+  namespace: 'request_result',
+  sequence: 1,
+  microtime: 1503840844828
+}
+```
+
+**Type**
+Currently supported types are "start", "end" and "message".
+
+**Messages**
+If the `type` is message an array of messages will be returned.
+
+**Attachments**
+Rich meta data including payload data for images, links, action buttons for the clients.
+
+**Intent**
+The intent which was called.
+
+**Action**
+The indents action which was called.
+
+**Namespace**
+Value will always be 'request_result' for now.
+Included on every response.
+
+**Sequence**
+Incrementing number since the server was started.
+Included on every response.
+
+**Microtime**
+Server microtime when the data was sent
+Included on every response.
+
+
+An example of catching the response and outputting the message in terminal.
+
 
 ```javascript
 socket.on('request_result', function(data){
@@ -295,6 +362,20 @@ Supported attachment types are currently:
 ### Expects and chaining a conversation
 
 To be written
+
+
+### Context
+
+Any parameters are saved automatically by parameters so basic contextual conversations can be made.
+
+```
+IN: What is the time in London?
+OUT: 3:06 pm, Sunday 27th (BST+01:00) in Europe, London
+IN: Weather?
+OUT:  Currently 26c, Clear in Europe, London
+```
+
+In this example "London" is the `city` and it's set for the timezone intent. The weather intent can read the parameter from the user session for the next input.
 
 
 ### Using Promises in an Intent
