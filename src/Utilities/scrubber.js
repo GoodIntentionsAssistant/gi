@@ -1,10 +1,27 @@
+/**
+ * Scrubber
+ */
 
-
+/**
+ * Brackets
+ * 
+ * Removes brackets, ( and )
+ * 
+ * @param string str
+ * @return string
+ */
 exports.brackets = function(str) {
 	return str.replace('(','').replace(')','');
 }
 
 
+/**
+ * Token length
+ * 
+ * @param string str
+ * @param int length
+ * @return string
+ */
 exports.token_length = function(str, length) {
 	if(!length) { length = 2; }
 	var tokens = str.split(/\s+/);
@@ -12,16 +29,36 @@ exports.token_length = function(str, length) {
 }
 
 
+/**
+ * Lowercase
+ * 
+ * @param string str
+ * @return string
+ */
 exports.lower = function(str) {
 	return str.toLowerCase();
 }
 
 
+/**
+ * To sentence case
+ * 
+ * @param string str
+ * @return string
+ */
 exports.sentence_case = function(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 
+/**
+ * Stop words
+ * 
+ * Similar to mysql stop words. In most cases these are useless words which should be removed
+ * 
+ * @param string str
+ * @return string
+ */
 exports.stop_words = function(str) {
 	var stopwords = [
 		' a ',
@@ -40,6 +77,12 @@ exports.stop_words = function(str) {
 }
 
 
+/**
+ * Remove grammar
+ * 
+ * @param string str
+ * @return string
+ */
 exports.grammar = function(str) {
 	var stopwords = [
 		',',
@@ -55,6 +98,14 @@ exports.grammar = function(str) {
 }
 
 
+/**
+ * Contractions
+ * 
+ * Standardising contractions from what's to what is
+ * 
+ * @param string str
+ * @return string
+ */
 exports.contractions = function(str) {
 	var contractions = [
 		["what's", "what is"],
