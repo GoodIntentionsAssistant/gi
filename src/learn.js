@@ -97,65 +97,6 @@ Learn.prototype.train = function(intent, keyword, options) {
 
 
 /**
- * Scrub
- *
- * @param string str
- * @access public
- * @return object
- */
-Learn.prototype.scrub = function(str) {
-
-	//Contractions
-	//@todo Improve this and move to a module
-	//http://www.enchantedlearning.com/grammar/contractions/list.shtml
-	var contractions = [
-		["what's", "what is"],
-		["i'm","i am"],
-		["you're","you are"],
-		["it's","it is"],
-		["we're","we are"],
-		["they're","they are"],
-		["that's","that is"],
-		["who's","who is"],
-		["what's","what is"],
-		["where's","where is"],
-		["when's","when is"],
-		["why's","why is"],
-		["how's","how is"],
-	];
-	for(var ii=0; ii<contractions.length; ii++) {
-		var regex = new RegExp(contractions[ii][0], "gi");
-		str = str.replace(contractions[ii][0],contractions[ii][1]);
-	}
-
-	//Remove stop words
-	//@todo Improve this and move to a module
-	var stopwords = [
-		' a ',
-		' an ',
-		' in ',
-		' the ',
-		' is ',
-		' it ',
-		' of ',
-		',',
-		'\\.',
-		'\\!',
-		'\\?'
-	];
-	for(var ii=0; ii<stopwords.length; ii++) {
-		var regex = new RegExp(stopwords[ii], "gi");
-		str = str.replace(regex,' ');
-	}
-
-	//Trim
-	str = str.trim();
-
-	return str;
-}
-
-
-/**
  * Find
  *
  * @param string str To search for
