@@ -108,7 +108,7 @@ Agent.prototype.request = function(input) {
  * @return void
  */
 Agent.prototype.validate_token = function(token) {
-	var expecting = this.app.config.agents[this.name].token;
+	var expecting = this.app.Config.read('agents.'+this.name+'.token');
 	if(token != expecting) {
 		return false;
 	}

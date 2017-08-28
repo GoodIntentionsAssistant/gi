@@ -71,7 +71,7 @@ Learn.prototype.train = function(intent, keyword, options) {
 	}
 
 	//Classifier type
-	var type = this.app.config.classifiers[group].classifier;
+	var type = this.app.Config.read('classifiers.'+group+'.classifier');
 
 	//For boosting
 	var repeat = 1;

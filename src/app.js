@@ -25,7 +25,7 @@ module.exports = {
 		const obj = new EventEmitter();
 		this.__proto__ = obj;
 
-		this.config = new Config();
+		this.Config = new Config();
 
 		this.Auth = new Auth();
 		this.Auth.initialize();
@@ -135,7 +135,7 @@ module.exports = {
  * @return void
  */
 	load_server: function() {
-		if(!this.config.server.enabled) {
+		if(!this.Config.read("server.enabled")) {
 			return;
 		}
 		this.log('Starting Server');
@@ -195,7 +195,7 @@ module.exports = {
  * @return void
  */
 	write_log: function(type, text) {
-		var filename = this.config.root_dir+'/logs/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
+		var filename = this.Config.read('root_dir')+'/logs/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
 		var line = moment().format('MM-DD-YYYY HH:mm:ss')+': '+text+"\n";
 
 		fs.appendFile(filename, line, function (err) {

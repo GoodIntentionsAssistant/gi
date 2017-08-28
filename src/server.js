@@ -47,7 +47,7 @@ Server.prototype.start = function() {
 	});
 
 	//Listen
-	var port = this.app.config.server.port;
+	var port = this.app.Config.read('server.port');
 
 	try {
 		this.object.listen(port, function() {

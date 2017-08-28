@@ -34,7 +34,7 @@ Entities.prototype.initialize = function(app) {
  */
 Entities.prototype.load_all = function(app) {
 	var that = this;
-	var directory = this.app.config.app_dir+'/'+app+'/Entity/';
+	var directory = this.app.Config.read('app_dir')+'/'+app+'/Entity/';
 
 	//
 	var promise = new Promise(function(resolve, reject) {
@@ -109,7 +109,7 @@ Entities.prototype.load = function(name, options) {
 	filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
 	filename = filename.toLowerCase()+'_entity';
 
-	file = this.app.config.app_dir+'/'+app+'/Entity/'+filename+'.js'
+	file = this.app.Config.read('app_dir')+'/'+app+'/Entity/'+filename+'.js'
 
 	return this._load(name, file, options);
 }
@@ -190,7 +190,7 @@ Entities.prototype.get = function(name, request) {
 		filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
 		filename = filename.toLowerCase()+'_entity';
 
-		var file = this.app.config.app_dir+'/'+app+'/Entity/'+filename+'.js'
+		var file = this.app.Config.read('app_dir')+'/'+app+'/Entity/'+filename+'.js'
 
 		//Build up a unique ident for this session and token
 		//If the api token is not defined

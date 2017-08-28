@@ -35,7 +35,7 @@ Intents.prototype.initialize = function(app) {
  */
 Intents.prototype.load_all = function(app) {
 	var that = this;
-	var directory = this.app.config.app_dir+'/'+app+'/Intent';
+	var directory = this.app.Config.read('app_dir')+'/'+app+'/Intent';
 
 	//
 	var promise = new Promise(function(resolve, reject) {
@@ -139,7 +139,7 @@ Intents.prototype.load = function(domain, name, options) {
 	filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
 	filename = filename.toLowerCase()+'_intent';
 
-	file = this.app.config.app_dir+'/'+app+'/Intent/'+domain+'/'+filename+'.js'
+	file = this.app.Config.read('app_dir')+'/'+app+'/Intent/'+domain+'/'+filename+'.js'
 
 	return this._load(name, file, options);
 }

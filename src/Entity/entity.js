@@ -81,7 +81,7 @@ function Entity() {
 		var that = this;
 
 		if(filename.substr(0,1) !== '/') {
-			filename = this.app.config.app_dir+'/'+filename;
+			filename = this.app.Config.read('app_dir')+'/'+filename;
 		}
 
 		//Load the file go through each line
@@ -134,7 +134,7 @@ function Entity() {
 		var that = this;
 
 		if(filename.substr(0,1) !== '/') {
-			filename = this.app.config.app_dir+'/'+filename;
+			filename = this.app.Config.read('app_dir')+'/'+filename;
 		}
 
 		//Load the file go through each line

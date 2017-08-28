@@ -21,8 +21,8 @@ var Queue = function() {
 Queue.prototype.initialize = function(app) {
 	this.app = app;
 
-	this.speed = app.config.queue.speed;
-	this.max_consecutive = app.config.queue.max_consecutive;
+	this.speed = this.app.Config.read('queue.speed');
+	this.max_consecutive = this.app.Config.read('queue.max_consecutive');
 }
 
 
@@ -107,7 +107,7 @@ Queue.prototype.check_timed_out = function() {
 		var diff = parseInt(Date.now() - this.requests[key].request.last_activity);
 		
 		//Over time out
-		if(diff >= this.app.config.queue.timeout) {
+		if(diff >= this.app.Config.read('queue.timeout')) {
 			this.requests[key].active = false;
 			this.requests[key].request.timeout();
 		}

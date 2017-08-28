@@ -34,9 +34,9 @@ Response.prototype.initialize = function(request) {
 	this.request = request;
 
 	//Speed each letter takes to type
-	this.min_reply_time = request.app.config.response.min_reply_time;
-	this.letter_speed = request.app.config.response.letter_speed;
-	this.max_response = request.app.config.response.max_response;
+	this.min_reply_time = request.app.Config.read('response.min_reply_time');
+	this.letter_speed = request.app.Config.read('response.letter_speed');
+	this.max_response = request.app.Config.read('response.max_response');
 
 	//Fast?
 	if(request.input.fast) {
