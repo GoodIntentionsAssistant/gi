@@ -200,9 +200,12 @@ Response.prototype.build = function(data, message) {
 		messages: 		[message],
 		attachments: 	attachments,
 		ident: 				this.request.ident,
+		classifier:   this.request.classifier,
 		intent: 			this.request.intent.name,
 		action: 			this.request.action
 	};
+
+	console.log(result);
 
 	return result;
 }

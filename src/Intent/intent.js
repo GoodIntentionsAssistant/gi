@@ -212,7 +212,7 @@ function Intent() {
 		return new Promise(function(resolve, reject) {
 			var promise = that[request.action](request);
 			var is_promise = (Promise.resolve(promise) == promise);
-
+			
 			if(is_promise) {
 				promise.then(function(result) {
 					resolve(result);

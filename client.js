@@ -24,7 +24,7 @@ socket.on('event', function(data){
 });
 
 socket.on('request_result', function(data){
-	//console.log(data);
+	console.log(data);
 	if(data.type == 'message') {
 
 		for(var ii=0; ii<data.messages.length; ii++) {

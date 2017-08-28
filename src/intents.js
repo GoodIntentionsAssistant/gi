@@ -165,7 +165,7 @@ Intents.prototype._load = function(name, file, options) {
 
 	//App and file
 	var Module = require(file);
-	var intent = Module();
+	var intent = new Module();
 	intent.initialize(this.app);
 
 	//Load the intent and pass options
