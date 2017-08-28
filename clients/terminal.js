@@ -110,7 +110,7 @@ function prompt_me() {
 
 function ident() {
 	socket.emit('identify',{
-		agent: 'test',
+		client: 'test',
 		token: 'NrCgyKqvyB'
 	});
 }
@@ -121,7 +121,7 @@ function send(input, hide) {
 		console.log('> '+input);
 	}
 	var input = {
-		agent: 'test',
+		client: 'test',
 		token: 'NrCgyKqvyB',
 		text: input,
 		type: 'message',

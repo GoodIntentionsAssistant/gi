@@ -10,7 +10,7 @@ config.admin = {
   password: 'hungry55'
 };
 
-config.agents = {
+config.clients = {
   'test': {
     'token': 'NrCgyKqvyB'
   },

@@ -8,7 +8,7 @@ It is very much experimental and in its infancy but I've been really interested 
 
 The framework comes with a collection of examples.
 
-The bot server cannot just be run by itself, it requires clients (known as agents) to act as middleware.
+The bot server cannot just be run by itself, it requires clients to act as middleware.
 
 The system has inspirations from Api.ai so some of their documentation found at https://docs.api.ai/ can also be used to get an overview of some aspects of this system.
 
@@ -40,7 +40,7 @@ These key elements are described in more detail in this documentation.
 **Apps**
 Collection of entities, intents and data sets
 
-**Agents**
+**Clients**
 The interface between the framework and the end-point
 
 **Queue**
@@ -88,20 +88,20 @@ To run unit tests for one spec use `-m` for matching
 
 
 
-## Agents
-Agents are not included in this repository but client.js acts as a simple test interface that connects to the server and enables live input.
+## Clients
+Clients are not included in this repository yet but `clients/terminal.js` acts as a simple test interface that connects to the server and enables live input.
 
-Agents would include bots that connect to Slack, Hipchat, Line, Facebook, etc...
+Clients would include bots that connect to Slack, Hipchat, Line, Facebook, etc...
 
-Some platforms like Facebook currently only allow webhooks and not connected bots but it's possible to create an agent which will handle the webhooks. I may publish some agents that handle webhooks once the code is better.
+Some platforms like Facebook currently only allow webhooks and not connected bots but it's possible to create an client which will handle the webhooks. I may publish some clients that handle webhooks once the code is better.
 
 
-### White listing a new agent
+### White listing a new client
 
-For security only white listed agents can connect and send input to the framework. In the config file are settings to define the name and the agent secret token. If you create a new agent you must add the key and token to the configuration file first.
+For security only white listed clients can connect and send input to the framework. In the config file are settings to define the name and the client secret token. If you create a new client you must add the key and token to the configuration file first.
 
 ```javascript
-this.agents = {
+this.clients = {
 	'facebook': {
 		'token': 'this-is-my-secret-token'
 	}
@@ -109,13 +109,13 @@ this.agents = {
 ```
 
 
-### Authorizing and identifying an agent
+### Authorizing and identifying an client
 
-The agent you create by default will have no authorization to send commands to the app until it has identified itself. The name and token must exactly match.
+The client you create by default will have no authorization to send commands to the app until it has identified itself. The name and token must exactly match.
 
 ```javascript
 socket.emit('identify',{
-	agent: 'facebook',
+	client: 'facebook',
 	token: 'this-is-my-secret-token'
 });
 ```
@@ -123,11 +123,11 @@ socket.emit('identify',{
 
 ### Sending a request to the app
 
-After identifing the agent successfully input can be sent to the app. Certain fields must be passed along with the input. As soon as the request has been approved it is directly sent to the request queue. The user must be passed and should be unique for different people using the agent otherwise the session for different users will get mixed up.
+After identifing the client successfully input can be sent to the app. Certain fields must be passed along with the input. As soon as the request has been approved it is directly sent to the request queue. The user must be passed and should be unique for different people using the client otherwise the session for different users will get mixed up.
 
 ```javascript
 var input = {
-	agent: 'facebook',
+	client: 'facebook',
 	token: 'this-is-my-secret-token',
 	user: 'bob',
 	text: 'hello to my new app!',
@@ -136,8 +136,8 @@ var input = {
 socket.emit('request',input);
 ```
 
-**Agent**
-Whitelisted agent name. Each agent should have a unique name. This must be provided for every request.
+**Client**
+Whitelisted client name. Each client should have a unique name. This must be provided for every request.
 
 **Token**
 Secret token key. Must be provided for every request
@@ -215,7 +215,7 @@ socket.on('request_result', function(data){
 ```
 
 
-### Creating a basic agent
+### Creating a basic client
 
 To be written
 
@@ -334,7 +334,7 @@ authorised with the API server. If you set the Session.set_authorized('api_serve
 
 ### Attachments
 
-The response from the intent can hold additional meta data such as options, images and smaller detail. This can be useful when you're handling different types of agents who support different types of meta data. For example you could return two action attachments "Yes" and "No" which could be passed to Facebook to show two buttons with the message.
+The response from the intent can hold additional meta data such as options, images and smaller detail. This can be useful when you're handling different types of clients who support different types of meta data. For example you could return two action attachments "Yes" and "No" which could be passed to Facebook to show two buttons with the message.
 
 ```javascript
 request.attachment.add_action('Yes');

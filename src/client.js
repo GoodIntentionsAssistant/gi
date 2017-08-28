@@ -1,8 +1,8 @@
 /**
- * Agent
+ * Client
  */
 
-var Agent = function() {
+var Client = function() {
 	this.ident = null;
 	this.client = null;
 	this.created = null;
@@ -20,13 +20,13 @@ var Agent = function() {
  * @access public
  * @return void
  */
-Agent.prototype.initialize = function(app, server, client) {
+Client.prototype.initialize = function(app, server, client) {
 	this.app = app;
 	this.server = server;
 	this.client = client;
 
 	//Vars
-	this.name = 'Unknown Agent';
+	this.name = 'Unknown Client';
 	this.created = Date.now();
 }
 
@@ -37,8 +37,8 @@ Agent.prototype.initialize = function(app, server, client) {
  * @access public
  * @return void
  */
-Agent.prototype.load = function() {
-  this.app.log('Agent Connected');
+Client.prototype.load = function() {
+  this.app.log('Client Connected');
 
 	var that = this;
 
@@ -63,16 +63,16 @@ Agent.prototype.load = function() {
  * @access public
  * @return void
  */
-Agent.prototype.identify = function(input) {
-	this.name = input.agent;
+Client.prototype.identify = function(input) {
+	this.name = input.client;
 
 	if(!this.validate_token(input.token)) {
 		this.identified = false;
-		this.app.error('Agent '+this.name+' failed token auth');
+		this.app.error('Client '+this.name+' failed token auth');
 		return;
 	}
 
-  this.app.log('Agent identified '+this.name+' ('+this.ident+')');
+  this.app.log('Client identified '+this.name+' ('+this.ident+')');
   this.identified = true;
 }
 
@@ -84,9 +84,9 @@ Agent.prototype.identify = function(input) {
  * @access public
  * @return void
  */
-Agent.prototype.request = function(input) {
+Client.prototype.request = function(input) {
 	if(!this.identified) {
-		this.app.error('Request from '+this.name+' but agent has not identified');
+		this.app.error('Request from '+this.name+' but client has not identified');
 		return;
 	}
 
@@ -107,8 +107,8 @@ Agent.prototype.request = function(input) {
  * @access public
  * @return void
  */
-Agent.prototype.validate_token = function(token) {
-	var expecting = this.app.Config.read('agents.'+this.name+'.token');
+Client.prototype.validate_token = function(token) {
+	var expecting = this.app.Config.read('clients.'+this.name+'.token');
 	if(token != expecting) {
 		return false;
 	}
@@ -122,10 +122,10 @@ Agent.prototype.validate_token = function(token) {
  * @access public
  * @return void
  */
-Agent.prototype.disconnect = function() {
-  this.app.log('Agent '+this.name+' ('+this.ident+') Disconnected');
-  this.server.remove_agent(this.ident);
+Client.prototype.disconnect = function() {
+  this.app.log('Client '+this.name+' ('+this.ident+') Disconnected');
+  this.server.remove_client(this.ident);
 }
 
 
-module.exports = Agent;
+module.exports = Client;
