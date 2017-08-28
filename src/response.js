@@ -205,8 +205,6 @@ Response.prototype.build = function(data, message) {
 		action: 			this.request.action
 	};
 
-	console.log(result);
-
 	return result;
 }
 
