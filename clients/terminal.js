@@ -4,6 +4,8 @@ var prompt = require('prompt');
 prompt.start();
 prompt.message = "";
 
+var session_token;
+
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:3000', {
 	reconnect: true
@@ -11,20 +13,31 @@ var socket = io.connect('http://localhost:3000', {
 
 socket.on('connect', function(){
 	console.log('Connected to server');
-
 	ident();
-
-	send('hey');
 });
+
+
+function start() {
+	send('hey');
+}
 
 
 
 socket.on('event', function(data){
+	if(data.type == 'identify' && data.success) {
+		session_token = data.session_token;
+		start();
+	}
 	console.log(data);
 });
 
-socket.on('request_result', function(data){
+
+socket.on('error', function(data){
 	console.log(data);
+});
+
+
+socket.on('request_result', function(data){
 	if(data.type == 'message') {
 
 		for(var ii=0; ii<data.messages.length; ii++) {
@@ -122,7 +135,7 @@ function send(input, hide) {
 	}
 	var input = {
 		client: 'test',
-		token: 'NrCgyKqvyB',
+		session_token: session_token,
 		text: input,
 		type: 'message',
 		event: 'direct_message',

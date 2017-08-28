@@ -1,6 +1,7 @@
 /**
  * Client
  */
+const Randtoken = require('rand-token');
 
 var Client = function() {
 	this.ident = null;
@@ -28,6 +29,9 @@ Client.prototype.initialize = function(app, server, client) {
 	//Vars
 	this.name = 'Unknown Client';
 	this.created = Date.now();
+
+	//Client session token
+	this.session_token = Randtoken.generate(16);
 }
 
 
@@ -57,6 +61,19 @@ Client.prototype.load = function() {
 
 
 /**
+ * Emit data back to client
+ *
+ * @access public
+ * @return void
+ */
+Client.prototype.emit = function(namespace, type, data) {
+	data.ident = this.ident;
+	data.type = type;
+	this.client.emit(namespace,data);
+}
+
+
+/**
  * Identify
  *
  * @param hash input
@@ -66,14 +83,24 @@ Client.prototype.load = function() {
 Client.prototype.identify = function(input) {
 	this.name = input.client;
 
-	if(!this.validate_token(input.token)) {
+	if(!this.validate_client_token(input.token)) {
 		this.identified = false;
 		this.app.error('Client '+this.name+' failed token auth');
+		this.emit('event', 'identify', {
+			success: false,
+			message: 'Client token is not correct'
+		});
 		return;
 	}
 
   this.app.log('Client identified '+this.name+' ('+this.ident+')');
-  this.identified = true;
+	this.identified = true;
+	
+	this.emit('event','identify', {
+		success: true,
+		message: 'Successfully identified',
+		session_token: this.session_token
+	});
 }
 
 
@@ -87,11 +114,19 @@ Client.prototype.identify = function(input) {
 Client.prototype.request = function(input) {
 	if(!this.identified) {
 		this.app.error('Request from '+this.name+' but client has not identified');
+		this.emit('event', 'request', {
+			success: false,
+			message: 'You have not identified this client'
+		});
 		return;
 	}
 
-	if(!this.validate_token(input.token)) {
-		this.app.error('Request from '+this.name+' but passed token failed');
+	if(!this.validate_session_token(input.session_token)) {
+		this.app.error('Request from '+this.name+' but session token failed');
+		this.emit('event', 'request', {
+			success: false,
+			message: 'Session token for the request is not valid'
+		});
 		return;
 	}
 
@@ -101,15 +136,30 @@ Client.prototype.request = function(input) {
 
 
 /**
- * Validate token
+ * Validate client token
  *
  * @param hash input
  * @access public
  * @return void
  */
-Client.prototype.validate_token = function(token) {
+Client.prototype.validate_client_token = function(token) {
 	var expecting = this.app.Config.read('clients.'+this.name+'.token');
 	if(token != expecting) {
+		return false;
+	}
+	return true;
+}
+
+
+/**
+ * Validate session token
+ *
+ * @param hash input
+ * @access public
+ * @return void
+ */
+Client.prototype.validate_session_token = function(token) {
+	if(token != this.session_token) {
 		return false;
 	}
 	return true;

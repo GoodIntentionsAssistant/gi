@@ -120,6 +120,18 @@ socket.emit('identify',{
 });
 ```
 
+An event will be returned with a ``session_token``. This token must be made on all requests.
+
+```json
+{
+	"success": true,
+  "message": "Successfully identified",
+  "session_token": "m626NfP8jFYPAKNw",
+  "ident": "ZNWXHXYT",
+  "type": "identify"
+}
+```
+
 
 ### Sending a request to the app
 
@@ -128,7 +140,7 @@ After identifing the client successfully input can be sent to the app. Certain f
 ```javascript
 var input = {
 	client: 'facebook',
-	token: 'this-is-my-secret-token',
+	session_token: 'm626NfP8jFYPAKNw',
 	user: 'bob',
 	text: 'hello to my new app!',
 	fast: true
@@ -136,20 +148,14 @@ var input = {
 socket.emit('request',input);
 ```
 
-**Client**
-Whitelisted client name. Each client should have a unique name. This must be provided for every request.
-
-**Token**
-Secret token key. Must be provided for every request
-
-**User**
-User unique name or identifer for the user interfacing with the app.
-
-**Text**
-Raw text input from the user
-
-**Fast**
-Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It's advisable to enable fast when debugging.
+Key | Required | Description
+--- | --- | ---
+client | yes | Whitelisted client name. Each client should have a unique name. This must be provided for every request.
+token | yes | Secret agent token key. Must be provided when identifying. It is not required when making normal requests.
+session Token | yes | Session token key provided by the app that must be used on all requests.
+user | yes | User unique name or identifer for the user interfacing with the app.
+text | yes | Raw text input from the user
+fast | no | Response from the app has delays to simulate typing to make the bot experience more human-like. By default fast is false, changing it to true will stop the simulated delays. It's advisable to enable fast when debugging.
 
 
 ### Getting responses from the app
