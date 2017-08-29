@@ -112,26 +112,60 @@ Client.prototype.identify = function(input) {
  * @return void
  */
 Client.prototype.request = function(input) {
-	if(!this.identified) {
-		this.app.error('Request from '+this.name+' but client has not identified');
-		this.emit('event', 'request', {
-			success: false,
-			message: 'You have not identified this client'
-		});
-		return;
-	}
-
-	if(!this.validate_session_token(input.session_token)) {
-		this.app.error('Request from '+this.name+' but session token failed');
-		this.emit('event', 'request', {
-			success: false,
-			message: 'Session token for the request is not valid'
-		});
-		return;
-	}
-
 	this.request_count++;
-  this.app.request(this.client, input);
+
+	//Invalid request
+	if(!this.validate_request(input)) {
+		for(var ii = 0; ii < this.validation_errors.length; ii++) {
+			this.app.error('Request validation error: '+this.validation_errors[ii]);
+		}
+		this.emit('event', 'request', {
+			success: false,
+			message: this.validation_errors.join(', ')
+		});
+		return false;
+	}
+
+	this.app.request(this.client, input);
+}
+
+
+/**
+ * Validate request
+ * 
+ * @param hash data
+ * @access public
+ * @return boolean
+ */
+Client.prototype.validate_request = function(input) {
+	this.validation_errors = [];
+
+	//Identified
+	if(!this.identified) {
+		this.validation_errors.push('Client not identified');
+	}
+
+	//Session token is valid
+	if(!this.validate_session_token(input.session_token)) {
+		this.validation_errors.push('Session token is not valid');
+	}
+
+	//Client defined
+	if(typeof input.client === 'undefined' || input.client == '') {
+		this.validation_errors.push('Llient not defined');
+	}
+
+	//Text defined
+	if(typeof input.text === 'undefined' || input.text == '') {
+		this.validation_errors.push('Text not defined');
+	}
+
+	//User defined
+	if(typeof input.user === 'undefined' || input.user == '') {
+		this.validation_errors.push('User not defined');
+	}
+
+	return this.validation_errors.length > 0 ? false : true;
 }
 
 

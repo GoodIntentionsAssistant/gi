@@ -1,39 +1,33 @@
-//For testing
-//https://www.npmjs.com/package/socket.io-client
-var prompt = require('prompt');
-prompt.start();
-prompt.message = "";
-
-var session_token;
-
-var io = require('socket.io-client');
-var socket = io.connect('http://localhost:3000', {
+/**
+ * Terminal test client for GI
+ */
+const prompt = require('prompt');
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3000', {
 	reconnect: true
 });
 
+var session_token;
+
+
 socket.on('connect', function(){
-	console.log('Connected to server');
+	console.log('\x1b[32m','Connected to server','\x1b[0m');
 	ident();
 });
 
 
-function start() {
-	send('hey');
-}
-
-
-
 socket.on('event', function(data){
-	if(data.type == 'identify' && data.success) {
-		session_token = data.session_token;
-		start();
+	if(data.type == 'error') {
+		console.log('\033[31m','Error:', data.message,'\033[0m');
 	}
-	console.log(data);
-});
-
-
-socket.on('error', function(data){
-	console.log(data);
+	else if(data.type == 'request' && !data.success) {
+		console.log('\033[31m','Error:', data.message,'\033[0m');
+	}
+	else if(data.type == 'identify' && data.success) {
+		console.log('\x1b[32m',data.message,'\x1b[0m');
+		session_token = data.session_token;
+		ready();
+	}
 });
 
 
@@ -41,7 +35,7 @@ socket.on('request_result', function(data){
 	if(data.type == 'message') {
 
 		for(var ii=0; ii<data.messages.length; ii++) {
-			console.log('\033[31m','Devi: ',data.messages[ii],'\033[0m');
+			console.log('\x1b[36m',data.messages[ii],'\x1b[0m');
 		}
 
 		if(data.attachments.actions) {
@@ -50,14 +44,14 @@ socket.on('request_result', function(data){
 			for(var ii=0; ii<actions.length; ii++) {
 				output.push(actions[ii].text);
 			}
-			console.log('\x1b[34m','Options: ',output.join(', '),'\033[0m');
+			console.log('\x1b[35m','Options: ',output.join(', '),'\x1b[0m');
 		}
 
 		if(data.attachments.images) {
 			var images = data.attachments.images;
 			var output = []; 
 			for(var ii=0; ii<images.length; ii++) {
-				console.log('\x1b[34m','Image: ',images[ii].url,'\033[0m');
+				console.log('\x1b[35m','Image: ',images[ii].url,'\x1b[0m');
 			}
 		}
 
@@ -65,7 +59,7 @@ socket.on('request_result', function(data){
 			var shortcuts = data.attachments.shortcuts;
 			var output = []; 
 			for(var ii=0; ii<shortcuts.length; ii++) {
-				console.log('\x1b[34m','Shortcut: ',shortcuts[ii].text,'\033[0m');
+				console.log('\x1b[35m','Shortcut: ',shortcuts[ii].text,'\x1b[0m');
 			}
 		}
 
@@ -73,7 +67,7 @@ socket.on('request_result', function(data){
 			var links = data.attachments.links;
 			var output = []; 
 			for(var ii=0; ii<links.length; ii++) {
-				console.log('\x1b[34m','Link: ',links[ii].text, links[ii].url,'\033[0m');
+				console.log('\x1b[35m','Link: ',links[ii].text, links[ii].url,'\x1b[0m');
 			}
 		}
 
@@ -81,36 +75,42 @@ socket.on('request_result', function(data){
 			var fields = data.attachments.fields;
 			var output = []; 
 			for(var ii=0; ii<fields.length; ii++) {
-				console.log('\x1b[34m','Field: ',fields[ii].title,fields[ii].value,'\033[0m');
+				console.log('\x1b[34m','Field: ',fields[ii].title,fields[ii].value,'\x1b[0m');
 			}
 		}
 
 	}
 	else if(data.type == 'start') {
-		//console.log('\033[31m','Devi: start\033[0m');
+		console.log('\x1b[90m','GI is typing','\x1b[0m');
 	}
 	else if(data.type == 'end') {
-		//console.log('\033[31m','Devi: end\033[0m');
+		console.log('\x1b[90m','GI has finished typing','\x1b[0m');
 	}
 
 });
 
+
 socket.on('disconnect', function(){
-	console.log('Disconnect');
+	console.log('\x1b[32m','Disconnected','\x1b[0m');
 });
 
 
-prompt_me();
 
-//------------------------------------
+
+function ready() {
+	prompt.start();
+	prompt.message = "";
+	prompt_me();
+
+	send('hey');
+}
 
 
 function prompt_me() {
 	var schema = {
 		properties: {
 			input: {
-				message: ' ',
-				required: true
+				message: ' '
 			}
 		}
 	};
@@ -138,11 +138,7 @@ function send(input, hide) {
 		session_token: session_token,
 		text: input,
 		type: 'message',
-		event: 'direct_message',
-		channel: null,
-		user: 'darren-direct2444',
-		source: 'direct',
-		timestamp: '121213232',
+		user: 'good-intentions-user',
 		fast: true
 	};
 	socket.emit('request',input);
