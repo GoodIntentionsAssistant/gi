@@ -78,6 +78,25 @@ exports.stop_words = function(str) {
 
 
 /**
+ * Single letter
+ * 
+ * Might need tweaking but these have been found to be pretty useless
+ * 
+ * Starting with "t "
+ * Ending with " t"
+ * Middle with " t "
+ * 
+ * @param string str
+ * @return string
+ */
+exports.single_letter = function(str) {
+	var regex = new RegExp(/^[a-z] |[a-z] $| [a-z] |^[a-z]$/, "gi");
+	str = str.replace(regex,' ');
+	return str;
+}
+
+
+/**
  * Remove grammar
  * 
  * @param string str

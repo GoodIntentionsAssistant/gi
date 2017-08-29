@@ -118,6 +118,7 @@ Learn.prototype.find = function(str, classifier) {
 	str = Scrubber.contractions(str);
 	str = Scrubber.stop_words(str);
 	str = Scrubber.grammar(str);
+	str = Scrubber.single_letter(str);
 
 	return this.classifiers[classifier].find(str);
 }
