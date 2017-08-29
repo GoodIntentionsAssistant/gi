@@ -102,7 +102,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('hey');
+	send('l');
 }
 
 

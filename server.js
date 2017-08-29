@@ -11,6 +11,6 @@ App.load([
     'Admin',
     'Fun',
     'Productivity',
-    'Test'
+    'Examples'
 ]);
 

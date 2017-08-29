@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-	name: 'Test',
+	name: 'Examples',
 
 	load: function(app) {
 		this.app = app;

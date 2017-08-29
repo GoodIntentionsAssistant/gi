@@ -230,7 +230,7 @@ Request.prototype._process = function() {
 
 		this.parameters.promise.then(function() {
 			if(!that.parameters.validates) {
-				that._failed_intent = this.intent;
+				that._failed_intent = that.intent;
 				return that.throw_error('ParametersFailed');
 			}
 
