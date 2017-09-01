@@ -42,8 +42,7 @@ module.exports = {
 		this.Intents = new Intents();
 		this.Intents.initialize(this);
 
-		this.Server = new Server();
-		this.Server.initialize(this);
+		this.Server = new Server(this);
 
 		//Start
 		this.start(apps);
