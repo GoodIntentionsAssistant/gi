@@ -18,12 +18,13 @@ describe('Intent Auto Tests', function(){
 
     app.load(['Common','Admin','Productivity']);
     
-    app.config.response.min_reply_time = 0;
-    app.config.response.letter_speed = 0;
+    app.Config.write('response.min_reply_time', 0);
+    app.Config.write('response.letter_speed', 0);
+    app.Config.write('server.port', 30662);
 
     app.on('ready', function() {
       //Setup client
-      agent = io.connect('http://localhost:'+app.config.server.port);
+      agent = io.connect('http://localhost:'+app.Config.read('server.port'));
       agent.on('connect', function(){
         console.log('Agent connected');
         done();
@@ -34,13 +35,11 @@ describe('Intent Auto Tests', function(){
 
   function send(count,input) {
     var input = {
-      agent: 'DeviTest',
+      client: 'DeviTest',
       text: input,
+      session_token: session_token,
       type: 'message',
-      event: 'direct_message',
-      channel: null,
       user: 'jasmine-test',
-      source: 'direct',
       namespace: 'jasmine'+count
     };
     agent.emit('request',input);

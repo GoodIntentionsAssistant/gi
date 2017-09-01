@@ -1,15 +1,16 @@
 describe('Learn', function(){
   var Learn = require('../../src/learn');
+  var Config = require('../../src/config');
   var learn;
 
   var fakeApp = new Object();
-  fakeApp.config = {
+  fakeApp.Config = new Config({
     classifiers: {
       'main': {
         'classifier': 'classify'
       }
     }
-  };
+  });
   fakeApp.log = function() {};
   fakeApp.error = function() {};
 
@@ -35,8 +36,8 @@ describe('Learn', function(){
 
 
   it('add two classifiers and check the status is correct', function() {
-    fakeApp.config.classifiers.aaa = { 'classifier':'classify' };
-    fakeApp.config.classifiers.bbb = { 'classifier':'classify' };
+    fakeApp.Config.write('classifiers.aaa', { 'classifier':'classify' });
+    fakeApp.Config.write('classifiers.bbb', { 'classifier':'classify' });
 
     learn.train('apple','foobar', {
       classifier: 'aaa'
@@ -89,7 +90,7 @@ describe('Learn', function(){
 
 
   it('train different classifier and make sure a search on default classifier fails', function() {
-    fakeApp.config.classifiers.foobar = { 'classifier':'classify' };
+    fakeApp.Config.write('classifiers.foobar', { 'classifier':'classify' });
 
     learn.train('apple','apple', {
       classifier: 'foobar'
@@ -100,7 +101,7 @@ describe('Learn', function(){
 
 
   it('train a different classifer and find', function() {
-    fakeApp.config.classifiers.myclassifier = { 'classifier':'classify' };
+    fakeApp.Config.write('classifiers.myclassifier', { 'classifier':'classify' });
 
     learn.train('apple','foobar', {
       classifier: 'myclassifier'

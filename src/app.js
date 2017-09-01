@@ -19,12 +19,12 @@ module.exports = {
 	apps: [],
 	verbose: true,
 
-
 	
 	load: function(apps) {
 		const obj = new EventEmitter();
 		this.__proto__ = obj;
 
+		//Config
 		this.Config = new Config();
 
 		this.Auth = new Auth();

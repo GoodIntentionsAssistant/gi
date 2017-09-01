@@ -18,4 +18,8 @@ module.exports = class Config {
 		return dotty.get(this.config, key);
 	}
 
+	write(key, value) {
+		dotty.put(this.config, key, value);
+	}
+
 }

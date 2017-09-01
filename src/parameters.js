@@ -62,6 +62,7 @@ Parameters.prototype.parse_from_intent = function(string, intent) {
  */
 Parameters.prototype.parse = function(string, data) {
 	var that = this;
+
 	this.promise = new Promise(function(resolve, reject) {
 
 		//Load entities first
@@ -106,11 +107,19 @@ Parameters.prototype.parse = function(string, data) {
 
 		}
 
-		//Wait for all entities to load then parse
-		Promise.all(promises).then(function(){
+		//Parse
+		if(promises.length == 0) {
+			//Entities loaded already, no need to wait
 			that._parse(string, data);
 			resolve();
-		});
+		}
+		else {
+			//Wait for all entities to load then parse
+			Promise.all(promises).then(function(){
+				that._parse(string, data);
+				resolve();
+			});
+		}
 
 	});
 }
@@ -214,7 +223,9 @@ Parameters.prototype._parse = function(string, data) {
 			}
 
 			//Save to session user data
-			this.request.session.user(field, result.value);
+			if(this.request) {
+				this.request.session.user(field, result.value);
+			}
 
 			//Labels are used when the Entity.data key is something useless like an id
 			//so a label can be used to show a friendly name. For example the key for employee

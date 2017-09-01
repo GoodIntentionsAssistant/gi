@@ -1,19 +1,18 @@
 describe('Intents', function(){
   var Intents = require('../../src/intents');
+  var Config = require('../../src/config');
   var intents;
 
   var fakeApp = new Object();
-  fakeApp.config = {
-    app_dir: '../spec/apps'
-  };
   fakeApp.log = function() {};
   fakeApp.error = function() {};
+  fakeApp.Config = new Config({
+    app_dir: __dirname+'/../apps'
+  });
 
   var Promise = require('promise');
 
   beforeEach(function() {
-    fakeApp.config.app_dir = __dirname+'/../apps';
-
     intents = new Intents();
     intents.initialize(fakeApp);
   });
