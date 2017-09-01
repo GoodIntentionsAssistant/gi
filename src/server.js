@@ -18,26 +18,24 @@ module.exports = class Server extends EventEmitter {
 	}
 
 	start() {
-		var that = this;
-
 		this.object = require('http').createServer();
 		let io = require('socket.io')(this.object);
 	
-		io.on('connection', function(_client){
+		io.on('connection', (_client) => {
 			var client = new Client();
-			client.initialize(that.app, that, _client);
-			that.add_client(client);
+			client.initialize(this.app, this, _client);
+			this.add_client(client);
 			client.load();
 		});
 	
 		//Listen
-		var port = this.app.Config.read('server.port');
+		let port = this.app.Config.read('server.port');
 	
 		try {
-			this.object.listen(port, function() {
-				that.app.log('Listening on port '+port);
-				that.app.log('Ready to take client connections and rock and roll!');
-				that.emit('listening');
+			this.object.listen(port, () => {
+				this.app.log('Listening on port '+port);
+				this.app.log('Ready to take client connections and rock and roll!');
+				this.emit('listening');
 			});
 		}
 		catch(err) {
@@ -56,7 +54,7 @@ module.exports = class Server extends EventEmitter {
 
 
 	add_client(client) {
-		var ident = Randtoken.generate(16);
+		let ident = Randtoken.generate(16);
 		client.ident = ident;
 		this.clients.push({
 			ident: ident,
