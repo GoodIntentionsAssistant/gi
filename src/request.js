@@ -50,8 +50,9 @@ Request.prototype.initialize = function(app, ident) {
 	//of the queue. But I'm not sure if this is correctly done. I couldn't figure out how to
 	//this.promise = new Promise(); then resolve it.
 	var that = this;
-	this.promise = new Promise(function(resolve){
+	this.promise = new Promise(function(resolve, reject){
 		that.resolve = resolve;
+		that.reject = reject;
 		return null;
 	});
 }
@@ -104,6 +105,7 @@ Request.prototype.error = function(str) {
 Request.prototype.process = function(client, input) {
 	//Validate incoming
 	if(!client) {
+		this.resolve();
 		return false;
 	}
 

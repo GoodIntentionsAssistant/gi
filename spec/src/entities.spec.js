@@ -1,19 +1,18 @@
 describe('Entities', function(){
   var Entities = require('../../src/entities');
+  var Config = require('../../src/config');
   var entities;
 
   var fakeApp = new Object();
-  fakeApp.config = {
-    app_dir: '../spec/apps'
-  };
   fakeApp.log = function() {};
   fakeApp.error = function() {};
+  fakeApp.Config = new Config({
+    app_dir: __dirname+'/../apps'
+  });
 
   var Promise = require('promise');
 
   beforeEach(function() {
-    fakeApp.config.app_dir = __dirname+'/../apps';
-
     entities = new Entities();
     entities.initialize(fakeApp);
   });

@@ -5,8 +5,13 @@ const dotty = require("dotty");
 
 module.exports = class Config {
 
-	constructor() {
-		this.config = require('../config/config.js');
+	constructor(config = false) {
+		if(!config) {
+			this.config = require('../config/config.js');
+		}
+		else {
+			this.config = config;
+		}
 	}
 
 	read(key) {

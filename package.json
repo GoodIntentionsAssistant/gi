@@ -18,10 +18,11 @@
   },
   "devDependencies": {
     "grunt": ">=0.4.5",
-    "jasmine": "^2.5.2"
+    "jasmine": "^2.8.0"
   },
   "scripts": {
-    "test": "jasmine-node --verbose --captureExceptions spec/"
+    "test": "jasmine",
+    "test_auto": "jasmine --filter=\"app\""
   },
   "dependencies": {
     "convert-units": "^2.3.1",

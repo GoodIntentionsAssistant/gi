@@ -220,6 +220,10 @@ socket.on('request_result', function(data){
 });
 ```
 
+### Making a request with namespace
+
+To be written
+
 
 ### Creating a basic client
 

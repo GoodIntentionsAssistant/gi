@@ -1,17 +1,19 @@
 describe('Queue', function(){
   var Queue = require('../../src/queue');
+  var Config = require('../../src/config');
   var queue;
 
   var fakeApp = new Object();
   fakeApp.log = function() {};
   fakeApp.error = function() {};
-  fakeApp.config = {
+
+  fakeApp.Config = new Config({
     queue: {
       speed: 500,
       max_consecutive: 1,
       timeout: 5000
     }
-  }
+  });
 
   var fakeClient = new Object();
 
@@ -60,6 +62,7 @@ describe('Queue', function(){
       client: false
     };
     var request = queue.request(request);
+    queue.start();
 
     setTimeout(function() {
       expect(queue.status().active_requests).toEqual(0);

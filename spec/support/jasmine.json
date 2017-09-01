@@ -6,8 +6,6 @@
   "helpers": [
     "helpers/**/*.js"
   ],
-  "boot_dir": "support/boot",
-  "boot_files": "*.js",
   "stopSpecOnExpectationFailure": false,
   "random": false
 }

@@ -1,5 +1,5 @@
 describe('App', function(){
-  var Promise = require('promise');
+  const Promise = require('promise');
   var app;
 
   beforeEach(function() {

@@ -1,15 +1,16 @@
 describe('Parameters', function(){
   var Parameters = require('../../src/parameters');
   var Entities = require('../../src/entities');
+  var Config = require('../../src/config');
   var parameters;
   var entities;
 
   var fakeApp = new Object();
-  fakeApp.config = {
-    app_dir: '../spec/apps'
-  };
   fakeApp.log = function() {};
   fakeApp.error = function() {};
+  fakeApp.Config = new Config({
+    app_dir: __dirname+'/../apps'
+  });
 
   var dummyData = {
     "choice": {
