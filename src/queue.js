@@ -4,12 +4,7 @@
 const Request = require('./request.js');
 
 
-var Queue = function() {
-	this.requests = [];
-	this.timer = null;
-	this.queue = [];
-	this.active = false;
-}
+module.exports = class Queue {
 
 
 /**
@@ -18,12 +13,17 @@ var Queue = function() {
  * @param object app
  * @return void
  */
-Queue.prototype.initialize = function(app) {
-	this.app = app;
+	constructor(app) {
+		this.requests = [];
+		this.timer = null;
+		this.queue = [];
+		this.active = false;
 
-	this.speed = this.app.Config.read('queue.speed');
-	this.max_consecutive = this.app.Config.read('queue.max_consecutive');
-}
+		this.app = app;
+
+		this.speed = this.app.Config.read('queue.speed');
+		this.max_consecutive = this.app.Config.read('queue.max_consecutive');
+	}
 
 
 /**
@@ -32,11 +32,11 @@ Queue.prototype.initialize = function(app) {
  * @access public
  * @return void
  */
-Queue.prototype.start = function() {
-	this.app.log('Queue started');
-	this.active = true;
-	this.loop();
-}
+	start() {
+		this.app.log('Queue started');
+		this.active = true;
+		this.loop();
+	}
 
 
 /**
@@ -47,14 +47,14 @@ Queue.prototype.start = function() {
  * @access public
  * @return void
  */
-Queue.prototype.add = function(client, input) {
-	var ident = Math.random().toString(36).substr(2, 6).toUpperCase();
-	this.queue.push({
-		ident: ident,
-		client: client,
-		input: input
-	});
-}
+	add(client, input) {
+		var ident = Math.random().toString(36).substr(2, 6).toUpperCase();
+		this.queue.push({
+			ident: ident,
+			client: client,
+			input: input
+		});
+	}
 
 
 /**
@@ -69,25 +69,24 @@ Queue.prototype.add = function(client, input) {
  * @access public
  * @return void
  */
-Queue.prototype.loop = function() {
-	//Find item in queue and do the request
-	//Only run if items in the queue and max number of running requests is not exceeded
-	if(this.queue.length > 0 && Object.keys(this.requests).length < this.max_consecutive) {
-		var request = this.queue.shift();
-		this.request(request);
-	}
+	loop() {
+		//Find item in queue and do the request
+		//Only run if items in the queue and max number of running requests is not exceeded
+		if(this.queue.length > 0 && Object.keys(this.requests).length < this.max_consecutive) {
+			var request = this.queue.shift();
+			this.request(request);
+		}
 
-	//Check requests timed out
-	if(Object.keys(this.requests).length > 0) {
-		this.check_timed_out();
-	}
+		//Check requests timed out
+		if(Object.keys(this.requests).length > 0) {
+			this.check_timed_out();
+		}
 
-	//Timed trigger to check queue again
-	var that = this;
-	this.timer = setTimeout(function() {
-		that.loop();
-	}, this.speed);
-}
+		//Timed trigger to check queue again
+		this.timer = setTimeout(() => {
+			this.loop();
+		}, this.speed);
+	}
 
 
 /**
@@ -96,23 +95,23 @@ Queue.prototype.loop = function() {
  * @access public
  * @return object
  */
-Queue.prototype.check_timed_out = function() {
-	for(var key in this.requests) {
-		//Make sure it's still active
-		if(!this.requests[key].active) {
-			continue;
-		}
+	check_timed_out() {
+		for(var key in this.requests) {
+			//Make sure it's still active
+			if(!this.requests[key].active) {
+				continue;
+			}
 
-		//Check request last activity and work out the difference
-		var diff = parseInt(Date.now() - this.requests[key].request.last_activity);
-		
-		//Over time out
-		if(diff >= this.app.Config.read('queue.timeout')) {
-			this.requests[key].active = false;
-			this.requests[key].request.timeout();
+			//Check request last activity and work out the difference
+			var diff = parseInt(Date.now() - this.requests[key].request.last_activity);
+			
+			//Over time out
+			if(diff >= this.app.Config.read('queue.timeout')) {
+				this.requests[key].active = false;
+				this.requests[key].request.timeout();
+			}
 		}
 	}
-}
 
 
 /**
@@ -122,26 +121,25 @@ Queue.prototype.check_timed_out = function() {
  * @param string input
  * @return object
  */
-Queue.prototype.request = function(request) {
-	var req = new Request();
-	req.initialize(this.app, request.ident);
-	req.process(request.client, request.input);
+	request(request) {
+		var req = new Request();
+		req.initialize(this.app, request.ident);
+		req.process(request.client, request.input);
 
-	//
-	this.requests[request.ident] = {
-		started: Date.now(),
-		request: req,
-		active: true
-	};
+		//
+		this.requests[request.ident] = {
+			started: Date.now(),
+			request: req,
+			active: true
+		};
 
-	//Check when the result has finished
-	var that = this;
-	req.promise.then(function(result) {
-		that.destroy_request(request.ident);
-	});
+		//Check when the result has finished
+		req.promise.then((result) => {
+			this.destroy_request(request.ident);
+		});
 
-	return req;
-}
+		return req;
+	}
 
 
 /**
@@ -151,15 +149,15 @@ Queue.prototype.request = function(request) {
  * @access public
  * @return boolean
  */
-Queue.prototype.destroy_request = function(ident) {
-	if(!this.requests[ident]) {
-		this.app.error('Request '+ident+' not found to destroy');
-		return false;
+	destroy_request(ident) {
+		if(!this.requests[ident]) {
+			this.app.error('Request '+ident+' not found to destroy');
+			return false;
+		}
+		this.app.log('Request finished', ident);
+		delete this.requests[ident];
+		return true;
 	}
-	this.app.log('Request finished', ident);
-	delete this.requests[ident];
-	return true;
-}
 
 
 /**
@@ -168,20 +166,17 @@ Queue.prototype.destroy_request = function(ident) {
  * @access public
  * @return hash
  */
-Queue.prototype.status = function() {
-	var data = {
-		'queue_length': this.queue.length,
-		'speed': this.speed,
-		'max': this.max_consecutive,
-		'active_requests': Object.keys(this.requests).length
-	};
-	return data;
+	status() {
+		var data = {
+			'queue_length': this.queue.length,
+			'speed': this.speed,
+			'max': this.max_consecutive,
+			'active_requests': Object.keys(this.requests).length
+		};
+		return data;
+	}
+
 }
-
-
-
-
-module.exports = Queue;
 
 
 

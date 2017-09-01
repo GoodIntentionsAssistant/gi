@@ -33,8 +33,7 @@ module.exports = {
 		this.Learn = new Learn();
 		this.Learn.initialize(this);
 
-		this.Queue = new Queue();
-		this.Queue.initialize(this);
+		this.Queue = new Queue(this);
 
 		this.Entities = new Entities();
 		this.Entities.initialize(this);
