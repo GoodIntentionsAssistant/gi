@@ -71,20 +71,9 @@ Parses user input text
 
 Unit testing is split into two types. Firstly for the framework itself and secondly for acceptance testing of the intents. One of the trickiest parts of building a chat bot and building up intents is ensuring the expected intent is called. Unit test can be used to make sure sample input will call the correct intent.
 
-The app uses Jasmine Node for unit testing
+The app uses Jasmine for unit testing
 
-``jasmine-node --autotest --verbose spec/``
-
-
-To check automatic intent tests run
-
-``jasmine-node --autotest -m intent_auto_tests\. --verbose spec/``
-
-
-
-To run unit tests for one spec use `-m` for matching
-
-``jasmine-node --autotest -m intents\. --verbose spec/``
+``jasmine``
 
 
 
@@ -168,43 +157,27 @@ Example response
 
 ```json
 {
-	type: 'message',
-  messages: [ 'Hi! I\'m the Good Intentions bot!\nI\'m all about productivity and getting things done!' ],
-  attachments: {},
-  intent: 'Fun/Greeting',
-  action: 'response',
-  namespace: 'request_result',
-  sequence: 1,
-  microtime: 1503840844828
+	"type": "message",
+  "messages": [ "Hi! I'm the Good Intentions bot!\nI'm all about productivity and getting things done!" ],
+  "attachments": {},
+  "intent": "Fun/Greeting",
+  "action": "response",
+  "namespace": "request_result",
+  "sequence": 1,
+  "microtime": 1503840844828
 }
 ```
 
-**Type**
-Currently supported types are "start", "end" and "message".
-
-**Messages**
-If the `type` is message an array of messages will be returned.
-
-**Attachments**
-Rich meta data including payload data for images, links, action buttons for the clients.
-
-**Intent**
-The intent which was called.
-
-**Action**
-The indents action which was called.
-
-**Namespace**
-Value will always be 'request_result' for now.
-Included on every response.
-
-**Sequence**
-Incrementing number since the server was started.
-Included on every response.
-
-**Microtime**
-Server microtime when the data was sent
-Included on every response.
+Key | Description
+--- | ---
+Type | Currently supported types are "start", "end" and "message".
+Messages | If the `type` is message an array of messages will be returned.
+Attachments | Rich meta data including payload data for images, links, action buttons for the clients.
+Intent | The intent which was called.
+Action | The indents action which was called.
+Namespace | Value will always be 'request_result' for now. Included on every response.
+Sequence | Incrementing number since the server was started. Included on every response.
+Microtime | Server microtime when the data was sent Included on every response.
 
 
 An example of catching the response and outputting the message in terminal.
@@ -309,37 +282,13 @@ Intents have the following sections:
 
 ### Settings for the intent
 
-`name` **(required)**
-
-Must be the same as the intent name
-e.g. LeaveAddIntent the name will be LeaveAdd.
-
-`trigger` *(optional)*
-
-Main keyword for the intent. This will be used for training
-It is a good idea to keep this value accurate to what the intent does, do not make it too generic
-e.g. leave
-
-`synonyms` *(optional)*
-
-Optional trigger keywords for training
-These are passed as an array
-e.g. vacation, holiday
-
-`parameters` *(optional)*
-
-For more information see the parameters section.
-This is a hash of parameters that might be included with the intention call.
-e.g. Add vacation for tuesday
-"Tuesday" will be a parameter called day and use the date entity
-
-`auth` *(optional)*
-
-Default it is false
-If the intent needs authorisation to the remote API set this value to the authorisation required.
-
-For example you may want to call the API for employee list, but this requires the user to be
-authorised with the API server. If you set the Session.set_authorized('api_server'); and set `auth` to 'api_server' then the intent can be called. If the session has not authorized with 'api_server' then 'Errors/NoAuth' intent is called and the user is returned an error.
+Key | Required | Description
+--- | ---
+name | Yes | Must be the same as the intent name. e.g. LeaveAddIntent the name will be LeaveAdd.
+trigger | No | Main keyword for the intent. This will be used for training. It is a good idea to keep this value accurate to what the intent does, do not make it too generic, e.g. leave
+synonyms | No | Optional trigger keywords for training. These are passed as an array, e.g. vacation, holiday
+parameters | No | For more information see the parameters section. This is a hash of parameters that might be included with the intention call. e.g. Add vacation for tuesday, "Tuesday" will be a parameter called day and use the date entity
+auth | No | Default is false, If the intent needs authorisation to the remote API set this value to the authorisation required. For example you may want to call the API for employee list, but this requires the user to be authorised with the API server. If you set the Session.set_authorized('api_server'); and set `auth` to 'api_server' then the intent can be called. If the session has not authorized with 'api_server' then 'Errors/NoAuth' intent is called and the user is returned an error.
 
 
 ### Attachments
@@ -436,44 +385,13 @@ and fetch the employee details. Also meaning we cannot reuse this Entity object 
 be API users of a different account.
 
 
-### Settings for parameters inside intents
-
-`name` **required**
-
-Nice friendly name for the parameter
-This name is used if the parameter is required and not provided
-
-
-`entity` *optional*
-
-Parameters need to be extracted and they need something to match aganist.
-If you are matching a number set the entity to be number and Entity/Number will be used.
-If you want to detect a date then you can use the Entity/Date module.
-Sometimes you don't want to create a full entity to handle a small amount of data so you can use the 'data' attribute below
-See the Entity section for more information.
-
-
-`data` *optional*
-
-You cannot use 'entity' and 'data' fields together.
-Data is a hash of data that is used for extracting parameters when you don't want to create an entity.
-All parameter extracting use entities, so when Parameter is trying to extract data from the user input
-and 'data' is set it will create Entity/Dummy and copy the data to the module.
-The data format is exactly the same as the data settings in entities.
-
-
-`required` *optional*
-
-Default is false
-If the intent has been found the paramters are checked one by one before calling the action.
-But if a parameter is required and it's not found the intent will be set to Errors/ParametersFailed
-e.g. Currency conversion requires a number, currency from and currency to. If all three of these
-are not found in the users input then the intent cannot be called.
-
-
-`default` *optional*
-
-If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
+Key | Required | Description
+--- | ---
+name | Yes | Nice friendly name for the parameter. This name is used if the parameter is required and not provided
+entity | No | Parameters need to be extracted and they need something to match aganist. If you are matching a number set the entity to be number and Entity/Number will be used. If you want to detect a date then you can use the Entity/Date module. Sometimes you don't want to create a full entity to handle a small amount of data so you can use the 'data' attribute below. See the Entity section for more information.
+data | No | You cannot use 'entity' and 'data' fields together. Data is a hash of data that is used for extracting parameters when you don't want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and 'data' is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.
+required | No | Default is false. If the intent has been found the paramters are checked one by one before calling the action. But if a parameter is required and it's not found the intent will be set to Errors/ParametersFailed e.g. Currency conversion requires a number, currency from and currency to. If all three of these are not found in the users input then the intent cannot be called.
+default | No | If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
 
 
 ## Scrubber
