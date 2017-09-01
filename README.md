@@ -283,7 +283,7 @@ Intents have the following sections:
 ### Settings for the intent
 
 Key | Required | Description
---- | ---
+--- | --- | ---
 name | Yes | Must be the same as the intent name. e.g. LeaveAddIntent the name will be LeaveAdd.
 trigger | No | Main keyword for the intent. This will be used for training. It is a good idea to keep this value accurate to what the intent does, do not make it too generic, e.g. leave
 synonyms | No | Optional trigger keywords for training. These are passed as an array, e.g. vacation, holiday
@@ -386,7 +386,7 @@ be API users of a different account.
 
 
 Key | Required | Description
---- | ---
+--- | --- | ---
 name | Yes | Nice friendly name for the parameter. This name is used if the parameter is required and not provided
 entity | No | Parameters need to be extracted and they need something to match aganist. If you are matching a number set the entity to be number and Entity/Number will be used. If you want to detect a date then you can use the Entity/Date module. Sometimes you don't want to create a full entity to handle a small amount of data so you can use the 'data' attribute below. See the Entity section for more information.
 data | No | You cannot use 'entity' and 'data' fields together. Data is a hash of data that is used for extracting parameters when you don't want to create an entity. All parameter extracting use entities, so when Parameter is trying to extract data from the user input and 'data' is set it will create Entity/Dummy and copy the data to the module. The data format is exactly the same as the data settings in entities.
