@@ -6,7 +6,9 @@
  */
 const App = require('./src/app');
 
-App.load([
+MyApp = new App();
+
+MyApp.load([
     'Common',
     'Admin',
     'Fun',

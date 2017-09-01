@@ -1,4 +1,3 @@
-// brain.js
 const Promise = require('promise');
 const fs = require('fs');
 const moment = require('moment');
@@ -15,37 +14,28 @@ const Queue = require('./queue.js');
 const Server = require('./server.js');
 
 
-module.exports = {
-	apps: [],
-	verbose: true,
+module.exports = class App extends EventEmitter {
 
-	
-	load: function(apps) {
-		const obj = new EventEmitter();
-		this.__proto__ = obj;
+/**
+ * Constructor
+ *
+ * @access public
+ * @return void
+ */
+	constructor() {
+		super();
 
-		//Config
+		this.apps = [];
+		this.verbose = true;
+
 		this.Config = new Config();
-
 		this.Auth = new Auth();
-		this.Auth.initialize();
-
-		this.Learn = new Learn();
-		this.Learn.initialize(this);
-
+		this.Learn = new Learn(this);
 		this.Queue = new Queue(this);
-
-		this.Entities = new Entities();
-		this.Entities.initialize(this);
-
-		this.Intents = new Intents();
-		this.Intents.initialize(this);
-
+		this.Entities = new Entities(this);
+		this.Intents = new Intents(this);
 		this.Server = new Server(this);
-
-		//Start
-		this.start(apps);
-	},
+	}
 
 
 /**
@@ -54,10 +44,10 @@ module.exports = {
  * @access public
  * @return void
  */
-	start: function(apps) {
+	load(apps) {
 		this.load_apps(apps);
 		this.load_entities();
-	},
+	}
 
 
 /**
@@ -66,13 +56,13 @@ module.exports = {
  * @access public
  * @return void
  */
-	load_apps: function(apps) {
+	load_apps(apps) {
 		for(var ii=0; ii<apps.length; ii++) {
 			var app = require('../apps/'+apps[ii]+'/app');
 			app.load(this);
 			this.apps.push(app);
 		}
-	},
+	}
 
 
 /**
@@ -81,7 +71,7 @@ module.exports = {
  * @access public
  * @return void
  */
-	load_entities: function() {
+	load_entities() {
 		this.log('Loading Entities');
 		for(var ii=0; ii<this.apps.length; ii++) {
 			this.Entities.load_all(this.apps[ii].name);
@@ -91,7 +81,7 @@ module.exports = {
 		Promise.all(this.Entities.promises).then(function() {
 			that.load_intents();
 		});
-	},
+	}
 
 
 /**
@@ -100,7 +90,7 @@ module.exports = {
  * @access public
  * @return void
  */
-	load_intents: function() {
+	load_intents() {
 		this.log('Loading Intents');
 		for(var ii=0; ii<this.apps.length; ii++) {
 			this.Intents.load_all(this.apps[ii].name);
@@ -110,7 +100,7 @@ module.exports = {
 		Promise.all(this.Intents.promises).then(function() {
 			that.load_queue();
 		});
-	},
+	}
 
 
 /**
@@ -119,11 +109,11 @@ module.exports = {
  * @access public
  * @return void
  */
-	load_queue: function() {
+	load_queue() {
 		this.log('Starting Queue');
 		this.Queue.start();
 		this.load_server();
-	},
+	}
 
 
 /**
@@ -132,7 +122,7 @@ module.exports = {
  * @access public
  * @return void
  */
-	load_server: function() {
+	load_server() {
 		if(!this.Config.read("server.enabled")) {
 			return;
 		}
@@ -143,7 +133,7 @@ module.exports = {
 		this.Server.on('listening', function() {
 			that.emit('ready');
 		});
-	},
+	}
 
 
 /**
@@ -153,7 +143,7 @@ module.exports = {
  * @access public
  * @return void
  */
-	log: function(msg, ident) {
+	log(msg, ident) {
 		if(ident) {
 			msg = ident+': '+msg;
 		}
@@ -164,7 +154,7 @@ module.exports = {
 
 		//Write to file
 		this.write_log('system',msg);
-	},
+	}
 
 
 /**
@@ -174,14 +164,14 @@ module.exports = {
  * @access public
  * @return void
  */
-	error: function(msg, options) {
+	error(msg, options) {
 		if(options && options.ident) {
 			msg = options.ident+': '+msg;
 		}
 
 		this.log(msg);
 		this.write_log('error',msg);
-	},
+	}
 
 
 /**
@@ -192,13 +182,13 @@ module.exports = {
  * @access public
  * @return void
  */
-	write_log: function(type, text) {
+	write_log(type, text) {
 		var filename = this.Config.read('root_dir')+'/logs/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
 		var line = moment().format('MM-DD-YYYY HH:mm:ss')+': '+text+"\n";
 
 		fs.appendFile(filename, line, function (err) {
 		});
-	},
+	}
 
 
 /**
@@ -207,11 +197,11 @@ module.exports = {
  * @access public
  * @return boolean
  */
-	shutdown: function() {
+	shutdown() {
 		this.log('Shutting down');
 		this.apps = [];
 		this.Server.stop();
-	},
+	}
 
 
 /**
@@ -223,7 +213,7 @@ module.exports = {
  * @param string input
  * @return boolean
  */
-	request: function(client, input) {
+	request(client, input) {
 		this.Queue.add(client,input);
 	}
 
