@@ -1,4 +1,19 @@
-theme: jekyll-theme-minimal
-title: "Good Intentions"
-description: "NodeJS framework for chatbot development and experiments"
-show_downloads: true
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Good Intentions Chatbot Framework
+email: darren.m@firecreekweb.com
+description: > # this means to ignore newlines until "baseurl:"
+  Node.js Chatbot framework designed for developers to quickly build chatbots
+  with structure, conventions and useful utilities.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+github_username:  darrenmoore
+
+# Build settings
+markdown: kramdown

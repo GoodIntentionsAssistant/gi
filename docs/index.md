@@ -1,9 +1,6 @@
 ---
-title: Good Intentions
+layout: page
+title: Introduction
 ---
 
-## Getting Started
-
-Documentation is being written.
-
-Please see the main README file in the repository.
+hello
