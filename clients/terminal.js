@@ -38,15 +38,6 @@ socket.on('request_result', function(data){
 			console.log('\x1b[36m',data.messages[ii],'\x1b[0m');
 		}
 
-		console.log(
-			'\x1b[90m',
-			'Confidence:', data.confidence,'|',
-			'Intent:', data.intent,'|',
-			'Action:', data.action,'|',
-			'Classifier:', data.action,
-			'\x1b[0m'
-		);
-
 		if(data.attachments.actions) {
 			var actions = data.attachments.actions;
 			var output = []; 
@@ -88,6 +79,16 @@ socket.on('request_result', function(data){
 			}
 		}
 
+		//Debug information
+		console.log(
+			'\x1b[90m',
+			'Confidence:', data.confidence,'|',
+			'Intent:', data.intent,'|',
+			'Action:', data.action,'|',
+			'Classifier:', data.action,
+			'\x1b[0m'
+		);
+
 	}
 	else if(data.type == 'start') {
 		console.log('\x1b[90m','GI is typing','\x1b[0m');
@@ -111,7 +112,8 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('hello');
+	send('Random number between 20 and 30');
+	send('another!');
 }
 
 

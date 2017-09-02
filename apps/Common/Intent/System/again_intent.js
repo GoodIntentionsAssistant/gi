@@ -7,7 +7,7 @@ function AgainIntent() {
 		name: 'Again',
 		trigger: 'again',
 		classifer: 'strict',
-		synonyms: ['again!','again?','repeat','once more','come again','encore','more'],
+		synonyms: ['again!','again?','repeat','once more','come again','encore','more','another'],
 	}
 	methods.__proto__ = Intent()
 
