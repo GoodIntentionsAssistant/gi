@@ -30,7 +30,10 @@ ClassifyClassifier.prototype.find = function(str) {
 		return false;
 	}
 
-	return result.groups[0].group;
+	return {
+		confidence: result.certainty,
+		result: result.groups[0].group
+	};
 }
 
 

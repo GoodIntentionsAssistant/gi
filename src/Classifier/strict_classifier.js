@@ -28,12 +28,18 @@ StrictClassifier.prototype.find = function(str) {
 			var keyword = keyword.substr(1,keyword.length-2);
 			var rgxp = new RegExp(keyword,'g');
 			if(str.match(rgxp)) {
-				return intent;
+				return {
+					confidence: 0.9,
+					result: intent
+				};
 			}
 		}
 		else if(this.data[ii][0] == str) {
 			//String to string
-			return intent;
+			return {
+				confidence: 1,
+				result: intent
+			};
 		}
 
 	}

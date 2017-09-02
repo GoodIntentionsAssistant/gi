@@ -118,6 +118,7 @@ module.exports = class Learn {
 		str = Scrubber.grammar(str);
 		str = Scrubber.single_letter(str);
 
+		//Result
 		return this.classifiers[classifier].find(str);
 	}
 

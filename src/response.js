@@ -202,7 +202,8 @@ Response.prototype.build = function(data, message) {
 		ident: 				this.request.ident,
 		classifier:   this.request.classifier,
 		intent: 			this.request.intent.name,
-		action: 			this.request.action
+		action: 			this.request.action,
+		confidence:   this.request.confidence
 	};
 
 	return result;

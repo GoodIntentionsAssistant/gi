@@ -38,6 +38,15 @@ socket.on('request_result', function(data){
 			console.log('\x1b[36m',data.messages[ii],'\x1b[0m');
 		}
 
+		console.log(
+			'\x1b[90m',
+			'Confidence:', data.confidence,'|',
+			'Intent:', data.intent,'|',
+			'Action:', data.action,'|',
+			'Classifier:', data.action,
+			'\x1b[0m'
+		);
+
 		if(data.attachments.actions) {
 			var actions = data.attachments.actions;
 			var output = []; 
@@ -102,7 +111,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('l');
+	send('weather in bangkok');
 }
 
 

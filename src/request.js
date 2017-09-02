@@ -132,6 +132,7 @@ Request.prototype.process = function(client, input) {
 Request.prototype._process = function() {
 	//Reset
 	this.intent = null;
+	this.confidence = 0;
 	this.action = 'response';
 
 	//Response
@@ -178,27 +179,32 @@ Request.prototype._process = function() {
 		this.expecting.load(this);
 	}
 
-	//Strict
+	//Strict matching
 	if(!this.intent) {
-		var intent_name = this.app.Learn.find(this.input.text, 'strict');
-		if(intent_name) {
-			this.intent = this.app.Intents.get(intent_name);
+		let match = this.app.Learn.find(this.input.text, 'strict');
+		if(match) {
+			this.intent = this.app.Intents.get(match.result);
+			this.confidence = match.confidence;
+			this.classifier = 'strict';
 		}
 	}
 
 	//Load the intent from the inputted string if it's not already set
 	if(!this.intent) {
-		var intent_name = this.app.Learn.find(this.input.text, this.classifier);
-		if(intent_name) {
-			this.intent = this.app.Intents.get(intent_name);
+		let match = this.app.Learn.find(this.input.text, this.classifier);
+		if(match) {
+			this.intent = this.app.Intents.get(match.result);
+			this.confidence = match.confidence;
 		}
 	}
 
-	//Fall back intent if not found
+	//Fall back classifiers if not found
 	if(!this.intent) {
-		var intent_name = this.app.Learn.find(this.input.text, 'fallback');
-		if(intent_name) {
-			this.intent = this.app.Intents.get(intent_name);
+		let match = this.app.Learn.find(this.input.text, 'fallback');
+		if(match) {
+			this.intent = this.app.Intents.get(match.result);
+			this.confidence = match.confidence;
+			this.classifier = 'fallback';
 			this.app.write_log('unknown',this.input.text);
 		}
 	}
