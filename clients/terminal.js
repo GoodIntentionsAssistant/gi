@@ -112,9 +112,8 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('Rock paper');
-	send('Paper');
-	send('No');
+	send('roll a 12-sided die');
+	send('roll a 12 sided die');
 }
 
 

@@ -1,8 +1,9 @@
-// Rock Paper Scissors
-	
-var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
-var extend = require('extend');
+/**
+ * Dice Intent
+ */
+const Intent = require('../../../../src/Intent/intent');
+const _ = require('underscore');
+const extend = require('extend');
 
 function DiceIntent() {
 	var methods = {
