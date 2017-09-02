@@ -112,8 +112,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('Random number between 20 and 30');
-	send('another!');
+	send('Rock paper');
 }
 
 

@@ -1,29 +1,29 @@
 /**
  * Attachment
  */
-var Attachment = function() {
-	this.request = null;
-	this.attachments = {
-		actions:[],
-		images:[],
-		shortcuts:[],
-		fields:[],
-		links:[],
-		input: true
-	};
-}
 
+module.exports = class Attachment {
 
 /**
- * Initialize
+ * Constructor
  *
  * @param object response
  * @access public
  * @return void
  */
-Attachment.prototype.initialize = function(request) {
-	this.request = request;
-}
+	constructor(request) {
+		this.request = request;
+		this.attachments = {
+			actions:[],
+			images:[],
+			shortcuts:[],
+			fields:[],
+			links:[],
+			input: true
+		};
+
+		this.request = request;
+	}
 
 
 /**
@@ -34,9 +34,9 @@ Attachment.prototype.initialize = function(request) {
  * @access public
  * @return void
  */
-Attachment.prototype.add_field = function(data) {
-	this.attachments.fields.push(data);
-}
+	add_field(data) {
+		this.attachments.fields.push(data);
+	}
 
 
 /**
@@ -47,12 +47,12 @@ Attachment.prototype.add_field = function(data) {
  * @access public
  * @return void
  */
-Attachment.prototype.add_action = function(text, options) {
-	var data = {
-		text: text
-	};
-	this.attachments.actions.push(data);
-}
+	add_action(text, options) {
+		var data = {
+			text: text
+		};
+		this.attachments.actions.push(data);
+	}
 
 
 /**
@@ -62,12 +62,12 @@ Attachment.prototype.add_action = function(text, options) {
  * @access public
  * @return void
  */
-Attachment.prototype.add_image = function(url) {
-	var data = {
-		url: url
-	};
-	this.attachments.images.push(data);
-}
+	add_image(url) {
+		var data = {
+			url: url
+		};
+		this.attachments.images.push(data);
+	}
 
 
 /**
@@ -77,13 +77,13 @@ Attachment.prototype.add_image = function(url) {
  * @access public
  * @return void
  */
-Attachment.prototype.add_link = function(url, text) {
-	var data = {
-		text: text,
-		url: url
-	};
-	this.attachments.links.push(data);
-}
+	add_link(url, text) {
+		var data = {
+			text: text,
+			url: url
+		};
+		this.attachments.links.push(data);
+	}
 
 
 /**
@@ -93,12 +93,12 @@ Attachment.prototype.add_link = function(url, text) {
  * @access public
  * @return void
  */
-Attachment.prototype.add_shortcut = function(text) {
-	var data = {
-		text: text
-	};
-	this.attachments.shortcuts.push(data);
-}
+	add_shortcut(text) {
+		var data = {
+			text: text
+		};
+		this.attachments.shortcuts.push(data);
+	}
 
 
 /**
@@ -107,10 +107,9 @@ Attachment.prototype.add_shortcut = function(text) {
  * @access public
  * @return void
  */
-Attachment.prototype.hide_input = function() {
-	this.input = false;
+	hide_input() {
+		this.input = false;
+	}
+
 }
 
-
-
-module.exports = Attachment;

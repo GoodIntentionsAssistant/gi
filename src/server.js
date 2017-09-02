@@ -22,8 +22,7 @@ module.exports = class Server extends EventEmitter {
 		let io = require('socket.io')(this.object);
 	
 		io.on('connection', (_client) => {
-			var client = new Client();
-			client.initialize(this.app, this, _client);
+			var client = new Client(this.app, this, _client);
 			this.add_client(client);
 			client.load();
 		});

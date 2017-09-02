@@ -30,7 +30,7 @@ function TimezoneIntent() {
 		tests: [
 			{ input:'time in london' },
 			{ input:'time in new york' },
-			{ input:'what is the time in solihull' },
+			{ input:'what is the time in solihull' }
 		]
 	}
 	methods.__proto__ = Intent()

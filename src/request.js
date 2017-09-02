@@ -145,8 +145,7 @@ Request.prototype._process = function() {
 	this.expecting.initialize(this);
 
 	//Attachment
-	this.attachment = new Attachment();
-	this.attachment.initialize(this);
+	this.attachment = new Attachment(this);
 
 	//
 	this.log('');
