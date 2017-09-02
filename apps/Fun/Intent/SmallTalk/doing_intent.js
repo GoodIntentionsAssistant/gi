@@ -6,14 +6,14 @@ var _ = require('underscore');
 function DoingIntent() {
 	var methods = {
 		name: 'Gratitude',
-		trigger: 'what are you doing',
+		trigger: 'doing',
 		synonyms: [
-			"what am i doing"
+			"up to",
+			"going on",
+			"sup"
 		],
 		tests: [
-			{ input:'what are you doing' },
-			{ input:'thank you' },
-			{ input:'good luck' }
+			{ input:'what are you doing' }
 		]
 	}
 	methods.__proto__ = Intent()

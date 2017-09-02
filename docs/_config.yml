@@ -1,1 +1,4 @@
 theme: jekyll-theme-minimal
+title: "Good Intentions"
+description: "NodeJS framework for chatbot development and experiments"
+show_downloads: true

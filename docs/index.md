@@ -4,4 +4,6 @@ title: Good Intentions
 
 ## Getting Started
 
-Hello, this is a test
+Documentation is being written.
+
+Please see the main README file in the repository.
