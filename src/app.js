@@ -45,9 +45,35 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load(apps) {
+		//Start the main loop
+		this.timer = null;
+		this.loop_speed = this.Config.read('app.loop_speed');
+		this.loop();
+
+		//Require app files
 		this.load_apps(apps);
+
+		//Load entity data
 		this.load_entities();
 	}
+	
+	
+	/**
+	 * Loop
+	 *
+	 * @access public
+	 * @return void
+	 */
+		loop() {
+			//Queue
+			if(this.Queue.active) {
+				this.Queue.check();
+			}
+
+			this.timer = setTimeout(() => {
+				this.loop();
+			}, this.loop_speed);
+		}
 
 
 /**

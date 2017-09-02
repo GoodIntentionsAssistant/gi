@@ -6,6 +6,10 @@ config.root_dir =  __dirname+'/..';
 
 config.name = "Good Intentions";
 
+config.app = {
+  loop_speed: 500
+}
+
 config.admin = {
   password: 'hungry55'
 };
@@ -48,7 +52,6 @@ config.classifiers = {
 }
 
 config.queue = {
-  speed: 500,
   max_consecutive: 1,
   timeout: 5000
 };

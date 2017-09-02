@@ -22,7 +22,6 @@ module.exports = class Queue {
 
 		this.app = app;
 
-		this.speed = this.app.Config.read('queue.speed');
 		this.max_consecutive = this.app.Config.read('queue.max_consecutive');
 	}
 
@@ -36,7 +35,6 @@ module.exports = class Queue {
 	start() {
 		this.app.log('Queue started');
 		this.active = true;
-		this.loop();
 	}
 
 
@@ -59,7 +57,7 @@ module.exports = class Queue {
 
 
 /**
- * Loop
+ * Check
  *
  * Loop through the request queue with a speed. This will hopefully control
  * any basic flood and memory issues. We can extend on this functionality another time with
@@ -70,7 +68,7 @@ module.exports = class Queue {
  * @access public
  * @return void
  */
-	loop() {
+	check() {
 		//Find item in queue and do the request
 		//Only run if items in the queue and max number of running requests is not exceeded
 		if(this.queue.length > 0 && Object.keys(this.requests).length < this.max_consecutive) {
@@ -82,11 +80,6 @@ module.exports = class Queue {
 		if(Object.keys(this.requests).length > 0) {
 			this.check_timed_out();
 		}
-
-		//Timed trigger to check queue again
-		this.timer = setTimeout(() => {
-			this.loop();
-		}, this.speed);
 	}
 
 
