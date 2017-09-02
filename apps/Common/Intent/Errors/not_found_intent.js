@@ -10,10 +10,16 @@ function NotFoundIntent() {
 	methods.__proto__ = Intent()
 
 	methods.response = function() {
-		var output = [
-			"Sorry, I don't understand what you mean"
+		var responses = [
+			"Sorry, I don't understand what you mean",
+			"I'm sorry. I'm having trouble understanding what you mean",
+			"I'm a bit confused what you mean",
+			"I'm not totally sure about that.",
+			"I'm afraid I don't understand.",
+			"I'm a bit confused"
 		];
-		return output;
+		
+		return _.sample(responses);
 	}
 
 	return methods

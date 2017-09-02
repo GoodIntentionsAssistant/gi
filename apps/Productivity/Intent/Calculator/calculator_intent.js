@@ -17,7 +17,8 @@ function CalculatorIntent() {
 			{ input:"calc 666 * 666 + 10" },
 			{ input:"10% of 90" },
 			{ input:"90 + 5%" },
-			{ input:"2+2" }
+			{ input:"2+2" },
+			{ input:"what is 14 x 15?" }
 		]
 	}
 	methods.__proto__ = Intent()

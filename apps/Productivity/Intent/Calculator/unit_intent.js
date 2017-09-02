@@ -34,7 +34,8 @@ function UnitIntent() {
 		},
 		tests: [
 			{ input:'1 lb to kg' },
-			{ input:'lb to kg' }
+			{ input:'lb to kg' },
+			{ input:'how many centimeters are in an inch' }
 		]
 	}
 	methods.__proto__ = Intent()
