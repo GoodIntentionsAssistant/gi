@@ -4,9 +4,7 @@
 const Request = require('./request.js');
 const Randtoken = require('rand-token');
 
-
 module.exports = class Queue {
-
 
 /**
  * Initialize
@@ -116,8 +114,7 @@ module.exports = class Queue {
  * @return object
  */
 	request(request) {
-		var req = new Request();
-		req.initialize(this.app, request.ident);
+		var req = new Request(this.app, request.ident);
 		req.process(request.client, request.input);
 
 		//

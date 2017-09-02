@@ -113,6 +113,8 @@ function ready() {
 	prompt_me();
 
 	send('Rock paper');
+	send('Paper');
+	send('No');
 }
 
 

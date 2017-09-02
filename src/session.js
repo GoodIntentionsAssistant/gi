@@ -3,19 +3,17 @@
  */
 const dotty = require("dotty");
 
-var Session = function() {
-	this._data = {};
-}
-
+module.exports = class Session {
 
 /**
- * Initialize
+ * Constructor
  *
  * @access public
  * @return void
  */
-Session.prototype.initialize = function() {
-}
+	constructor() {
+		this._data = {};
+	}
 
 
 /**
@@ -28,9 +26,9 @@ Session.prototype.initialize = function() {
  * @param boolean value
  * @return void
  */
-Session.prototype.set_auth = function(source, value) {
-	this._data.authorized[source] = value;
-}
+	set_auth(source, value) {
+		this._data.authorized[source] = value;
+	}
 
 
 /**
@@ -39,9 +37,9 @@ Session.prototype.set_auth = function(source, value) {
  * @param string source
  * @return void
  */
-Session.prototype.remove_auth = function(source) {
-	delete this._data.authorized[source];
-}
+	remove_auth(source) {
+		delete this._data.authorized[source];
+	}
 
 
 /**
@@ -51,12 +49,12 @@ Session.prototype.remove_auth = function(source) {
  * @access public
  * @return boolean
  */
-Session.prototype.authorized = function(source) {
-	if(!(source in this._data.authorized)) {
-		return false;
+	authorized(source) {
+		if(!(source in this._data.authorized)) {
+			return false;
+		}
+		return this._data.authorized[source];
 	}
-	return this._data.authorized[source];
-}
 
 
 /**
@@ -69,15 +67,15 @@ Session.prototype.authorized = function(source) {
  * @access public
  * @return mixed
  */
-Session.prototype.auth_ident = function(source) {
-	if(!this._data.authorized[source]) {
-		return false;
-	}
+	auth_ident(source) {
+		if(!this._data.authorized[source]) {
+			return false;
+		}
 
-	var output = this.data('ident');
-	output = output +'-'+this._data.authorized[source]['api_token'];
-	return output;
-}
+		var output = this.data('ident');
+		output = output +'-'+this._data.authorized[source]['api_token'];
+		return output;
+	}
 
 
 /**
@@ -88,12 +86,12 @@ Session.prototype.auth_ident = function(source) {
  * @access public
  * @return mixed
  */
-Session.prototype.auth = function(source, key) {
-	if(!this._data.authorized[source]) {
-		return false;
+	auth(source, key) {
+		if(!this._data.authorized[source]) {
+			return false;
+		}
+		return dotty.get(this._data.authorized[source], key);
 	}
-	return dotty.get(this._data.authorized[source], key);
-}
 
 
 /**
@@ -105,9 +103,9 @@ Session.prototype.auth = function(source, key) {
  * @param boolean value
  * @return void
  */
-Session.prototype.add_account = function(identifier) {
-	this._data.accounts[identifier] = {};
-}
+	add_account(identifier) {
+		this._data.accounts[identifier] = {};
+	}
 
 
 /**
@@ -118,9 +116,9 @@ Session.prototype.add_account = function(identifier) {
  * @param hash data
  * @return void
  */
-Session.prototype.set_account = function(identifier) {
-	this.add_account(identifier);
-}
+	set_account(identifier) {
+		this.add_account(identifier);
+	}
 
 
 /**
@@ -131,9 +129,9 @@ Session.prototype.set_account = function(identifier) {
  * @param hash data
  * @return void
  */
-Session.prototype.set_data = function(data) {
-	this._data = data;
-}
+	set_data(data) {
+		this._data = data;
+	}
 
 
 /**
@@ -144,9 +142,9 @@ Session.prototype.set_data = function(data) {
  * @param string key
  * @return mixed
  */
-Session.prototype.data = function(key) {
-	return dotty.get(this._data, key);
-}
+	data(key) {
+		return dotty.get(this._data, key);
+	}
 
 
 /**
@@ -155,9 +153,9 @@ Session.prototype.data = function(key) {
  * @param string key
  * @return void
  */
-Session.prototype.set = function(key, value) {
-	dotty.put(this._data, key, value);
-}
+	set(key, value) {
+		dotty.put(this._data, key, value);
+	}
 
 
 /**
@@ -168,12 +166,12 @@ Session.prototype.set = function(key, value) {
  * @access public
  * @return mixed
  */
-Session.prototype.user = function(key, value) {
-	if(!value) {
-		return this.data('user.'+key);
+	user(key, value) {
+		if(!value) {
+			return this.data('user.'+key);
+		}
+		return this.set('user.'+key,value);
 	}
-	return this.set('user.'+key,value);
-}
 
 
 /**
@@ -183,9 +181,9 @@ Session.prototype.user = function(key, value) {
  * @access public
  * @return void
  */
-Session.prototype.add_history = function(data) {
-	this._data.history.push(data);
-}
+	add_history(data) {
+		this._data.history.push(data);
+	}
 
 
 /**
@@ -194,9 +192,9 @@ Session.prototype.add_history = function(data) {
  * @access public
  * @return mixed
  */
-Session.prototype.history = function() {
-	return this._data.history;
-}
+	history() {
+		return this._data.history;
+	}
 
 
 /**
@@ -205,10 +203,10 @@ Session.prototype.history = function() {
  * @access public
  * @return mixed
  */
-Session.prototype.get_expecting = function() {
-	var result = this.data('expecting');
-	return result ? result : false;
-}
+	get_expecting() {
+		var result = this.data('expecting');
+		return result ? result : false;
+	}
 
 
 /**
@@ -218,13 +216,13 @@ Session.prototype.get_expecting = function() {
  * @access public
  * @return void
  */
-Session.prototype.set_expecting = function(expecting) {
-	//If intent has been passed as an object then change it to the intent name (string)
-	if(typeof expecting.intent === 'object') {
-		expecting.intent = expecting.intent.name;
+	set_expecting(expecting) {
+		//If intent has been passed as an object then change it to the intent name (string)
+		if(typeof expecting.intent === 'object') {
+			expecting.intent = expecting.intent.name;
+		}
+		this.set('expecting',expecting);
 	}
-	this.set('expecting',expecting);
-}
 
 
 /**
@@ -235,12 +233,12 @@ Session.prototype.set_expecting = function(expecting) {
  * @access public
  * @return boolean
  */
-Session.prototype.has_expecting = function() {
-	if(this._data.expecting) {
-		return true;
+	has_expecting() {
+		if(this._data.expecting) {
+			return true;
+		}
+		return false;
 	}
-	return false;
-}
 
 
 /**
@@ -249,11 +247,8 @@ Session.prototype.has_expecting = function() {
  * @access public
  * @return boolean
  */
-Session.prototype.reset_expecting = function() {
-	this._data.expecting = null;
+	reset_expecting() {
+		this._data.expecting = null;
+	}
+
 }
-
-
-module.exports = Session;
-
-

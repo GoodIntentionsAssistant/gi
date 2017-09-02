@@ -6,9 +6,14 @@ const util = require('util');
 const Client = require('./client.js');
 const Randtoken = require('rand-token');
 
-
 module.exports = class Server extends EventEmitter {
 
+/**
+ * Constructor
+ *
+ * @access public
+ * @return void
+ */
 	constructor(app) {
 		super();
 
@@ -17,6 +22,13 @@ module.exports = class Server extends EventEmitter {
 		this.app = app;
 	}
 
+
+/**
+ * Start
+ *
+ * @access public
+ * @return void
+ */
 	start() {
 		this.object = require('http').createServer();
 		let io = require('socket.io')(this.object);
@@ -41,8 +53,14 @@ module.exports = class Server extends EventEmitter {
 			this.app.error('Server Error: '+err);
 		}
 	}
+	
 
-
+/**
+ * Stop
+ *
+ * @access public
+ * @return void
+ */
 	stop() {
 		if(!this.object) {
 			return false;
@@ -52,6 +70,13 @@ module.exports = class Server extends EventEmitter {
 	}
 
 
+/**
+ * Add client
+ *
+ * @param object client
+ * @access public
+ * @return void
+ */
 	add_client(client) {
 		let ident = Randtoken.generate(16);
 		client.ident = ident;
@@ -63,6 +88,13 @@ module.exports = class Server extends EventEmitter {
 	}
 
 
+/**
+ * Remove client
+ *
+ * @param string ident
+ * @access public
+ * @return void
+ */
 	remove_client(ident) {
 		for(var ii=0; ii<this.clients.length; ii++) {
 			if(this.clients[ii].ident == ident) {

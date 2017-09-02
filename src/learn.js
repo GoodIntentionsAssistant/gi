@@ -4,7 +4,6 @@
 const extend = require('extend');
 const Scrubber = require('../src/Utilities/scrubber');
 
-
 module.exports = class Learn {
 
 /**

@@ -5,7 +5,6 @@ const Session = require('./session.js');
 const _ = require('underscore');
 const Randtoken = require('rand-token');
 
-
 module.exports = class Auth {
 
 /**
@@ -56,7 +55,6 @@ module.exports = class Auth {
 
 		//Set data for session
 		let session = new Session();
-		session.initialize();
 		session.set_data(user);
 		session.set_account(identifier);
 		
