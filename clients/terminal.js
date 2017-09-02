@@ -111,7 +111,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('weather in bangkok');
+	send('hello');
 }
 
 

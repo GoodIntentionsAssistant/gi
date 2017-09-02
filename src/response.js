@@ -114,7 +114,7 @@ Response.prototype._send = function() {
 	var message = queue_item[1];
 
 	//
-	this.request.log('Reply: '+message);
+	this.request.log('Reply: '+message.replace('\n','\\n'));
 
 	//Build message
 	var data = this.build(result, message);

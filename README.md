@@ -165,11 +165,12 @@ Example response
 ```json
 {
 	"type": "message",
-  "messages": [ "Hi! I'm the Good Intentions bot!\nI'm all about productivity and getting things done!" ],
+  "messages": [ "Hi! I'm the Good Intentions bot!" ],
   "attachments": {},
   "intent": "Fun/Greeting",
   "action": "response",
   "namespace": "request_result",
+	"confidence": 22.5646096341948,
   "sequence": 1,
   "microtime": 1503840844828
 }

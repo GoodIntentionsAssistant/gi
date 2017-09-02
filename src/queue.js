@@ -2,6 +2,7 @@
  * Queue
  */
 const Request = require('./request.js');
+const Randtoken = require('rand-token');
 
 
 module.exports = class Queue {
@@ -48,7 +49,7 @@ module.exports = class Queue {
  * @return void
  */
 	add(client, input) {
-		var ident = Math.random().toString(36).substr(2, 6).toUpperCase();
+		var ident = Randtoken.generate(16);
 		this.queue.push({
 			ident: ident,
 			client: client,

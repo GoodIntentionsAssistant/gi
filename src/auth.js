@@ -3,6 +3,7 @@
  */
 const Session = require('./session.js');
 const _ = require('underscore');
+const Randtoken = require('rand-token');
 
 
 module.exports = class Auth {
@@ -81,7 +82,7 @@ module.exports = class Auth {
 			return false;
 		}
 
-		let ident = Math.random().toString(36).substr(2, 12).toUpperCase();
+		let ident = Randtoken.generate(16);
 
 		let data = JSON.parse(JSON.stringify(this._templateRecord));
 		data.ident = ident;
