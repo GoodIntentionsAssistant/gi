@@ -3,8 +3,15 @@ layout: page
 title: Clients
 ---
 
-Clients are not included in this repository yet but `clients/terminal.js` acts as a simple test interface that connects to the server and enables live input.
+Clients act as middleware between the server and the service it will connect to.
 
-Clients would include bots that connect to Slack, Hipchat, Line, Facebook, etc...
+Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface. These clients must be written by a developer to make GI useful. We hope to provide packaged clients with GI after the first stable release.
 
-Some platforms like Facebook currently only allow webhooks and not connected bots but it's possible to create an client which will handle the webhooks. I may publish some clients that handle webhooks once the code is better.
+
+## Terminal Test Client
+
+GI provides a test client called Terminal. This can be found in `clients/terminal.js`.
+
+Load the server and then load the client. The client will identify with the server with the client token (stored in your config.js file) and the server will generate a session_token for all requests. You can then type in any command to test the app.
+
+

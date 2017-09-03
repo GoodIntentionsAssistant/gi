@@ -1,8 +1,8 @@
 /**
- * Storage
+ * Model
  */
 
-module.exports = class Storage {
+module.exports = class Model {
 
 /**
  * Constructor
@@ -10,7 +10,7 @@ module.exports = class Storage {
  * @access public
  * @return void
  */
-	constructor() {
-	}
+  constructor() {
+  }
 
 }
