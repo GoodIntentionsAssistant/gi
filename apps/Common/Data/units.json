@@ -82,11 +82,9 @@
       ]
    },
    "cm2":{
-      "label":"Centimeters",
+      "label":"Cm2",
       "measure":"area",
       "synonyms":[
-         "Centimeters",
-         "Centimeter",
          "cm2"
       ]
    },

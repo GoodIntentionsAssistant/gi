@@ -112,7 +112,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('catfact');
+	send('how many centimeters are in an inch?');
 }
 
 

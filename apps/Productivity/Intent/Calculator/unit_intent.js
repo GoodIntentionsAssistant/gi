@@ -2,9 +2,10 @@
 // https://www.npmjs.com/package/convert-units
 	
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 var natural = require('natural');
 var convert = require('convert-units');
+var _ = require('underscore');
+_.mixin(require('underscore.inflections'));
 
 
 function UnitIntent() {
@@ -64,6 +65,14 @@ function UnitIntent() {
 		//Result and clean
 		var result = convert(amount).from(unit_from).to(unit_to);
 		result = parseFloat(result,2).toFixed(2);
+
+		//Singular
+		if(parseFloat(amount) == 1) {
+			unit_from_label = _.singularize(unit_from_label);
+		}
+		if(parseFloat(result) == 1) {
+			unit_to_label = _.singularize(unit_to_label);
+		}
 
 		return amount+' '+unit_from_label+' is '+result +' '+unit_to_label;
 	}
