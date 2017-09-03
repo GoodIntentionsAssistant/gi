@@ -1,6 +1,7 @@
 /**
  * Session
  */
+const User = require('./user.js');
 const dotty = require("dotty");
 
 module.exports = class Session {

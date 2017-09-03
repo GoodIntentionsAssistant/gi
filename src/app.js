@@ -10,7 +10,7 @@ const util = require("util");
 const EventEmitter = require('events').EventEmitter;
 
 const Config = require('./config.js');
-const Auth = require('./auth.js');
+const Auth = require('./Session/auth.js');
 const Learn = require('./learn.js');
 const Entities = require('./entities.js');
 const Intents = require('./intents.js');
