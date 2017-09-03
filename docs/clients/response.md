@@ -15,7 +15,7 @@ Multipart sending can be useful when the result could be delayed by latency when
   "attachments": {},
   "intent": "Fun/Greeting",
   "action": "response",
-  "namespace": "request_result",
+  "namespace": "response",
   "confidence": 22.5646096341948,
   "sequence": 1,
   "microtime": 1503840844828
@@ -38,7 +38,7 @@ microtime | Server microtime when the data was sent
 ## Example of catching response
 
 ~~~javascript
-socket.on('request_result', function(data){
+socket.on('response', function(data){
 	if(data.type == 'message') {
 		for(var ii=0; ii<data.messages.length; ii++) {
 			console.log('\033[31m','Message: ',data.messages[ii],'\033[0m');

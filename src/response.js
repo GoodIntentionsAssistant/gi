@@ -23,7 +23,7 @@ module.exports = class Response extends EventEmitter {
 
 		//
 		this.queue = [];
-		this.namespace = 'request_result';
+		this.namespace = 'response';
 		this.sequence_count = 0;
 
 		//Speed each letter takes to type

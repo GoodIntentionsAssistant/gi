@@ -46,7 +46,7 @@ describe('Intent Auto Tests', function(){
 
     //Wait for response
     return new Promise(function(resolve){
-      agent.on('request_result::jasmine'+count, function(data){
+      agent.on('response::jasmine'+count, function(data){
         resolve(data);
       });
     });
