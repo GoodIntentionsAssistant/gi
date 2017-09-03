@@ -42,12 +42,12 @@ module.exports = class UnitIntent extends Intent {
 
 
 	response(request) {
-		var amount = request.param('amount');
-		var unit_from = request.param('unit_from');
-		var unit_to = request.param('unit_to');
+		var amount = request.parameters.value('amount');
+		var unit_from = request.parameters.value('unit_from');
+		var unit_to = request.parameters.value('unit_to');
 	
-		var unit_from_label = request.param_label('unit_from');
-		var unit_to_label = request.param_label('unit_to');
+		var unit_from_label = request.parameters.get('unit_from.label');
+		var unit_to_label = request.parameters.get('unit_to.label');
 
 		//Check the units from and to are valid
 		var possibilities = convert().from(unit_from).possibilities();

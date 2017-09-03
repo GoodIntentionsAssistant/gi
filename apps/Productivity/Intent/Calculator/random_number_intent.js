@@ -27,8 +27,8 @@ module.exports = class RandomNumberIntent extends Intent {
 
 
 	response(request) {
-		let number = request.param('number');
-    let number_to = request.param('number_to');
+		let number = request.parameters.value('number');
+    let number_to = request.parameters.value('number_to');
     let result;
     
     if(number && number_to) {

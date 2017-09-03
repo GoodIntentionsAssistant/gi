@@ -23,7 +23,7 @@ module.exports = class DiceIntent extends Intent {
 	}
 
 	response(request) {
-		let die = request.param('die');
+		let die = request.parameters.value('die');
 
 		let _options = {
 			dice: '1d6',

@@ -40,7 +40,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 	}
 
 	chosen(request) {
-		var user_choice = request.param('choice');
+		var user_choice = request.parameters.value('choice');
 
 		if(!user_choice) {
 			return 'You need to type either rock, paper or scissors';
@@ -96,7 +96,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 
 
 	play_again(request) {
-		var play_again = request.param('play_again');
+		var play_again = request.parameters.value('play_again');
 		if(play_again == 'yes') {
 			return request.redirect('Fun/RockPaperScissors');
 		}

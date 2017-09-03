@@ -48,12 +48,10 @@ module.exports = class HowAreYouIntent extends Intent {
 
 
 	user_emotion(request) {
-		var emotion_key = request.param('user_emotion');
+		let emotion_key = request.parameters.value('user_emotion');
+		let type = request.parameters.get('user_emotion.matched.type');
 
-		var entity = request.app.Entities.get('Common/Emotion');
-		var data = entity.find_data_by_key(emotion_key);
-
-		if(data.type == 'positive') {
+		if(type == 'positive') {
 			return 'Happy to hear :)';
 		}
 		else {

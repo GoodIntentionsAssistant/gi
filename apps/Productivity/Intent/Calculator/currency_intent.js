@@ -42,9 +42,9 @@ module.exports = class CurrencyIntent extends Intent {
 
 
 	response(request) {
-		var amount = request.param('amount');
-		var currency_from = request.param('currency_from');
-		var currency_to = request.param('currency_to');
+		var amount = request.parameters.value('amount');
+		var currency_from = request.parameters.value('currency_from');
+		var currency_to = request.parameters.value('currency_to');
 
 		//Double check currency_to is set
 		if(!currency_to) {

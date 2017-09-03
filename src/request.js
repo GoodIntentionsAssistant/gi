@@ -257,37 +257,7 @@ module.exports = class Request {
 		this.intent = this.app.Intents.get('Common/'+error_name);
 		this.call();
 	}
-
-
-/**
- * Parameter
- *
- * @param string key
- * @access public
- * @return string
- */
-	param(key) {
-		if(!this.parameters.data[key]) {
-			return false;
-		}
-		return this.parameters.data[key].value;
-	}
-
-
-/**
- * Parameter label
- *
- * @param string key
- * @access public
- * @return string
- */
-	param_label(key) {
-		if(!this.parameters.data[key]) {
-			return false;
-		}
-		return this.parameters.data[key].label;
-	}
-
+	
 
 /**
  * Call intent

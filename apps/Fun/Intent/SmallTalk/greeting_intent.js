@@ -31,8 +31,8 @@ module.exports = class GreetingIntent extends Intent {
 	}
 
 	response(request) {
-		var type = request.param('type');
-		var time_of_day = request.param('time_of_day');
+		var type = request.parameters.value('type');
+		var time_of_day = request.parameters.value('time_of_day');
 
 		if(type == 'time_of_day') {
 			if(!time_of_day) {

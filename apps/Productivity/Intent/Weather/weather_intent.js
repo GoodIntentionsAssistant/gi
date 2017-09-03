@@ -32,7 +32,7 @@ module.exports = class WeatherIntent extends Intent {
 	}
 
 	specified(request) {
-		var city = request.param('city');
+		var city = request.parameters.value('city');
 
 		var label = city.label;
 		var lat = city.lat;

@@ -42,7 +42,7 @@ module.exports = class TimezoneIntent extends Intent {
 
 
 	specified(request) {
-		var location = request.param('location');
+		var location = request.parameters.value('location');
 
 		//Vars
 		var label = location.label;

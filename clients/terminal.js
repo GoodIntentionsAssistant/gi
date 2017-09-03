@@ -16,8 +16,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('flip a coin 3 times');
-	send('flip a coin three times');
+	send('happy');
 }
 
 

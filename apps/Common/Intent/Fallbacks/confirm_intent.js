@@ -22,8 +22,8 @@ module.exports = class ConfirmIntent extends Intent {
 		};
 	}
 
-	response() {
-		var confirm = request.param('confirm');
+	response(request) {
+		var confirm = request.parameters.value('confirm');
 		var output = 'Okay!';
 		
 		if(confirm == 'yes') {
