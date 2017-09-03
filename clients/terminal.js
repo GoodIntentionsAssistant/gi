@@ -85,7 +85,7 @@ socket.on('request_result', function(data){
 			'Confidence:', data.confidence,'|',
 			'Intent:', data.intent,'|',
 			'Action:', data.action,'|',
-			'Classifier:', data.action,
+			'Classifier:', data.classifier,
 			'\x1b[0m'
 		);
 
@@ -112,8 +112,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('roll a 12-sided die');
-	send('roll a 12 sided die');
+	send('catfact');
 }
 
 

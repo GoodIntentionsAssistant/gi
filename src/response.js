@@ -107,7 +107,7 @@ module.exports = class Response extends EventEmitter {
 		var message = queue_item[1];
 
 		//
-		this.request.log('Reply: '+message.replace('\n','\\n'));
+		this.request.log('Reply: '+message);
 
 		//Build message
 		var data = this.build(result, message);

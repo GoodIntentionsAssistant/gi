@@ -7,6 +7,7 @@ function Intent() {
 	var session = null;
 	var _keywords = [];
 	var _entities = [];
+	var classifier = 'main';
 
 /**
  * Initialize
@@ -152,7 +153,8 @@ function Intent() {
 		_options = {
 			probability: 1,
 			boost: 0,
-			action: false
+			action: false,
+			classifier: this.classifier
 		}
 		options = extend(_options,options);
 
@@ -253,10 +255,3 @@ function Intent() {
 }
 
 module.exports = Intent
-
-/*
-component
-
-triggers
-
-actions*/

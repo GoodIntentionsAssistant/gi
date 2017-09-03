@@ -19,11 +19,10 @@ function CatfactsIntent() {
 	methods.__proto__ = Intent()
 
 	methods.response = function(request) {
-		var filename = request.app.config.app_dir+'/Fun/Data/catfacts.txt';
+		var filename = request.app.Config.read('app_dir')+'/Fun/Data/catfacts.txt';
 
 		return new Promise(function(resolve, reject) {
 			var fs = require('fs');
-
 			fs.readFile(filename, 'utf8', function(err, data) {
 				var lines = data.split(/\r?\n/);
 				resolve(_.sample(lines));

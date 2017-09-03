@@ -209,15 +209,9 @@ module.exports = class Intents {
  */
 	_train(intent) {
 		//Learn the keyword triggers set by the intent
-		var keywords = intent.keywords();
+		let keywords = intent.keywords();
 
-		for(var tt=0; tt<keywords.length; tt++) {
-			//Get classifier
-			if(intent.classifier) {
-				keywords[tt].options['classifier'] = intent.classifier;
-			}
-
-			//Train the word
+		for(let tt=0; tt<keywords.length; tt++) {
 			this.app.Learn.train(keywords[tt].name, keywords[tt].keyword, keywords[tt].options);
 		}
 	}

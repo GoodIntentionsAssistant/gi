@@ -14,7 +14,7 @@ function AdminLoginIntent() {
 		var password = request.input.text;
 		password = password.replace('admin login','').trim();
 
-		if(password != request.app.config.admin.password) {
+		if(password != request.app.Config.read('admin.password')) {
 			return 'Failed to log you in';
 		}
 
