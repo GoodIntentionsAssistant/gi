@@ -15,22 +15,32 @@ module.exports = class FlipCoinIntent extends Intent {
       'flip penny',
       'throw coin'
     ];
+
+		this.parameters = {
+			"flips": {
+				name: "Flips",
+				entity: "Common/Number",
+        required: false,
+        default: 1
+			}
+		};
 	}
 
 	response(request) {
-    //About a 1 in 6000th chance the coin lands on its edge
-    let flip = _.random(1, 6001);
-    let output;
+    let results = [];
+    let flips = request.parameters.value('flips');
 
-    if(flip == 1) {
-      output = 'Landed on its edge!';
+    for(let ii=0; ii < flips; ii++) {
+      let flip = _.random(1, 2);
+      if(flip == 1) {
+        results.push('Heads');
+      }
+      else if(flip == 2) {
+        results.push('Tails');
+      }
     }
-    else if(flip > 1 && flip <= 3000) {
-      output = 'Heads';
-    }
-    else if(flip > 3000 && flip <= 6001) {
-      output = 'Tails';
-    }
+
+    let output = results.join(', ');
 
 		return output;
 	}

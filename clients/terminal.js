@@ -10,6 +10,18 @@ const socket = io.connect('http://localhost:3000', {
 var session_token;
 
 
+
+function ready() {
+	prompt.start();
+	prompt.message = "";
+	prompt_me();
+
+	send('flip a coin 3 times');
+	send('flip a coin three times');
+}
+
+
+
 socket.on('connect', function(){
 	console.log('\x1b[32m','Connected to server','\x1b[0m');
 	ident();
@@ -103,18 +115,6 @@ socket.on('request_result', function(data){
 	}
 
 });
-
-
-
-
-
-function ready() {
-	prompt.start();
-	prompt.message = "";
-	prompt_me();
-
-	send('what is 5 x 10?');
-}
 
 
 function prompt_me() {
