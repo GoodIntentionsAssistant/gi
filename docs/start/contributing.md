@@ -3,7 +3,7 @@ layout: page
 title: Contributing
 ---
 
-We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you're just getting started check out the project [Github Issues](https://github.com/darrenmoore/GoodIntentionsChatBot/issues).
+We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you're just getting started check out the project [Github Issues](https://github.com/darrenmoore/GoodIntentionsChatBot/issues) for a list of 
 
 ## Areas of interest
 
