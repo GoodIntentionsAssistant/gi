@@ -15,6 +15,12 @@ socket.on('connect', function(){
 	ident();
 });
 
+socket.on('disconnect', function(){
+	prompt.stop();
+	console.log('\x1b[32m','Disconnected','\x1b[0m');
+});
+
+
 
 socket.on('event', function(data){
 	if(data.type == 'error') {
@@ -99,10 +105,6 @@ socket.on('request_result', function(data){
 
 });
 
-
-socket.on('disconnect', function(){
-	console.log('\x1b[32m','Disconnected','\x1b[0m');
-});
 
 
 
