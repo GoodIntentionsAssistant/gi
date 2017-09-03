@@ -2,7 +2,7 @@
  * Parameters
  */
 const Promise = require('promise');
-const Scrubber = require('../src/Utilities/scrubber');
+const Scrubber = require('../src/Utility/scrubber');
 
 module.exports = class Parameters {
 

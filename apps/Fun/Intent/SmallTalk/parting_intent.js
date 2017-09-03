@@ -1,7 +1,7 @@
 // Parting
 	
 var Intent = require('../../../../src/Intent/intent');
-var Scrubber = require('../../../../src/Utilities/scrubber');
+var Scrubber = require('../../../../src/Utility/scrubber');
 var _ = require('underscore');
 
 function PartingIntent() {

@@ -5,7 +5,7 @@
  */
 	
 var Entity = require('../../../src/Entity/entity');
-var Scrubber = require('../../../src/Utilities/scrubber');
+var Scrubber = require('../../../src/Utility/scrubber');
 var moment = require('moment');
 
 function CountryEntity() {

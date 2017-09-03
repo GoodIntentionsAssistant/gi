@@ -2,7 +2,7 @@
  * Learn
  */
 const extend = require('extend');
-const Scrubber = require('../src/Utilities/scrubber');
+const Scrubber = require('../src/Utility/scrubber');
 
 module.exports = class Learn {
 
