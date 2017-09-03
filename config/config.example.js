@@ -11,15 +11,12 @@ config.app = {
 }
 
 config.admin = {
-  password: 'hungry55'
+  password: ''
 };
 
 config.clients = {
   'test': {
     'token': 'NrCgyKqvyB'
-  },
-  'webhook': {
-    'token': 'qkkl7Xb0Cc'
   }
 };
 

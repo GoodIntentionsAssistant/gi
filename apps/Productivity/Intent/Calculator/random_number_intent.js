@@ -1,5 +1,6 @@
-// Random number
-	
+/**
+ * Random number intent
+ */
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 

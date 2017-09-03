@@ -16,7 +16,6 @@ socket.on('connect', function(){
 });
 
 socket.on('disconnect', function(){
-	prompt.stop();
 	console.log('\x1b[32m','Disconnected','\x1b[0m');
 });
 
