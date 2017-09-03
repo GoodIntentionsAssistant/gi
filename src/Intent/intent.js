@@ -78,8 +78,17 @@ function Intent() {
 			}
 
 			if(that.synonyms) {
-				for(var ii=0; ii < that.synonyms.length; ii++) {
-					that.add_keyword(that.synonyms[ii], {});
+				if(that.synonyms instanceof Array) {
+					//Add array list of synonyms with no options
+					for(var ii=0; ii < that.synonyms.length; ii++) {
+						that.add_keyword(that.synonyms[ii], {});
+					}
+				}
+				else {
+					//Add hash list of synonyms with options
+					for(let key in that.synonyms) {
+						that.add_keyword(key, that.synonyms[key]);
+					}
 				}
 			}
 

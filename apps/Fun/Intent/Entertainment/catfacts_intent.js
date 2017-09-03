@@ -8,7 +8,10 @@ function CatfactsIntent() {
 	var methods = {
 		name: 'Catfacts',
 		trigger: 'catfact',
-		synonyms: ['catfacts','cat fact'],
+		synonyms: {
+			'catfacts': {},
+			'cat fact': {}
+		},
 		tests: [
 			{ input:'catfact' },
 			{ input:'cat fact' },
