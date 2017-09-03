@@ -141,6 +141,9 @@ module.exports = class Request {
 		//Attachment
 		this.attachment = new Attachment(this);
 
+		//Parameters
+		this.parameters = new Parameters(this);
+
 		//
 		this.log('');
 		this.log('Analyzing "'+this.input.text+'"');
@@ -225,7 +228,6 @@ module.exports = class Request {
 		//need to create a promise and wait or the parsing to finish first.
 		if(this.intent.parameters) {
 			//Create a new parameter object
-			this.parameters = new Parameters(this);
 			this.parameters.parse_from_intent(this.input.text, this.intent);
 
 			this.parameters.promise.then(function() {

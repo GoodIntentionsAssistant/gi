@@ -10,8 +10,20 @@ module.exports = class CalculatorIntent extends Intent {
 		this.trigger = '/^(calc )?[\\d\\+\\/\\*\.\\-% \\(\\)=]*$/';
 		this.classifier = 'strict';
 		this.synonyms = [
-			'/^[\\d+]*%( of)? [\\d\\+\\/\\*\.\\- \\(\\)=]*$/'
+			'/^[\\d+]*%( of)? [\\d\\+\\/\\*\.\\- \\(\\)=]*$/',
+			new RegExp(/^.*[\d+] x [\d+].*$/,'g')
 		];
+		this.entities = {
+			'Productivity/MathWord': {
+				'classifier': 'main'
+			}
+		};
+		this.parameters = {
+			"math_word": {
+				name: "Math word",
+				entity: 'Productivity/MathWord'
+			}
+		};
 		this.tests = [
 			{ input:"calc 1+1" },
 			{ input:"calc 666 * 666" },
@@ -19,16 +31,16 @@ module.exports = class CalculatorIntent extends Intent {
 			{ input:"10% of 90" },
 			{ input:"90 + 5%" },
 			{ input:"2+2" },
-			{ input:"what is 14 x 15?" }
+			{ input:"what is 5 x 10?" },
+			{ input:"what is 5 times 10?" },
+			{ input:"what is 5 multiplied by 10?" }
 		];
 	}
 
 
 	response(request) {
-		//Remove any bad stuff
-		var input = request.input.text;
-		input = input.replace(/[a-z=]/ig,'');
-		input = input.trim(input);
+		//Clean up the string
+		var input = this.clean_string(request, request.input.text);
 
 		if(!input) {
 			return 'Oops, there seemed to be a problem calculating that';
@@ -55,6 +67,24 @@ module.exports = class CalculatorIntent extends Intent {
 
 		return result;
 	}
+
+
+	clean_string(request, input) {
+		//Replace math strings, e.g. times to *
+		let math_string = request.parameters.get('math_word.string');
+		if(math_string) {
+			let math_value = request.parameters.get('math_word.matched.value');
+			let rep = new RegExp(math_string,'ig');
+			input = input.replace(rep, math_value);
+		}
+
+		//Remove chars that are not needed for math
+		input = input.replace(/[a-z\!\?=]/ig,'');
+		input = input.trim(input);
+
+		return input;
+	}
+
 
 	calc_simple(input) {
 		return eval(input);

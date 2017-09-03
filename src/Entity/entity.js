@@ -276,16 +276,17 @@ function Entity() {
 			//the highest score is the first record
 			matches = _.sortBy(matches, function(record){ return record.score; }).reverse();
 
-			//console.log(string);
-			//console.log(matches);
-
 			original = matches[0].string;
 			value = matches[0].value;
 		}
 
+		//Matched data
+		let matched = this.find_data_by_key(value);
+
 		return {
 			original: original,
-			value: value
+			value: value,
+			matched: matched
 		}
 	}
 

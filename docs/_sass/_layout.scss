@@ -98,7 +98,6 @@
  */
 
 .side-nav {
-    background-color:red;
     float: left;
     width:200px;
 
@@ -222,10 +221,21 @@ article.post {
  * Tables
  */
 table {
+    border-color:gray;
+    border-spacing: 0;
+    border-collapse: collapse;
     th {
-        text-align:left;
+        padding: 6px 13px;
+        border: 1px solid #dfe2e5;
     }
-    margin-bottom:40px;
+    td {
+        padding: 6px 13px;
+        border: 1px solid #dfe2e5;
+    }
+    tr:nth-child(2n) {
+        background-color: rgb(246, 248, 250);
+    }
+    margin:20px 0 40px 0;
 }
 
 
@@ -260,7 +270,7 @@ table {
     }
 
     h3 {
-        font-size: 26px;
+        font-size: 22px;
 
         @include media-query($on-laptop) {
             font-size: 22px;

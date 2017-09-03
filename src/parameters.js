@@ -3,6 +3,7 @@
  */
 const Promise = require('promise');
 const Scrubber = require('../src/Utility/scrubber');
+const dotty = require("dotty");
 
 module.exports = class Parameters {
 
@@ -32,6 +33,33 @@ module.exports = class Parameters {
 		//Request might be needed when loading in entities
 		//Entities requiring live data will need API access / session
 		this.request = request;
+	}
+
+
+/**
+ * Value of a parameter
+ * 
+ * @param string key
+ * @access public
+ * @return mixed
+ */
+	value(key) {
+		if(!this.data[key]) {
+			return false;
+		}
+		return this.data[key].value;
+	}
+
+	
+/**
+ * Get the data matched of a key
+ * 
+ * @param string key
+ * @access public
+ * @return mixed
+ */
+	get(key) {
+		return dotty.get(this.data, key);
 	}
 
 
@@ -192,6 +220,7 @@ module.exports = class Parameters {
 			output[field] = {
 				name: data[field].name,
 				value: null,
+				string: null,
 				label: null,
 				entity: entity,
 				required: required,
@@ -213,7 +242,9 @@ module.exports = class Parameters {
 			//If successful then 
 			if(result && result.value) {
 				output[field].value = result.value;
+				output[field].string = result.original;
 				output[field].valid = true;
+				output[field].matched  = result.matched;
 
 				//Change the intent action
 				if(data[field].action) {

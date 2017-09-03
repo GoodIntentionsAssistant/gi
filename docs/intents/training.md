@@ -69,10 +69,27 @@ When the user input is received by the app the strict classifier will be checked
 
 Adding a strict match for `how are you` means the user will always go to that intent and the NLP default classifier is not checked.
 
-Regular expressions can also be added to the keywords. For example the following will match a basic calculation input.
+Regular expressions can also be added to the keywords.
 
-~~~
-/^(calc )?[\\d\\+\\/\\*\.\\-% \\(\\)=]*$/
+~~~javascript
+var Intent = require('../../../../src/Intent/intent');
+
+module.exports = class PingIntent extends Intent {
+
+	setup() {
+		this.name = 'Ping';
+		this.trigger = 'ping';
+		this.classifier = 'strict';
+		this.symnomns = [
+			new RegExp(/^.*[\d+] x [\d+].*$/,'g')
+		];
+	}
+
+	response() {
+		return 'Pong';
+	}
+
+}
 ~~~
 
 

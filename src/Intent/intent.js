@@ -124,19 +124,20 @@ module.exports = class Intent {
 				//Fetch the loaded entity grab the keywords
 				var entity = that.app.Entities.get(key);
 				var keywords = entity.get_data();
+				var options = that.entities[key];
 
 				//Loop the keywords and add to the intent
 				for(var key in keywords) {
 					//Might not want to index the key for the entity
 					//@todo Remove this totally, never index the key
 					if(!entity.ignore_index_key) {
-						that.add_keyword(key, {});
+						that.add_keyword(key, options);
 					}
 
 					//Add synonyms
 					if(keywords[key].synonyms) {
 						for(var ii=0; ii < keywords[key].synonyms.length; ii++) {
-							that.add_keyword(keywords[key].synonyms[ii], {});
+							that.add_keyword(keywords[key].synonyms[ii], options);
 						}
 					}
 				}

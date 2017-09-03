@@ -112,7 +112,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('55 gbp to baht');
+	send('what is 5 x 10?');
 }
 
 

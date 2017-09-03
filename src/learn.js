@@ -82,7 +82,9 @@ module.exports = class Learn {
 		}
 
 		//Clean up
-		keyword = keyword.toLowerCase();
+		if(typeof keyword == 'string') {
+			keyword = keyword.toLowerCase();
+		}
 
 		//Add to the classifer
 		for(var ii=0; ii<repeat; ii++) {
@@ -115,7 +117,6 @@ module.exports = class Learn {
 		str = Scrubber.contractions(str);
 		str = Scrubber.stop_words(str);
 		str = Scrubber.grammar(str);
-		str = Scrubber.single_letter(str);
 
 		//Result
 		return this.classifiers[classifier].find(str);

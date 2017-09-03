@@ -24,7 +24,15 @@ StrictClassifier.prototype.find = function(str) {
 		var intent = this.data[ii][1];
 
 		//Check if regex
-		if(keyword.substr(0,1) == '/') {
+		if(keyword instanceof RegExp) {
+			if(str.match(keyword)) {
+				return {
+					confidence: 0.9,
+					result: intent
+				};
+			}
+		}
+		else if(keyword.substr(0,1) == '/') {
 			var keyword = keyword.substr(1,keyword.length-2);
 			var rgxp = new RegExp(keyword,'g');
 			if(str.match(rgxp)) {
