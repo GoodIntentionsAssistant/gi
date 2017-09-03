@@ -9,13 +9,12 @@ const socket = io.connect('http://localhost:3000', {
 
 var session_token;
 
+prompt.message = "";
+prompt_me();
+prompt.start();
 
 
 function ready() {
-	prompt.start();
-	prompt.message = "";
-	prompt_me();
-
 	send('happy');
 }
 
