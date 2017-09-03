@@ -1,24 +1,22 @@
-// Why Fallback
-	
+/**
+ * Why Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function WhyIntent() {
-	var methods = {
-		name: 'Why Fallback',
-		trigger: 'why',
-		synonyms: [],
-		classifier: 'fallback'
+module.exports = class WhyIntent extends Intent {
+
+	setup() {
+		this.name = 'Why Fallback';
+		this.trigger = 'why';
+		this.synonyms = [];
+		this.classifier = 'fallback';
 	}
-	methods.__proto__ = Intent()
+	
 
-	methods.response = function() {
+	response() {
 		var output = 'Everyone asks why';
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = WhyIntent;

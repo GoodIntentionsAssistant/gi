@@ -1,15 +1,17 @@
-// not_found.js
-	
+/**
+ * Not Found Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
-function NotFoundIntent() {
-	var methods = {
-		name: 'NotFound'
-	}
-	methods.__proto__ = Intent()
+module.exports = class NotFoundIntent extends Intent {
 
-	methods.response = function() {
+	setup() {
+		this.name = 'Not Found';
+	}
+	
+
+	response() {
 		var responses = [
 			"Sorry, I don't understand what you mean",
 			"I'm sorry. I'm having trouble understanding what you mean",
@@ -22,8 +24,4 @@ function NotFoundIntent() {
 		return _.sample(responses);
 	}
 
-	return methods
 }
-
-
-module.exports = NotFoundIntent;

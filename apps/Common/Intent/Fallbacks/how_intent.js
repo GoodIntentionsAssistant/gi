@@ -1,24 +1,23 @@
-// How Fallback
-	
+/**
+ * How Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function HowIntent() {
-	var methods = {
-		name: 'How Fallback',
-		trigger: 'how',
-		synonyms: [],
-		classifier: 'fallback'
+module.exports = class HowIntent extends Intent {
+
+	setup() {
+		this.name = 'How Fallback';
+		this.trigger = 'how';
+		this.synonyms = [];
+		this.classifier = 'fallback';
 	}
-	methods.__proto__ = Intent()
+	
 
-	methods.response = function() {
+	response() {
 		var output = 'How does anything happen?';
 		return output;
 	}
 
-	return methods
 }
 
 
-module.exports = HowIntent;

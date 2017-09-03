@@ -7,15 +7,15 @@ var convert = require('convert-units');
 var _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
+module.exports = class UnitIntent extends Intent {
 
-function UnitIntent() {
-	var methods = {
-		name: 'Unit Converter',
-		trigger: 'convert',
-		entities: {
+	setup() {
+		this.name = 'Unit Converter';
+		this.trigger = 'convert';
+		this.entities = {
 			'Common/Unit': {}
-		},
-		parameters: {
+		};
+		this.parameters = {
 			"amount": {
 				name: "Amount",
 				entity: "Common/Number",
@@ -32,17 +32,16 @@ function UnitIntent() {
 				entity: "Common/Unit",
 				required: true
 			}
-		},
-		tests: [
+		};
+		this.tests = [
 			{ input:'1 lb to kg' },
 			{ input:'lb to kg' },
 			{ input:'how many centimeters are in an inch' }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
 
-	methods.response = function(request) {
+	response(request) {
 		var amount = request.param('amount');
 		var unit_from = request.param('unit_from');
 		var unit_to = request.param('unit_to');
@@ -77,8 +76,5 @@ function UnitIntent() {
 		return amount+' '+unit_from_label+' is '+result +' '+unit_to_label;
 	}
 
-	return methods
 }
 
-
-module.exports = UnitIntent;

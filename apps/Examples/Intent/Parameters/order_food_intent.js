@@ -1,21 +1,23 @@
-// Order food
-	
+/**
+ * Order Food Example
+ */
 var Intent = require('../../../../src/Intent/intent');
 
-function OrderFoodIntent() {
-	var methods = {
-		name: 'OrderFood',
-		trigger: 'order',
-		synonyms: [
+module.exports = class OrderFoodIntent extends Intent {
+
+	setup() {
+		this.name = 'Order Food';
+		this.trigger = 'order';
+
+		this.synonyms = [
 			'order food'
-		],
-		entities: {
-		}
+		];
+
+		this.entities = {};
 	}
-	methods.__proto__ = Intent()
 
 
-	methods.response = function(request) {
+	response(request) {
 		request.session.set_expecting({
 			intent: this,
 			entity: 'Common/Confirm',
@@ -31,17 +33,14 @@ function OrderFoodIntent() {
 	}
 	
 
-	methods.yup = function(request) {
+	yup(request) {
 		return 'It is for here';
 	}
 	
 
-	methods.nope = function(request) {
+	nope(request) {
 		return 'Take away!';
 	}
 
-	return methods
 }
 
-
-module.exports = OrderFoodIntent;

@@ -3,22 +3,22 @@
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
-function DoingIntent() {
-	var methods = {
-		name: 'Gratitude',
-		trigger: 'doing',
-		synonyms: [
+module.exports = class DoingIntent extends Intent {
+
+	setup() {
+		this.name = 'Gratitude';
+		this.trigger = 'doing';
+		this.synonyms = [
 			"up to",
 			"going on",
 			"sup"
-		],
-		tests: [
+		];
+		this.tests = [
 			{ input:'what are you doing' }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function() {
+	response() {
 		var choices = [
 			"Helping as many people as I can and entertaining them with cat facts!",
 			"Calculations, currency and checking the time in different countries",
@@ -27,8 +27,5 @@ function DoingIntent() {
 		return _.sample(choices);
 	}
 
-	return methods
 }
 
-
-module.exports = DoingIntent;

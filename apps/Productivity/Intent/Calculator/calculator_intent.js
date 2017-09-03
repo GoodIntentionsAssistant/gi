@@ -3,15 +3,16 @@
 	
 var Intent = require('../../../../src/Intent/intent');
 
-function CalculatorIntent() {
-	var methods = {
-		name: 'Calculator',
-		trigger: '/^(calc )?[\\d\\+\\/\\*\.\\-% \\(\\)=]*$/',
-		classifier: 'strict',
-		synonyms: [
+module.exports = class CalculatorIntent extends Intent {
+
+	setup() {
+		this.name = 'Calculator';
+		this.trigger = '/^(calc )?[\\d\\+\\/\\*\.\\-% \\(\\)=]*$/';
+		this.classifier = 'strict';
+		this.synonyms = [
 			'/^[\\d+]*%( of)? [\\d\\+\\/\\*\.\\- \\(\\)=]*$/'
-		],
-		tests: [
+		];
+		this.tests = [
 			{ input:"calc 1+1" },
 			{ input:"calc 666 * 666" },
 			{ input:"calc 666 * 666 + 10" },
@@ -19,12 +20,11 @@ function CalculatorIntent() {
 			{ input:"90 + 5%" },
 			{ input:"2+2" },
 			{ input:"what is 14 x 15?" }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
 
-	methods.response = function(request) {
+	response(request) {
 		//Remove any bad stuff
 		var input = request.input.text;
 		input = input.replace(/[a-z=]/ig,'');
@@ -56,11 +56,11 @@ function CalculatorIntent() {
 		return result;
 	}
 
-	methods.calc_simple = function(input) {
+	calc_simple(input) {
 		return eval(input);
 	}
 
-	methods.calc_percentage = function(input) {
+	calc_percentage(input) {
 		//Find the percentage number we need
 		var match = input.match(/[\d+]*%/);
 
@@ -107,9 +107,4 @@ function CalculatorIntent() {
 
 		return this.calc_simple(cmd);
 	}
-
-	return methods
 }
-
-
-module.exports = CalculatorIntent;

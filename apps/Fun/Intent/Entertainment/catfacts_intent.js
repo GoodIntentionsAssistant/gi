@@ -4,24 +4,24 @@ var Intent = require('../../../../src/Intent/intent');
 var Promise = require('promise');
 var _ = require('underscore');
 
-function CatfactsIntent() {
-	var methods = {
-		name: 'Catfacts',
-		trigger: 'catfact',
-		synonyms: {
+module.exports = class CatfactsIntent extends Intent {
+
+	setup() {
+		this.name = 'Catfacts';
+		this.trigger = 'catfact';
+		this.synonyms = {
 			'catfacts': {},
 			'cat fact': {}
-		},
-		tests: [
+		};
+		this.tests = [
 			{ input:'catfact' },
 			{ input:'cat fact' },
 			{ input:'cat facts' },
 			{ input:'give me a cat fact' }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
+	response(request) {
 		var filename = request.app.Config.read('app_dir')+'/Fun/Data/catfacts.txt';
 
 		return new Promise(function(resolve, reject) {
@@ -33,8 +33,5 @@ function CatfactsIntent() {
 		});
 	}
 
-	return methods
 }
 
-
-module.exports = CatfactsIntent;

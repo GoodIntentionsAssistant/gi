@@ -1,17 +1,22 @@
-// Again
-	
+/**
+ * Again Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
 
-function AgainIntent() {
-	var methods = {
-		name: 'Again',
-		trigger: 'again',
-		classifer: 'strict',
-		synonyms: ['again!','again?','repeat','once more','come again','encore','more','another'],
-	}
-	methods.__proto__ = Intent()
+module.exports = class AgainIntent extends Intent {
 
-	methods.response = function(request) {
+	setup() {
+		this.name = 'Again';
+		this.trigger = 'again';
+		this.classifer = 'strict';
+
+		this.synonyms = [
+			'again!','again?','repeat','once more','come again','encore','more','another'
+		];
+	}
+	
+
+	response(request) {
 		var history = request.session.history();
 
 		//Remove again
@@ -24,7 +29,5 @@ function AgainIntent() {
 		return false;
 	}
 
-	return methods
 }
 
-module.exports = AgainIntent;

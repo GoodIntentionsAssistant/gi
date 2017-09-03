@@ -4,22 +4,22 @@ var Intent = require('../../../../src/Intent/intent');
 var Scrubber = require('../../../../src/Utility/scrubber');
 var _ = require('underscore');
 
-function PartingIntent() {
-	var methods = {
-		name: 'Parting',
-		trigger: 'goodbye',
-		classifier: 'strict',
-		entities: {
+module.exports = class PartingIntent extends Intent {
+
+	setup() {
+		this.name = 'Parting';
+		this.trigger = 'goodbye';
+		this.classifier = 'strict';
+		this.entities = {
 			'Common/Parting': {}
-		},
-		tests: [
+		};
+		this.tests = [
 			{ input:'goodbye' },
 			{ input:'good night' }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
+	response(request) {
 		var entity = request.app.Entities.get('Common/Parting');
 		var data = entity.get_data();
 
@@ -35,8 +35,4 @@ function PartingIntent() {
 		return output;
 	}
 
-	return methods
 }
-
-
-module.exports = PartingIntent;

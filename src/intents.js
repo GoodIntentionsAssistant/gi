@@ -48,6 +48,7 @@ module.exports = class Intents {
 
 					//Read domain directory
 					var promise_domain = new Promise(function(resolve_domain, reject_domain) {
+						
 						fs.readdir(directory+'/'+domain, function(err, domain_files) {
 							var promises_domains = [];
 
@@ -162,8 +163,8 @@ module.exports = class Intents {
 
 		//App and file
 		var Module = require(file);
-		var intent = new Module();
-		intent.initialize(this.app);
+		var intent = new Module(this.app);
+		intent.setup();
 
 		//Load the intent and pass options
 		//The options might include request data which is used for session

@@ -3,15 +3,15 @@
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
-function ColourIntent() {
-	var methods = {
-		name: 'Colour',
-		trigger: 'colour',
-		synonyms: ["color"]
-	}
-	methods.__proto__ = Intent()
+module.exports = class ColourIntent extends Intent {
 
-	methods.response = function() {
+	setup() {
+		this.name = 'Colour';
+		this.trigger = 'colour';
+		this.synonyms = ["color"];
+	}
+
+	response() {
 		var wrapper = ["probably %s","i'd go with %s","%s has always been my favorite"];
 		var choices = ["red","green","blue","pink","black","white","purple","#FF0000"];
 
@@ -25,8 +25,4 @@ function ColourIntent() {
 		return output;
 	}
 
-	return methods
 }
-
-
-module.exports = ColourIntent;

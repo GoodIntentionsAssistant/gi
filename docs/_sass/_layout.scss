@@ -98,8 +98,9 @@
  */
 
 .side-nav {
+    background-color:red;
     float: left;
-    margin-right:50px;
+    width:200px;
 
     h3 { margin:0 0 5px 0; }
     ul {
@@ -191,6 +192,10 @@
 
 .page-heading {
     font-size: 20px;
+}
+
+article.post {
+    margin-left:200px;
 }
 
 .post-list {

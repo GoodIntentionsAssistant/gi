@@ -3,24 +3,24 @@
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
-function GratitudeIntent() {
-	var methods = {
-		name: 'Gratitude',
-		trigger: 'thanks',
-		synonyms: [
+module.exports = class GratitudeIntent extends Intent {
+
+	setup() {
+		this.name = 'Gratitude';
+		this.trigger = 'thanks';
+		this.synonyms = [
 			"thank",
 			"gratitude",
 			"good luck"
-		],
-		tests: [
+		];
+		this.tests = [
 			{ input:'thanks' },
 			{ input:'thank you' },
 			{ input:'good luck' }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function() {
+	response() {
 		var choices = [
 			"Thanks!",
 			"No problems!",
@@ -30,8 +30,5 @@ function GratitudeIntent() {
 		return _.sample(choices);
 	}
 
-	return methods
 }
 
-
-module.exports = GratitudeIntent;

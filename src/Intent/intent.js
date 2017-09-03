@@ -1,24 +1,25 @@
-// intent.js
+/**
+ * Intent
+ */
 const extend = require('extend');
 const Promise = require('promise');
 
-function Intent() {
-	var input = null;
-	var session = null;
-	var _keywords = [];
-	var _entities = [];
-	var classifier = 'main';
+module.exports = class Intent {
 
 /**
- * Initialize
- *
- * Setup the module
+ * Constructor
  *
  * @param object app
  * @return void
  */
-	function initialize(app) {
+	constructor(app) {
 		this.app = app;
+
+		this.input = null;
+		this.session = null;
+		this._keywords = [];
+		this._entities = [];
+		this.classifier = 'main';
 	}
 
 
@@ -29,7 +30,7 @@ function Intent() {
  *
  * @return boolean
  */
-	function load(name) {
+	load(name) {
 		var that = this;
 
 		this.name = name;
@@ -67,7 +68,7 @@ function Intent() {
  * @access public
  * @return void
  */
-	function load_keywords() {
+	load_keywords() {
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
@@ -109,7 +110,7 @@ function Intent() {
  * @param string name
  * @return void
  */
-	function load_entities(name) {
+	load_entities(name) {
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
@@ -139,7 +140,6 @@ function Intent() {
 						}
 					}
 				}
-
 			}
 
 			resolve();
@@ -158,16 +158,16 @@ function Intent() {
  * @param array keywords
  * @param array options
  */
-	function add_keyword(keyword, options) {
-		_options = {
+	add_keyword(keyword, options) {
+		let _options = {
 			probability: 1,
 			boost: 0,
 			action: false,
 			classifier: this.classifier
-		}
-		options = extend(_options,options);
-
-		_keywords.push({
+		};
+		options = extend(_options, options);
+		
+		this._keywords.push({
 			keyword: keyword,
 			options: options
 		});
@@ -180,7 +180,7 @@ function Intent() {
  * @access public
  * @return string
  */
-	function get_auth() {
+	get_auth() {
 		if(this.auth) {
 			return this.auth;
 		}
@@ -195,13 +195,13 @@ function Intent() {
  * After the intents are loaded they are added to an array
  * which can then be passed back so training can start 
  */
-	function keywords() {
+	keywords() {
 		var output = [];
 
-		for(var ii=0; ii< _keywords.length; ii++) {
+		for(var ii=0; ii< this._keywords.length; ii++) {
 			output.push(extend(
 				{ name: this.name },
-				_keywords[ii]
+				this._keywords[ii]
 			));
 		}
 
@@ -217,7 +217,7 @@ function Intent() {
  * @param hash input
  * @return hash
  */
-	function fire(request) {
+	fire(request) {
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
@@ -238,29 +238,10 @@ function Intent() {
 	}
 
 
-	function before_load() {
+	before_load() {
 	}
 
-	function after_load() {
+	after_load() {
 	}
 
-
-	return {
-		initialize: initialize,
-
-		fire: fire,
-		load: load,
-
-		load_keywords: load_keywords,
-		load_entities: load_entities,
-		get_auth: get_auth,
-
-		before_load: before_load,
-		after_load: after_load,
-
-		add_keyword: add_keyword,
-		keywords: keywords
-	}
 }
-
-module.exports = Intent

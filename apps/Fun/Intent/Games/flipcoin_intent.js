@@ -4,20 +4,20 @@ var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 var extend = require('extend');
 
-function FlipCoinIntent() {
-	var methods = {
-		name: 'Dice',
-		trigger: 'flip coin',
-		synonyms: [
+module.exports = class FlipCoinIntent extends Intent {
+
+	setup() {
+		this.name = 'Dice';
+		this.trigger = 'flip coin';
+		this.synonyms = [
       'toss coin',
       'coin toss',
       'flip penny',
       'throw coin'
-    ]
+    ];
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
+	response(request) {
     //About a 1 in 6000th chance the coin lands on its edge
     let flip = _.random(1, 6001);
     let output;
@@ -35,8 +35,5 @@ function FlipCoinIntent() {
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = FlipCoinIntent;

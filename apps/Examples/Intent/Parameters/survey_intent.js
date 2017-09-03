@@ -1,20 +1,22 @@
-// Survey
-	
+/**
+ * Survey Example
+ */
 var Intent = require('../../../../src/Intent/intent');
 
-function SurveyIntent() {
-	var methods = {
-		name: 'Survey',
-		trigger: 'take survey',
-		synonyms: [
-		],
-		entities: {
-		}
+module.exports = class SurveyIntent extends Intent {
+
+	setup() {
+		this.name = 'Survey';
+		this.trigger = 'take survey';
+
+		this.synonyms = [
+		];
+
+		this.entities = {
+		};
 	}
-	methods.__proto__ = Intent()
 
-
-	methods.response = function(request) {
+	response(request) {
 		request.session.set_expecting({
 			intent: this,
 			entity: 'Common/Confirm',
@@ -34,7 +36,7 @@ function SurveyIntent() {
 	}
 	
 
-	methods.what_sport = function(request) {
+	what_sport(request) {
 		request.session.set_expecting({
 			intent: this,
 			force: true,
@@ -48,7 +50,7 @@ function SurveyIntent() {
 	}
 	
 
-	methods.watch_online = function(request) {
+	watch_online(request) {
 		request.session.set_expecting({
 			intent: this,
 			force: true,
@@ -63,7 +65,7 @@ function SurveyIntent() {
 	}
 
 
-	methods.finished = function(request) {
+	finished(request) {
 		var output = ['Great, thanks for participatating. Here are your answers.'];
 
 		var data = request.session.data('survey');
@@ -75,8 +77,4 @@ function SurveyIntent() {
 		return output;
 	}
 
-	return methods
 }
-
-
-module.exports = SurveyIntent;

@@ -1,24 +1,21 @@
-// Who Fallback
-	
+/**
+ * Who Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function WhoIntent() {
-	var methods = {
-		name: 'Who Fallback',
-		trigger: 'who is in the house?',
-		synonyms: ['?','house','who is in the house?'],
-		classifier: 'fallback'
+module.exports = class WhoIntent extends Intent {
+
+	setup() {
+		this.name = 'Who Fallback';
+		this.trigger = 'who is in the house?';
+		this.synonyms = [];
+		this.classifier = 'fallback';
 	}
-	methods.__proto__ = Intent()
+	
 
-	methods.response = function() {
+	response() {
 		var output = 'No idea!';
 		return output;
 	}
 
-	return methods
 }
-
-
-module.exports = WhoIntent;

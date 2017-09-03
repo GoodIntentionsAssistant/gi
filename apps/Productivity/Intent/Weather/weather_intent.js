@@ -4,17 +4,18 @@ var Intent = require('../../../../src/Intent/intent');
 var Forecast = require('forecast');
 var Promise = require('promise');
 
-function WeatherIntent() {
-	var methods = {
-		name: 'Weather',
-		trigger: 'weather',
-		synonyms: [
+module.exports = class WeatherIntent extends Intent {
+
+	setup() {
+		this.name = 'Weather';
+		this.trigger = 'weather';
+		this.synonyms = [
 			'what is the weather'
-		],
-		entities: {
+		];
+		this.entities = {
 			'Common/City': {}
-		},
-		parameters: {
+		};
+		this.parameters = {
 			"city": {
 				name: "City",
 				entity: "Common/City",
@@ -22,16 +23,15 @@ function WeatherIntent() {
 				action: 'specified',
 				from_user: true
 			}
-		}
+		};
 	}
-	methods.__proto__ = Intent()
 
 
-	methods.response = function(request) {
+	response(request) {
 		return 'For the weather please specify the city';
 	}
 
-	methods.specified = function(request) {
+	specified(request) {
 		var city = request.param('city');
 
 		var label = city.label;
@@ -72,8 +72,5 @@ function WeatherIntent() {
 		});
 	}
 
-	return methods
 }
 
-
-module.exports = WeatherIntent;

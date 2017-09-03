@@ -10,7 +10,6 @@ MyApp = new App();
 
 MyApp.load([
     'Common',
-    'Admin',
     'Fun',
     'Productivity',
     'Examples'

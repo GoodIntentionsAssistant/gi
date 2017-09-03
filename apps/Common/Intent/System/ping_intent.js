@@ -1,24 +1,19 @@
-// ping.js
-	
+/**
+ * Ping Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function PingIntent() {
-	var methods = {
-		name: 'Ping',
-		trigger: 'ping'
-	}
-	methods.__proto__ = Intent()
+module.exports = class PingIntent extends Intent {
 
-	methods.response = function() {
-		var output = [
-			'Pong'
-		];
-		return output;
+	setup() {
+		this.name = 'Ping';
+		this.trigger = 'ping';
+    this.symnomns = ['pong'];
 	}
 
-	return methods
+	response() {
+		return 'Pong';
+	}
+
 }
 
-
-module.exports = PingIntent;

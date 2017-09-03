@@ -112,7 +112,7 @@ function ready() {
 	prompt.message = "";
 	prompt_me();
 
-	send('how many centimeters are in an inch?');
+	send('55 gbp to baht');
 }
 
 

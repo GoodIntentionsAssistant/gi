@@ -4,15 +4,16 @@ var Intent = require('../../../../src/Intent/intent');
 var Promise = require('promise');
 var fx = require('money');
 
-function CurrencyIntent() {
-	var methods = {
-		name: 'Currency',
-		entities: {
+module.exports = class CurrencyIntent extends Intent {
+
+	setup() {
+		this.name = 'Currency';
+		this.entities = {
 			'Productivity/Currency': {}
-		},
-		trigger: 'currency',
-		synonyms: ['exchange rate'],
-		parameters: {
+		};
+		this.trigger = 'currency';
+		this.synonyms = ['exchange rate'];
+		this.parameters = {
 			"amount": {
 				name: "Amount",
 				entity: "Common/Number",
@@ -22,8 +23,8 @@ function CurrencyIntent() {
 			},
 			"currency_from": {
 				name: "Currency from",
-				"entity": "Productivity/Currency",
-				"required": true
+				entity: "Productivity/Currency",
+				required: true
 			},
 			"currency_to": {
 				name: "Currency to",
@@ -31,17 +32,16 @@ function CurrencyIntent() {
 				required: true,
 				from_user: true
 			}
-		},
-		/*tests: [
+		};
+		/*this.tests = [
 			{ input:'1 GBP to BAHT' },
 			{ input:'50GBP to baht' },
 			{ input:'usd to baht' },
-		]*/
+		];*/
 	}
-	methods.__proto__ = Intent()
 
 
-	methods.response = function(request) {
+	response(request) {
 		var amount = request.param('amount');
 		var currency_from = request.param('currency_from');
 		var currency_to = request.param('currency_to');
@@ -73,8 +73,6 @@ function CurrencyIntent() {
 		});
 	}
 
-	return methods
 }
 
 
-module.exports = CurrencyIntent;

@@ -3,29 +3,29 @@
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
-function HowAreYouIntent() {
-	var methods = {
-		name: 'How are you',
-		trigger: 'how are you',
-		synonyms: [
+module.exports = class HowAreYouIntent extends Intent {
+
+	setup() {
+		this.name = 'How are you';
+		this.trigger = 'how are you';
+		this.synonyms = [
 			"i'm feeling",
 			"i feel",
 			"how do you feel"
-		],
-		entities: {
+		];
+		this.entities = {
 			'Common/Emotion':{}
-		},
-		parameters: {
+		};
+		this.parameters = {
 			"user_emotion": {
 				name: "User Emotion",
 				entity: 'Common/Emotion',
 				action: 'user_emotion'
 			}
-		}
+		};
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
+	response(request) {
 		if(request.session.data('feeling')) {
 			var value = request.session.data('feeling');
 			return "I'm still feeling "+value;
@@ -47,7 +47,7 @@ function HowAreYouIntent() {
 	}
 
 
-	methods.user_emotion = function(request) {
+	user_emotion(request) {
 		var emotion_key = request.param('user_emotion');
 
 		var entity = request.app.Entities.get('Common/Emotion');
@@ -61,9 +61,5 @@ function HowAreYouIntent() {
 		}
 	}
 
-
-	return methods
 }
 
-
-module.exports = HowAreYouIntent;

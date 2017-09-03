@@ -1,24 +1,22 @@
-// Where Fallback
-	
+/**
+ * Where Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function WhereIntent() {
-	var methods = {
-		name: 'Where Fallback',
-		trigger: 'where',
-		synonyms: [],
-		classifier: 'fallback'
+module.exports = class WhereIntent extends Intent {
+
+	setup() {
+		this.name = 'Where Fallback';
+		this.trigger = 'where';
+		this.synonyms = [];
+		this.classifier = 'fallback';
 	}
-	methods.__proto__ = Intent()
+	
 
-	methods.response = function() {
+	response() {
 		var output = 'Could be anywhere. I have no idea';
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = WhereIntent;

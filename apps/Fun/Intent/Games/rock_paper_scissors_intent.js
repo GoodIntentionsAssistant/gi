@@ -3,14 +3,15 @@
 var Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
-function RockPaperScissorsIntent() {
-	var methods = {
-		name: 'RockPaperScissors',
-		trigger: 'play game',
-		synonyms: [
+module.exports = class RockPaperScissorsIntent extends Intent {
+
+	setup() {
+		this.name = 'RockPaperScissors';
+		this.trigger = 'play game';
+		this.synonyms = [
 			'rock paper scissors'
-		],
-		parameters: {
+		];
+		this.parameters = {
 			"choice": {
 				name: "Choice",
 				data: {
@@ -23,11 +24,10 @@ function RockPaperScissorsIntent() {
 				name: "Play Again",
 				entity: 'Common/Confirm'
 			}
-		}
+		};
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
+	response(request) {
 		request.send('Rock, paper or scissors?');
 		request.attachment.add_action('Rock');
 		request.attachment.add_action('Paper');
@@ -39,7 +39,7 @@ function RockPaperScissorsIntent() {
 		return;
 	}
 
-	methods.chosen = function(request) {
+	chosen(request) {
 		var user_choice = request.param('choice');
 
 		if(!user_choice) {
@@ -95,7 +95,7 @@ function RockPaperScissorsIntent() {
 	}
 
 
-	methods.play_again = function(request) {
+	play_again(request) {
 		var play_again = request.param('play_again');
 		if(play_again == 'yes') {
 			return request.redirect('Fun/RockPaperScissors');
@@ -103,8 +103,6 @@ function RockPaperScissorsIntent() {
 		return 'No problems!';
 	}
 
-	return methods
 }
 
 
-module.exports = RockPaperScissorsIntent;

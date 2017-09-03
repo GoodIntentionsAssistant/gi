@@ -1,25 +1,28 @@
-// Confirm Fallback
-	
+/**
+ * Confirm Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function ConfirmIntent() {
-	var methods = {
-		name: 'Confirm Fallback',
-		entities: {
+module.exports = class ConfirmIntent extends Intent {
+
+	setup() {
+		this.name = 'Confirm Fallback';
+
+		this.entities = {
 			'Common/Confirm': {}
-		},
-		classifier: 'fallback',
-		parameters: {
+		};
+
+		this.classifier = 'fallback';
+
+		this.parameters = {
 			"confirm": {
 				name: "Confirm",
 				entity: 'Common/Confirm'
 			}
-		}
+		};
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function() {
+	response() {
 		var confirm = request.param('confirm');
 		var output = 'Okay!';
 		
@@ -30,8 +33,4 @@ function ConfirmIntent() {
 		return output;
 	}
 
-	return methods
 }
-
-
-module.exports = ConfirmIntent;

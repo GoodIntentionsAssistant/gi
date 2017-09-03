@@ -3,22 +3,23 @@
 var Intent = require('../../../../src/Intent/intent');
 var moment = require('moment-timezone');
 
-function TimezoneIntent() {
-	var methods = {
-		name: 'Timezone',
-		trigger: 'time',
-		synonyms: [
+module.exports = class TimezoneIntent extends Intent {
+
+	setup() {
+		this.name = 'Timezone';
+		this.trigger = 'time';
+		this.synonyms = [
 			'timezone',
 			'time zone',
 			'time in',
 			'what is the time',
 			'what is the timezone'
-		],
-		entities: {
+		];
+		this.entities = {
 			'Common/Country': {},
 			'Common/City': {}
-		},
-		parameters: {
+		};
+		this.parameters = {
 			"location": {
 				name: "Location",
 				entity: ["Common/Country","Common/City"],
@@ -26,22 +27,21 @@ function TimezoneIntent() {
 				action: 'specified',
 				from_user: true
 			}
-		},
-		tests: [
+		};
+		this.tests = [
 			{ input:'time in london' },
 			{ input:'time in new york' },
 			{ input:'what is the time in solihull' }
-		]
+		];
 	}
-	methods.__proto__ = Intent()
 
 
-	methods.response = function(request) {
+	response(request) {
 		return 'For a timezone please specify the country or city';
 	}
 
 
-	methods.specified = function(request) {
+	specified(request) {
 		var location = request.param('location');
 
 		//Vars
@@ -56,8 +56,4 @@ function TimezoneIntent() {
 		return result+' in '+label;
 	}
 
-	return methods
 }
-
-
-module.exports = TimezoneIntent;

@@ -5,33 +5,36 @@ const Intent = require('../../../../src/Intent/intent');
 const _ = require('underscore');
 const extend = require('extend');
 
-function DiceIntent() {
-	var methods = {
-		name: 'Dice',
-		trigger: 'roll',
-		synonyms: ['rolling'],
-		parameters: {
+module.exports = class DiceIntent extends Intent {
+
+	setup() {
+		this.name = 'Dice';
+		this.trigger = 'roll';
+		this.synonyms = [
+			'rolling',
+			'dice'
+		];
+		this.parameters = {
 			"die": {
 				name: "Choice",
 				entity: 'Fun/Dice'
 			}
-		}
+		};
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
-		var die = request.param('die');
+	response(request) {
+		let die = request.param('die');
 
-		_options = {
+		let _options = {
 			dice: '1d6',
 			dice_rolls: 1,
 			dice_sides: 5,
 			dice_modifier: false
 		};
-		options = extend(_options, die);
+		let options = extend(_options, die);
 
-		var rolls = [];
-		var answer = 0;
+		let rolls = [];
+		let answer = 0;
 
 		//Ensure ints
 		options.dice_rolls = parseInt(options.dice_rolls);
@@ -70,8 +73,5 @@ function DiceIntent() {
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = DiceIntent;

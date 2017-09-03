@@ -1,18 +1,19 @@
-// What Fallback
-	
+/**
+ * What Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function WhatIntent() {
-	var methods = {
-		name: 'What Fallback',
-		trigger: 'what',
-		synonyms: [],
-		classifier: 'fallback'
+module.exports = class WhatIntent extends Intent {
+
+	setup() {
+		this.name = 'What Fallback';
+		this.trigger = 'what';
+		this.synonyms = [];
+		this.classifier = 'fallback';
 	}
-	methods.__proto__ = Intent()
+	
 
-	methods.response = function(response) {
+	response(response) {
 		if(response.input.text.indexOf('meaning of life') > -1) {
 			return '42?';
 		}
@@ -20,8 +21,5 @@ function WhatIntent() {
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = WhatIntent;

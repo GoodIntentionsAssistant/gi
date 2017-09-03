@@ -1,24 +1,22 @@
-// When Fallback
-	
+/**
+ * When Fallback Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function WhenIntent() {
-	var methods = {
-		name: 'When Fallback',
-		trigger: 'when',
-		synonyms: [],
-		classifier: 'fallback'
+module.exports = class WhenIntent extends Intent {
+
+	setup() {
+		this.name = 'When Fallback';
+		this.trigger = 'when';
+		this.synonyms = [];
+		this.classifier = 'fallback';
 	}
-	methods.__proto__ = Intent()
+	
 
-	methods.response = function() {
+	response() {
 		var output = 'I am not sure when';
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = WhenIntent;

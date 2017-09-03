@@ -1,15 +1,16 @@
-// Paramters failed
-	
+/**
+ * Parameters Failed Intent
+ */
 var Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
 
-function ParametersFailedIntent() {
-	var methods = {
-		name: 'ParametersFailed'
+module.exports = class ParametersFailedIntent extends Intent {
+
+	setup() {
+		this.name = 'Parameters Failed';
 	}
-	methods.__proto__ = Intent()
 
-	methods.response = function(request) {
+
+	response(request) {
 		var intent_name = request._failed_intent.name;
 
 		var output = [
@@ -25,8 +26,5 @@ function ParametersFailedIntent() {
 		return output;
 	}
 
-	return methods
 }
 
-
-module.exports = ParametersFailedIntent;
