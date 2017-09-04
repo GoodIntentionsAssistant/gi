@@ -6,6 +6,13 @@ config.root_dir =  __dirname+'/..';
 
 config.name = "Good Intentions";
 
+config.apps = [
+  'Common',
+  'Fun',
+  'Productivity',
+  'Examples'
+];
+
 config.app = {
   loop_speed: 500
 }
