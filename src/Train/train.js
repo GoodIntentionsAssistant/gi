@@ -32,10 +32,7 @@ module.exports = class Train {
 		let Classifier = require(filename);
 
 		//Create classifier
-		var _classifier = new Classifier();
-		_classifier.initialize();
-
-		this.classifiers[name] = _classifier;
+		this.classifiers[name] = new Classifier();
 
 		return true;
 	}
