@@ -1,10 +1,10 @@
 /**
- * Learn
+ * Train
  */
 const extend = require('extend');
-const Scrubber = require('../src/Utility/scrubber');
+const Scrubber = require('../Utility/scrubber');
 
-module.exports = class Learn {
+module.exports = class Train {
 
 /**
  * Constructor
@@ -28,9 +28,10 @@ module.exports = class Learn {
  * @return boolean
  */
 	add_classifier(name, type) {
-		var Classifier = require('../src/Classifier/'+type+'_classifier.js');
+		let filename = this.app.Config.read('system_dir')+'/Train/Classifier/'+type+'_classifier.js';
+		let Classifier = require(filename);
 
-		//
+		//Create classifier
 		var _classifier = new Classifier();
 		_classifier.initialize();
 

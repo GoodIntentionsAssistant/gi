@@ -11,7 +11,7 @@ const EventEmitter = require('events').EventEmitter;
 
 const Config = require('./config.js');
 const Auth = require('./Session/auth.js');
-const Learn = require('./learn.js');
+const Train = require('./Train/train.js');
 const Entities = require('./entities.js');
 const Intents = require('./intents.js');
 const Queue = require('./queue.js');
@@ -34,7 +34,7 @@ module.exports = class App extends EventEmitter {
 
 		this.Config = new Config();
 		this.Auth = new Auth();
-		this.Learn = new Learn(this);
+		this.Train = new Train(this);
 		this.Queue = new Queue(this);
 		this.Entities = new Entities(this);
 		this.Intents = new Intents(this);

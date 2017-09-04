@@ -209,11 +209,11 @@ module.exports = class Intents {
  * @return void
  */
 	_train(intent) {
-		//Learn the keyword triggers set by the intent
+		//Train the keyword triggers set by the intent
 		let keywords = intent.keywords();
 
 		for(let tt=0; tt<keywords.length; tt++) {
-			this.app.Learn.train(keywords[tt].name, keywords[tt].keyword, keywords[tt].options);
+			this.app.Train.train(keywords[tt].name, keywords[tt].keyword, keywords[tt].options);
 		}
 	}
 

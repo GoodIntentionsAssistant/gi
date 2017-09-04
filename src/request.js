@@ -177,7 +177,7 @@ module.exports = class Request {
 
 		//Strict matching
 		if(!this.intent) {
-			let match = this.app.Learn.find(this.input.text, 'strict');
+			let match = this.app.Train.find(this.input.text, 'strict');
 			if(match) {
 				this.intent = this.app.Intents.get(match.result);
 				this.confidence = match.confidence;
@@ -187,7 +187,7 @@ module.exports = class Request {
 
 		//Load the intent from the inputted string if it's not already set
 		if(!this.intent) {
-			let match = this.app.Learn.find(this.input.text, this.classifier);
+			let match = this.app.Train.find(this.input.text, this.classifier);
 			if(match) {
 				this.intent = this.app.Intents.get(match.result);
 				this.confidence = match.confidence;
@@ -196,7 +196,7 @@ module.exports = class Request {
 
 		//Fall back classifiers if not found
 		if(!this.intent) {
-			let match = this.app.Learn.find(this.input.text, 'fallback');
+			let match = this.app.Train.find(this.input.text, 'fallback');
 			if(match) {
 				this.intent = this.app.Intents.get(match.result);
 				this.confidence = match.confidence;
