@@ -19,13 +19,13 @@ describe('App', function(){
 
     expect(app.apps.length).toBe(2);
 
-    Promise.all(app.Entities.promises).then(function() {
-      expect(Object.keys(app.Entities.objects).length > 0).toBe(true);
+    Promise.all(app.EntityRegistry.promises).then(function() {
+      expect(Object.keys(app.EntityRegistry.objects).length > 0).toBe(true);
 
       //Intents
       setTimeout(function() {
-        Promise.all(app.Intents.promises).then(function() {
-          expect(Object.keys(app.Intents.objects).length > 0).toBe(true);
+        Promise.all(app.IntentRegistry.promises).then(function() {
+          expect(Object.keys(app.IntentRegistry.objects).length > 0).toBe(true);
           done();
         });
       },100);

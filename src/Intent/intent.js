@@ -122,7 +122,7 @@ module.exports = class Intent {
 			//Loop through the list of entities we need to train
 			for(var key in that.entities) {
 				//Fetch the loaded entity grab the keywords
-				var entity = that.app.Entities.get(key);
+				var entity = that.app.EntityRegistry.get(key);
 				var keywords = entity.get_data();
 				var options = that.entities[key];
 

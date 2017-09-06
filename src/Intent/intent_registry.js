@@ -7,7 +7,7 @@ const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
-module.exports = class Intents {
+module.exports = class IntentRegistry {
 
 /**
  * Constructor

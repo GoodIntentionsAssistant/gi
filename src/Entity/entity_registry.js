@@ -7,7 +7,7 @@ const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
-module.exports = class Entities {
+module.exports = class EntityRegistry {
 
 /**
  * Constructor

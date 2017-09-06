@@ -8,7 +8,7 @@ For intents to be called from user input they must train the app with keywords a
 
 ## Trigger and symnomns
 
-The main trigger keyword can be defined to train the classifier to route to the correct intent. You can also use symnomns which are similar words you want to train the classifers with.
+The trigger keyword can be defined to train the classifier to route to the correct intent. You can also use symnomns which are similar words you want to train the classifers with.
 
 ~~~javascript
 var Intent = require('../../../../src/Intent/intent');

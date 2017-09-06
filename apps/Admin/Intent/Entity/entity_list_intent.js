@@ -15,7 +15,7 @@ function EntityListIntent() {
 
 		output.push('Entity List');
 
-		var entities = response.app.Entities.objects;
+		var entities = response.app.EntityRegistry.objects;
 
 		var count = Object.keys(entities).length;
 		output.push(sprintf('%s entities loaded',count));

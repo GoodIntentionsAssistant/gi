@@ -7,8 +7,8 @@ const Promise = require('promise');
 
 const Parameters = require('./parameters.js');
 const Expecting = require('./expecting.js');
-const Response = require('./response.js');
 const Attachment = require('./attachment.js');
+const Response = require('./../Response/response.js');
 
 module.exports = class Request {
 
@@ -177,7 +177,7 @@ module.exports = class Request {
 		if(!this.intent) {
 			let match = this.app.Train.find(text, 'strict');
 			if(match) {
-				this.intent = this.app.Intents.get(match.result);
+				this.intent = this.app.IntentRegistry.get(match.result);
 				this.confidence = match.confidence;
 				this.classifier = 'strict';
 			}
@@ -187,7 +187,7 @@ module.exports = class Request {
 		if(!this.intent) {
 			let match = this.app.Train.find(text, this.classifier);
 			if(match) {
-				this.intent = this.app.Intents.get(match.result);
+				this.intent = this.app.IntentRegistry.get(match.result);
 				this.confidence = match.confidence;
 			}
 		}
@@ -196,7 +196,7 @@ module.exports = class Request {
 		if(!this.intent) {
 			let match = this.app.Train.find(text, 'fallback');
 			if(match) {
-				this.intent = this.app.Intents.get(match.result);
+				this.intent = this.app.IntentRegistry.get(match.result);
 				this.confidence = 0;
 				this.classifier = 'fallback';
 				this.app.write_log('unknown',text);
@@ -252,7 +252,7 @@ module.exports = class Request {
  * @return object Session
  */
 	throw_error(error_name, options) {
-		this.intent = this.app.Intents.get('Common/'+error_name);
+		this.intent = this.app.InIntentRegistrytents.get('Common/'+error_name);
 		this.call();
 	}
 	
@@ -285,7 +285,7 @@ module.exports = class Request {
  * @return boolean
  */
 	redirect(name) {
-		this.intent = this.app.Intents.get(name);
+		this.intent = this.app.IntentRegistry.get(name);
 		this.action = 'response';
 
 		this.call();

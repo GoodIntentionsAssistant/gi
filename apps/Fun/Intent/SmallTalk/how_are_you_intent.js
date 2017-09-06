@@ -31,7 +31,7 @@ module.exports = class HowAreYouIntent extends Intent {
 			return "I'm still feeling "+value;
 		}
 
-		var entity = request.app.Entities.get('Common/Emotion');
+		var entity = request.app.EntityRegistry.get('Common/Emotion');
 		var data = entity.get_data();
 
 		var positives = _.where(data,{ type:'positive' });

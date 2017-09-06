@@ -20,7 +20,7 @@ module.exports = class PartingIntent extends Intent {
 	}
 
 	response(request) {
-		var entity = request.app.Entities.get('Common/Parting');
+		var entity = request.app.EntityRegistry.get('Common/Parting');
 		var data = entity.get_data();
 
 		var output = _.sample(Object.keys(data));

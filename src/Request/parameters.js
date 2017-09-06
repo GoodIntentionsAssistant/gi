@@ -2,7 +2,7 @@
  * Parameters
  */
 const Promise = require('promise');
-const Scrubber = require('../src/Utility/scrubber');
+const Scrubber = require('../../src/Utility/scrubber');
 const dotty = require("dotty");
 
 module.exports = class Parameters {
@@ -116,7 +116,7 @@ module.exports = class Parameters {
 					}
 
 					//Get entity
-					var entity = that.app.Entities.get(entities[ii], that.request);
+					var entity = that.app.EntityRegistry.get(entities[ii], that.request);
 
 					if(entity) {
 						//Add entity to this object so it can be used in _parse
@@ -325,7 +325,7 @@ module.exports = class Parameters {
  * @return hash parsed data and success
  */
 	create_dummy_entity(parameter) {
-		var entity = this.app.Entities.get('Common/Dummy', {
+		var entity = this.app.EntityRegistry.get('Common/Dummy', {
 			cache: false
 		});
 

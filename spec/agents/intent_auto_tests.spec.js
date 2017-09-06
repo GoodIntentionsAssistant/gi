@@ -81,8 +81,8 @@ describe('Intent Auto Tests', function(){
 
   it('intent examples', function(done) {
     //Build up list of tests
-    for(var intent_name in app.Intents.objects) {
-      var intent = app.Intents.get(intent_name);
+    for(var intent_name in app.IntentRegistry.objects) {
+      var intent = app.IntentRegistry.get(intent_name);
 
       if(!intent.tests) {
         continue;

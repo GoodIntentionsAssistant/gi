@@ -72,7 +72,7 @@ module.exports = class Expecting {
 			}
 
 			//Change the intent
-			this.request.intent = this.request.app.Intents.get(this.expecting.intent);
+			this.request.intent = this.request.app.IntentRegistry.get(this.expecting.intent);
 
 			//Save this 
 			this.request.session.set('last_expecting',this.expecting)
@@ -104,7 +104,7 @@ module.exports = class Expecting {
  * @return void
  */
 	_check_entity_input() {
-		var entity = this.request.app.Entities.get(this.expecting.entity);
+		var entity = this.request.app.EntityRegistry.get(this.expecting.entity);
 		var parsed = entity.parse(this.input);
 
 		if(parsed.value) {

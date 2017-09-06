@@ -11,9 +11,7 @@ module.exports = class TimezoneIntent extends Intent {
 		this.synonyms = [
 			'timezone',
 			'time zone',
-			'time in',
-			'what is the time',
-			'what is the timezone'
+			'time in'
 		];
 		this.entities = {
 			'Common/Country': {},

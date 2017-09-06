@@ -10,7 +10,6 @@ module.exports = class WeatherIntent extends Intent {
 		this.name = 'Weather';
 		this.trigger = 'weather';
 		this.synonyms = [
-			'what is the weather'
 		];
 		this.entities = {
 			'Common/City': {}

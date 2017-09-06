@@ -10,12 +10,12 @@ const util = require("util");
 const EventEmitter = require('events').EventEmitter;
 
 const Config = require('./config.js');
-const Auth = require('./Session/auth.js');
-const Train = require('./Train/train.js');
-const Entities = require('./entities.js');
-const Intents = require('./intents.js');
-const Queue = require('./queue.js');
-const Server = require('./server.js');
+const Auth = require('./../Auth/auth.js');
+const Train = require('./../Train/train.js');
+const EntityRegistry = require('./../Entity/entity_registry.js');
+const IntentRegistry = require('./../Intent/intent_registry.js');
+const Queue = require('./../Request/queue.js');
+const Server = require('./../Server/server.js');
 
 
 module.exports = class App extends EventEmitter {
@@ -36,8 +36,8 @@ module.exports = class App extends EventEmitter {
 		this.Auth = new Auth();
 		this.Train = new Train(this);
 		this.Queue = new Queue(this);
-		this.Entities = new Entities(this);
-		this.Intents = new Intents(this);
+		this.EntityRegistry = new EntityRegistry(this);
+		this.IntentRegistry = new IntentRegistry(this);
 		this.Server = new Server(this);
 	}
 
@@ -89,7 +89,7 @@ module.exports = class App extends EventEmitter {
  */
 	load_apps(apps) {
 		for(var ii=0; ii<apps.length; ii++) {
-			var app = require('../apps/'+apps[ii]+'/app');
+			var app = require('../../apps/'+apps[ii]+'/app');
 			app.load(this);
 			this.apps.push(app);
 		}
@@ -105,11 +105,11 @@ module.exports = class App extends EventEmitter {
 	load_entities() {
 		this.log('Loading Entities');
 		for(var ii=0; ii<this.apps.length; ii++) {
-			this.Entities.load_all(this.apps[ii].name);
+			this.EntityRegistry.load_all(this.apps[ii].name);
 		}
 
 		var that = this;
-		Promise.all(this.Entities.promises).then(function() {
+		Promise.all(this.EntityRegistry.promises).then(function() {
 			that.load_intents();
 		});
 	}
@@ -124,11 +124,11 @@ module.exports = class App extends EventEmitter {
 	load_intents() {
 		this.log('Loading Intents');
 		for(var ii=0; ii<this.apps.length; ii++) {
-			this.Intents.load_all(this.apps[ii].name);
+			this.IntentRegistry.load_all(this.apps[ii].name);
 		}
 
 		var that = this;
-		Promise.all(this.Intents.promises).then(function() {
+		Promise.all(this.IntentRegistry.promises).then(function() {
 			that.load_queue();
 		});
 	}
