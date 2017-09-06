@@ -19,7 +19,7 @@ module.exports = class Intent {
 		this.session = null;
 		this._keywords = [];
 		this._entities = [];
-		this.classifier = 'main';
+		this.classifier = 'default';
 	}
 
 

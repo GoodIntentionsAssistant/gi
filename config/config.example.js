@@ -47,7 +47,7 @@ config.classifiers = {
   'strict': {
     'classifier': 'strict'
   },
-  'main': {
+  'default': {
     'classifier': 'classify'
   },
   'fallback': {

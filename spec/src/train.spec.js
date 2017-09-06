@@ -6,7 +6,7 @@ describe('Train', function(){
   var fakeApp = new Object();
   fakeApp.Config = new Config({
     classifiers: {
-      'main': {
+      'default': {
         'classifier': 'classify'
       }
     }

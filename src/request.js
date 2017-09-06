@@ -158,7 +158,7 @@ module.exports = class Request {
 		this.intent = null;
 		this.confidence = 0;
 		this.action = 'response';
-		this.classifier = 'main';
+		this.classifier = 'default';
 
 		//Logs
 		this.log('');

@@ -60,7 +60,7 @@ module.exports = class Train {
  */
 	train(intent, keyword, options) {
 		//Classifier group
-		var group = 'main';
+		var group = 'default';
 		if(options && options.classifier) {
 			group = options.classifier;
 		}
@@ -102,7 +102,7 @@ module.exports = class Train {
 	find(str, classifier) {
 		//Default classifier if not set
 		if(!classifier) {
-			classifier = 'main';
+			classifier = 'default';
 		}
 
 		//Check classifier exists
