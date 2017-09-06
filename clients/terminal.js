@@ -15,7 +15,7 @@ prompt.start();
 
 
 function ready() {
-	send('happy');
+	send('hello');
 }
 
 
