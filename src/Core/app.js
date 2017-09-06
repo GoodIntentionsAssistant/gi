@@ -31,7 +31,7 @@ module.exports = class App extends EventEmitter {
 	constructor() {
 		super();
 
-		this.apps = [];
+		this.skills = [];
 		this.verbose = true;
 
 		this.Config = new Config();
@@ -59,9 +59,9 @@ module.exports = class App extends EventEmitter {
 		this.loop_speed = this.Config.read('app.loop_speed');
 		this.loop();
 
-		//Require app files
-		let apps = this.Config.read('apps');
-		this.load_apps(apps);
+		//Require skill files
+		let skills = this.Config.read('skills');
+		this.load_skills(skills);
 
 		//Load entity data
 		this.load_entities();
@@ -87,16 +87,16 @@ module.exports = class App extends EventEmitter {
 
 
 /**
- * Load apps
+ * Load skills
  *
  * @access public
  * @return void
  */
-	load_apps(apps) {
-		for(var ii=0; ii<apps.length; ii++) {
-			var app = require(this.Path.get('skills')+'/'+apps[ii]+'/app');
-			app.load(this);
-			this.apps.push(app);
+	load_skills(skills) {
+		for(var ii=0; ii<skills.length; ii++) {
+			let Skill = require(this.Path.get('skills')+'/'+skills[ii]+'/skill');
+			let SkillObj = new Skill(this);
+			this.skills.push(SkillObj);
 		}
 	}
 
@@ -109,8 +109,8 @@ module.exports = class App extends EventEmitter {
  */
 	load_entities() {
 		this.log('Loading Entities');
-		for(var ii=0; ii<this.apps.length; ii++) {
-			this.EntityRegistry.load_all(this.apps[ii].name);
+		for(var ii=0; ii<this.skills.length; ii++) {
+			this.EntityRegistry.load_all(this.skills[ii].name);
 		}
 
 		var that = this;
@@ -128,8 +128,8 @@ module.exports = class App extends EventEmitter {
  */
 	load_intents() {
 		this.log('Loading Intents');
-		for(var ii=0; ii<this.apps.length; ii++) {
-			this.IntentRegistry.load_all(this.apps[ii].name);
+		for(var ii=0; ii<this.skills.length; ii++) {
+			this.IntentRegistry.load_all(this.skills[ii].name);
 		}
 
 		var that = this;
@@ -235,7 +235,7 @@ module.exports = class App extends EventEmitter {
  */
 	shutdown() {
 		this.log('Shutting down');
-		this.apps = [];
+		this.skills = [];
 		this.Server.stop();
 	}
 
