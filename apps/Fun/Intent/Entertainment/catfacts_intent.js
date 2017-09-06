@@ -22,7 +22,7 @@ module.exports = class CatfactsIntent extends Intent {
 	}
 
 	response(request) {
-		var filename = request.app.Config.read('app_dir')+'/Fun/Data/catfacts.txt';
+		var filename = request.app.Path.get('app')+'/Fun/Data/catfacts.txt';
 
 		return new Promise(function(resolve, reject) {
 			var fs = require('fs');

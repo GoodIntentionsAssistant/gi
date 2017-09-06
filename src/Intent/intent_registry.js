@@ -32,7 +32,7 @@ module.exports = class IntentRegistry {
  */
 	load_all(app) {
 		var that = this;
-		var directory = this.app.Config.read('app_dir')+'/'+app+'/Intent';
+		var directory = this.app.Path.get('app')+'/'+app+'/Intent';
 
 		//
 		var promise = new Promise(function(resolve, reject) {
@@ -137,7 +137,7 @@ module.exports = class IntentRegistry {
 		filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
 		filename = filename.toLowerCase()+'_intent';
 
-		let file = this.app.Config.read('app_dir')+'/'+app+'/Intent/'+domain+'/'+filename+'.js'
+		let file = this.app.Path.get('app')+'/'+app+'/Intent/'+domain+'/'+filename+'.js'
 
 		return this._load(name, file, options);
 	}

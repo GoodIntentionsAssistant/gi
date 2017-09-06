@@ -20,7 +20,7 @@ function CityEntity() {
 	entity.load_data = function(resolve, request) {
 		var that = this;
 
-		var filename = this.app.Config.read('app_dir')+"/Common/Data/cities.json";
+		var filename = this.app.Path.get('app')+"/Common/Data/cities.json";
 
 		var fs = require('fs');
 		fs.readFile(filename, 'utf8', function(err, data) {

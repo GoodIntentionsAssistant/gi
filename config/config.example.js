@@ -1,8 +1,10 @@
 var config = {};
 
-config.app_dir =  __dirname+'/../apps';
-
-config.root_dir =  __dirname+'/..';
+config.paths = {
+  root:  __dirname+'/..',
+  app: __dirname+'/../apps',
+  system: __dirname+'/../src'
+};
 
 config.name = "Good Intentions";
 
@@ -31,12 +33,6 @@ config.learn = {
   default_classifier: 'classify'
 };
 
-config.response = {
-  min_reply_time: 500,
-  letter_speed: 20,
-  max_response: 2000
-};
-
 config.classifiers = {
   '_default': {
     'classifier': 'classify'
@@ -54,6 +50,16 @@ config.classifiers = {
     'classifier': 'classify'
   }
 }
+
+config.logging = {
+  enabled: true
+};
+
+config.response = {
+  min_reply_time: 500,
+  letter_speed: 20,
+  max_response: 2000
+};
 
 config.queue = {
   max_consecutive: 1,

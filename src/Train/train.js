@@ -28,7 +28,7 @@ module.exports = class Train {
  * @return boolean
  */
 	add_classifier(name, type) {
-		let filename = this.app.Config.read('system_dir')+'/Train/Classifier/'+type+'_classifier.js';
+		let filename = this.app.Path.get('system')+'/Train/Classifier/'+type+'_classifier.js';
 		let Classifier = require(filename);
 
 		//Create classifier

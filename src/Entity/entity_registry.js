@@ -32,7 +32,7 @@ module.exports = class EntityRegistry {
  */
 	load_all(app) {
 		var that = this;
-		var directory = this.app.Config.read('app_dir')+'/'+app+'/Entity/';
+		var directory = this.app.Path.get('app')+'/'+app+'/Entity/';
 
 		//
 		var promise = new Promise(function(resolve, reject) {
@@ -107,7 +107,7 @@ module.exports = class EntityRegistry {
 		filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
 		filename = filename.toLowerCase()+'_entity';
 
-		let file = this.app.Config.read('app_dir')+'/'+app+'/Entity/'+filename+'.js'
+		let file = this.app.Path.get('app')+'/'+app+'/Entity/'+filename+'.js'
 
 		return this._load(name, file, options);
 	}
@@ -188,7 +188,7 @@ module.exports = class EntityRegistry {
 			filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
 			filename = filename.toLowerCase()+'_entity';
 
-			var file = this.app.Config.read('app_dir')+'/'+app+'/Entity/'+filename+'.js'
+			var file = this.app.Path.get('app')+'/'+app+'/Entity/'+filename+'.js'
 
 			//Build up a unique ident for this session and token
 			//If the api token is not defined

@@ -6,12 +6,6 @@
  */
 const App = require('./src/Core/app');
 
-MyApp = new App();
-
-MyApp.load([
-    'Common',
-    'Fun',
-    'Productivity',
-    'Examples'
-]);
+GiApp = new App();
+GiApp.load();
 

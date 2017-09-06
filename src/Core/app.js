@@ -10,12 +10,14 @@ const util = require("util");
 const EventEmitter = require('events').EventEmitter;
 
 const Config = require('./config.js');
+const Path = require('./path.js');
+
 const Auth = require('./../Auth/auth.js');
 const Train = require('./../Train/train.js');
-const EntityRegistry = require('./../Entity/entity_registry.js');
-const IntentRegistry = require('./../Intent/intent_registry.js');
 const Queue = require('./../Request/queue.js');
 const Server = require('./../Server/server.js');
+const EntityRegistry = require('./../Entity/entity_registry.js');
+const IntentRegistry = require('./../Intent/intent_registry.js');
 
 
 module.exports = class App extends EventEmitter {
@@ -33,12 +35,15 @@ module.exports = class App extends EventEmitter {
 		this.verbose = true;
 
 		this.Config = new Config();
+		this.Path = new Path(this);
+
 		this.Auth = new Auth();
 		this.Train = new Train(this);
 		this.Queue = new Queue(this);
+		this.Server = new Server(this);
+
 		this.EntityRegistry = new EntityRegistry(this);
 		this.IntentRegistry = new IntentRegistry(this);
-		this.Server = new Server(this);
 	}
 
 
@@ -89,7 +94,7 @@ module.exports = class App extends EventEmitter {
  */
 	load_apps(apps) {
 		for(var ii=0; ii<apps.length; ii++) {
-			var app = require('../../apps/'+apps[ii]+'/app');
+			var app = require(this.Path.get('app')+'/'+apps[ii]+'/app');
 			app.load(this);
 			this.apps.push(app);
 		}
@@ -214,7 +219,7 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	write_log(type, text) {
-		var filename = this.Config.read('root_dir')+'/logs/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
+		var filename = this.Path.get('root')+'/logs/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
 		var line = moment().format('MM-DD-YYYY HH:mm:ss')+': '+text+"\n";
 
 		fs.appendFile(filename, line, function (err) {
