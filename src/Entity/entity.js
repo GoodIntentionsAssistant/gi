@@ -81,7 +81,7 @@ function Entity() {
 		var that = this;
 
 		if(filename.substr(0,1) !== '/') {
-			filename = this.app.Path.get('app')+'/'+filename;
+			filename = this.app.Path.get('skills')+'/'+filename;
 		}
 
 		//Load the file go through each line
@@ -134,7 +134,7 @@ function Entity() {
 		var that = this;
 
 		if(filename.substr(0,1) !== '/') {
-			filename = this.app.Path.get('app')+'/'+filename;
+			filename = this.app.Path.get('skills')+'/'+filename;
 		}
 
 		//Load the file go through each line

@@ -1,9 +1,10 @@
 var config = {};
 
 config.paths = {
-  root:  __dirname+'/..',
-  app: __dirname+'/../apps',
-  system: __dirname+'/../src'
+  root:  __dirname+'/../..',
+  app: __dirname+'/../../app',
+  skills: __dirname+'/../../app/Skills',
+  system: __dirname+'/../../src'
 };
 
 config.name = "Good Intentions";

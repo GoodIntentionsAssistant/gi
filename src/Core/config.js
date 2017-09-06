@@ -14,7 +14,9 @@ module.exports = class Config {
  */
 	constructor(config = false) {
 		if(!config) {
-			this.config = require('../../config/config.js');
+			this.config = require('../../app/Config/config.js');
+
+			console.log(this.config);
 		}
 		else {
 			this.config = config;

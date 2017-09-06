@@ -94,7 +94,7 @@ module.exports = class App extends EventEmitter {
  */
 	load_apps(apps) {
 		for(var ii=0; ii<apps.length; ii++) {
-			var app = require(this.Path.get('app')+'/'+apps[ii]+'/app');
+			var app = require(this.Path.get('skills')+'/'+apps[ii]+'/app');
 			app.load(this);
 			this.apps.push(app);
 		}
@@ -219,7 +219,7 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	write_log(type, text) {
-		var filename = this.Path.get('root')+'/logs/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
+		var filename = this.Path.get('logs')+'/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
 		var line = moment().format('MM-DD-YYYY HH:mm:ss')+': '+text+"\n";
 
 		fs.appendFile(filename, line, function (err) {

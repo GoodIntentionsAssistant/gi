@@ -22,7 +22,7 @@ function CountryEntity() {
 	entity.load_data = function(resolve, request) {
 		var that = this;
 
-		var filename = this.app.Path.get('app')+"/Common/Data/countries.json";
+		var filename = this.app.Path.get('skills')+"/Common/Data/countries.json";
 
 		var fs = require('fs');
 		fs.readFile(filename, 'utf8', function(err, data) {
