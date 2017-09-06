@@ -99,6 +99,19 @@ module.exports = class Client {
 			message: 'Successfully identified',
 			session_token: this.session_token
 		});
+
+		this.ready();
+	}
+
+
+/**
+ * Client has identified and is ready
+ *
+ * @param hash input
+ * @access public
+ * @return void
+ */
+	ready() {
 	}
 
 

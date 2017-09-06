@@ -20,23 +20,37 @@ module.exports = class Request {
  * @access public
  * @return void
  */
-	constructor(app, ident) {
-		this.client = null;
-		this.input = null;
-		this.session = null;
-
-		//Classifer to use for Learn
-		this.classifier = 'main';
-
-		//Intent action / method to call
-		this.action = 'response';
-
-		//Parameters passed
-		this.parameters = {};
-
+	constructor(app, client, ident) {
 		//
 		this.app = app;
 		this.ident = ident;
+		this.client = client;
+
+		//Vars
+		this.session = null;
+		this.intent = null;
+
+		//Input default
+		this.input = {
+			fast: false,
+			namespace: null
+		};
+
+		//Response
+		this.response = new Response(this);
+		this.response.start();
+
+		//Expecting
+		this.expecting = new Expecting(this);
+
+		//Attachment
+		this.attachment = new Attachment(this);
+
+		//Parameters
+		this.parameters = new Parameters(this);
+
+		//Intent action / method to call
+		this.action = 'response';
 
 		//Update last activity
 		//Used for the queue to time out requests. Response will keep this date up to date
@@ -98,19 +112,30 @@ module.exports = class Request {
  * @access public
  * @return boolean
  */
-	process(client, input) {
+	incoming(input) {
 		//Validate incoming
-		if(!client) {
+		if(!this.client) {
 			this.resolve();
 			return false;
 		}
 
-		//Set client and input
-		this.client = client;
+		//Set input
 		this.input = input;
 
-		//
-		var result = this._process(input);
+		//Setup the response after the input has been set
+		this.response.setup();
+
+		//Auth
+		//Session will be an object and store the bots user details
+		//Some intents require to be identified
+		this.session = this.app.Auth.identify(this.input.user);
+		this.log('Session: '+this.session.data('ident'));
+
+		//Add to history
+		this.session.add_history(this.input);
+
+		//Process the request
+		var result = this.process(this.input.text);
 		if(!result) {
 			this.resolve();
 		}
@@ -122,50 +147,23 @@ module.exports = class Request {
 /**
  * Process
  *
+ * This method can be called directly from anywhere.
+ * 
+ * @param string text
  * @access public
  * @return boolean
  */
-	_process() {
+	process(text) {
 		//Reset
 		this.intent = null;
 		this.confidence = 0;
 		this.action = 'response';
+		this.classifier = 'main';
 
-		//Response
-		this.response = new Response(this);
-		this.response.start();
-
-		//Expecting
-		this.expecting = new Expecting(this);
-
-		//Attachment
-		this.attachment = new Attachment(this);
-
-		//Parameters
-		this.parameters = new Parameters(this);
-
-		//
+		//Logs
 		this.log('');
-		this.log('Analyzing "'+this.input.text+'"');
-		this.app.write_log('incoming',this.input.text);
-
-		//
-		var that = this;
-
-		//Auth
-		//Session will be an object and store the bots user details
-		//Some intents require to be identified
-		this.session = this.app.Auth.identify(this.input.user);
-		this.log('Session: '+this.session.data('ident'));
-
-		//Add to history
-		this.session.add_history(this.input);
-
-		//Check if admin command
-		if(this.input.text.substr(0,5) == 'admin') {
-			this.admin_command = true;
-			this.classifier = 'admin';
-		}
+		this.log('Analyzing "'+text+'"');
+		this.app.write_log('incoming',text);
 
 		//Expecting
 		//If expecting is set then we're waiting for input. Could be a
@@ -177,7 +175,7 @@ module.exports = class Request {
 
 		//Strict matching
 		if(!this.intent) {
-			let match = this.app.Train.find(this.input.text, 'strict');
+			let match = this.app.Train.find(text, 'strict');
 			if(match) {
 				this.intent = this.app.Intents.get(match.result);
 				this.confidence = match.confidence;
@@ -187,7 +185,7 @@ module.exports = class Request {
 
 		//Load the intent from the inputted string if it's not already set
 		if(!this.intent) {
-			let match = this.app.Train.find(this.input.text, this.classifier);
+			let match = this.app.Train.find(text, this.classifier);
 			if(match) {
 				this.intent = this.app.Intents.get(match.result);
 				this.confidence = match.confidence;
@@ -196,19 +194,19 @@ module.exports = class Request {
 
 		//Fall back classifiers if not found
 		if(!this.intent) {
-			let match = this.app.Train.find(this.input.text, 'fallback');
+			let match = this.app.Train.find(text, 'fallback');
 			if(match) {
 				this.intent = this.app.Intents.get(match.result);
-				this.confidence = match.confidence;
+				this.confidence = 0;
 				this.classifier = 'fallback';
-				this.app.write_log('unknown',this.input.text);
+				this.app.write_log('unknown',text);
 			}
 		}
 
 		//If intent not found then fall back to error
 		if(!this.intent) {
 			this.throw_error('NotFound');
-			this.app.write_log('unknown',this.input.text);
+			this.app.write_log('unknown',text);
 			return false;
 		};
 
@@ -228,15 +226,15 @@ module.exports = class Request {
 		//need to create a promise and wait or the parsing to finish first.
 		if(this.intent.parameters) {
 			//Create a new parameter object
-			this.parameters.parse_from_intent(this.input.text, this.intent);
+			this.parameters.parse_from_intent(text, this.intent);
 
-			this.parameters.promise.then(function() {
-				if(!that.parameters.validates) {
-					that._failed_intent = that.intent;
-					return that.throw_error('ParametersFailed');
+			this.parameters.promise.then(() => {
+				if(!this.parameters.validates) {
+					this._failed_intent = this.intent;
+					return this.throw_error('ParametersFailed');
 				}
 
-				return that.call();
+				return this.call();
 			});
 
 			return true;

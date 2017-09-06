@@ -109,13 +109,13 @@ module.exports = class Queue {
 /**
  * Request
  *
- * @param object client
+ * @param object client`
  * @param string input
  * @return object
  */
 	request(request) {
-		var req = new Request(this.app, request.ident);
-		req.process(request.client, request.input);
+		var req = new Request(this.app, request.client, request.ident);
+		req.incoming(request.input);
 
 		//
 		this.requests[request.ident] = {

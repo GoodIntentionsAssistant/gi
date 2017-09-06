@@ -30,9 +30,20 @@ module.exports = class Response extends EventEmitter {
 		this.min_reply_time = request.app.Config.read('response.min_reply_time');
 		this.letter_speed = request.app.Config.read('response.letter_speed');
 		this.max_response = request.app.Config.read('response.max_response');
+	}
 
+
+/**
+ * Setup
+ * 
+ * Setup the response based on the request input.
+ * 
+ * @access public
+ * @return void
+ */
+  setup() {
 		//Fast?
-		if(request.input.fast) {
+		if(this.request.input.fast) {
 			this.min_reply_time = 0;
 			this.letter_speed = 0;
 		}
