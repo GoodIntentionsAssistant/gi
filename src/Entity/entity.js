@@ -1,19 +1,19 @@
-// entity.js
+/**
+ * Entity
+ */
 const extend = require('extend');
 const Promise = require('promise');
 const _ = require('underscore');
 
-function Entity() {
+module.exports = class Entity {
 
 /**
- * Initialize
- *
- * Setup the module
+ * Constructor
  *
  * @param object app
  * @return void
  */
-	function initialize(app) {
+	constructor(app) {
 		this.app = app;
 
 		if(!this.data) {
@@ -28,7 +28,7 @@ function Entity() {
  * @access public
  * @return void
  */
-	function load(options) {
+	load(options) {
 		var that = this;
 
 		this.promise = new Promise(function(resolve, reject) {
@@ -49,7 +49,7 @@ function Entity() {
  * @access public
  * @return void
  */
-	function _import(settings, resolve, options) {
+	_import(settings, resolve, options) {
 		if(settings.type == 'custom') {
 			//Load custom
 			this.load_data(resolve, options.request);
@@ -76,7 +76,7 @@ function Entity() {
  * @param method resolve
  * @return boolean
  */
-	function load_data_csv(filename, resolve) {
+	load_data_csv(filename, resolve) {
 		//For scoping when reading the file
 		var that = this;
 
@@ -129,7 +129,7 @@ function Entity() {
  * @param method resolve
  * @return boolean
  */
-	function load_data_json(filename, resolve) {
+	load_data_json(filename, resolve) {
 		//For scoping when reading the file
 		var that = this;
 
@@ -167,7 +167,7 @@ function Entity() {
  * @access public
  * @return array
  */
-	function get_data() {
+	get_data() {
 		return this.data;
 	}
 
@@ -178,7 +178,7 @@ function Entity() {
  * @access public
  * @return array
  */
-	function find_data_by_key(key) {
+	find_data_by_key(key) {
 		return this.data[key];
 	}
 
@@ -193,7 +193,7 @@ function Entity() {
  * @param string string
  * @return array
  */
-	function find(string, options) {
+	find(string, options) {
 		//Options
 		var _options = {
 			use_key: true
@@ -295,7 +295,7 @@ function Entity() {
  * Score words
  *
  */
-	function score(string, keyword, position) {
+	score(string, keyword, position) {
 		var score = 0;
 
 		//Position score
@@ -332,7 +332,7 @@ function Entity() {
  * Build list of words from data
  *
  */
-	function build_words(data, conditions) {
+	build_words(data, conditions) {
 		if(!data) {
 			data = this.data;
 		}
@@ -370,19 +370,4 @@ function Entity() {
 		return words;
 	}
 
-
-	return {
-		initialize: initialize,
-		load: load,
-		get_data: get_data,
-		find_data_by_key: find_data_by_key,
-		score: score,
-		find: find,
-		load_data_csv: load_data_csv,
-		load_data_json: load_data_json,
-		build_words: build_words,
-		_import: _import
-	}
 }
-
-module.exports = Entity

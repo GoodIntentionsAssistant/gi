@@ -1,5 +1,5 @@
 /**
- * Entities
+ * Entity Registry
  */
 const extend = require('extend');
 const Promise = require('promise');
@@ -7,7 +7,9 @@ const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
-module.exports = class EntityRegistry {
+const ObjectRegistry = require('../Core/object_registry.js');
+
+module.exports = class EntityRegistry extends ObjectRegistry {
 
 /**
  * Constructor
@@ -17,133 +19,22 @@ module.exports = class EntityRegistry {
  * @return void
  */
 	constructor(app) {
-		this.objects = [];
-		this.promises = [];
-		this.app = app;
+		super(app);
+		this.type = 'Entity';
 	}
 
 
 /**
- * Load all
+ * After load
  *
- * @param string app
  * @access public
  * @return void
  */
-	load_all(app) {
-		var that = this;
-		var directory = this.app.Path.get('skills')+'/'+app+'/Entity/';
-
-		//
-		var promise = new Promise(function(resolve, reject) {
-			fs.readdir(directory, function(err, files) {
-				var promises = [];
-
-				if(!files) {
-					that.app.error('App directory '+directory+' is empty');
-					resolve();
-					return;
-				}
-
-				files.forEach(function(file) {
-					//Ignore any files which might not be intents
-					if(file.indexOf('_entity.js') === -1) {
-						return;
-					}
-
-					//Build up the intent name and load it
-					var entity_name = file;
-					entity_name = entity_name.replace('_entity.js','');
-					entity_name = _.camelize(entity_name);
-					entity_name = app+'/'+entity_name;
-
-					//Load the entity and add promise to array
-					var entity = that.load(entity_name);
-					promises.push(entity.promise);
-				});
-
-				//End of file loop
-				//Check if all entities are loaded
-				Promise.all(promises).then(function(){
-					resolve();
-				});
-
-			});
-		});
-
-		this.promises.push(promise);
+  after_load(entity) {
+		//Setup entity
+		entity.setup();
 	}
 
-
-/**
- * Load
- *
- * @param string name
- * @param hash options
- * @access public
- * @return object
- */
-	load(name, options) {
-		//Options for loading entities
-		let _options = {
-			cache: true
-		};
-		options = extend(_options, options);
-
-		//Try to use cache
-		if(options.cache && this.objects[name]) {
-			return this.objects[name];
-		}
-
-		//App not specified
-		if(name.indexOf('/') === -1) {
-			this.app.error('App not specified for entity '+name);
-			return false;
-		}
-
-		//Build the filename if not set
-		let app = name.substr(0,name.indexOf('/'));
-		let filename = name.substr(name.indexOf('/')+1);
-		filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
-		filename = filename.toLowerCase()+'_entity';
-
-		let file = this.app.Path.get('skills')+'/'+app+'/Entity/'+filename+'.js'
-
-		return this._load(name, file, options);
-	}
-
-
-/**
- * Load
- *
- */
-	_load(name, file, options) {
-		//Options for loading entities
-		let _options = {
-			cache: true,
-			pass: {}
-		};
-		options = extend(_options, options);
-
-		//
-		this.app.log('Load Entity "'+name+'" ('+file+')');
-
-		//App and file
-		let Module = require(file);
-		let entity = Module();
-		entity.initialize(this.app);
-
-		//Load the entity and pass options
-		//The options might include request data which is used for session
-		entity.load(options.pass);
-
-		//Cache
-		if(options.cache) {
-			this.objects[name] = entity;
-		}
-
-		return entity;
-	}
 
 
 /**
@@ -154,7 +45,7 @@ module.exports = class EntityRegistry {
  * @param object request optional
  * @return object
  */
-	get(name, request) {
+	____get(name, request) {
 		var entity = this.objects[name];
 
 		//No entity is loaded

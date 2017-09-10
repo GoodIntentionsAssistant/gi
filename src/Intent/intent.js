@@ -30,24 +30,20 @@ module.exports = class Intent {
  *
  * @return boolean
  */
-	load(name) {
-		var that = this;
-
-		this.name = name;
-
+	load() {
 		//Load
-		this.promise = new Promise(function(resolve, reject) {
+		this.promise = new Promise((resolve, reject) => {
 			//Call back to intent
-			that.before_load();
+			this.before_load();
 
 			//Load in keywords and entities
-			var keywords = that.load_keywords();
-			var entities = that.load_entities();
+			var keywords = this.load_keywords();
+			var entities = this.load_entities();
 
 			//Call back to intent
-			that.after_load();
+			this.after_load();
 
-			Promise.all([keywords, entities]).then(function(){ 
+			Promise.all([keywords, entities]).then(function(){
 				resolve();
 			});
 		});
@@ -69,32 +65,46 @@ module.exports = class Intent {
  * @return void
  */
 	load_keywords() {
-		var that = this;
-
-		return new Promise(function(resolve, reject) {
+		return new Promise((resolve, reject) => {
 			//Intent doesn't always need a trigger word for it to be fired
 			//Some intents just use entity data and some have to be called directly
-			if(that.trigger) {
-				that.add_keyword(that.trigger, {});
+			if(this.trigger) {
+				this.add_keyword(this.trigger, {});
 			}
 
-			if(that.synonyms) {
-				if(that.synonyms instanceof Array) {
+			if(this.synonyms) {
+				if(this.synonyms instanceof Array) {
 					//Add array list of synonyms with no options
-					for(var ii=0; ii < that.synonyms.length; ii++) {
-						that.add_keyword(that.synonyms[ii], {});
+					for(var ii=0; ii < this.synonyms.length; ii++) {
+						this.add_keyword(this.synonyms[ii], {});
 					}
 				}
 				else {
 					//Add hash list of synonyms with options
-					for(let key in that.synonyms) {
-						that.add_keyword(key, that.synonyms[key]);
+					for(let key in this.synonyms) {
+						this.add_keyword(key, this.synonyms[key]);
 					}
 				}
 			}
 
 			resolve();
 		});
+	}
+
+
+/**
+ * Train
+ * 
+ * @param hash data
+ * @return bool
+ */
+	train(data) {
+		for(var ii=0; ii < data.length; ii++) {
+			let value = data[ii];
+			this.add_keyword(data[ii], {});
+		}
+
+		return true;
 	}
 
 
@@ -150,11 +160,7 @@ module.exports = class Intent {
 
 
 /**
- * Add Intent
- *
- * Add the intent to the intent array
- * It is possible to add two intents per module but I don't think
- * we'll need that at the moment.
+ * Add Keyword
  *
  * @param array keywords
  * @param array options
@@ -201,7 +207,7 @@ module.exports = class Intent {
 
 		for(var ii=0; ii< this._keywords.length; ii++) {
 			output.push(extend(
-				{ name: this.name },
+				{ identifier: this.identifier },
 				this._keywords[ii]
 			));
 		}

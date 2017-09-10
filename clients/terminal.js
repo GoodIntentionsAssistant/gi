@@ -15,7 +15,8 @@ prompt.start();
 
 
 function ready() {
-	send('hello');
+	//send('roll dice');
+	send('flip coin');
 }
 
 

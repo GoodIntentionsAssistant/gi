@@ -16,6 +16,8 @@ const Auth = require('./../Auth/auth.js');
 const Train = require('./../Train/train.js');
 const Queue = require('./../Request/queue.js');
 const Server = require('./../Server/server.js');
+
+const SkillRegistry = require('./../Skill/skill_registry.js');
 const EntityRegistry = require('./../Entity/entity_registry.js');
 const IntentRegistry = require('./../Intent/intent_registry.js');
 
@@ -44,6 +46,7 @@ module.exports = class App extends EventEmitter {
 
 		this.EntityRegistry = new EntityRegistry(this);
 		this.IntentRegistry = new IntentRegistry(this);
+		this.SkillRegistry = new SkillRegistry(this);
 	}
 
 
@@ -62,9 +65,6 @@ module.exports = class App extends EventEmitter {
 		//Require skill files
 		let skills = this.Config.read('skills');
 		this.load_skills(skills);
-
-		//Load entity data
-		this.load_entities();
 	}
 	
 
@@ -93,48 +93,15 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load_skills(skills) {
+		let promises = [];
+
 		for(var ii=0; ii<skills.length; ii++) {
-			let Skill = require(this.Path.get('skills')+'/'+skills[ii]+'/skill');
-			let SkillObj = new Skill(this);
-			this.skills.push(SkillObj);
-		}
-	}
-
-
-/**
- * Load entities
- * 
- * @access public
- * @return void
- */
-	load_entities() {
-		this.log('Loading Entities');
-		for(var ii=0; ii<this.skills.length; ii++) {
-			this.EntityRegistry.load_all(this.skills[ii].name);
+			let skill = this.SkillRegistry.load(skills[ii]);
+			promises.push(skill.promise);
 		}
 
-		var that = this;
-		Promise.all(this.EntityRegistry.promises).then(function() {
-			that.load_intents();
-		});
-	}
-
-
-/**
- * Load intents
- * 
- * @access public
- * @return void
- */
-	load_intents() {
-		this.log('Loading Intents');
-		for(var ii=0; ii<this.skills.length; ii++) {
-			this.IntentRegistry.load_all(this.skills[ii].name);
-		}
-
-		var that = this;
-		Promise.all(this.IntentRegistry.promises).then(function() {
-			that.load_queue();
+		Promise.all(promises).then(() => {
+			this.load_queue();
 		});
 	}
 

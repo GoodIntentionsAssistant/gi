@@ -252,7 +252,7 @@ module.exports = class Request {
  * @return object Session
  */
 	throw_error(error_name, options) {
-		this.intent = this.app.InIntentRegistrytents.get('Common/'+error_name);
+		this.intent = this.app.IntentRegistry.get('Sys.Error.Intent.'+error_name);
 		this.call();
 	}
 	
