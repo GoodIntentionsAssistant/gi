@@ -1,8 +1,9 @@
-// Cat Facts
-	
-var Intent = require('../../../../../src/Intent/intent');
-var Promise = require('promise');
-var _ = require('underscore');
+/**
+ * Cat Facts Intent
+ */
+const Intent = require('../../../../src/Intent/intent');
+const Promise = require('promise');
+const _ = require('underscore');
 
 module.exports = class CatfactsIntent extends Intent {
 
@@ -22,7 +23,7 @@ module.exports = class CatfactsIntent extends Intent {
 	}
 
 	response(request) {
-		var filename = request.app.Path.get('skills')+'/Fun/Data/catfacts.txt';
+		var filename = request.app.Path.get('skills.app')+'/CatFacts/Data/catfacts.txt';
 
 		return new Promise(function(resolve, reject) {
 			var fs = require('fs');

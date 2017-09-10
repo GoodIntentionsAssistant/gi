@@ -41,12 +41,18 @@ module.exports = class EntityRegistry extends ObjectRegistry {
  * Get entity
  * 
  * @access public
- * @param string name
+ * @param string identifier
  * @param object request optional
  * @return object
  */
-	____get(name, request) {
-		var entity = this.objects[name];
+	get(identifier, request = null) {
+    if(!this.objects[identifier]) {
+			var entity = this.load(identifier);
+			return entity;
+		}
+		
+		var entity = this.objects[identifier];
+		return entity;
 
 		//No entity is loaded
 		//Entities must always be preloaded using load() before get

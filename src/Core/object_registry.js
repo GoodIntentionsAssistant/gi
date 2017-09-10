@@ -190,6 +190,21 @@ module.exports = class ObjectRegistry {
 
 
 /**
+ * Exists object
+ *
+ * @param string identifier
+ * @access public
+ * @return bool
+ */
+  exists(identifier) {
+    if(!this.objects[identifier]) {
+      return false;
+    }
+    return true;
+  }
+
+
+/**
  * Create an identifier for the name
  * 
  * This is used when loading objects from object cache and intent training

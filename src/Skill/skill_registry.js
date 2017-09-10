@@ -26,6 +26,8 @@ module.exports = class SkillRegistry extends ObjectRegistry {
  * @return void
  */
   after_load(skill) {
+		skill.path = '';
+
 		skill.setup();
 		skill.load();
 	}

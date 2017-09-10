@@ -1,14 +1,16 @@
-// Currencies
-	
-var Entity = require('../../../../src/Entity/entity');
+/**
+ * Number Entity
+ */	
+var Entity = require('../../../Entity/entity');
 
-function NumberEntity() {
-	var entity = {
-		name: "Number"
+module.exports = class NumberEntity extends Entity {
+
+	setup() {
+		this.name = 'Number';
+		this.data = {};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var original = null;
 		var value = null;
 
@@ -25,7 +27,4 @@ function NumberEntity() {
 		}
 	}
 
-	return entity
 }
-
-module.exports = NumberEntity;
