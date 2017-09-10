@@ -76,13 +76,11 @@ module.exports = class Entity {
  * @param method resolve
  * @return boolean
  */
-	load_data_csv(filename, resolve) {
+	load_data_csv(identifier, resolve) {
 		//For scoping when reading the file
 		var that = this;
 
-		if(filename.substr(0,1) !== '/') {
-			filename = this.app.Path.get('skills')+'/'+filename;
-		}
+		let filename = this.identifier_to_filename(identifier, 'csv');
 
 		//Load the file go through each line
 		//Split by tab and add anything in the second part into synonyms
@@ -129,13 +127,10 @@ module.exports = class Entity {
  * @param method resolve
  * @return boolean
  */
-	load_data_json(filename, resolve) {
+	load_data_json(identifier, resolve) {
 		//For scoping when reading the file
 		var that = this;
-
-		if(filename.substr(0,1) !== '/') {
-			filename = this.app.Path.get('skills')+'/'+filename;
-		}
+		let filename = this.identifier_to_filename(identifier, 'json');
 
 		//Load the file go through each line
 		//Split by tab and add anything in the second part into synonyms
@@ -369,5 +364,27 @@ module.exports = class Entity {
 
 		return words;
 	}
+
+
+/**
+ * Identifier to filename
+ *
+ * @param string name
+ * @access public
+ * @return string
+ */
+  identifier_to_filename(identifier, extension) {
+		let parts = identifier.split('.');
+
+    let type = parts[0];
+		let skill = parts[1];
+
+		let path = this.app.Path.get('skills.'+type.toLowerCase());
+		
+		parts.shift();
+		let filename = path + '/' + parts.join('/') + '.' + extension;
+
+		return filename;
+  }
 
 }
