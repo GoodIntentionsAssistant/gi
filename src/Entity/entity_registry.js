@@ -57,7 +57,7 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 		//No entity is loaded
 		//Entities must always be preloaded using load() before get
 		if(!entity) {
-			this.app.error('Entity '+name+' has not been loaded');
+			this.app.Log.error('Entity '+name+' has not been loaded');
 			return false;
 		}
 
@@ -66,7 +66,7 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 		if(entity.require_session) {
 			//Request object is needed
 			if(!request) {
-				this.app.error('Entity get '+name+' called but no request object passed');
+				this.app.Log.error('Entity get '+name+' called but no request object passed');
 				return false;
 			}
 
@@ -75,7 +75,7 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 
 			//Check they are authorized
 			if(!request.session.authorized(auth_required)) {
-				this.app.error('Entity get '+name+' called but user is not authorized');
+				this.app.Log.error('Entity get '+name+' called but user is not authorized');
 				return false;
 			}
 

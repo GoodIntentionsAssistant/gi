@@ -37,13 +37,13 @@ module.exports = class Skill {
 
 
 	load_intents() {
-		this.app.log('Loading Intents for '+this.name);
+		this.app.Log.add('Loading Intents for '+this.name);
 		return this.app.IntentRegistry.load_all(this.name);
 	}
 
 
 	load_entities() {
-		this.app.log('Loading Entities for '+this.name);
+		this.app.Log.add('Loading Entities for '+this.name);
 		return this.app.EntityRegistry.load_all(this.name);
 	}
 

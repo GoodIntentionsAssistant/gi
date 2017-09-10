@@ -55,7 +55,7 @@ module.exports = class ObjectRegistry {
         //No files found in the skill directory
         //This isn't a critical fail but good to tell the user
         if(!files) {
-          this.app.error('Skill directory '+path+' is empty');
+          this.app.Log.error('Skill directory '+path+' is empty');
           resolve();
           return;
         }
@@ -110,13 +110,13 @@ module.exports = class ObjectRegistry {
 
     //Name not specified
     if(!name) {
-      this.app.error('Name not specified for '+this.type);
+      this.app.Log.error('Name not specified for '+this.type);
       return false;
     }
 
     //Skill not specified
     if(name.indexOf('.') === -1) {
-      this.app.error('Namespace identifier not specified for '+name);
+      this.app.Log.error('Namespace identifier not specified for '+name);
       return false;
     }
 
@@ -151,7 +151,7 @@ module.exports = class ObjectRegistry {
     options = extend(_options, options);
 
     //
-    this.app.log('Load '+this.type+' "'+identifier+'" ('+file+')');
+    this.app.Log.add('Load '+this.type+' "'+identifier+'" ('+file+')');
 
     //App and file
     let Module = require(file);
@@ -182,7 +182,7 @@ module.exports = class ObjectRegistry {
  */
   get(name) {
     if(!this.objects[name]) {
-      this.app.error(this.type+' '+name+' not found in objects');
+      this.app.Log.error(this.type+' '+name+' not found in objects');
       return false;
     }
     return this.objects[name];

@@ -79,10 +79,10 @@ module.exports = class Request {
  */
 	log(str) {
 		if(!str) {
-			this.app.log('');
+			this.app.Log.add('');
 			return;
 		}
-		this.app.log(str, this.ident);
+		this.app.Log.add(str, this.ident);
 	}
 
 
@@ -96,7 +96,7 @@ module.exports = class Request {
  * @return void
  */
 	error(str) {
-		this.app.error(str, {
+		this.app.Log.error(str, {
 			ident: this.ident
 		});
 	}
@@ -163,7 +163,7 @@ module.exports = class Request {
 		//Logs
 		this.log('');
 		this.log('Analyzing "'+text+'"');
-		this.app.write_log('incoming',text);
+		this.app.Log.write_log('incoming',text);
 
 		//Expecting
 		//If expecting is set then we're waiting for input. Could be a

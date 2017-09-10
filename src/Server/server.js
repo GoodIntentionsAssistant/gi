@@ -44,13 +44,13 @@ module.exports = class Server extends EventEmitter {
 	
 		try {
 			this.object.listen(port, () => {
-				this.app.log('Listening on port '+port);
-				this.app.log('Ready to take client connections and rock and roll!');
+				this.app.Log.add('Listening on port '+port);
+				this.app.Log.add('Ready to take client connections and rock and roll!');
 				this.emit('listening');
 			});
 		}
 		catch(err) {
-			this.app.error('Server Error: '+err);
+			this.app.Log.error('Server Error: '+err);
 		}
 	}
 	
@@ -98,7 +98,7 @@ module.exports = class Server extends EventEmitter {
 	remove_client(ident) {
 		for(var ii=0; ii<this.clients.length; ii++) {
 			if(this.clients[ii].ident == ident) {
-				this.app.log('Client removed');
+				this.app.Log.add('Client removed');
 				this.clients.splice(ii, 1);
 				return true;
 			}

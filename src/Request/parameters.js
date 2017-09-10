@@ -126,7 +126,7 @@ module.exports = class Parameters {
 					}
 					else {
 						//Entity defined not found so fatal error
-						that.app.error('Entity "'+data[field]['entity']+'" not found');
+						that.app.Log.error('Entity "'+data[field]['entity']+'" not found');
 						reject();
 					}
 				}
@@ -331,7 +331,7 @@ module.exports = class Parameters {
 
 		//Check the dummy was found
 		if(!entity) {
-			this.app.error('Common/Dummy Entity for Parameters could not be found');
+			this.app.Log.error('Common/Dummy Entity for Parameters could not be found');
 			return false;
 		}
 

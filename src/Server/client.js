@@ -40,7 +40,7 @@ module.exports = class Client {
  * @return void
  */
 	load() {
-		this.app.log('Client Connected');
+		this.app.Log.add('Client Connected');
 
 		var that = this;
 
@@ -83,7 +83,7 @@ module.exports = class Client {
 
 		if(!this.validate_client_token(input.token)) {
 			this.identified = false;
-			this.app.error('Client '+this.name+' failed token auth');
+			this.app.Log.error('Client '+this.name+' failed token auth');
 			this.emit('event', 'identify', {
 				success: false,
 				message: 'Client token is not correct'
@@ -91,7 +91,7 @@ module.exports = class Client {
 			return;
 		}
 
-		this.app.log('Client identified '+this.name+' ('+this.ident+')');
+		this.app.Log.add('Client identified '+this.name+' ('+this.ident+')');
 		this.identified = true;
 		
 		this.emit('event','identify', {
@@ -128,7 +128,7 @@ module.exports = class Client {
 		//Invalid request
 		if(!this.validate_request(input)) {
 			for(var ii = 0; ii < this.validation_errors.length; ii++) {
-				this.app.error('Request validation error: '+this.validation_errors[ii]);
+				this.app.Log.error('Request validation error: '+this.validation_errors[ii]);
 			}
 			this.emit('event', 'request', {
 				success: false,
@@ -218,7 +218,7 @@ module.exports = class Client {
  * @return void
  */
 	disconnect() {
-		this.app.log('Client '+this.name+' ('+this.ident+') Disconnected');
+		this.app.Log.add('Client '+this.name+' ('+this.ident+') Disconnected');
 		this.server.remove_client(this.ident);
 	}
 

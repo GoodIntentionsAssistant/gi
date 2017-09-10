@@ -31,7 +31,7 @@ module.exports = class Queue {
  * @return void
  */
 	start() {
-		this.app.log('Queue started');
+		this.app.Log.add('Queue started');
 		this.active = true;
 	}
 
@@ -142,10 +142,10 @@ module.exports = class Queue {
  */
 	destroy_request(ident) {
 		if(!this.requests[ident]) {
-			this.app.error('Request '+ident+' not found to destroy');
+			this.app.Log.error('Request '+ident+' not found to destroy');
 			return false;
 		}
-		this.app.log('Request finished', ident);
+		this.app.Log.add('Request finished', ident);
 		delete this.requests[ident];
 		return true;
 	}

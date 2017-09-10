@@ -71,13 +71,13 @@ describe('App', function(){
 
 
   it('log (to do)', function() {
-    app.log('hello!');
+    app.Log.add('hello!');
     expect(true).toBe(true);
   });
 
 
   it('error (to do)', function() {
-    app.error('hello!');
+    app.Log.error('hello!');
     expect(true).toBe(true);
   });
 

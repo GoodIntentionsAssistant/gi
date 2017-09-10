@@ -11,6 +11,7 @@ const EventEmitter = require('events').EventEmitter;
 
 const Config = require('./config.js');
 const Path = require('./path.js');
+const Log = require('./log.js');
 
 const Auth = require('./../Auth/auth.js');
 const Train = require('./../Train/train.js');
@@ -38,6 +39,7 @@ module.exports = class App extends EventEmitter {
 
 		this.Config = new Config();
 		this.Path = new Path(this);
+		this.Log = new Log(this);
 
 		this.Auth = new Auth();
 		this.Train = new Train(this);
@@ -113,7 +115,7 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load_queue() {
-		this.log('Starting Queue');
+		this.Log.add('Starting Queue');
 		this.Queue.start();
 		this.load_server();
 	}
@@ -129,67 +131,12 @@ module.exports = class App extends EventEmitter {
 		if(!this.Config.read("server.enabled")) {
 			return;
 		}
-		this.log('Starting Server');
+		this.Log.add('Starting Server');
 		this.Server.start();
 
 		var that = this;
 		this.Server.on('listening', function() {
 			that.emit('ready');
-		});
-	}
-
-
-/**
- * Log
- * 
- * @param string msg
- * @access public
- * @return void
- */
-	log(msg, ident) {
-		if(ident) {
-			msg = ident+': '+msg;
-		}
-		
-		if(this.verbose) {
-			console.log(msg);
-		}
-
-		//Write to file
-		this.write_log('system',msg);
-	}
-
-
-/**
- * Error
- * 
- * @param string msg
- * @access public
- * @return void
- */
-	error(msg, options) {
-		if(options && options.ident) {
-			msg = options.ident+': '+msg;
-		}
-
-		this.log(msg);
-		this.write_log('error',msg);
-	}
-
-
-/**
- * Write to a log file
- * 
- * @param string type
- * @param string msg
- * @access public
- * @return void
- */
-	write_log(type, text) {
-		var filename = this.Path.get('logs')+'/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
-		var line = moment().format('MM-DD-YYYY HH:mm:ss')+': '+text+"\n";
-
-		fs.appendFile(filename, line, function (err) {
 		});
 	}
 
@@ -201,7 +148,7 @@ module.exports = class App extends EventEmitter {
  * @return boolean
  */
 	shutdown() {
-		this.log('Shutting down');
+		this.Log.add('Shutting down');
 		this.skills = [];
 		this.Server.stop();
 	}
