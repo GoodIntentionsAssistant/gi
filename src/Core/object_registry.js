@@ -42,7 +42,7 @@ module.exports = class ObjectRegistry {
   load_all(skill) {
     //Path to find entity and intents
     //The type is set from EntityRegistry and IntentRegistry
-    let path = this.name_to_directory(skill+'.'+this.type);
+    let path = this.identifier_to_directory(skill+'.'+this.type);
 
     //Type, e.g. _entity, _intent
     let type_lower = this.type.toLowerCase();
@@ -126,8 +126,8 @@ module.exports = class ObjectRegistry {
     }
 
     //Path based on incoming
-    let path = this.name_to_directory(name);
-    let filename = this.name_to_filename(name);
+    let path = this.identifier_to_directory(name);
+    let filename = this.identifier_to_filename(name);
 
     let file = path+'/'+filename;
 
@@ -234,14 +234,14 @@ module.exports = class ObjectRegistry {
 
 
 /**
- * Name to directory
+ * Identifier to directory
  *
  * @param string name
  * @access public
  * @return string
  */
-  name_to_directory(name) {
-    let parts = name.split('.');
+  identifier_to_directory(identifier) {
+    let parts = identifier.split('.');
 
     let type = parts[0];
     let skill = parts[1];
@@ -261,14 +261,14 @@ module.exports = class ObjectRegistry {
 
 
 /**
- * Name to file
+ * Identifier to file
  *
- * @param string name
+ * @param string identifier
  * @access public
  * @return string
  */
-  name_to_filename(name) {
-    let parts = name.split('.');
+  identifier_to_filename(identifier) {
+    let parts = identifier.split('.');
 
     let type  = parts[0];                 //App.
     let skill = parts[1];                 //Error.

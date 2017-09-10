@@ -1,34 +1,34 @@
 // Currency
 	
-var Intent = require('../../../../../src/Intent/intent');
-var Promise = require('promise');
-var fx = require('money');
+const Intent = require('../../../../src/Intent/intent');
+const Promise = require('promise');
+const fx = require('money');
 
 module.exports = class CurrencyIntent extends Intent {
 
 	setup() {
 		this.name = 'Currency';
 		this.entities = {
-			'Productivity/Currency': {}
+			'App.Currency.Entity.Currency': {}
 		};
 		this.trigger = 'currency';
 		this.synonyms = ['exchange rate'];
 		this.parameters = {
 			"amount": {
 				name: "Amount",
-				entity: "Common/Number",
+				entity: "Sys.Common.Entity.Number",
 				required: false,
 				default: 1,
 				from_user: true
 			},
 			"currency_from": {
 				name: "Currency from",
-				entity: "Productivity/Currency",
+				entity: "App.Currency.Entity.Currency",
 				required: true
 			},
 			"currency_to": {
 				name: "Currency to",
-				entity: "Productivity/Currency",
+				entity: "App.Currency.Entity.Currency",
 				required: true,
 				from_user: true
 			}

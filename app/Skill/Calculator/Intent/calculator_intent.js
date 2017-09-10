@@ -1,7 +1,9 @@
-// Currency
+/**
+ * Calculator
+ */
 //http://stackoverflow.com/questions/28198370/regex-for-validating-correct-input-for-calculator
 	
-var Intent = require('../../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
 
 module.exports = class CalculatorIntent extends Intent {
 
@@ -14,14 +16,14 @@ module.exports = class CalculatorIntent extends Intent {
 			new RegExp(/^.*[\d+] x [\d+].*$/,'g')
 		];
 		this.entities = {
-			'Productivity/MathWord': {
+			'App.Calculator.Entity.MathWord': {
 				'classifier': 'main'
 			}
 		};
 		this.parameters = {
 			"math_word": {
 				name: "Math word",
-				entity: 'Productivity/MathWord'
+				entity: 'App.Calculator.Entity.MathWord'
 			}
 		};
 		this.tests = [

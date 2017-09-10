@@ -33,6 +33,9 @@ module.exports = class EntityRegistry extends ObjectRegistry {
   after_load(entity) {
 		//Setup entity
 		entity.setup();
+
+		//Load the entity
+		entity.load();
 	}
 
 

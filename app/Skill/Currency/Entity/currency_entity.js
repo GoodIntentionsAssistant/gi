@@ -1,26 +1,24 @@
-// Currencies
-	
+/**
+ * Currency Entity
+ */
 var Entity = require('../../../../src/Entity/entity');
 var _ = require('underscore');
 
-function CurrencyEntity() {
-	var entity = {
-		name: "Currency",
-		import: {
-			file: "Common/Data/currencies.csv",
-			type: "csv"
-		},
-		data: {}
-	}
-	entity.__proto__ = Entity()
+module.exports = class MathWordEntity extends Entity {
 
-	entity.parse = function(string) {
+	setup() {
+		this.name = "Currency";
+		this.import = {
+			file: "App.Currency.Data.currencies",
+			type: "csv"
+		};
+		this.data = {};
+	}
+
+	parse(string) {
 		//Find string
 		var result = this.find(string);
 		return result;
 	}
 
-	return entity
 }
-
-module.exports = CurrencyEntity;

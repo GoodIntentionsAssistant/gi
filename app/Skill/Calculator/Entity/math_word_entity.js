@@ -3,10 +3,11 @@
  */
 var Entity = require('../../../../src/Entity/entity');
 
-function MathWordEntity() {
-	var entity = {
-		name: "Math Word",
-		data: {
+module.exports = class MathWordEntity extends Entity {
+
+	setup() {
+		this.name = "Math Word";
+		this.data = {
 			'addition': {
 				value: '+',
 				synonyms:['add','sum']
@@ -19,17 +20,13 @@ function MathWordEntity() {
 				value: '*',
 				synonyms:['multiply','multiplied','times','x']
 			}
-		}
+		};
 	}
-	
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string);
 		return result;
 	}
 
-	return entity
 }
 
-module.exports = MathWordEntity;

@@ -206,7 +206,7 @@ module.exports = class Request {
 		//If intent not found then fall back to error
 		if(!this.intent) {
 			this.throw_error('NotFound');
-			this.app.write_log('unknown',text);
+			this.app.Log.write_log('unknown',text);
 			return false;
 		};
 
