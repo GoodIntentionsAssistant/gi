@@ -9,12 +9,14 @@ module.exports = class CalculatorIntent extends Intent {
 
 	setup() {
 		this.name = 'Calculator';
-		this.trigger = '/^(calc )?[\\d\\+\\/\\*\.\\-% \\(\\)=]*$/';
 		this.classifier = 'strict';
-		this.synonyms = [
-			'/^[\\d+]*%( of)? [\\d\\+\\/\\*\.\\- \\(\\)=]*$/',
-			new RegExp(/^.*[\d+] x [\d+].*$/,'g')
-		];
+
+		this.train([
+			new RegExp(/^.*[\d+] x [\d+].*$/,'g'),
+			new RegExp(/^(calc )?[\d\+\/\*.\-% \(\)=]*$/,'g'),
+			new RegExp(/^[\d+]*%( of)? [\d\+\/\*.\- \(\)=]*$/,'g')
+		]);
+
 		this.entities = {
 			'App.Calculator.Entity.MathWord': {
 				'classifier': 'main'

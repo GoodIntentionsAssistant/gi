@@ -51,16 +51,6 @@ module.exports = class StrictClassifier {
 					};
 				}
 			}
-			else if(keyword.substr(0,1) == '/') {
-				var keyword = keyword.substr(1,keyword.length-2);
-				var rgxp = new RegExp(keyword,'g');
-				if(str.match(rgxp)) {
-					return {
-						confidence: 0.9,
-						result: intent
-					};
-				}
-			}
 			else if(this.data[ii][0] == str) {
 				//String to string
 				return {
