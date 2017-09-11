@@ -112,6 +112,7 @@ module.exports = class Client {
  * @return void
  */
 	ready() {
+		this.app.Event.emit('client.connected', this);
 	}
 
 

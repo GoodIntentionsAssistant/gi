@@ -17,6 +17,7 @@ const Path = require('./../Filesystem/path.js');
 
 const Config = require('./config.js');
 const Log = require('./log.js');
+const Event = require('./event.js');
 
 const Auth = require('./../Auth/auth.js');
 const Train = require('./../Train/train.js');
@@ -47,6 +48,7 @@ module.exports = class App extends EventEmitter {
 		this.File = new File();
 		this.Folder = new Folder();
 
+		this.Event = new Event(this);
 		this.Config = new Config(this);
 		this.Path = new Path(this);
 		this.Log = new Log(this);
@@ -59,6 +61,9 @@ module.exports = class App extends EventEmitter {
 		this.EntityRegistry = new EntityRegistry(this);
 		this.IntentRegistry = new IntentRegistry(this);
 		this.SkillRegistry = new SkillRegistry(this);
+
+		//Setup app
+		this.setup();
 	}
 
 
@@ -99,6 +104,10 @@ module.exports = class App extends EventEmitter {
 			this.Queue.check();
 		}
 
+		//Event
+		this.Event.emit('app.loop');
+
+		//Loop again
 		this.timer = setTimeout(() => {
 			this.loop();
 		}, this.loop_speed);
