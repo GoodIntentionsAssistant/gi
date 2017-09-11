@@ -13,9 +13,8 @@ module.exports = class SmallTalkSkill extends Skill {
  * @return void
  */
 	constructor(app) {
-		super();
-		this.name = 'Small Talk';
-		this.app = app;
+		super(app);
+		this.name = 'App.SmallTalk';
 	}
 
 }

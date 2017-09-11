@@ -55,7 +55,7 @@ module.exports = class ObjectRegistry {
         //No files found in the skill directory
         //This isn't a critical fail but good to tell the user
         if(!files) {
-          this.app.Log.error('Skill directory '+path+' is empty');
+          //this.app.Log.error('Skill directory '+path+' is empty');
           resolve();
           return;
         }

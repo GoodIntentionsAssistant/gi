@@ -1,11 +1,14 @@
-// Parting
-	
-var Entity = require('../../../../src/Entity/entity');
+/**
+ * Parting Entity
+ */	
+var Entity = require('../../../Entity/entity');
 
-function PartingEntity() {
-	var entity = {
-		name: "Parting",
-		data: {
+module.exports = class PartingEntity extends Entity {
+
+	setup() {
+		this.name = "Parting";
+
+		this.data = {
 			"i'll be back": {
 				"reply": "See you then!"
 			},
@@ -35,16 +38,12 @@ function PartingEntity() {
 			"adios": {},
 			"ciao": {},
 			"au revoir": {}
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string);
 		return result;
 	}
 
-	return entity
 }
-
-module.exports = PartingEntity;

@@ -1,6 +1,6 @@
 // How are you
 	
-var Intent = require('../../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
 module.exports = class HowAreYouIntent extends Intent {
@@ -14,12 +14,12 @@ module.exports = class HowAreYouIntent extends Intent {
 			"how do you feel"
 		];
 		this.entities = {
-			'Common/Emotion':{}
+			'Sys.Common.Entity.Emotion':{}
 		};
 		this.parameters = {
 			"user_emotion": {
 				name: "User Emotion",
-				entity: 'Common/Emotion',
+				entity: 'Sys.Common.Entity.Emotion',
 				action: 'user_emotion'
 			}
 		};
@@ -31,7 +31,7 @@ module.exports = class HowAreYouIntent extends Intent {
 			return "I'm still feeling "+value;
 		}
 
-		var entity = request.app.EntityRegistry.get('Common/Emotion');
+		var entity = request.app.EntityRegistry.get('Sys.Common.Entity.Emotion');
 		var data = entity.get_data();
 
 		var positives = _.where(data,{ type:'positive' });

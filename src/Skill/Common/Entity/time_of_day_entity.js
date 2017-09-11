@@ -1,24 +1,24 @@
-// Time of day
-	
-var Entity = require('../../../../src/Entity/entity');
+/**
+ * Emotion Entity
+ */	
+var Entity = require('../../../Entity/entity');
 
-function TimeOfDayEntity() {
-	var entity = {
-		name: "Greeting",
-		data: {
+module.exports = class TimeOfDayEntity extends Entity {
+
+	setup() {
+		this.name = "Greeting";
+
+		this.data = {
 			"morning": {},
 			"afternoon": {},
 			"evening": {}
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string);
 		return result;
 	}
 
-	return entity
 }
 
-module.exports = TimeOfDayEntity;

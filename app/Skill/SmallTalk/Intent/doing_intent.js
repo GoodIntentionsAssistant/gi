@@ -1,6 +1,6 @@
 // What are you doing
 	
-var Intent = require('../../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
 module.exports = class DoingIntent extends Intent {

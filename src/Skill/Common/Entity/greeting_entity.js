@@ -1,11 +1,14 @@
-// Greeting
-	
-var Entity = require('../../../../src/Entity/entity');
+/**
+ * Greeting Entity
+ */	
+var Entity = require('../../../Entity/entity');
 
-function GreetingEntity() {
-	var entity = {
-		name: "Greeting",
-		data: {
+module.exports = class GreetingEntity extends Entity {
+
+	setup() {
+		this.name = "Greeting";
+
+		this.data = {
 			"hello": {
 				"synonyms": [
 					"hello",
@@ -32,18 +35,14 @@ function GreetingEntity() {
 					"evening"
 				]
 			}
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string,{
    		use_key: false
     });
 		return result;
 	}
 
-	return entity
 }
-
-module.exports = GreetingEntity;

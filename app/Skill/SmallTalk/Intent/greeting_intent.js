@@ -1,7 +1,7 @@
 // Hello
 'use strict';
 
-const Intent = require('../../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
 const _ = require('underscore');
 const Promise = require('promise');
 
@@ -11,7 +11,7 @@ module.exports = class GreetingIntent extends Intent {
 		this.name = 'Hello';
 		this.trigger = 'hello';
 		this.entities = {
-			"Common/Greeting": {}
+			"Sys.Common.Entity.Greeting": {}
 		};
 		this.tests = [
 			{ input:'hello' },
@@ -20,12 +20,12 @@ module.exports = class GreetingIntent extends Intent {
 		this.parameters = {
 			"time_of_day": {
 				name: "Time of day",
-				entity: 'Common/TimeOfDay',
+				entity: 'Sys.Common.Entity.TimeOfDay',
 				full: true
 			},
 			"type": {
 				name: "Type of Greeting",
-				entity: 'Common/Greeting'
+				entity: 'Sys.Common.Entity.Greeting'
 			}
 		};
 	}

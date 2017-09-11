@@ -1,13 +1,14 @@
-// Emotion
-	
-var Entity = require('../../../../src/Entity/entity');
+/**
+ * Emotion Entity
+ */	
+var Entity = require('../../../Entity/entity');
 
-//http://www.psychpage.com/learning/library/assess/feelings.html
+module.exports = class EmotionEntity extends Entity {
 
-function EmotionEntity() {
-	var entity = {
-		name: "Emotion",
-		data: {
+	setup() {
+		this.name = "Emotion";
+
+		this.data = {
 			'happy': {
 				type: 'positive',
 				synonyms:['great','delighted','overjoyed','thankful','cheerful','merry']
@@ -72,17 +73,12 @@ function EmotionEntity() {
 				synonyms:["incapable","alone","paralyzed","fatigued","useless","inferior","vulnerable","empty","forced","hesitant","despair","frustrated","distressed","woeful","pathetic","tragic",
 "dominated"]
 			}
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string);
-
 		return result;
 	}
 
-	return entity
 }
-
-module.exports = EmotionEntity;

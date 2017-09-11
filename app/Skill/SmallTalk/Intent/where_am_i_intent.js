@@ -1,6 +1,6 @@
 // Time zone
 	
-var Intent = require('../../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
 var moment = require('moment-timezone');
 
 module.exports = class TimezoneIntent extends Intent {

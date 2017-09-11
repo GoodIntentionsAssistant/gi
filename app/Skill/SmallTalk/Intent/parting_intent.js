@@ -1,7 +1,6 @@
 // Parting
 	
-var Intent = require('../../../../../src/Intent/intent');
-var Scrubber = require('../../../../../src/Utility/scrubber');
+const Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
 module.exports = class PartingIntent extends Intent {
@@ -11,7 +10,7 @@ module.exports = class PartingIntent extends Intent {
 		this.trigger = 'goodbye';
 		this.classifier = 'strict';
 		this.entities = {
-			'Common/Parting': {}
+			'Sys.Common.Entity.Parting': {}
 		};
 		this.tests = [
 			{ input:'goodbye' },
@@ -20,16 +19,13 @@ module.exports = class PartingIntent extends Intent {
 	}
 
 	response(request) {
-		var entity = request.app.EntityRegistry.get('Common/Parting');
+		var entity = request.app.EntityRegistry.get('Sys.Common.Entity.Parting');
 		var data = entity.get_data();
 
 		var output = _.sample(Object.keys(data));
 
 		if(data[output].reply) {
 			output = data[output].reply;
-		}
-		else {
-			output = Scrubber.sentence_case(output);
 		}
 
 		return output;
