@@ -325,7 +325,7 @@ module.exports = class Parameters {
  * @return hash parsed data and success
  */
 	create_dummy_entity(parameter) {
-		var entity = this.app.EntityRegistry.get('Common/Dummy', {
+		var entity = this.app.EntityRegistry.get('Sys.Common.Entity.Dummy', {
 			cache: false
 		});
 

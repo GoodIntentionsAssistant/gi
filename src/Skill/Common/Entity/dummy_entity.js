@@ -1,20 +1,18 @@
-// Dummy
+/**
+ * Dummy Entity
+ */
+const Entity = require('../../../Entity/entity');
+
+module.exports = class DummyEntity extends Entity {
 	
-var Entity = require('../../../../src/Entity/entity');
-
-function DummyEntity() {
-	var entity = {
-		name: "Dummy",
-		data: {}
+	setup() {
+		this.name = "Dummy";
+		this.data = {};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string);
 		return result;
 	}
 
-	return entity
 }
-
-module.exports = DummyEntity;

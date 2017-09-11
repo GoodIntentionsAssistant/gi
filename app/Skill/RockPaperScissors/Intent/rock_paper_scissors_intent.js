@@ -1,6 +1,7 @@
-// Rock Paper Scissors
-	
-var Intent = require('../../../../../src/Intent/intent');
+/**
+ * Rock Paper Scissors Intent
+ */
+const Intent = require('../../../../src/Intent/intent');
 var _ = require('underscore');
 
 module.exports = class RockPaperScissorsIntent extends Intent {
@@ -22,13 +23,18 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 			},
 			"play_again": {
 				name: "Play Again",
-				entity: 'Common/Confirm'
+				entity: 'Sys.Common.Entity.Confirm'
 			}
 		};
 	}
 
 	response(request) {
 		request.send('Rock, paper or scissors?');
+		this._set_required(request);
+		return;
+	}
+
+	_set_required(request) {
 		request.attachment.add_action('Rock');
 		request.attachment.add_action('Paper');
 		request.attachment.add_action('Scissors');
@@ -36,13 +42,13 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 			action: 'chosen',
 			force: true
 		});
-		return;
 	}
 
 	chosen(request) {
 		var user_choice = request.parameters.value('choice');
 
 		if(!user_choice) {
+			this._set_required(request);
 			return 'You need to type either rock, paper or scissors';
 		}
 
@@ -84,7 +90,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 		output.push('Play again?');
 
 		request.expecting.set({
-			entity: 'Common/Confirm',
+			entity: 'Sys.Common.Entity.Confirm',
 			action: 'play_again',
 			force: false
 		});
@@ -98,7 +104,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 	play_again(request) {
 		var play_again = request.parameters.value('play_again');
 		if(play_again == 'yes') {
-			return request.redirect('Fun/RockPaperScissors');
+			return request.redirect('App.RockPaperScissors.Intent.RockPaperScissors');
 		}
 		return 'No problems!';
 	}

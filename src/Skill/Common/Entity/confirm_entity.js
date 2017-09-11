@@ -1,27 +1,26 @@
-// Confirm
-	
-var Entity = require('../../../../src/Entity/entity');
+/**
+ * Confirm Entity
+ */
+const Entity = require('../../../Entity/entity');
 
-function ConfirmEntity() {
-	var entity = {
-		name: "Confirm",
-		data: {
+module.exports = class ConfirmEntity extends Entity {
+
+	setup() {
+		this.name = "Confirm";
+		this.data = {
 			'yes': {
 				synonyms:['yeah','yep','yup','aye','sure','indeed','true','ok']
 			},
 			'no': {
 				synonyms:['nope','cancel','maybe','negative','nah','false']
 			}
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parse(string) {
 		var result = this.find(string);
 		return result;
 	}
 
-	return entity
 }
 
-module.exports = ConfirmEntity;
