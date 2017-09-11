@@ -2,23 +2,35 @@
  * Config
  */
 const dotty = require("dotty");
+const fs = require('fs');
 
 module.exports = class Config {
 
 /**
  * Constructor
  *
- * @param object response
+ * @param object App
+ * @param hash config
  * @access public
  * @return void
  */
-	constructor(config = false) {
-		if(!config) {
-			this.config = require('../../app/Config/config.js');
-		}
-		else {
+	constructor(App, config = false) {
+		//Passing the config for testing
+		if(config) {
 			this.config = config;
+			return;
 		}
+		
+		let config_file = '../../app/Config/config.js';
+
+		try {
+			this.config = require(config_file);
+		}
+		catch(e) {
+			App.Error.fatal('App config file not found, check you have created app/Config/config.json file');
+		}
+
+		return true;
 	}
 
 

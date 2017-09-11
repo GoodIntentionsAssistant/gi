@@ -9,8 +9,13 @@ const extend = require('extend');
 const util = require("util");
 const EventEmitter = require('events').EventEmitter;
 
+const Error = require('./../Error/error.js');
+
+const File = require('./../Filesystem/file.js');
+const Folder = require('./../Filesystem/folder.js');
+const Path = require('./../Filesystem/path.js');
+
 const Config = require('./config.js');
-const Path = require('./path.js');
 const Log = require('./log.js');
 
 const Auth = require('./../Auth/auth.js');
@@ -37,7 +42,12 @@ module.exports = class App extends EventEmitter {
 		this.skills = [];
 		this.verbose = true;
 
-		this.Config = new Config();
+		this.Error = new Error();
+
+		this.File = new File();
+		this.Folder = new Folder();
+
+		this.Config = new Config(this);
 		this.Path = new Path(this);
 		this.Log = new Log(this);
 
