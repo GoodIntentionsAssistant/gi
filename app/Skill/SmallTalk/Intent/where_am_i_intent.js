@@ -1,12 +1,13 @@
-// Time zone
-	
+/**
+ * Where am i Intent
+ */
 const Intent = require('../../../../src/Intent/intent');
-var moment = require('moment-timezone');
+const moment = require('moment-timezone');
 
-module.exports = class TimezoneIntent extends Intent {
+module.exports = class WhereAmIIntent extends Intent {
 
 	setup() {
-		this.name = 'Timezone';
+		this.name = 'Where am i';
 		this.trigger = 'where am i';
 		this.synonyms = [
 		];
@@ -15,7 +16,7 @@ module.exports = class TimezoneIntent extends Intent {
 		this.parameters = {
 			"location": {
 				name: "Location",
-				entity: ["Common/Country","Common/City"],
+				entity: ["Sys.Common.Entity.Country","Sys.Common.Entity.City"],
 				required: false,
 				action: 'specified',
 				from_user: true

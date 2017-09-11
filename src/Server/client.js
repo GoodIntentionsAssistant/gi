@@ -100,19 +100,7 @@ module.exports = class Client {
 			session_token: this.session_token
 		});
 
-		this.ready();
-	}
-
-
-/**
- * Client has identified and is ready
- *
- * @param hash input
- * @access public
- * @return void
- */
-	ready() {
-		this.app.Event.emit('client.connected', this);
+		this.app.Event.emit('client.identified', this);
 	}
 
 
@@ -138,6 +126,21 @@ module.exports = class Client {
 			return false;
 		}
 
+		this.app.request(this.client, input);
+	}
+
+
+/**
+ * Call Intent
+ *
+ * @param string Intent identifier
+ * @access public
+ * @return void
+ */
+	call_intent() {
+		let input = {
+			
+		};
 		this.app.request(this.client, input);
 	}
 

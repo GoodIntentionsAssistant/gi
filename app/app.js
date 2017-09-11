@@ -10,8 +10,16 @@ module.exports = class App extends GoodIntentions {
     this.on('app.loop', () => {
     });
 
-    //Client connected
-    this.on('client.connected', (client) => {
+    //Client identified
+    this.on('client.identified', (client) => {
+    });
+
+    //New auth
+    this.on('auth.new', (Client) => {
+      // this.request(Client, {
+      //   text: 'hello',
+      //   user: 'good-intentions-user'
+      // });
     });
   }
 

@@ -11,7 +11,9 @@ module.exports = class Auth {
  * Constructor
  *
  */
-	constructor() {
+	constructor(App) {
+		this.App = App;
+
 		//Template record when adding new accounts
 		this._templateRecord = {
 			"ident": null,
@@ -42,21 +44,24 @@ module.exports = class Auth {
  * AFAIK there is no reason to keep an array of sessions
  *
  * @param string user_id
+ * @param Client client object
  * @return object Session
  */
-	identify(identifier) {
+	identify(identifier, Client) {
 		let user = this.find_user(identifier);
 
 		//If no user session record found then create one
 		if(!user) {
 			this.create(identifier);
 			user = this.find_user(identifier);
+
+			//Event
+			this.App.Event.emit('auth.new', Client);
 		}
 
 		//Set data for session
-		let session = new Session();
-		session.set_data(user);
-		session.set_account(identifier);
+		let session = new Session(this, Client);
+		session.setup(identifier, user);
 		
 		return session;
 	}

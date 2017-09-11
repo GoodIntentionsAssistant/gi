@@ -1,5 +1,6 @@
-// Date
-	
+/**
+ * Date Entity
+ */
 var Entity = require('../../../../src/Entity/entity');
 var moment = require('moment');
 

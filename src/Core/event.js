@@ -23,7 +23,7 @@ module.exports = class Event {
  * @access public
  * @return void
  */
-  emit(event_name, ...args) {
+  emit(event_name, args) {
     return this.App.emit(event_name, args);
   }
 

@@ -1,28 +1,25 @@
 /**
  * Country
- *
- * Data is orginally from moment.timezone
  */
-	
-var Entity = require('../../../../src/Entity/entity');
-var Scrubber = require('../../../../src/Utility/scrubber');
-var moment = require('moment');
+const Entity = require('../../../Entity/entity');
+const Scrubber = require('../../../../src/Utility/scrubber');
+const moment = require('moment');
 
-function CountryEntity() {
-	var entity = {
-		name: "Date",
-		data: {},
-		ignore_index_key: true,
-		import: {
+module.exports = class CountryEntity extends Entity {
+
+	setup() {
+		this.name = "Date";
+		this.data = {};
+		this.ignore_index_key = true;
+		this.import = {
 			type: "custom"
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.load_data = function(resolve, request) {
+	load_data(resolve, request) {
 		var that = this;
 
-		var filename = this.app.Path.get('skills')+"/Common/Data/countries.json";
+		var filename = this.app.Path.get('skills.app')+"/Common/Data/countries.json";
 
 		var fs = require('fs');
 		fs.readFile(filename, 'utf8', function(err, data) {
@@ -61,7 +58,8 @@ function CountryEntity() {
 
 	}
 
-	entity.parse = function(string) {
+
+	parse(string) {
 		var result = this.find(string, {
 			use_key: false
 		});
@@ -73,8 +71,5 @@ function CountryEntity() {
 		return result;
 	}
 
-
-	return entity
 }
 
-module.exports = CountryEntity;

@@ -1,5 +1,6 @@
-// Modifier
-	
+/**
+ * Modifier Entity
+ */
 var Entity = require('../../../../src/Entity/entity');
 
 function ModifierEntity() {

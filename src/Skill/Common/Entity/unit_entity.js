@@ -1,8 +1,9 @@
-// Unit
-	
-var Entity = require('../../../../src/Entity/entity');
-var convert = require('convert-units');
-var extend = require('extend');
+/**
+ * Unit Entity
+ */
+const Entity = require('../../../../src/Entity/entity');
+const convert = require('convert-units');
+const extend = require('extend');
 
 function UnitEntity() {
 	var entity = {

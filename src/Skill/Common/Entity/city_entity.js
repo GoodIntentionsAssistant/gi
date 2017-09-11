@@ -1,26 +1,23 @@
 /**
  * Cities
- *
- * Data is orginally from moment.timezone
  */
-	
-var Entity = require('../../../../src/Entity/entity');
-var moment = require('moment');
+const Entity = require('../../../Entity/entity');
+const moment = require('moment');
 
-function CityEntity() {
-	var entity = {
-		name: "Cities",
-		data: {},
-		import: {
+module.exports = class CityEntity extends Entity {
+
+	setup() {
+		this.name = "Cities";
+		this.data = {};
+		this.import = {
 			type: "custom"
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.load_data = function(resolve, request) {
+	load_data(resolve, request) {
 		var that = this;
 
-		var filename = this.app.Path.get('skills')+"/Common/Data/cities.json";
+		var filename = this.app.Path.get('skills.app')+"/Common/Data/cities.json";
 
 		var fs = require('fs');
 		fs.readFile(filename, 'utf8', function(err, data) {
@@ -56,7 +53,8 @@ function CityEntity() {
 
 	}
 
-	entity.parse = function(string) {
+
+	parse(string) {
 		var result = this.find(string, {
 			use_key: false
 		});
@@ -68,8 +66,5 @@ function CityEntity() {
 		return result;
 	}
 
-
-	return entity
 }
 
-module.exports = CityEntity;

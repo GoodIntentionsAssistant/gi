@@ -128,7 +128,7 @@ module.exports = class Request {
 		//Auth
 		//Session will be an object and store the bots user details
 		//Some intents require to be identified
-		this.session = this.app.Auth.identify(this.input.user);
+		this.session = this.app.Auth.identify(this.input.user, this.client);
 		this.log('Session: '+this.session.data('ident'));
 
 		//Add to history

@@ -53,7 +53,7 @@ module.exports = class App extends EventEmitter {
 		this.Path = new Path(this);
 		this.Log = new Log(this);
 
-		this.Auth = new Auth();
+		this.Auth = new Auth(this);
 		this.Train = new Train(this);
 		this.Queue = new Queue(this);
 		this.Server = new Server(this);

@@ -1,7 +1,8 @@
-// Gratitude
-	
+/**
+ * Gratitude Intent
+ */
 const Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
+const _ = require('underscore');
 
 module.exports = class GratitudeIntent extends Intent {
 

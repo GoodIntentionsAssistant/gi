@@ -1,7 +1,8 @@
-// Colour
-	
+/**
+ * Colour Intent
+ */
 const Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
+const _ = require('underscore');
 
 module.exports = class ColourIntent extends Intent {
 

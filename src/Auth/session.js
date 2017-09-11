@@ -12,8 +12,25 @@ module.exports = class Session {
  * @access public
  * @return void
  */
-	constructor() {
+	constructor(Auth, Client) {
+		this.Auth = Auth;
+		this.App = Auth.App;
+		this.Client = Client;
+
 		this._data = {};
+	}
+
+
+/**
+ * Setup
+ *
+ * @param string source
+ * @param boolean value
+ * @return void
+ */
+	setup(identifier, user) {
+		this.set_data(user);
+		this.set_account(identifier);
 	}
 
 

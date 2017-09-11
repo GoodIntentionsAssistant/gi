@@ -1,4 +1,6 @@
-// Hello
+/**
+ * Greeting Intent
+ */
 'use strict';
 
 const Intent = require('../../../../src/Intent/intent');
