@@ -69,13 +69,20 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load() {
+		//Skills
+		let skills = this.Config.read('skills');
+
+		//Health check the skills
+		if(!skills.length) {
+			this.Error.fatal('No skills specified to load in your config file. You must have at least one skill to load.');
+		}
+
 		//Start the main loop
 		this.timer = null;
 		this.loop_speed = this.Config.read('app.loop_speed');
 		this.loop();
 
 		//Require skill files
-		let skills = this.Config.read('skills');
 		this.load_skills(skills);
 	}
 	

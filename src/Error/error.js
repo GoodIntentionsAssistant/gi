@@ -22,7 +22,7 @@ module.exports = class Error {
  * @return void
  */
   fatal(message) {
-    console.log(message);
+    console.log('Fatal Error: '+message);
     process.exit();
   }
 

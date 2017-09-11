@@ -44,7 +44,7 @@ module.exports = class ClassifyClassifier {
 			return false;
 		}
 
-		if(result.certainty <= 0.2) {
+		if(result.certainty <= 0.2 || result.certainty == 1) {
 			return false;
 		}
 
