@@ -23,7 +23,7 @@ module.exports = class TimezoneIntent extends Intent {
 				entity: ["Common/Country","Common/City"],
 				required: false,
 				action: 'specified',
-				from_user: true
+				slotfill: true
 			}
 		};
 		this.tests = [

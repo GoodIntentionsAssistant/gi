@@ -229,7 +229,7 @@ module.exports = class Parameters {
 
 			//No result:
 			//Load from session user data
-			if(!result.value && data[field].from_user) {
+			if(!result.value && data[field].slotfill) {
 				result.value = this.request.session.user(field);
 			}
 

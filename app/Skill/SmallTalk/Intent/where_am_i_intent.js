@@ -19,7 +19,7 @@ module.exports = class WhereAmIIntent extends Intent {
 				entity: ["Sys.Common.Entity.Country","Sys.Common.Entity.City"],
 				required: false,
 				action: 'specified',
-				from_user: true
+				slotfill: true
 			}
 		};
 	}

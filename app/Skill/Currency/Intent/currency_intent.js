@@ -19,7 +19,7 @@ module.exports = class CurrencyIntent extends Intent {
 				entity: "Sys.Common.Entity.Number",
 				required: false,
 				default: 1,
-				from_user: true
+				slotfill: true
 			},
 			"currency_from": {
 				name: "Currency from",
@@ -30,7 +30,7 @@ module.exports = class CurrencyIntent extends Intent {
 				name: "Currency to",
 				entity: "App.Currency.Entity.Currency",
 				required: true,
-				from_user: true
+				slotfill: true
 			}
 		};
 		/*this.tests = [

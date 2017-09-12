@@ -51,3 +51,9 @@ data | No | You cannot use 'entity' and 'data' fields together. Data is a hash o
 required | No | Default is false. If the intent has been found the paramters are checked one by one before calling the action. But if a parameter is required and it's not found the intent will be set to Errors/ParametersFailed e.g. Currency conversion requires a number, currency from and currency to. If all three of these are not found in the users input then the intent cannot be called.
 default | No | If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
 action | No | If the parameter is found the action will be changed from 'response' to this value
+slotfill | No | Attempt to load the data from previously saved parameter information
+
+
+## Slot Filling
+
+To be documented
