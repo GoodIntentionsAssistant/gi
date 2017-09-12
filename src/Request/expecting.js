@@ -92,6 +92,7 @@ module.exports = class Expecting {
  */
 	set(data) {
 		data.intent = this.request.intent;
+		console.log(data);
 		this.request.session.set_expecting(data);
 	}
 

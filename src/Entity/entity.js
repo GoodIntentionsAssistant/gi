@@ -29,11 +29,9 @@ module.exports = class Entity {
  * @return void
  */
 	load(options) {
-		var that = this;
-
-		this.promise = new Promise(function(resolve, reject) {
-			if(that.import) {
-				that._import(that.import, resolve, options);
+		this.promise = new Promise((resolve, reject) => {
+			if(this.import) {
+				this._import(this.import, resolve, options);
 			}
 			else {
 				//Entity has data set already
@@ -52,7 +50,7 @@ module.exports = class Entity {
 	_import(settings, resolve, options) {
 		if(settings.type == 'custom') {
 			//Load custom
-			this.load_data(resolve, options.request);
+			this.load_data(resolve, options);
 		}
 		else if(settings.type == 'json') {
 			//Load from local json file

@@ -237,7 +237,7 @@ module.exports = class Session {
 	set_expecting(expecting) {
 		//If intent has been passed as an object then change it to the intent name (string)
 		if(typeof expecting.intent === 'object') {
-			expecting.intent = expecting.intent.name;
+			expecting.intent = expecting.intent.identifier;
 		}
 		this.set('expecting',expecting);
 	}

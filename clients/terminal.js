@@ -16,7 +16,7 @@ prompt.start();
 
 function ready() {
 	//send('roll dice');
-	send('6+6');
+	send('where am i?');
 }
 
 

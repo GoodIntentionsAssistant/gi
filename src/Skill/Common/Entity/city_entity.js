@@ -17,13 +17,13 @@ module.exports = class CityEntity extends Entity {
 	load_data(resolve, request) {
 		var that = this;
 
-		var filename = this.app.Path.get('skills.app')+"/Common/Data/cities.json";
+		var filename = this.app.Path.get('skills.sys')+"/Common/Data/cities.json";
 
 		var fs = require('fs');
 		fs.readFile(filename, 'utf8', function(err, data) {
 			var json = JSON.parse(data);
 
-			for(key in json.entries) {
+			for(let key in json.entries) {
 				var synonyms = [];
 
 				var name = json.entries[key].name;

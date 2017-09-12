@@ -19,13 +19,15 @@ module.exports = class CountryEntity extends Entity {
 	load_data(resolve, request) {
 		var that = this;
 
-		var filename = this.app.Path.get('skills.app')+"/Common/Data/countries.json";
+		var filename = this.app.Path.get('skills.sys')+"/Common/Data/countries.json";
+
+		console.log(filename);
 
 		var fs = require('fs');
 		fs.readFile(filename, 'utf8', function(err, data) {
 			var json = JSON.parse(data);
 
-			for(key in json.entries) {
+			for(let key in json.entries) {
 				var entry = json.entries[key];
 
 				var synonyms = [];
