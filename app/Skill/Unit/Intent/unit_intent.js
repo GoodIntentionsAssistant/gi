@@ -1,10 +1,10 @@
-// Unit
-// https://www.npmjs.com/package/convert-units
-	
-var Intent = require('../../../../../src/Intent/intent');
-var natural = require('natural');
-var convert = require('convert-units');
-var _ = require('underscore');
+/**
+ * Unit Intent
+ */
+const Intent = require('../../../../src/Intent/intent');
+const natural = require('natural');
+const convert = require('convert-units');
+const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
 module.exports = class UnitIntent extends Intent {
@@ -13,23 +13,23 @@ module.exports = class UnitIntent extends Intent {
 		this.name = 'Unit Converter';
 		this.trigger = 'convert';
 		this.entities = {
-			'Common/Unit': {}
+			'Sys.Common.Entity.Unit': {}
 		};
 		this.parameters = {
 			"amount": {
 				name: "Amount",
-				entity: "Common/Number",
+				entity: "Sys.Common.Entity.Number",
 				required: false,
 				default: 1
 			},
 			"unit_from": {
 				name: "Unit From",
-				entity: "Common/Unit",
+				entity: "Sys.Common.Entity.Unit",
 				required: true
 			},
 			"unit_to": {
 				name: "Unit To",
-				entity: "Common/Unit",
+				entity: "Sys.Common.Entity.Unit",
 				required: true
 			}
 		};

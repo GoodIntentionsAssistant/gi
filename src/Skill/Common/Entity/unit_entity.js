@@ -5,24 +5,22 @@ const Entity = require('../../../../src/Entity/entity');
 const convert = require('convert-units');
 const extend = require('extend');
 
-function UnitEntity() {
-	var entity = {
-		name: "Unit",
-		import: {
-			file: "Common/Data/units.json",
-			type: "json"
-		}
-	}
-	entity.__proto__ = Entity()
+module.exports = class UnitEntity extends Entity {
 
-	entity.parse = function(string) {
+	setup() {
+		this.name = "Unit";
+		this.import = {
+			file: "Sys.Common.Data.units",
+			type: "json"
+		};
+	}
+
+	parse(string) {
 		var result = this.find(string, {
 			use_key: false
 		});
 		return result;
 	}
 
-	return entity
 }
 
-module.exports = UnitEntity;
