@@ -1,26 +1,29 @@
-// Time zone
-	
-var Intent = require('../../../../../src/Intent/intent');
-var moment = require('moment-timezone');
+/**
+ * Timezone Intent
+ */
+const Intent = require('../../../../src/Intent/intent');
+const moment = require('moment-timezone');
 
 module.exports = class TimezoneIntent extends Intent {
 
 	setup() {
 		this.name = 'Timezone';
-		this.trigger = 'time';
-		this.synonyms = [
+
+		this.train([
+			'time',
 			'timezone',
 			'time zone',
 			'time in'
-		];
+		]);
+
 		this.entities = {
-			'Common/Country': {},
-			'Common/City': {}
+			'Sys.Common.Entity.Country': {},
+			'Sys.Common.Entity.City': {}
 		};
 		this.parameters = {
 			"location": {
 				name: "Location",
-				entity: ["Common/Country","Common/City"],
+				entity: ["Sys.Common.Entity.Country","Sys.Common.Entity.City"],
 				required: false,
 				action: 'specified',
 				slotfill: true
