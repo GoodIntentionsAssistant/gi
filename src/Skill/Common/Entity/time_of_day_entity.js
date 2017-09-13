@@ -1,5 +1,5 @@
 /**
- * Emotion Entity
+ * Time of the day Entity
  */	
 const Entity = require('../../../Entity/entity');
 

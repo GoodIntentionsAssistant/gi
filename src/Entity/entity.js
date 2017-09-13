@@ -15,6 +15,7 @@ module.exports = class Entity {
  */
 	constructor(app) {
 		this.app = app;
+		this.loaded = false;
 
 		if(!this.data) {
 			this.data = {};
@@ -35,6 +36,7 @@ module.exports = class Entity {
 			}
 			else {
 				//Entity has data set already
+				this.loaded = true;
 				resolve();
 			}
 		});
@@ -51,12 +53,14 @@ module.exports = class Entity {
 		if(settings.type == 'custom') {
 			//Load custom
 			this.load_data(resolve, options);
+			this.loaded = true;
 		}
 		else if(settings.type == 'json') {
 			//Load from local json file
 			let promise = this.app.Data.load(settings.file, 'json');
 			promise.then((result) => {
 				this.data = result.entries;
+				this.loaded = true;
 				resolve();
 			});
 		}
@@ -65,6 +69,7 @@ module.exports = class Entity {
 			let promise = this.app.Data.load(settings.file, 'csv');
 			promise.then((result) => {
 				this.data = result;
+				this.loaded = true;
 				resolve();
 			});
 		}

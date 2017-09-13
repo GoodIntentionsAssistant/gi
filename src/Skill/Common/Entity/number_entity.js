@@ -1,7 +1,7 @@
 /**
  * Number Entity
  */	
-var Entity = require('../../../Entity/entity');
+const Entity = require('../../../Entity/entity');
 
 module.exports = class NumberEntity extends Entity {
 

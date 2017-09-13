@@ -121,41 +121,72 @@ module.exports = class Intent {
  * @return void
  */
 	load_entities(name) {
-		var that = this;
-
-		return new Promise(function(resolve, reject) {
-			if(!that.entities) {
+		return new Promise((resolve, reject) => {
+			//No entities to train from
+			if(!this.entities) {
 				resolve();
 				return;
 			}
 
-			//Loop through the list of entities we need to train
-			for(var key in that.entities) {
-				//Fetch the loaded entity grab the keywords
-				var entity = that.app.EntityRegistry.get(key);
-				var keywords = entity.get_data();
-				var options = that.entities[key];
+			//Promises
+			let promises = [];
 
-				//Loop the keywords and add to the intent
-				for(var key in keywords) {
-					//Might not want to index the key for the entity
-					//@todo Remove this totally, never index the key
-					if(!entity.ignore_index_key) {
-						that.add_keyword(key, options);
-					}
-
-					//Add synonyms
-					if(keywords[key].synonyms) {
-						for(var ii=0; ii < keywords[key].synonyms.length; ii++) {
-							that.add_keyword(keywords[key].synonyms[ii], options);
-						}
-					}
+			//Make sure all entities are loaded
+			for(let key in this.entities) {
+				let entity = this.app.EntityRegistry.get(key);
+				if(!entity.loaded) {
+					promises.push(entity.promise);
 				}
 			}
 
-			resolve();
+			//Wait for all promises to finish then train
+			if(promises.length > 0) {
+				Promise.all(promises).then(() => {
+					this._train_from_entities();
+					resolve();
+				});
+			}
+			else {
+				//Entities already loaded, no need to wait for training
+				this._train_from_entities();
+				resolve();
+			}
+
 		});
 
+	}
+
+
+/**
+ * Train from entities
+ *
+ * @param array keywords
+ * @param array options
+ */
+	_train_from_entities() {
+
+		for(var key in this.entities) {
+			//Fetch the loaded entity grab the keywords
+			var entity = this.app.EntityRegistry.get(key);
+			var keywords = entity.get_data();
+			var options = this.entities[key];
+
+			//Loop the keywords and add to the intent
+			for(var key in keywords) {
+				//Might not want to index the key for the entity
+				//@todo Remove this totally, never index the key
+				if(!entity.ignore_index_key) {
+					this.add_keyword(key, options);
+				}
+
+				//Add synonyms
+				if(keywords[key].synonyms) {
+					for(var ii=0; ii < keywords[key].synonyms.length; ii++) {
+						this.add_keyword(keywords[key].synonyms[ii], options);
+					}
+				}
+			}
+		}
 	}
 
 

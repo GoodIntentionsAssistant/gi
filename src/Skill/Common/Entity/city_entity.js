@@ -2,7 +2,6 @@
  * Cities
  */
 const Entity = require('../../../Entity/entity');
-const moment = require('moment');
 
 module.exports = class CityEntity extends Entity {
 

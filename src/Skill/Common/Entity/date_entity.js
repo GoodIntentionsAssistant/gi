@@ -1,8 +1,8 @@
 /**
  * Date Entity
  */
-var Entity = require('../../../../src/Entity/entity');
-var moment = require('moment');
+const Entity = require('../../../../src/Entity/entity');
+const moment = require('moment');
 
 function DateEntity() {
 	var entity = {

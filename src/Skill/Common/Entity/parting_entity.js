@@ -1,7 +1,7 @@
 /**
  * Parting Entity
  */	
-var Entity = require('../../../Entity/entity');
+const Entity = require('../../../Entity/entity');
 
 module.exports = class PartingEntity extends Entity {
 
