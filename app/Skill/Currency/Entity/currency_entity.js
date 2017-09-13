@@ -9,7 +9,7 @@ module.exports = class MathWordEntity extends Entity {
 	setup() {
 		this.name = "Currency";
 		this.import = {
-			file: "App.Currency.Data.currencies",
+			file: "Data.Common.currencies",
 			type: "csv"
 		};
 		this.data = {};

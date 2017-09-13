@@ -24,6 +24,8 @@ const Train = require('./../Train/train.js');
 const Queue = require('./../Request/queue.js');
 const Server = require('./../Server/server.js');
 
+const Data = require('./../Data/data.js');
+
 const SkillRegistry = require('./../Skill/skill_registry.js');
 const EntityRegistry = require('./../Entity/entity_registry.js');
 const IntentRegistry = require('./../Intent/intent_registry.js');
@@ -57,6 +59,8 @@ module.exports = class App extends EventEmitter {
 		this.Train = new Train(this);
 		this.Queue = new Queue(this);
 		this.Server = new Server(this);
+
+		this.Data = new Data(this);
 
 		this.EntityRegistry = new EntityRegistry(this);
 		this.IntentRegistry = new IntentRegistry(this);

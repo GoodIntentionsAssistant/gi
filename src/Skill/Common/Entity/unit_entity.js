@@ -10,7 +10,7 @@ module.exports = class UnitEntity extends Entity {
 	setup() {
 		this.name = "Unit";
 		this.import = {
-			file: "Sys.Common.Data.units",
+			file: "Data.Common.units",
 			type: "json"
 		};
 	}

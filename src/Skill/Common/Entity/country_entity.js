@@ -8,7 +8,7 @@ const moment = require('moment');
 module.exports = class CountryEntity extends Entity {
 
 	setup() {
-		this.name = "Date";
+		this.name = "Country";
 		this.data = {};
 		this.ignore_index_key = true;
 		this.import = {
@@ -17,16 +17,9 @@ module.exports = class CountryEntity extends Entity {
 	}
 
 	load_data(resolve, request) {
-		var that = this;
+		let promise = this.app.Data.load('Data.Common.countries', 'json');
 
-		var filename = this.app.Path.get('skills.sys')+"/Common/Data/countries.json";
-
-		console.log(filename);
-
-		var fs = require('fs');
-		fs.readFile(filename, 'utf8', function(err, data) {
-			var json = JSON.parse(data);
-
+		promise.then((json) => {
 			for(let key in json.entries) {
 				var entry = json.entries[key];
 
@@ -47,7 +40,7 @@ module.exports = class CountryEntity extends Entity {
 					}
 				}
 
-				that.data[key] = {
+				this.data[key] = {
 					label: entry.name,
 					synonyms:synonyms,
 					zone_key: entry.zones[0],

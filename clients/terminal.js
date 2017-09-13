@@ -16,7 +16,7 @@ prompt.start();
 
 function ready() {
 	//send('roll dice');
-	send('where am i?');
+	send('weather in bangkok');
 }
 
 

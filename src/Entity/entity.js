@@ -54,103 +54,24 @@ module.exports = class Entity {
 		}
 		else if(settings.type == 'json') {
 			//Load from local json file
-			this.load_data_json(settings.file, resolve);
+			let promise = this.app.Data.load(settings.file, 'json');
+			promise.then((result) => {
+				this.data = result.entries;
+				resolve();
+			});
 		}
 		else if(settings.type == 'csv') {
 			//Load from local CSV file
-			this.load_data_csv(settings.file, resolve);
+			let promise = this.app.Data.load(settings.file, 'csv');
+			promise.then((result) => {
+				this.data = result;
+				resolve();
+			});
 		}
 		else {
 			console.error('No import type specified');
 			process.exit();
 		}
-	}
-
-
-/**
- * Load CSV data
- *
- * @param string filename
- * @param method resolve
- * @return boolean
- */
-	load_data_csv(identifier, resolve) {
-		//For scoping when reading the file
-		var that = this;
-
-		let filename = this.identifier_to_filename(identifier, 'csv');
-
-		//Load the file go through each line
-		//Split by tab and add anything in the second part into synonyms
-		var fs = require('fs');
-		fs.readFile(filename, 'utf8', function(err, data) {
-			if (err) throw err;
-			
-			var lines = data.split(/\r?\n/);
-			for(var ii=0; ii<lines.length; ii++) {
-				if(!lines[ii]) { break; }
-
-				//Break key and synonyms
-				var parts = lines[ii].split(/,/);
-
-				//Key
-				var key = parts[0];
-				key = key.trim();
-				key = key.replace(/"/g,'');
-
-				//Get synonyms and trim white spaces
-				var synonyms = [];
-				for(var ss=1; ss<parts.length; ss++) {
-					var word = parts[ss].trim().toLowerCase();
-					word = word.replace(/"/g,'');
-					synonyms.push(word);
-				}
-
-				//Add to data
-				that.data[key] = {
-					synonyms: synonyms
-				}
-			}
-
-			//Entity is now ready
-			resolve();
-		});
-	}
-
-
-/**
- * Load JSON data
- *
- * @param string filename
- * @param method resolve
- * @return boolean
- */
-	load_data_json(identifier, resolve) {
-		//For scoping when reading the file
-		var that = this;
-		let filename = this.identifier_to_filename(identifier, 'json');
-
-		//Load the file go through each line
-		//Split by tab and add anything in the second part into synonyms
-		var fs = require('fs');
-		fs.readFile(filename, 'utf8', function(err, data) {
-			if (err) throw err;
-
-			//No data
-			if(!data) {
-				resolve();
-			}
-
-			var json = JSON.parse(data);
-
-			//Invalid json
-			if(!json) {
-				resolve();
-			}
-
-			that.data = json.entries;
-			resolve();
-		});
 	}
 
 
@@ -238,17 +159,6 @@ module.exports = class Entity {
 						value: key
 					});
 				}
-
-				//Check if the string exists in the array
-				//Then set the position, we want to find the FIRST result
-				//If you don't check position then it'll just find the first match
-				//e.g. "45 GBP to BAHT", it will find BAHT first and return that
-				//but we keep scanning, we find GBP and its position is before BAHT so we change the value
-				/*if(position > -1 && position < last_position) {
-					original = _list[ii];
-					last_position = position;
-					value = key;
-				}*/
 			}
 		}
 
@@ -362,27 +272,5 @@ module.exports = class Entity {
 
 		return words;
 	}
-
-
-/**
- * Identifier to filename
- *
- * @param string name
- * @access public
- * @return string
- */
-  identifier_to_filename(identifier, extension) {
-		let parts = identifier.split('.');
-
-    let type = parts[0];
-		let skill = parts[1];
-
-		let path = this.app.Path.get('skills.'+type.toLowerCase());
-		
-		parts.shift();
-		let filename = path + '/' + parts.join('/') + '.' + extension;
-
-		return filename;
-  }
 
 }
