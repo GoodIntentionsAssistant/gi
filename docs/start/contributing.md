@@ -3,14 +3,16 @@ layout: page
 title: Contributing
 ---
 
-We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you're just getting started check out the project [Github Issues](https://github.com/darrenmoore/GoodIntentionsChatBot/issues) for a list of 
+We welcome contributions from developers to fix bugs, enhance existing features and creating new features for the chat bot. If you're just getting started check out the project [Github Issues](https://github.com/darrenmoore/GoodIntentionsChatBot/issues) for a list of improvements, bugs and wild ideas!
 
 ## Areas of interest
 
 * Clients
 * Example intents
+* Skills
+* Entities and data
 * NLP improvements
-* Database layer
+* Database layer / ORM improvements
 * Documentation
 
 

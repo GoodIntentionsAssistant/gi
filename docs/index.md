@@ -12,3 +12,13 @@ The framework comes with a collection of examples.
 The bot server cannot just be run by itself, it requires clients to act as middleware.
 
 The system has inspirations from Api.ai so some of their documentation found at [https://docs.api.ai/](https://docs.api.ai/) can also be used to get an overview of some key components of this system.
+
+## What is GI?
+
+* It is not AI, but you could build it to be amazing AI and share it
+* It is not Machine Learning, but you could build machine learning into the framework and share it
+* It is not a Chatter Bot, but you could create some amazing intents and share it
+* It is not Intelligent, but you could help us build up the data and entities and share it
+* It is probably over engineered, but it's fun to do!
+
+...I'm under no illusion that GI might not be useful out of the npm package box but I hope it'll turn into something interesting from the community. Contribute with your own skills, entities and data!
