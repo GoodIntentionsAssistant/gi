@@ -2,7 +2,7 @@
  * Classify NLP Classifier
  */
 
-const Classify = require('../../../library/classify.js');
+const Classify = require('../Vendor/classify.js');
 
 module.exports = class ClassifyClassifier {
 
