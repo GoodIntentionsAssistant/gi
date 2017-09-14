@@ -7,6 +7,15 @@ const io = require('socket.io-client');
 
 module.exports = class GiClient extends EventEmitter {
 
+/**
+ * Constructor 
+ * 
+ * @param string name Client name found in your config.js file
+ * @param string token Token found in your config.js file with the client name
+ * @param string host Host name for connecting to the GI server, may require http:// and defining the port number
+ * @access publuc
+ * @return void
+ */
   constructor(name, token, host) {
     super();
 
@@ -18,7 +27,15 @@ module.exports = class GiClient extends EventEmitter {
     this.session_token = null;
   }
 
-
+/**
+ * Bind Events
+ * 
+ * For socket.io responses handle them and use the EventEmitter so clients can
+ * observe the emits.
+ * 
+ * @access public
+ * @return void
+ */
   events() {
     this.socket.on('disconnect', () => {
       this.emit('disconnect');
@@ -57,24 +74,52 @@ module.exports = class GiClient extends EventEmitter {
   }
 
 
+/**
+ * Connect
+ * 
+ * Method to connect using Socket.io to the host.
+ * Once connected it will bind the events and identify itself to the server
+ * 
+ * @access public
+ * @return void
+ */
   connect() {
     this.socket = io.connect(this.host, {
       reconnect: true
     });
 
     this.socket.on('connect', () => {
-      this.emit('connect');
       this.events();
       this.identify();
+      this.emit('connect');
     });
   }
 
 
+/**
+ * Disconnect from the GI server
+ * 
+ * @access public
+ * @return void
+ */
   disconnect() {
 
   }
 
 
+/**
+ * Identify to the GI server
+ * 
+ * Part of the handshake with the GI server is sending identification details to the server.
+ * These details must match what is stored in the app/Config/config.js file.
+ * If the client does not identify then no other messages can be sent to the server.
+ * 
+ * If the identification is successful the GI server will return a session_token. This session_token
+ * is then used on all future calls. This identification token is only required once.
+ * 
+ * @access public
+ * @return void
+ */
   identify() {
     this.socket.emit('identify',{
       client: this.name,
@@ -83,6 +128,16 @@ module.exports = class GiClient extends EventEmitter {
   }
 
 
+/**
+ * Send to GI
+ * 
+ * Raw text sent to GI server. The client and session token must match otherwise the 
+ * server will reject the input. Identification is required before sending a message.
+ * 
+ * @param string text
+ * @access public
+ * @return void
+ */
   send(text) {
     let input = {
       client: this.name,
