@@ -5,36 +5,33 @@ const EventEmitter = require('events').EventEmitter;
 const io = require('socket.io-client');
 
 
-module.exports = class GiClient {
+module.exports = class GiClient extends EventEmitter {
 
   constructor(name, token, host) {
+    super();
+
     this.name   = name;
     this.token  = token;
     this.host   = host;
 
     this.socket = null;
     this.session_token = null;
-
-    //Events
-    events();
   }
 
 
   events() {
-    socket.on('connect', () => {
-      this.emit('connected');
-      this.ident();
-    });
-
-    socket.on('disconnect', () => {
-      this.emit('disconnected');
+    this.socket.on('disconnect', () => {
+      this.emit('disconnect');
     });
     
-    socket.on('event', function(data){
+    this.socket.on('event', (data) => {
       if(data.type == 'error') {
         this.emit('error', data);
       }
       else if(data.type == 'request' && !data.success) {
+        this.emit('error', data);
+      }
+      else if(data.type == 'identify' && !data.success) {
         this.emit('error', data);
       }
       else if(data.type == 'identify' && data.success) {
@@ -43,10 +40,10 @@ module.exports = class GiClient {
       }
     });
 
-    socket.on('response', (data) => {
+    this.socket.on('response', (data) => {
       if(data.type == 'message') {
         //Sending message
-        this.emit('response', data);
+        this.emit('message', data);
       }
       else if(data.type == 'start') {
         //Started to type
@@ -64,6 +61,12 @@ module.exports = class GiClient {
     this.socket = io.connect(this.host, {
       reconnect: true
     });
+
+    this.socket.on('connect', () => {
+      this.emit('connect');
+      this.events();
+      this.identify();
+    });
   }
 
 
@@ -72,19 +75,19 @@ module.exports = class GiClient {
   }
 
 
-  ident() {
-    socket.emit('identify',{
-      client: this.client,
+  identify() {
+    this.socket.emit('identify',{
+      client: this.name,
       token: this.token
     });
   }
 
 
-  request() {
+  send(text) {
     let input = {
-      client: 'test',
-      session_token: session_token,
-      text: input,
+      client: this.name,
+      session_token: this.session_token,
+      text: text,
       type: 'message',
       user: 'good-intentions-user',
       fast: true
