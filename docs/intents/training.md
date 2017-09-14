@@ -5,25 +5,24 @@ title: Intent Training
 
 For intents to be called from user input they must train the app with keywords and phrases.
 
-
-## Trigger and symnomns
-
-The trigger keyword can be defined to train the classifier to route to the correct intent. You can also use symnomns which are similar words you want to train the classifers with.
+Using the `this.train()` function you can train the bot to understand the intent.
 
 ~~~javascript
-var Intent = require('../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
 
 module.exports = class PingIntent extends Intent {
 
-	setup() {
-		this.name = 'Ping';
-		this.trigger = 'ping';
-		this.symnomns = ['pong'];
-	}
+  setup() {
+    this.name = 'Ping';
+    this.train([
+      'ping',
+      'pong'
+    ]);
+  }
 
-	response() {
-		return 'Pong';
-	}
+  response() {
+    return 'Pong';
+  }
 
 }
 ~~~

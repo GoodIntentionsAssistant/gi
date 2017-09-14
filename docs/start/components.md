@@ -3,11 +3,23 @@ layout: page
 title: Key Components
 ---
 
-##### Apps
-Collection of entities, intents and data sets
+##### Skill
+A set of entities, intents and data sets
+
+##### Entity
+Data source for training the system and parsing parameters from user input
+
+##### Intent
+Business logic for the users input
 
 ##### Clients
 The interface between the framework and the end-point
+
+##### Parameters
+Parses user input with entity data
+
+##### Train
+Matching user input to an intent
 
 ##### Queue
 Queue user input requests for memory and flood protection
@@ -16,16 +28,4 @@ Queue user input requests for memory and flood protection
 Handles the user input, finding which intent to use and calling the intent
 
 ##### Auth and Session
-User pesistent sessions over multiple calls, with API token and context information
-
-##### Learn
-Classifier interfaces for matching user input to an intent
-
-##### Entities
-Data source for training the system and parsing parameters from user input. Comparable to a model in MVC.
-
-##### Intents
-Business logic for the users input. Comparable to a controller in MVC.
-
-##### Parameters
-Parses user input text
+Identfying and storing information for people who use the bot

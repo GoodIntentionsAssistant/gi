@@ -44,9 +44,10 @@ GiApp.on('identified', () => {
   output('Identified, you can now type in a message', 'success');
 
   //Message to send once identified
+  prompt.pause();
 	GiApp.send('hello');
 
-  prompt_me();
+  //prompt_me();
 });
 
 GiApp.on('error', (data) => {
@@ -113,6 +114,7 @@ GiApp.on('message', (data) => {
   debug.push('Intent: '+data.intent);
   debug.push('Action: '+data.action);
   debug.push('Classifier: '+data.classifier);
+  debug.push('Seq.: '+data.sequence);
   output(debug.join(' | '),'mute');
 });
 

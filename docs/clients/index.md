@@ -10,7 +10,7 @@ Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any 
 
 ## CLI Test Client
 
-GI provides a CLI test client called Terminal. This can be found in `clients/terminal.js`.
+GI provides a CLI test client found in `clients/cli.js`.
 
 Load the server and then load the client. The client will identify with the server with the client token (stored in your config.js file) and the server will generate a session_token for all requests. You can then type in any command to test the app.
 

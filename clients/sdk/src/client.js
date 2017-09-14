@@ -103,7 +103,7 @@ module.exports = class GiClient extends EventEmitter {
  * @return void
  */
   disconnect() {
-
+    this.socket.disconnect();
   }
 
 

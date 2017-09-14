@@ -224,9 +224,11 @@ table {
     border-color:gray;
     border-spacing: 0;
     border-collapse: collapse;
+    width:100%;
     th {
         padding: 6px 13px;
         border: 1px solid #dfe2e5;
+        text-align:left;
     }
     td {
         padding: 6px 13px;

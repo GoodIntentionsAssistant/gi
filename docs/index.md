@@ -15,6 +15,7 @@ The system has inspirations from Api.ai so some of their documentation found at 
 
 ## What is GI?
 
+* It is a framework for building rule-based chat bots
 * It is not AI, but you could build it to be amazing AI and share it
 * It is not Machine Learning, but you could build machine learning into the framework and share it
 * It is not a Chatter Bot, but you could create some amazing intents and share it

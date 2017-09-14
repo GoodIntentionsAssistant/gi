@@ -38,11 +38,11 @@ microtime | Server microtime when the data was sent
 ## Example of catching response
 
 ~~~javascript
-socket.on('response', function(data){
-	if(data.type == 'message') {
-		for(var ii=0; ii<data.messages.length; ii++) {
-			console.log('\033[31m','Message: ',data.messages[ii],'\033[0m');
-		}
-	}
+socket.on('response', (data) => {
+  if(data.type == 'message') {
+    for(let ii=0; ii<data.messages.length; ii++) {
+      console.log('Message:', data.messages[ii]);
+    }
+  }
 });
 ~~~
