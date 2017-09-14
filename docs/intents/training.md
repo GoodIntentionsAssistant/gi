@@ -8,8 +8,6 @@ For intents to be called from user input they must train the app with keywords a
 Using the `this.train()` function you can train the bot to understand the intent.
 
 ~~~javascript
-const Intent = require('../../../../src/Intent/intent');
-
 module.exports = class PingIntent extends Intent {
 
   setup() {
@@ -39,8 +37,6 @@ Triggers and symnomns train the default classifier. To change the classifer defi
 
 
 ~~~javascript
-var Intent = require('../../../../src/Intent/intent');
-
 module.exports = class PingIntent extends Intent {
 
 	setup() {
@@ -71,8 +67,6 @@ Adding a strict match for `how are you` means the user will always go to that in
 Regular expressions can also be added to the keywords.
 
 ~~~javascript
-var Intent = require('../../../../src/Intent/intent');
-
 module.exports = class PingIntent extends Intent {
 
 	setup() {

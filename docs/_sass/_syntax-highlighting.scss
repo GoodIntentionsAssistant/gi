@@ -1,6 +1,11 @@
 /**
  * Syntax highlighting styles
  */
+.highlighter-rouge {
+  background-color:#f6f8fa;
+  border-radius:0;
+}
+ 
 .highlight {
     background: #fff;
     @extend %vertical-rhythm;

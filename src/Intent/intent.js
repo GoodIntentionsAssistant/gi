@@ -17,8 +17,12 @@ module.exports = class Intent {
 
 		this.input = null;
 		this.session = null;
+		
 		this._keywords = [];
 		this._entities = [];
+		
+		this.parameters = [];
+
 		this.classifier = 'default';
 	}
 
@@ -103,6 +107,19 @@ module.exports = class Intent {
 			let value = data[ii];
 			this.add_keyword(data[ii], {});
 		}
+
+		return true;
+	}
+
+
+/**
+ * Add Parameter
+ * 
+ * @param hash data
+ * @return bool
+ */
+	add_parameter(name, data) {
+		this.parameters[name] = data;
 
 		return true;
 	}

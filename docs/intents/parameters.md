@@ -9,37 +9,51 @@ The key of the parameter is used when fetching parameters in your intent.
 If your key was 'date' in your intent you can call, `request.parameters.value('date');` for the value.
 
 If a parameter is required and is not specified by the users input request.js will change the
-intent to be `Errors/ParametersFailed` and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.
+intent to be `Sys.Errors.ParametersFailed` and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.
 
 
 ~~~javascript
-module.exports = class FoobarIntent extends Intent {
+module.exports = class OrderIntent extends Intent {
 
   setup() {
-    this.parameters = {
-      "number": {
-        "name": "Number",
-        "entity": "Common/Number",
-        "required": false
-      },
-      "city": {
-        "name": "City",
-        "entity": "Common/City",
-        "required": false,
-        "action": 'city'
+    this.name = 'Order Food';
+
+    this.train([
+      'order',
+      'order food'
+    ]);
+
+    this.add_parameter('choice', {
+      name: "Choice",
+      data: {
+        "pizza": {},
+        "burger": {},
+        "fries": {}
       }
-    };
+    });
   }
 
   response(request) {
-    return 'Number is ' + request.parameters.value('number');
-  }
+    let choice = request.parameters.value('choice');
 
-  city(request) {
-    return 'City is ' + request.parameters.value('city');
+    if(choice) {
+      return 'You chose '+choice;
+    }
+    else {
+      return 'Pizza, burger or fries?';
+    }
   }
 
 }
+~~~
+
+Example input and output
+
+~~~
+User: order food
+GI: Pizza, burger or fries?
+User: order burger
+GI: You chose burger
 ~~~
 
 
@@ -52,6 +66,40 @@ required | No | Default is false. If the intent has been found the paramters are
 default | No | If no value was found in the users input the `value` of the data will be set to `default`. This is useful when you want user confirmation and you want the default to be no.
 action | No | If the parameter is found the action will be changed from 'response' to this value
 slotfill | No | Attempt to load the data from previously saved parameter information
+
+
+## Parameters from an Entity
+
+~~~javascript
+module.exports = class FoobarIntent extends Intent {
+
+  setup() {
+    this.name = 'Foobar';
+
+    this.add_parameter('number', {
+      "name": "Number",
+      "entity": "Sys.Common.Entity.Number",
+      "required": false
+    });
+
+    this.add_parameter('city', {
+      "name": "City",
+      "entity": "Sys.Common.Entity.City",
+      "required": false,
+      "action": 'city'
+    });
+  }
+
+  response(request) {
+    return 'Number is ' + request.parameters.value('number');
+  }
+
+  city(request) {
+    return 'City is ' + request.parameters.value('city');
+  }
+
+}
+~~~
 
 
 ## Slot Filling
