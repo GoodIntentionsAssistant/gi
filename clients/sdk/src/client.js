@@ -35,8 +35,8 @@ module.exports = class GiClient extends EventEmitter {
         this.emit('error', data);
       }
       else if(data.type == 'identify' && data.success) {
-        this.emit('identified', data);
         this.session_token = data.session_token;
+        this.emit('identified', data);
       }
     });
 

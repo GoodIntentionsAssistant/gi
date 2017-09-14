@@ -42,6 +42,10 @@ GiApp.on('disconnect', () => {
 
 GiApp.on('identified', () => {
   output('Identified, you can now type in a message', 'success');
+
+  //Message to send once identified
+	GiApp.send('hello');
+
   prompt_me();
 });
 
@@ -135,7 +139,7 @@ function prompt_me() {
   }
 
 	prompt.get(schema, function (err, result) {
-		GiApp.send(result.input, true);
+		GiApp.send(result.input);
     prompt.pause();
 	});
 }
