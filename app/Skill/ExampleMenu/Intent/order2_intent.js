@@ -3,7 +3,7 @@
  */
 const Intent = require('../../../../src/Intent/intent');
 
-module.exports = class OrderIntent extends Intent {
+module.exports = class Order2Intent extends Intent {
 
 	setup() {
 		this.name = 'Order Food';

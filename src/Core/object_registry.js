@@ -39,7 +39,7 @@ module.exports = class ObjectRegistry {
  * @access public
  * @return object Promise
  */
-  load_all(skill) {
+  load_all(skill, options = {}) {
     //Path to find entity and intents
     //The type is set from EntityRegistry and IntentRegistry
     let path = this.identifier_to_directory(skill+'.'+this.type);
@@ -71,10 +71,21 @@ module.exports = class ObjectRegistry {
 
           //Build up the object identifier and load it
           //Turning /Skill/Dice/Intent/dice_intent.js to App.Dice.Intent.Dice
-          let identifier = file;
-          identifier = identifier.replace('_'+type_lower+'.js','');
-          identifier = _.camelize(identifier);
-          identifier = skill+'.'+this.type+'.'+identifier;
+          let name = file;
+          name = name.replace('_'+type_lower+'.js','');
+          name = _.camelize(name);
+
+          //Check if this should be loaded from options
+          if(typeof options['only'] != 'undefined') {
+            //The current file is not in the options for which files to only load in
+            //So loading this object will be skipped
+            if(options['only'].indexOf(name) === -1) {
+              return;
+            }
+          }
+
+          //Build an identifier
+          let identifier = skill+'.'+this.type+'.'+name;
 
           //Load the object and add promise to array
           let object = this.load(identifier);

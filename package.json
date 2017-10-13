@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "grunt": ">=0.4.5",
-    "jasmine": "^2.8.0"
+    "jasmine": "^2.8.0",
+    "nodemon": "^1.12.1"
   },
   "scripts": {
     "test": "jasmine",

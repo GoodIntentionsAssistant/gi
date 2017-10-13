@@ -15,11 +15,23 @@ module.exports = class Skill {
 		this.app = app;
 	}
 
-	
+
+/**
+ * Setup skill
+ *
+ * @access public
+ * @return void
+ */
 	setup() {
 	}
 
-
+	
+/**
+ * Load skill
+ *
+ * @access public
+ * @return void
+ */
 	load() {
 		//Load
 		this.promise = new Promise((resolve, reject) => {
@@ -36,12 +48,31 @@ module.exports = class Skill {
 	}
 
 
+/**
+ * Load skill intents
+ *
+ * @access public
+ * @return void
+ */
 	load_intents() {
+		let options = {};
+
+		//
+		if(typeof this.intents != 'undefined') {
+			options['only'] = this.intents;
+		}
+
 		this.app.Log.add('Loading Intents for '+this.name);
-		return this.app.IntentRegistry.load_all(this.name);
+		return this.app.IntentRegistry.load_all(this.name, options);
 	}
 
 
+/**
+ * Load skill entities
+ *
+ * @access public
+ * @return void
+ */
 	load_entities() {
 		this.app.Log.add('Loading Entities for '+this.name);
 		return this.app.EntityRegistry.load_all(this.name);
