@@ -1,9 +1,9 @@
 /**
- * Example Menu Skill
+ * Example Skill
  */
 var Skill = require('../../../src/Skill/skill');
 
-module.exports = class ExampleMenuSkill extends Skill {
+module.exports = class ExampleSkill extends Skill {
 
 /**
  * Constructor
@@ -14,9 +14,9 @@ module.exports = class ExampleMenuSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.ExampleMenu';
+		this.name = 'App.Example';
 		this.intents = [
-			'Order1'
+			'Animal'
 		];
 	}
 

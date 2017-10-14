@@ -49,12 +49,12 @@ module.exports = class OrderIntent extends Intent {
 
 Example input and output
 
-~~~
-User: order food
-GI: Pizza, burger or fries?
-User: order burger
-GI: You chose burger
-~~~
+<div class="chat" markdown="0">
+  <div class="user"><span>Order food</span></div>
+  <div class="bot"><span>Pizza, burger or fries?</span></div>
+  <div class="user"><span>Order burger</span></div>
+  <div class="bot"><span>You chose burger</span></div>
+</div>
 
 
 Key | Required | Description
@@ -70,33 +70,36 @@ slotfill | No | Attempt to load the data from previously saved parameter informa
 
 ## Parameters from an Entity
 
+Parameter options can be loaded from an entity using the `entity` key.
+
+Please read the guide on creating entities before using entities inside intents.
+
 ~~~javascript
-module.exports = class FoobarIntent extends Intent {
+module.exports = class AnimalIntent extends Intent {
 
-  setup() {
-    this.name = 'Foobar';
+	setup() {
+		this.name = 'Animals';
 
-    this.add_parameter('number', {
-      "name": "Number",
-      "entity": "Sys.Common.Entity.Number",
-      "required": false
-    });
+		this.train([
+			'cat','dog'
+		]);
 
-    this.add_parameter('city', {
-      "name": "City",
-      "entity": "Sys.Common.Entity.City",
-      "required": false,
-      "action": 'city'
-    });
-  }
+		this.add_parameter('choice', {
+			name: "Choice",
+			entity: "App.Example.Entity.Animal"
+		});
+	}
 
-  response(request) {
-    return 'Number is ' + request.parameters.value('number');
-  }
+	response(request) {
+		let choice = request.parameters.value('choice');
 
-  city(request) {
-    return 'City is ' + request.parameters.value('city');
-  }
+		if(choice) {
+			return 'You chose '+choice;
+		}
+		else {
+			return 'Dog or cat?';
+		}
+	}
 
 }
 ~~~

@@ -7,6 +7,13 @@ Clients act as middleware between the server and the service it will connect to.
 
 Clients could include interfaces to Facebook, Line, Hipchat, Slack, IRC and any other type of chat interface. These clients must be written by a developer to make GI useful. We hope to provide packaged clients with GI after the first stable release.
 
+<div class="mermaid" markdown="0">
+graph LR
+    A --- B
+    B-->C[fa:fa-ban forbidden]
+    B-->D(fa:fa-spinner);
+</div>
+
 
 ## CLI Test Client
 

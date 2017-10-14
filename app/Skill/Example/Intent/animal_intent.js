@@ -1,25 +1,20 @@
 /**
- * Order Example
+ * Animal Example
  */
 const Intent = require('../../../../src/Intent/intent');
 
-module.exports = class Order1Intent extends Intent {
+module.exports = class AnimalIntent extends Intent {
 
 	setup() {
-		this.name = 'Order Food';
+		this.name = 'Animals';
 
 		this.train([
-			'order',
-			'order food'
+			'cat','dog'
 		]);
 
 		this.add_parameter('choice', {
 			name: "Choice",
-			data: {
-				"pizza": {},
-				"burger": {},
-				"fries": {}
-			}
+			entity: "App.Example.Entity.Animal"
 		});
 	}
 
@@ -30,7 +25,7 @@ module.exports = class Order1Intent extends Intent {
 			return 'You chose '+choice;
 		}
 		else {
-			return 'Pizza, burger or fries?';
+			return 'Dog or cat?';
 		}
 	}
 

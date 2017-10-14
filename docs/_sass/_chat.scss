@@ -1,0 +1,71 @@
+
+div.chat {
+  width:400px;
+  padding:40px;
+  margin:0 auto 50px auto;
+  border:10px solid #f7f7f7;
+
+  div {
+    display:block;
+    width:100%;
+    margin-bottom:20px;
+  }
+
+  span {
+    border-radius:20px;
+    padding:10px 20px;
+    position:relative;
+    display:inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border: 30px solid transparent;
+    }
+  }
+
+  .user {
+    text-align:right;
+
+    span {
+      background-color:#bd27ff;
+      color:white;
+      right:20px;
+  
+      &::after {
+        right: 0;
+        border-left-color: #bd27ff;
+        border-right: 0;
+        border-bottom: 0;
+        margin-top: -15px;
+        margin-right: -10px;
+      }
+    }
+  }
+
+
+  .bot {
+    background-image:url(../img/alice.png);
+    background-size:50px;
+    background-repeat:no-repeat;
+
+    span {
+      margin-left:70px;
+      background-color:#f7f7f7;
+  
+      &::after {
+        left: 0;
+        border-right-color: #f7f7f7;
+        border-left: 0;
+        border-bottom: 0;
+        margin-top: -15px;
+        margin-left: -10px;
+      }
+    }
+  }
+
+
+}
