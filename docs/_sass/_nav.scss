@@ -1,0 +1,33 @@
+
+/**
+ * Navigation
+ */
+
+.side-nav {
+  float: left;
+  width:220px;
+  background-color:#f7f7f7;
+  padding:20px;
+
+  h3, li {
+    font-size:0.8em;
+  }
+
+  h3 {
+    margin:0 0 5px 0;
+    font-weight:600;
+    color:#757575;
+  }
+  ul {
+      margin:0 0 1em 10px;
+      li {
+          list-style-type:none;
+          line-height:1.5rem;
+      }
+  }
+}
+
+
+article.post {
+  margin-left:320px;
+}
