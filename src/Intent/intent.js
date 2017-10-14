@@ -40,7 +40,7 @@ module.exports = class Intent {
 			//Call back to intent
 			this.before_load();
 
-			//Load in keywords and entities
+			//Load entities
 			var keywords = this.load_keywords();
 			var entities = this.load_entities();
 
@@ -57,55 +57,14 @@ module.exports = class Intent {
 
 
 /**
- * Load Keywords
- *
- * Intents can have a trigger word and synonyms and these words need to be
- * trained to the app so user input can be directed to the intent correctly.
- *
- * The code is supporting Promise but we don't use it. It might be useful
- * in the future if we need to do any special things.
- *
- * @access public
- * @return void
- */
-	load_keywords() {
-		return new Promise((resolve, reject) => {
-			//Intent doesn't always need a trigger word for it to be fired
-			//Some intents just use entity data and some have to be called directly
-			if(this.trigger) {
-				this.add_keyword(this.trigger, {});
-			}
-
-			if(this.synonyms) {
-				if(this.synonyms instanceof Array) {
-					//Add array list of synonyms with no options
-					for(var ii=0; ii < this.synonyms.length; ii++) {
-						this.add_keyword(this.synonyms[ii], {});
-					}
-				}
-				else {
-					//Add hash list of synonyms with options
-					for(let key in this.synonyms) {
-						this.add_keyword(key, this.synonyms[key]);
-					}
-				}
-			}
-
-			resolve();
-		});
-	}
-
-
-/**
  * Train
  * 
  * @param hash data
  * @return bool
  */
-	train(data) {
+	train(data, options = {}) {
 		for(var ii=0; ii < data.length; ii++) {
-			let value = data[ii];
-			this.add_keyword(data[ii], {});
+			this.add_keyword(data[ii], options);
 		}
 
 		return true;
@@ -273,10 +232,8 @@ module.exports = class Intent {
  * @return hash
  */
 	fire(request) {
-		var that = this;
-
-		return new Promise(function(resolve, reject) {
-			var promise = that[request.action](request);
+		return new Promise((resolve, reject) => {
+			var promise = this[request.action](request);
 			var is_promise = (Promise.resolve(promise) == promise);
 			
 			if(is_promise) {

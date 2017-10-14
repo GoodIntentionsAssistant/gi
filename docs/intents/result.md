@@ -39,7 +39,7 @@ The return method can also return an array which will output to the user as mult
 module.exports = class HelloIntent extends Intent {
 
   setup() {
-    this.name = 'Ping';
+    this.name = 'Hello';
     this.train(['hello']);
   }
 
@@ -62,9 +62,13 @@ module.exports = class HelloIntent extends Intent {
 </div>
 
 
+
+
 ## Delaying a response
 
 If you need to fetch data from a remote source and you could have a delay a Javascript promise can be used.
+
+You can also handle finishing the request manually using `request.end()` which is used in the CountSixSeconds example below.
 
 ~~~javascript
 module.exports = class FiveSecondsIntent extends Intent {

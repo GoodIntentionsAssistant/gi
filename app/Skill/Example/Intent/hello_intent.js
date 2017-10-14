@@ -6,7 +6,7 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class HelloIntent extends Intent {
 
 	setup() {
-		this.name = 'Ping';
+		this.name = 'Hello';
 		this.train(['hello']);
 	}
 
