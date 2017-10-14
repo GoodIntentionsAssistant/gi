@@ -91,3 +91,54 @@ module.exports = class FiveSecondsIntent extends Intent {
   <div class="bot"><span>5 seconds are up</span></div>
 </div>
 
+
+## Multiple delayed responses
+
+To send multiple responses from one intent the request must return `false` and the request must be ended manually using `request.end()`.
+
+In this example the intent will count to six while keeping the individual session alive until it counts to 6 and then the request is manually ended.
+
+If the request is not ended the queue timeout will be called.
+
+
+~~~javascript
+module.exports = class CountSixSecondsIntent extends Intent {
+
+  setup() {
+    this.name = 'Count Six Seconds';
+    this.train(['count to six']);
+  }
+
+  response(request) {
+    setTimeout(() => { request.send('1'); }, 1 * 1000);
+    setTimeout(() => { request.send('2'); }, 2 * 1000);
+    setTimeout(() => { request.send('3'); }, 3 * 1000);
+    setTimeout(() => { request.send('4'); }, 4 * 1000);
+    setTimeout(() => { request.send('5'); }, 5 * 1000);
+    setTimeout(() => {
+      request.send('6');
+      request.end();
+    }, 6 * 1000);
+
+    return false;
+  }
+
+}
+~~~
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Count to six</span></div>
+  <div class="info"><span>1 second later</span></div>
+  <div class="bot"><span>1</span></div>
+  <div class="info"><span>1 second later</span></div>
+  <div class="bot"><span>2</span></div>
+  <div class="info"><span>1 second later</span></div>
+  <div class="bot"><span>3</span></div>
+  <div class="info"><span>1 second later</span></div>
+  <div class="bot"><span>4</span></div>
+  <div class="info"><span>1 second later</span></div>
+  <div class="bot"><span>5</span></div>
+  <div class="info"><span>1 second later</span></div>
+  <div class="bot"><span>6</span></div>
+  <div class="info"><span>Session ended</span></div>
+</div>

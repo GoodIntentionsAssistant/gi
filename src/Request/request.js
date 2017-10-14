@@ -353,10 +353,8 @@ module.exports = class Request {
 	result(result) {
 		//Result is array 
 		//Listen for the sent event
-		var that = this;
-		this.response.on('sent', function() {
-			that.response.end();
-			that.resolve();
+		this.response.on('sent', () => {
+			this.end();
 		});
 
 		if(!result) {
@@ -369,6 +367,18 @@ module.exports = class Request {
 		}
 
 		this.send(result);
+	}
+	
+
+/**
+ * End request
+ *
+ * @access public
+ * @return void
+ */
+	end() {
+		this.response.end();
+		this.resolve();
 	}
 
 }

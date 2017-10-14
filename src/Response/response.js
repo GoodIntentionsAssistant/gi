@@ -22,6 +22,7 @@ module.exports = class Response extends EventEmitter {
 		this.request = request;
 
 		//
+		this.typing = false;
 		this.queue = [];
 		this.namespace = 'response';
 		this.sequence_count = 0;
@@ -87,6 +88,10 @@ module.exports = class Response extends EventEmitter {
  * @return void
  */
 	send(result, options) {
+		//
+		this.start();
+
+		//
 		for(var ii=0; ii<result.messages.length; ii++) {
 			this.queue.push([ result, result.messages[ii] ]);
 		}
@@ -221,7 +226,11 @@ module.exports = class Response extends EventEmitter {
  * @return void
  */
 	start() {
-		var that = this;
+		if(this.typing) {
+			return;
+		}
+
+		this.typing = true;
 		this._emit({
 			type: 'start'
 		});
@@ -235,7 +244,7 @@ module.exports = class Response extends EventEmitter {
  * @return void
  */
 	end() {
-		var that = this;
+		this.typing = false;
 		this._emit({
 			type: 'end'
 		});

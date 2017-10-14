@@ -284,8 +284,10 @@ module.exports = class Intent {
 					resolve(result);
 				});
 			}
-			else {
+			else if(promise !== false) {
 				//Method does not need promise so return directly
+				//If false was returned then the intent must finish the request manually
+				//using request.end();
 				resolve(promise);
 			}
 
@@ -293,9 +295,20 @@ module.exports = class Intent {
 	}
 
 
+/**
+ * Before load callback
+ * 
+ * @return mixed
+ */
 	before_load() {
 	}
 
+
+/**
+ * After load callback
+ * 
+ * @return mixed
+ */
 	after_load() {
 	}
 
