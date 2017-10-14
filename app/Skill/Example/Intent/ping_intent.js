@@ -7,8 +7,7 @@ module.exports = class PingIntent extends Intent {
 
 	setup() {
 		this.name = 'Ping';
-		this.trigger = 'ping';
-    this.symnomns = ['pong'];
+		this.train(['ping','pong']);
 	}
 
 	response() {

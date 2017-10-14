@@ -67,5 +67,27 @@ div.chat {
     }
   }
 
+  .info {
+    text-align:center;
+    position: relative;
+    z-index: 1;
+
+    span {
+      color:#757575;
+      background-color:white;
+      font-size:14px;
+    }    
+
+    &:before {
+      border-top: 2px solid #f7f7f7;
+      content:"";
+      margin: 0 auto; 
+      position: absolute;
+      top: 50%; left: 0; right: 0; bottom: 0;
+      width: 95%;
+      z-index: -1;
+    }
+  }
+
 
 }

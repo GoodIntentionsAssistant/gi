@@ -1,0 +1,22 @@
+/**
+ * Five Seconds Intent
+ */
+const Intent = require('../../../../src/Intent/intent');
+
+module.exports = class FiveSecondsIntent extends Intent {
+
+	setup() {
+		this.name = 'Five Seconds';
+		this.train(['five seconds']);
+	}
+
+	response() {
+		return new Promise(function(resolve, reject){
+      setTimeout(() => {
+        resolve('5 seconds are up');
+      }, 5 * 1000);
+		});
+	}
+
+}
+

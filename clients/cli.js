@@ -45,9 +45,9 @@ GiApp.on('identified', () => {
 
   //Message to send once identified
   prompt.pause();
-	GiApp.send('pizza');
+	//GiApp.send('pizza');
 
-  //prompt_me();
+  prompt_me();
 });
 
 GiApp.on('error', (data) => {

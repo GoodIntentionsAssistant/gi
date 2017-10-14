@@ -10,17 +10,14 @@ Using the `this.train()` function you can train the bot to understand the intent
 ~~~javascript
 module.exports = class PingIntent extends Intent {
 
-  setup() {
-    this.name = 'Ping';
-    this.train([
-      'ping',
-      'pong'
-    ]);
-  }
+	setup() {
+		this.name = 'Ping';
+		this.train(['ping','pong']);
+	}
 
-  response() {
-    return 'Pong';
-  }
+	response() {
+		return 'Pong';
+	}
 
 }
 ~~~

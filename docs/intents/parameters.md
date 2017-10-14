@@ -105,6 +105,46 @@ module.exports = class AnimalIntent extends Intent {
 ~~~
 
 
+## Redirection action
+
+In the previous examples the initial intent and the response go to the same method.
+
+By defining the action in `add_parameter` if the parameter is filled it will use a different method.
+
+~~~javascript
+module.exports = class SugarIntent extends Intent {
+
+	setup() {
+		this.name = 'Tea with Sugar';
+
+		this.train([
+			'tea'
+		]);
+
+		this.add_parameter('choice', {
+			name: "Choice",
+			data: {
+				"yes": {},
+				"no": {}
+			},
+			action: 'answered'
+		});
+	}
+
+	response(request) {
+		return 'Do you want sugar in your tea?';
+	}
+
+	answered(request) {
+		let choice = request.parameters.value('choice');
+		return choice == 'yes' ? 'Sweet tooth' : 'Health option';
+	}
+
+}
+
+~~~
+
+
 ## Slot Filling
 
 To be documented

@@ -15,9 +15,7 @@ module.exports = class ExampleSkill extends Skill {
 	constructor(app) {
 		super(app);
 		this.name = 'App.Example';
-		this.intents = [
-			'Animal'
-		];
+		this.intents = [];
 	}
 
 }

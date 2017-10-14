@@ -25,9 +25,6 @@ module.exports = class Data {
  * @return Promise
  */
 	load(identifier, format) {
-		console.log(identifier);
-		console.log(format);
-
 		//For scoping when reading the file
 		let filename = this.identifier_to_filename(identifier, format);
 
@@ -136,8 +133,6 @@ module.exports = class Data {
 		
 		parts.shift();
 		let filename = path + '/' + parts.join('/') + '.' + extension;
-
-		console.log(filename);
 
 		return filename;
 	}

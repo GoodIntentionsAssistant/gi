@@ -58,7 +58,7 @@ module.exports = class Skill {
 		let options = {};
 
 		//
-		if(typeof this.intents != 'undefined') {
+		if(typeof this.intents != 'undefined' && this.intents.length > 0) {
 			options['only'] = this.intents;
 		}
 
