@@ -5,27 +5,78 @@ title: Intent Training
 
 For intents to be called from user input they must train the app with keywords and phrases.
 
-Using the `this.train()` function you can train the bot to understand the intent.
+Using `this.train()` function you can train the bot to understand the intent.
 
 ~~~javascript
 module.exports = class PingIntent extends Intent {
 
-	setup() {
-		this.name = 'Ping';
-		this.train(['ping','pong']);
-	}
+  setup() {
+    this.name = 'Ping';
+    this.train(['ping','pong']);
+  }
 
-	response() {
-		return 'Pong';
-	}
+  response() {
+    return 'Pong';
+  }
 
 }
 ~~~
 
 
-## Loading from entity data
+## Loading from an entity
 
-To be written
+Using entities rather than manually entering the training data into the intent seperates logic and means entities can be shared across different intents.
+
+An entity can store and load data a number of different ways. In the example we are just storing the data directly within the entity. To learn more about different ways to use entities see the Entity documentation section.
+
+Using the `this.train()` method any value starting with the @ symbol will be recognised as an entity to be loaded.
+
+~~~javascript
+module.exports = class ColourIntent extends Intent {
+
+  setup() {
+    this.train([
+      '@App.Example.Entity.Colour'
+    ]);
+  }
+
+  response() {
+    return 'You mentioned a colour';
+  }
+
+}
+~~~
+
+The entity file is stored in `app/Skills/Example/Entity/colour_entity.js`.
+
+~~~javascript
+module.exports = class ColourEntity extends Entity {
+
+  setup() {
+    this.name = "Colour";
+    this.data = {
+      'red': {},
+      'blue': {},
+      'green': {},
+      'white': {},
+      'black': {}
+    };
+  }
+
+}
+~~~
+
+See the Entity documentation for more information on ways to store data.
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Red</span></div>
+  <div class="bot"><span>You mentioned a colour</span></div>
+  <div class="user"><span>I like green</span></div>
+  <div class="bot"><span>You mentioned a colour</span></div>
+  <div class="user"><span>Purple</span></div>
+  <div class="bot"><span>I don't understand</span></div>
+</div>
+
 
 
 ## Classifiers
@@ -36,15 +87,15 @@ Triggers and symnomns train the default classifier. To change the classifer defi
 ~~~javascript
 module.exports = class PingIntent extends Intent {
 
-	setup() {
-		this.name = 'Ping';
-		this.trigger = 'ping';
-		this.classifier = 'strict';
-	}
+  setup() {
+    this.name = 'Ping';
+    this.trigger = 'ping';
+    this.classifier = 'strict';
+  }
 
-	response() {
-		return 'Pong';
-	}
+  response() {
+    return 'Pong';
+  }
 
 }
 ~~~
@@ -66,18 +117,18 @@ Regular expressions can also be added to the keywords.
 ~~~javascript
 module.exports = class PingIntent extends Intent {
 
-	setup() {
-		this.name = 'Ping';
-		this.trigger = 'ping';
-		this.classifier = 'strict';
-		this.symnomns = [
-			new RegExp(/^.*[\d+] x [\d+].*$/,'g')
-		];
-	}
+  setup() {
+    this.name = 'Ping';
+    this.trigger = 'ping';
+    this.classifier = 'strict';
+    this.symnomns = [
+      new RegExp(/^.*[\d+] x [\d+].*$/,'g')
+    ];
+  }
 
-	response() {
-		return 'Pong';
-	}
+  response() {
+    return 'Pong';
+  }
 
 }
 ~~~
