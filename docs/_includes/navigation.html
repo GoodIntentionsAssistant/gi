@@ -1,75 +1,85 @@
 
 <nav>
-  <h3>Getting Started</h3>
+
   <ul>
-    <li><a href="{{ site.baseurl }}/index">Introduction</a></li>
-    <li><a href="{{ site.baseurl }}/start/installation">Installation</a></li>
-    <li><a href="{{ site.baseurl }}/start/configuration">Configuration</a></li>
-    <li><a href="{{ site.baseurl }}/start/development">Development Tips</a></li>
-    <li><a href="{{ site.baseurl }}/start/components">Key components</a></li>
-    <li><a href="{{ site.baseurl }}/start/contributing">Contributing</a></li>
+    <li><span>Getting Started</span>
+      <ul>
+        <li><a href="{{ site.baseurl }}/docs/index">Introduction</a></li>
+        <li><a href="{{ site.baseurl }}/docs/start/installation">Installation</a></li>
+        <li><a href="{{ site.baseurl }}/docs/start/configuration">Configuration</a></li>
+        <li><a href="{{ site.baseurl }}/docs/start/development">Development Tips</a></li>
+        <li><a href="{{ site.baseurl }}/docs/start/components">Key components</a></li>
+        <li><a href="{{ site.baseurl }}/docs/start/contributing">Contributing</a></li>
+      </ul>
+    </li>
+
+    <li><span>Clients</span>
+      <ul>
+        <li><a href="{{ site.baseurl }}/docs/clients/">Overview</a></li>
+        <li><a href="{{ site.baseurl }}/docs/clients/authorizing">Authorizing</a></li>
+        <li><a href="{{ site.baseurl }}/docs/clients/request">Request</a></li>
+        <li><a href="{{ site.baseurl }}/docs/clients/response">Response</a></li>
+        <li><a href="{{ site.baseurl }}/docs/clients/sdk">Client SDK</a></li>
+      </ul>
+
+    <li><span>Skills</span>
+      <ul>
+        <li><a href="{{ site.baseurl }}/docs/skills/">Overview</a></li>
+        <li><a href="{{ site.baseurl }}/docs/skills/create">Creating a skill</a></li>
+      </ul>
+
+    <li><span>Intents</span>
+      <ul>
+        <li><a href="{{ site.baseurl }}/docs/intents/">Overview</a></li>
+        <li><a href="{{ site.baseurl }}/docs/intents/training">Training</a></li>
+        <li><a href="{{ site.baseurl }}/docs/intents/parameters">Parameters</a></li>
+        <li><a href="{{ site.baseurl }}/docs/intents/result">Returning result</a></li>
+        <li><a href="{{ site.baseurl }}/docs/intents/attachments">Attachments</a></li>
+        <li>Expecting</li>
+        <li>Context</li>
+        <li>Fallbacks</li>
+        <li><a href="{{ site.baseurl }}/docs/intents/redirect">Redirecting</a></li>
+        <li>Auto testing</li>
+        <li>Authorization</li>
+      </ul>
+    </li>
+
+    <li><span>Entities</span>
+      <ul>
+        <li><a href="{{ site.baseurl }}/docs/entities/">Overview</a></li>
+        <li>Basic training</li>
+        <li>Loading from JSON</li>
+        <li>Loading from CSV</li>
+        <li>Loading custom data</li>
+        <li>Parsing and scoring</li>
+        <li>System entities</li>
+      </ul>
+    </li>
+
+    <li><span>App</span>
+      <ul>
+        <li>Events</li>
+        <li>Server</li>
+        <li>Clients</li>
+        <li>Training</li>
+        <li><a href="{{ site.baseurl }}/docs/app/queue">Queue + flood protection</a></li>
+        <li><a href="{{ site.baseurl }}/docs/app/requests">Requests</a></li>
+        <li>Auth and sessions</li>
+        <li>Data</li>
+        <li>Logging</li>
+        <li>Caching</li>
+        <li>Storage</li>
+        <li>Scrubber</li>
+      </ul>
+    </li>
+
+    <li><span>Conventions</span>
+      <ul>
+        <li>Code formatting</li>
+        <li>Code documentation</li>
+        <li>Unit tests</li>
+      </ul>
+    </li>
   </ul>
 
-  <h3>Clients</h3>
-  <ul>
-    <li><a href="{{ site.baseurl }}/clients/">Overview</a></li>
-    <li><a href="{{ site.baseurl }}/clients/authorizing">Authorizing</a></li>
-    <li><a href="{{ site.baseurl }}/clients/request">Request</a></li>
-    <li><a href="{{ site.baseurl }}/clients/response">Response</a></li>
-    <li><a href="{{ site.baseurl }}/clients/sdk">Client SDK</a></li>
-  </ul>
-
-  <h3>Skills</h3>
-  <ul>
-    <li><a href="{{ site.baseurl }}/skills/">Overview</a></li>
-    <li><a href="{{ site.baseurl }}/skills/create">Creating a skill</a></li>
-  </ul>
-
-  <h3>Intents</h3>
-  <ul>
-    <li><a href="{{ site.baseurl }}/intents/">Overview</a></li>
-    <li>System intents</li>
-    <li><a href="{{ site.baseurl }}/intents/training">Training</a></li>
-    <li><a href="{{ site.baseurl }}/intents/parameters">Parameters</a></li>
-    <li><a href="{{ site.baseurl }}/intents/result">Returning result</a></li>
-    <li><a href="{{ site.baseurl }}/intents/attachments">Attachments</a></li>
-    <li>Expecting</li>
-    <li>Context</li>
-    <li>Fallbacks</li>
-    <li>Redirection</li>
-    <li>Auto testing</li>
-    <li>Authorization</li>
-  </ul>
-
-  <h3>Entities</h3>
-  <ul>
-    <li>Overview</li>
-    <li>System entities</li>
-    <li>Basic training</li>
-    <li>Loading from files</li>
-    <li>Loading custom data</li>
-    <li>Parsing and scoring</li>
-  </ul>
-
-  <h3>App</h3>
-  <ul>
-    <li>Events</li>
-    <li>Server</li>
-    <li>Clients</li>
-    <li>Training</li>
-    <li><a href="{{ site.baseurl }}/app/queue">Queue + flood protection</a></li>
-    <li><a href="{{ site.baseurl }}/app/requests">Requests</a></li>
-    <li>Auth and sessions</li>
-    <li>Data</li>
-    <li>Caching</li>
-    <li>Storage</li>
-    <li>Scrubber</li>
-  </ul>
-
-  <h3>Conventions</h3>
-  <ul>
-    <li>Code formatting</li>
-    <li>Code documentation</li>
-    <li>Unit tests</li>
-  </ul>
 </nav>

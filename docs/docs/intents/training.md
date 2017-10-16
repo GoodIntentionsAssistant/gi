@@ -81,60 +81,75 @@ See the Entity documentation for more information on ways to store data.
 
 ## Classifiers
 
-Triggers and symnomns train the default classifier. To change the classifer define it in your setup.
+When training GI the default classifier is using NLP to match the user input to an intent.
+
+Triggers and symnomns train the default classifier. To change the classifer change it as an option when using the `train()` method.
 
 
 ~~~javascript
-module.exports = class PingIntent extends Intent {
+//Default NLP classifier
+this.train(['kiss me'], { classifier: 'default' });
 
-  setup() {
-    this.name = 'Ping';
-    this.trigger = 'ping';
-    this.classifier = 'strict';
-  }
+//Use the strict classifier
+this.train(['kiss me'], { classifier: 'strict' });
 
-  response() {
-    return 'Pong';
-  }
-
-}
+//If nothing is found in default or strict then try the fall back
+this.train(['kiss me'], { classifier: 'fallback' });
 ~~~
 
-
-### Default classifier
-
-The default classifier uses NLP (natural language processing) to match the user input to an intent. By default all intents will use the NLP classifier, but it's also possible to change the classifier for an entire intent or for individual keywords.
-
-
-### Strict classifier
+## Strict classifier
 
 When the user input is received by the app the strict classifier will be checked for matches before the NLP classifier. This is useful when you're expecting exact input or input which can be matched with regular expressions. If a match is made the NLP classifier is not checked.
 
-Adding a strict match for `how are you` means the user will always go to that intent and the NLP default classifier is not checked.
+Adding a strict match for `kiss me` means the user will always go to that intent and the NLP default classifier is not checked.
 
-Regular expressions can also be added to the keywords.
+Case is ignored.
 
 ~~~javascript
-module.exports = class PingIntent extends Intent {
+
+module.exports = class KissMeIntent extends Intent {
 
   setup() {
-    this.name = 'Ping';
-    this.trigger = 'ping';
-    this.classifier = 'strict';
-    this.symnomns = [
-      new RegExp(/^.*[\d+] x [\d+].*$/,'g')
-    ];
+    this.name = 'Kiss me';
+
+    this.train(['kiss me'], {
+      classifier: 'strict'
+    });
   }
 
   response() {
-    return 'Pong';
+    return 'Muwah';
   }
 
 }
 ~~~
 
+<div class="chat" markdown="0">
+  <div class="user"><span>Kiss me</span></div>
+  <div class="bot"><span>Muwah</span></div>
+  <div class="user"><span>Why not kiss me</span></div>
+  <div class="bot"><span>I don't understand</span></div>
+  <div class="user"><span>Kiss bob</span></div>
+  <div class="bot"><span>I don't understand</span></div>
+</div>
 
-### Fallback classifier
+
+## Regular expression training
+
+Regular expressions can be added to the training for matching. These will be added to the strict classifier for checking before the default NLP checking.
+
+It's not really recommended to use regular expressions because an extact match is required but it can be useful for a calculator intent.
+
+~~~javascript
+this.train([
+  new RegExp(/^.*[\d+] x [\d+].*$/,'g'),
+  new RegExp(/^(calc )?[\d\+\/\*.\-% \(\)=]*$/,'g'),
+  new RegExp(/^[\d+]*%( of)? [\d\+\/\*.\- \(\)=]*$/,'g')
+]);
+~~~
+
+
+## Fallback classifier
 
 It's always nice to have fallback intents if the classifiers with trained data did not get a match.
 

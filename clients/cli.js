@@ -38,6 +38,7 @@ GiApp.on('connect', () => {
 
 GiApp.on('disconnect', () => {
 	output('Disconnected', 'warning');
+  prompt.pause();
 });
 
 GiApp.on('identified', () => {

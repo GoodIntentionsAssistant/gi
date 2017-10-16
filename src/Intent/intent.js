@@ -40,14 +40,13 @@ module.exports = class Intent {
 			//Call back to intent
 			this.before_load();
 
-			//Load entities
-			var keywords = this.load_keywords();
-			var entities = this.load_entities();
+			//Load entities required for this intent
+			let entities = this.load_entities();
 
 			//Call back to intent
 			this.after_load();
 
-			Promise.all([keywords, entities]).then(function(){
+			Promise.all([entities]).then(function(){
 				resolve();
 			});
 		});
@@ -59,14 +58,35 @@ module.exports = class Intent {
 /**
  * Train
  * 
- * @param hash data
+ * @param array data
+ * @param hash options
  * @return bool
  */
 	train(data, options = {}) {
 		for(var ii=0; ii < data.length; ii++) {
-			this.add_keyword(data[ii], options);
+			if(data[ii].substr(0,1) == '@') {
+				//Train with entity data
+				this.add_entity(data[ii].substr(1));
+			}
+			else {
+				//Train normal word
+				this.add_keyword(data[ii], options);
+			}
 		}
 
+		return true;
+	}
+
+
+/**
+ * Add Entity
+ * 
+ * @param string name
+ * @param hash options
+ * @return bool
+ */
+	add_entity(name, options = {}) {
+		this._entities[name] = options;
 		return true;
 	}
 
@@ -79,7 +99,6 @@ module.exports = class Intent {
  */
 	add_parameter(name, data) {
 		this.parameters[name] = data;
-
 		return true;
 	}
 
@@ -99,7 +118,7 @@ module.exports = class Intent {
 	load_entities(name) {
 		return new Promise((resolve, reject) => {
 			//No entities to train from
-			if(!this.entities) {
+			if(!this._entities) {
 				resolve();
 				return;
 			}
@@ -108,7 +127,7 @@ module.exports = class Intent {
 			let promises = [];
 
 			//Make sure all entities are loaded
-			for(let key in this.entities) {
+			for(let key in this._entities) {
 				let entity = this.app.EntityRegistry.get(key);
 				if(!entity.loaded) {
 					promises.push(entity.promise);
@@ -141,11 +160,11 @@ module.exports = class Intent {
  */
 	_train_from_entities() {
 
-		for(var key in this.entities) {
+		for(var key in this._entities) {
 			//Fetch the loaded entity grab the keywords
 			var entity = this.app.EntityRegistry.get(key);
 			var keywords = entity.get_data();
-			var options = this.entities[key];
+			var options = this._entities[key];
 
 			//Loop the keywords and add to the intent
 			for(var key in keywords) {

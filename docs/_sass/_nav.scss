@@ -9,11 +9,7 @@
   background-color:#f7f7f7;
   padding:20px;
 
-  h3, li {
-    font-size:0.8em;
-  }
-
-  h3 {
+  li span {
     margin:0 0 5px 0;
     font-weight:600;
     color:#757575;
@@ -21,8 +17,9 @@
   ul {
       margin:0 0 1em 10px;
       li {
-          list-style-type:none;
-          line-height:1.5rem;
+        font-size:12px;
+        list-style-type:none;
+        line-height:1.5rem;
       }
   }
 }
