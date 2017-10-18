@@ -9,7 +9,7 @@ module.exports = class ConfirmEntity extends Entity {
 		this.name = "Confirm";
 		this.data = {
 			'yes': {
-				synonyms:['yeah','yep','yup','aye','sure','indeed','true','ok']
+				synonyms:['yeah','yep','yup','aye','sure','indeed','true','ok','ya','yaa']
 			},
 			'no': {
 				synonyms:['nope','cancel','maybe','negative','nah','false']

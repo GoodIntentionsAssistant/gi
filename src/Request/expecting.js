@@ -44,6 +44,7 @@ module.exports = class Expecting {
 		this.input = this.request.input.text;
 
 		//Quit commands to get out of expecting
+		//@todo Expand on this to scan for text in the input better
 		if(this.input == 'quit' || this.input == 'stop') {
 			this.request.session.reset_expecting();
 			return;
@@ -92,7 +93,6 @@ module.exports = class Expecting {
  */
 	set(data) {
 		data.intent = this.request.intent;
-		console.log(data);
 		this.request.session.set_expecting(data);
 	}
 
