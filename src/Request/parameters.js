@@ -4,6 +4,7 @@
 const Promise = require('promise');
 const Scrubber = require('../../src/Utility/scrubber');
 const dotty = require("dotty");
+const extend = require('extend');
 
 module.exports = class Parameters {
 
@@ -60,6 +61,32 @@ module.exports = class Parameters {
  */
 	get(key) {
 		return dotty.get(this.data, key);
+	}
+
+	
+/**
+ * Set parameter
+ * 
+ * @param string key
+ * @param hash value
+ * @access public
+ * @return mixed
+ */
+	set(key, value) {
+		let _default = {
+			valid: true
+		};
+		let _data = [];
+
+		if(typeof value == 'string') {
+			_data['value'] = value;
+			_data['string'] = value;
+		}
+		else {
+			_data = extend(_options, value);
+		}
+
+		this.data[key] = _data;
 	}
 
 
@@ -282,7 +309,9 @@ module.exports = class Parameters {
 		}
 
 		//Set data
-		this.data = output;
+		for(var field in output) {
+			this.set(field, output[field]);
+		}
 
 		return true;
 	}

@@ -111,6 +111,7 @@ module.exports = class Expecting {
 		if(parsed.value) {
 			this.input = parsed.value;
 			this.redirect = true;
+			this.request.parameters.set('expects', parsed.value);
 		}
 		else if(this.expecting.force) {
 			this.expecting = this.request.session.data('last_expecting');
