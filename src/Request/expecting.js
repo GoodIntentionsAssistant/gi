@@ -111,7 +111,14 @@ module.exports = class Expecting {
 		if(parsed.value) {
 			this.input = parsed.value;
 			this.redirect = true;
-			this.request.parameters.set('expects', parsed.value);
+
+			//Parameter key for storing the result
+			//It will have a default unless save_answer has been set
+			let parameter_key = 'expects';
+			if(this.expecting.save_answer) {
+				parameter_key = this.expecting.save_answer;
+			}
+			this.request.parameters.set(parameter_key, parsed.value);
 		}
 		else if(this.expecting.force) {
 			this.expecting = this.request.session.data('last_expecting');
@@ -129,11 +136,8 @@ module.exports = class Expecting {
  * @access public
  * @return void
  */
-	_save_answer(data, result) {
-		this.request.session.set(data.key, {
-			name: data.name,
-			result: result
-		});
+	_save_answer(key, value) {
+		this.request.session.user(key, value);
 	}
 
 

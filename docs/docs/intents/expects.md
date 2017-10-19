@@ -5,6 +5,8 @@ title: Expects
 
 Expects are useful in dialogs to users to capture the next input and force it to an intent.
 
+For now you can only set one expects. We plan to have multiple expectings in a future version.
+
 
 ~~~javascript
 module.exports = class HowOldAreYouIntent extends Intent {
@@ -126,3 +128,57 @@ If you had set `force` to false it would have only called the `reply` method if 
 
 ## Using save answer
 
+Saving the users expected answer will store the information in the user session.
+
+This can be useful to build up contextual information about the user. In the example we are handling loading in the previously entered answer direct from the users session. It can also be used for parameter slot filling.
+
+~~~javascript
+module.exports = class FootballQuestionIntent extends Intent {
+
+  setup() {
+    this.name = 'Football question';
+    this.train([
+      'do you like football?'
+    ]);
+  }
+
+  response(request) {
+    if(request.session.has('user.football')) {
+      if(request.session.data('user.football') == 'yes') {
+        return 'Yes I do and I know you love it too!';
+      }
+      else {
+        return 'Yes I do and I know you don\'t enjoy it already';
+      }
+    }
+
+    request.expecting.set({
+      action: 'reply',
+      entity: 'Sys.Common.Entity.Confirm',
+      save_answer: 'football'
+    });
+    return [
+      'Yes, I love football, do you?'
+    ];
+  }
+  
+  reply(request) {
+    var value = request.parameters.value('football');
+    if(value == 'yes') {
+      return 'We will go to a game together soon!';
+    }
+    return 'Shame, not everyone enjoys it';
+  }
+
+}
+~~~
+
+
+<div class="chat" markdown="0">
+  <div class="user"><span>Do you like football?</span></div>
+  <div class="bot"><span>Yes, I love football, do you?</span></div>
+  <div class="user"><span>Yup</span></div>
+  <div class="bot"><span>We will go to a game together soon!</span></div>
+  <div class="user"><span>Do you like football?</span></div>
+  <div class="bot"><span>Yes I do and I know you don't enjoy it already</span></div>
+</div>

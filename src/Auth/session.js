@@ -163,6 +163,19 @@ module.exports = class Session {
 	data(key) {
 		return dotty.get(this._data, key);
 	}
+	
+
+/**
+ * Has
+ *
+ * Checks to see if a key for the user data exists
+ *
+ * @param string key
+ * @return bool
+ */
+	has(key) {
+		return dotty.get(this._data, key) ? true : false;
+	}
 
 
 /**

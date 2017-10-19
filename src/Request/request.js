@@ -199,11 +199,11 @@ module.exports = class Request {
 				this.intent = this.app.IntentRegistry.get(match.result);
 				this.confidence = 0;
 				this.classifier = 'fallback';
-				this.app.write_log('unknown',text);
+				this.app.Log.write_log('unknown',text);
 			}
 		}
 
-		//If intent not found then fall back to error
+		//If intent not found then error
 		if(!this.intent) {
 			this.throw_error('NotFound');
 			this.app.Log.write_log('unknown',text);

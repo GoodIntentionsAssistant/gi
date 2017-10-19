@@ -1,7 +1,7 @@
 /**
  * Confirm Fallback Intent
  */
-var Intent = require('../../../../../src/Intent/intent');
+var Intent = require('../../../Intent/intent');
 
 module.exports = class ConfirmIntent extends Intent {
 
