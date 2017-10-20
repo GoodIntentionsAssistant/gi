@@ -13,9 +13,4 @@ module.exports = class AnimalEntity extends Entity {
 		};
 	}
 
-	parse(string) {
-		var result = this.find(string);
-		return result;
-	}
-
 }

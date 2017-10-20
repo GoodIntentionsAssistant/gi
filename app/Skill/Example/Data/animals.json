@@ -1,12 +1,8 @@
 {
 	"entries": {
     "dog": {
-      "type": "dog",
-      "synonyms": []
     },
     "cat": {
-      "type": "cat",
-      "synonyms": []
     }
 	}
 }

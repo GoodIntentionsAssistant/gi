@@ -16,7 +16,7 @@ module.exports = class App extends GoodIntentions {
 
     //New auth
     this.on('auth.new', (Client) => {
-      console.log('new client');
+      //console.log('new client');
       // this.request(Client, {
       //   text: 'hello',
       //   user: 'good-intentions-user'

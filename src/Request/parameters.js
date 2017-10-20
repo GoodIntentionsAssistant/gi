@@ -83,7 +83,7 @@ module.exports = class Parameters {
 			_data['string'] = value;
 		}
 		else {
-			_data = extend(_options, value);
+			_data = extend(_default, value);
 		}
 
 		this.data[key] = _data;

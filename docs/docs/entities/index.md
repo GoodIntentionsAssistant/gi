@@ -3,4 +3,6 @@ layout: page
 title: Entities
 ---
 
-Entities are used for holding data to train intents and to extract parameter values from user input.
+Entities hold data to train intents and extracts user input to match intent parameters.
+
+They can be shared across different intents, and it's also possible to use them as a model for other types of data usage.

@@ -103,6 +103,19 @@ module.exports = class Entity {
 
 
 /**
+ * Parse the string
+ *
+ * @param string string
+ * @access public
+ * @return array
+ */
+  parse(string) {
+    let result = this.find(string);
+    return result;
+	}
+	
+
+/**
  * Find string in data
  *
  * Method will go through the entity.data and try to find strings

@@ -20,6 +20,11 @@ markdown: kramdown
 sass:
     sass_dir: _sass
 
+gems: [jekyll-mermaid]
+
+mermaid:
+  src: '/GoodIntentionsChatBot/js/mermaid.js'
+  src_config: '/GoodIntentionsChatBot/js/mermaid_config.js'
 
 kramdown:  
   parse_block_html: true
