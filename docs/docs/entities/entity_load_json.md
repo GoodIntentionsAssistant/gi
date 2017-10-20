@@ -3,7 +3,7 @@ layout: page
 title: Loading entity data from JSON
 ---
 
-Entity data can be stored in a .json file and loaded into the entity.
+Entity data can be stored in a `.json` file and loaded into the entity.
 
 In this example the file is created, `app/Skill/Example/Data/animals.json`.
 
@@ -35,4 +35,4 @@ module.exports = class AnimalEntity extends Entity {
 }
 ~~~
 
-This example uses the AnimalExample intent.
+This example uses the `AnimalExample` intent.

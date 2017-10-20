@@ -4,7 +4,7 @@
 var Entity = require('../../../../src/Entity/entity');
 var _ = require('underscore');
 
-module.exports = class MathWordEntity extends Entity {
+module.exports = class CurrencyEntity extends Entity {
 
 	setup() {
 		this.name = "Currency";
@@ -12,13 +12,6 @@ module.exports = class MathWordEntity extends Entity {
 			file: "Data.Common.currencies",
 			type: "csv"
 		};
-		this.data = {};
-	}
-
-	parse(string) {
-		//Find string
-		var result = this.find(string);
-		return result;
 	}
 
 }
