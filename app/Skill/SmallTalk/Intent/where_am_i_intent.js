@@ -16,7 +16,7 @@ module.exports = class WhereAmIIntent extends Intent {
 		this.parameters = {
 			"location": {
 				name: "Location",
-				entity: ["Sys.Common.Entity.Country","Sys.Common.Entity.City"],
+				entity: ["App.Common.Entity.Country","App.Common.Entity.City"],
 				required: false,
 				action: 'specified',
 				slotfill: true

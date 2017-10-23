@@ -5,15 +5,18 @@
 
 .side-nav {
   float: left;
+  position: relative;
+
   width:220px;
+
   background-color:#f7f7f7;
   padding:20px;
 
-  li span {
+  nav > ul > li > a {
     margin:0 0 5px 0;
     font-weight:600;
-    color:#757575;
   }
+
   ul {
       margin:0 0 1em 10px;
       li {

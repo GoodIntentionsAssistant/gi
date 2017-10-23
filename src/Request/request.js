@@ -252,7 +252,7 @@ module.exports = class Request {
  * @return object Session
  */
 	throw_error(error_name, options) {
-		this.intent = this.app.IntentRegistry.get('Sys.Error.Intent.'+error_name);
+		this.intent = this.app.IntentRegistry.get('App.Error.Intent.'+error_name);
 
 		if(!this.intent) {
 			this.app.Error.fatal('Intent ' + error_name + ' was not loaded. Make sure you include errors in your skills.');

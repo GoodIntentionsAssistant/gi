@@ -46,14 +46,19 @@ module.exports = class Entity {
 /**
  * Import
  *
+ * @todo Recode this method
  * @access public
  * @return void
  */
 	_import(settings, resolve, options) {
 		if(settings.type == 'custom') {
 			//Load custom
-			this.load_data(resolve, options);
-			this.loaded = true;
+			let promise = this.load_data(resolve, options);
+			promise.then((result) => {
+				this.data = result;
+				this.loaded = true;
+				resolve();
+			});
 		}
 		else if(settings.type == 'json') {
 			//Load from local json file

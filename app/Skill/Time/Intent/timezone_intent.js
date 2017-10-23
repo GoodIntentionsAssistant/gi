@@ -17,13 +17,13 @@ module.exports = class TimezoneIntent extends Intent {
 		]);
 
 		this.entities = {
-			'Sys.Common.Entity.Country': {},
-			'Sys.Common.Entity.City': {}
+			'App.Common.Entity.Country': {},
+			'App.Common.Entity.City': {}
 		};
 		this.parameters = {
 			"location": {
 				name: "Location",
-				entity: ["Sys.Common.Entity.Country","Sys.Common.Entity.City"],
+				entity: ["App.Common.Entity.Country","App.Common.Entity.City"],
 				required: false,
 				action: 'specified',
 				slotfill: true

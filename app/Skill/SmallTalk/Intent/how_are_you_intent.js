@@ -15,12 +15,12 @@ module.exports = class HowAreYouIntent extends Intent {
 			"how do you feel"
 		];
 		this.entities = {
-			'Sys.Common.Entity.Emotion':{}
+			'App.Common.Entity.Emotion':{}
 		};
 		this.parameters = {
 			"user_emotion": {
 				name: "User Emotion",
-				entity: 'Sys.Common.Entity.Emotion',
+				entity: 'App.Common.Entity.Emotion',
 				action: 'user_emotion'
 			}
 		};
@@ -32,7 +32,7 @@ module.exports = class HowAreYouIntent extends Intent {
 			return "I'm still feeling "+value;
 		}
 
-		var entity = request.app.EntityRegistry.get('Sys.Common.Entity.Emotion');
+		var entity = request.app.EntityRegistry.get('App.Common.Entity.Emotion');
 		var data = entity.get_data();
 
 		var positives = _.where(data,{ type:'positive' });

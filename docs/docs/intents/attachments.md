@@ -63,7 +63,7 @@ But without using `expecting` and a `parameter` the next input of "yes" or "no" 
 
 This example uses attachment of buttons, parameters to fetch the confirmation and expecting to wait for the reply.
 
-The System Confirm entity has a small dictionary of common confirmations for yes and no.
+The Apptem Confirm entity has a small dictionary of common confirmations for yes and no.
 
 ~~~javascript
 module.exports = class AskMeAgainIntent extends Intent {
@@ -75,7 +75,7 @@ module.exports = class AskMeAgainIntent extends Intent {
 
     this.add_parameter('ask_again', {
       name: 'Ask again',
-      entity: 'Sys.Common.Entity.Confirm'
+      entity: 'App.Common.Entity.Confirm'
     });
   }
 

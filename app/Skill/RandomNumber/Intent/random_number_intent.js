@@ -14,12 +14,12 @@ module.exports = class RandomNumberIntent extends Intent {
 		this.parameters = {
 			"number": {
 				name: "Number",
-				entity: "Sys.Common.Entity.Number",
+				entity: "App.Common.Entity.Number",
 				required: false
 			},
 			"number_to": {
 				name: "Number To",
-				entity: "Sys.Common.Entity.Number",
+				entity: "App.Common.Entity.Number",
 				required: false
 			}
 		};

@@ -11,7 +11,7 @@ GI has some system fallbacks you can use, make sure they are enabled in your `co
 
 ~~~javascript
 config.skills = [
-  'Sys.Fallback'
+  'App.Fallback'
 ];
 ~~~
 

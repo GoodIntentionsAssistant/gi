@@ -15,12 +15,12 @@ module.exports = class WeatherIntent extends Intent {
 		this.synonyms = [
 		];
 		this.entities = {
-			'Sys.Common.Entity.City': {}
+			'App.Common.Entity.City': {}
 		};
 		this.parameters = {
 			"city": {
 				name: "City",
-				entity: "Sys.Common.Entity.City",
+				entity: "App.Common.Entity.City",
 				required: false,
 				action: 'specified',
 				slotfill: true

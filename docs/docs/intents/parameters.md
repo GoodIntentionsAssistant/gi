@@ -9,7 +9,7 @@ The key of the parameter is used when fetching parameters in your intent.
 If your key was 'date' in your intent you can call, `request.parameters.value('date');` for the value.
 
 If a parameter is required and is not specified by the users input request.js will change the
-intent to be `Sys.Errors.ParametersFailed` and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.
+intent to be `App.Errors.ParametersFailed` and an error message is displayed. This saves putting additional code into your intent to handle validation and exceptions.
 
 
 ~~~javascript

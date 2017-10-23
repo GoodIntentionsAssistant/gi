@@ -13,23 +13,23 @@ module.exports = class UnitIntent extends Intent {
 		this.name = 'Unit Converter';
 		this.trigger = 'convert';
 		this.entities = {
-			'Sys.Common.Entity.Unit': {}
+			'App.Common.Entity.Unit': {}
 		};
 		this.parameters = {
 			"amount": {
 				name: "Amount",
-				entity: "Sys.Common.Entity.Number",
+				entity: "App.Common.Entity.Number",
 				required: false,
 				default: 1
 			},
 			"unit_from": {
 				name: "Unit From",
-				entity: "Sys.Common.Entity.Unit",
+				entity: "App.Common.Entity.Unit",
 				required: true
 			},
 			"unit_to": {
 				name: "Unit To",
-				entity: "Sys.Common.Entity.Unit",
+				entity: "App.Common.Entity.Unit",
 				required: true
 			}
 		};

@@ -68,10 +68,10 @@ module.exports = class Train {
 		//Classifier type
 		var type = this.app.Config.read('classifiers.'+group+'.classifier');
 
-		//For boosting
-		var repeat = 1;
-		if(options && options.boost > 0) {
-			repeat = (options.boost * 10);
+		//Priority
+		let priority = 1;
+		if(options && options.priority > 0) {
+			priority = options.priority;
 		}
 
 		//Check classifier exists
@@ -85,9 +85,7 @@ module.exports = class Train {
 		}
 
 		//Add to the classifer
-		for(var ii=0; ii<repeat; ii++) {
-			this.classifiers[group].train(intent, keyword);
-		}
+		this.classifiers[group].train(intent, keyword);
 
 		return true;
 	}

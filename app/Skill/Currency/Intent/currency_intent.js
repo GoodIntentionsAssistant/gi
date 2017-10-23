@@ -16,7 +16,7 @@ module.exports = class CurrencyIntent extends Intent {
 		this.parameters = {
 			"amount": {
 				name: "Amount",
-				entity: "Sys.Common.Entity.Number",
+				entity: "App.Common.Entity.Number",
 				required: false,
 				default: 1,
 				slotfill: true

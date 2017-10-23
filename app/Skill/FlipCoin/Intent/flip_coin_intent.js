@@ -21,7 +21,7 @@ module.exports = class FlipCoinIntent extends Intent {
 		this.parameters = {
 			"flips": {
 				name: "Flips",
-				entity: 'Sys.Common.Entity.Number',
+				entity: 'App.Common.Entity.Number',
         required: false,
         default: 1
 			}

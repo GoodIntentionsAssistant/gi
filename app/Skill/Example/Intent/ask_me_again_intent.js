@@ -12,7 +12,7 @@ module.exports = class AskMeAgainIntent extends Intent {
     
 		this.add_parameter('ask_again', {
       name: 'Ask again',
-      entity: 'Sys.Common.Entity.Confirm'
+      entity: 'App.Common.Entity.Confirm'
 		});
 	}
 

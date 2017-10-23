@@ -13,7 +13,7 @@ module.exports = class GreetingIntent extends Intent {
 		this.name = 'Hello';
 		this.trigger = 'hello';
 		this.entities = {
-			"Sys.Common.Entity.Greeting": {}
+			"App.Common.Entity.Greeting": {}
 		};
 		this.tests = [
 			{ input:'hello' },
@@ -22,12 +22,12 @@ module.exports = class GreetingIntent extends Intent {
 		this.parameters = {
 			"time_of_day": {
 				name: "Time of day",
-				entity: 'Sys.Common.Entity.TimeOfDay',
+				entity: 'App.Common.Entity.TimeOfDay',
 				full: true
 			},
 			"type": {
 				name: "Type of Greeting",
-				entity: 'Sys.Common.Entity.Greeting'
+				entity: 'App.Common.Entity.Greeting'
 			}
 		};
 	}

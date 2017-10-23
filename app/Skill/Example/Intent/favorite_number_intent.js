@@ -15,7 +15,7 @@ module.exports = class FavoriteNumberIntent extends Intent {
 	response(request) {
 		request.expecting.set({
       action: 'reply',
-      entity: 'Sys.Common.Entity.Number'
+      entity: 'App.Common.Entity.Number'
 		});
     return [
       'Not sure, what is your favorite number?'

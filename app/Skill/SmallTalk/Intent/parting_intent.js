@@ -11,7 +11,7 @@ module.exports = class PartingIntent extends Intent {
 		this.trigger = 'goodbye';
 		this.classifier = 'strict';
 		this.entities = {
-			'Sys.Common.Entity.Parting': {}
+			'App.Common.Entity.Parting': {}
 		};
 		this.tests = [
 			{ input:'goodbye' },
@@ -20,7 +20,7 @@ module.exports = class PartingIntent extends Intent {
 	}
 
 	response(request) {
-		var entity = request.app.EntityRegistry.get('Sys.Common.Entity.Parting');
+		var entity = request.app.EntityRegistry.get('App.Common.Entity.Parting');
 		var data = entity.get_data();
 
 		var output = _.sample(Object.keys(data));

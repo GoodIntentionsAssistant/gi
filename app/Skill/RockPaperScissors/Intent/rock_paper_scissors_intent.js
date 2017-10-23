@@ -23,7 +23,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 			},
 			"play_again": {
 				name: "Play Again",
-				entity: 'Sys.Common.Entity.Confirm'
+				entity: 'App.Common.Entity.Confirm'
 			}
 		};
 	}
@@ -90,7 +90,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 		output.push('Play again?');
 
 		request.expecting.set({
-			entity: 'Sys.Common.Entity.Confirm',
+			entity: 'App.Common.Entity.Confirm',
 			action: 'play_again',
 			force: false
 		});
