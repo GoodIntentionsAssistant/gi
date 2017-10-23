@@ -203,10 +203,18 @@ module.exports = class Response extends EventEmitter {
 			}
 		}
 
+		//Messages
+		//Could be returned as true boolean when only an attachment is being sent
+		//This should be cleaned up later and less about messages but more about packets of data
+		let messages = [];
+		if(message !== true) {
+			messages.push(message);
+		}
+
 		//Result
 		var result = {
 			type: 				'message',
-			messages: 		[message],
+			messages: 		messages,
 			attachments: 	attachments,
 			ident: 				this.request.ident,
 			classifier:   this.request.classifier,

@@ -269,13 +269,11 @@ module.exports = class Request {
  * @return boolean
  */
 	call(options) {
-		var that = this;
-
 		this.log('Calling '+this.intent.name+'::'+this.action);
 
 		var promise = this.intent.fire(this);
-		promise.then(function(result) {
-			that.result(result);
+		promise.then((result) => {
+			this.result(result);
 		});
 
 		return true;
@@ -339,6 +337,11 @@ module.exports = class Request {
 			options.messages = [text];
 		}
 
+		//@todo For now if the intent returns true then just send this as a message
+		// else if(text instanceof String) {
+		// 	options.messages = [text];
+		// }
+
 		this.response.send(options);
 	}
 
@@ -360,12 +363,7 @@ module.exports = class Request {
 		if(!result) {
 			return;
 		}
-
-		//If result is true / false
-		if(typeof result === 'boolean') {
-			return;
-		}
-
+		
 		this.send(result);
 	}
 	
