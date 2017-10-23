@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class FiveSecondsIntent extends Intent {
 
 	setup() {
-		this.name = 'Five Seconds';
 		this.train(['five seconds']);
 	}
 

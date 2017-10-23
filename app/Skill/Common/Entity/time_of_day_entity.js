@@ -6,8 +6,6 @@ const Entity = require('../../../../src/Entity/entity');
 module.exports = class TimeOfDayEntity extends Entity {
 
 	setup() {
-		this.name = "Greeting";
-
 		this.data = {
 			"morning": {},
 			"afternoon": {},

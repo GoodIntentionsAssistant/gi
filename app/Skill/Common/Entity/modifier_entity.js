@@ -5,7 +5,6 @@ const Entity = require('../../../../src/Entity/entity');
 
 function ModifierEntity() {
 	var entity = {
-		name: "Modifier",
 		data: {
 			'+': {
 				synonyms:[]

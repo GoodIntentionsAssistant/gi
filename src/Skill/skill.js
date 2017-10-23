@@ -62,8 +62,8 @@ module.exports = class Skill {
 			options['only'] = this.intents;
 		}
 
-		this.app.Log.add('Loading Intents for '+this.name);
-		return this.app.IntentRegistry.load_all(this.name, options);
+		this.app.Log.add('Loading Intents for '+this.identifier);
+		return this.app.IntentRegistry.load_all(this.identifier, options);
 	}
 
 
@@ -74,8 +74,8 @@ module.exports = class Skill {
  * @return void
  */
 	load_entities() {
-		this.app.Log.add('Loading Entities for '+this.name);
-		return this.app.EntityRegistry.load_all(this.name);
+		this.app.Log.add('Loading Entities for '+this.identifier);
+		return this.app.EntityRegistry.load_all(this.identifier);
 	}
 
 }

@@ -11,7 +11,6 @@ The redirect must be returned within the intent method.
 module.exports = class BoingIntent extends Intent {
 
   setup() {
-    this.name = 'Boing';
     this.train(['boing']);
   }
 

@@ -16,8 +16,6 @@ intent to be `App.Errors.ParametersFailed` and an error message is displayed. Th
 module.exports = class OrderIntent extends Intent {
 
   setup() {
-    this.name = 'Order Food';
-
     this.train([
       'order',
       'order food'
@@ -78,8 +76,6 @@ Please read the guide on creating entities before using entities inside intents.
 module.exports = class AnimalIntent extends Intent {
 
 	setup() {
-		this.name = 'Animals';
-
 		this.train([
 			'cat','dog'
 		]);
@@ -115,8 +111,6 @@ By defining the action in `add_parameter` if the parameter is filled it will use
 module.exports = class SugarIntent extends Intent {
 
 	setup() {
-		this.name = 'Tea with Sugar';
-
 		this.train([
 			'tea'
 		]);

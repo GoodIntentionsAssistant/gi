@@ -14,7 +14,6 @@ module.exports = class FallbackSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Fallback';
 	}
 
 }

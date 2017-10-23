@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class CountSixSecondsIntent extends Intent {
 
 	setup() {
-		this.name = 'Count Six Seconds';
 		this.train(['count to six']);
 	}
 

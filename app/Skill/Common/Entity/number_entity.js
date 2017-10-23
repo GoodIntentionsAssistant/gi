@@ -6,7 +6,6 @@ const Entity = require('../../../../src/Entity/entity');
 module.exports = class NumberEntity extends Entity {
 
 	setup() {
-		this.name = 'Number';
 		this.data = {};
 	}
 

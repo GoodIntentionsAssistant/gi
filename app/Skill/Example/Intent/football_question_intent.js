@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class FootballQuestionIntent extends Intent {
 
 	setup() {
-		this.name = 'Football question';
 		this.train([
       'do you like football?'
 		]);

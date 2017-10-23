@@ -14,7 +14,6 @@ Either via the `return` method or using the `request` parameter if there will be
 module.exports = class PingIntent extends Intent {
 
   setup() {
-    this.name = 'Ping';
     this.train(['ping','pong']);
   }
 
@@ -39,7 +38,6 @@ The return method can also return an array which will output to the user as mult
 module.exports = class HelloIntent extends Intent {
 
   setup() {
-    this.name = 'Hello';
     this.train(['hello']);
   }
 
@@ -74,7 +72,6 @@ You can also handle finishing the request manually using `request.end()` which i
 module.exports = class FiveSecondsIntent extends Intent {
 
   setup() {
-    this.name = 'Five Seconds';
     this.train(['five seconds']);
   }
 
@@ -109,7 +106,6 @@ If the request is not ended the queue timeout will be called.
 module.exports = class CountSixSecondsIntent extends Intent {
 
   setup() {
-    this.name = 'Count Six Seconds';
     this.train(['count to six']);
   }
 

@@ -6,7 +6,6 @@ const Entity = require('../../../../src/Entity/entity');
 module.exports = class ConfirmEntity extends Entity {
 
 	setup() {
-		this.name = "Confirm";
 		this.data = {
 			'yes': {
 				synonyms:['yeah','yep','yup','aye','sure','indeed','true','ok','ya','yaa']

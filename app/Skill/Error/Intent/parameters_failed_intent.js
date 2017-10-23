@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class ParametersFailedIntent extends Intent {
 
 	setup() {
-		this.name = 'Parameters Failed';
 	}
 
 

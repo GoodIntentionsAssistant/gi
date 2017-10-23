@@ -6,8 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class SugarIntent extends Intent {
 
 	setup() {
-		this.name = 'Tea with Sugar';
-
 		this.train([
 			'tea'
 		]);

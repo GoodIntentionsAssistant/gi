@@ -6,8 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class DrinkIntent extends Intent {
 
 	setup() {
-		this.name = 'Drink';
-
 		this.train([
 			'@App.Example.Entity.Drink'
 		]);

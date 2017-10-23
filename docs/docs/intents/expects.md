@@ -73,7 +73,6 @@ You could handle lots of different exceptions in your `reply` method but you cou
 module.exports = class FavoriteNumberIntent extends Intent {
 
   setup() {
-    this.name = 'Favorite number';
     this.train([
       'what is your favorite number'
     ]);
@@ -136,7 +135,6 @@ This can be useful to build up contextual information about the user. In the exa
 module.exports = class FootballQuestionIntent extends Intent {
 
   setup() {
-    this.name = 'Football question';
     this.train([
       'do you like football?'
     ]);

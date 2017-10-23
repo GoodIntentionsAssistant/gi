@@ -25,7 +25,6 @@ The entity can load this and other json compatible files using `this.import` and
 module.exports = class AnimalEntity extends Entity {
 
   setup() {
-    this.name = "Animal";
     this.import = {
       file: "App.Example.Data.animals",
       type: "json"

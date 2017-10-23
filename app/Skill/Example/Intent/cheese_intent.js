@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class CheeseIntent extends Intent {
 
 	setup() {
-		this.name = 'Cheese';
 		this.train(['cheese']);
 	}
 

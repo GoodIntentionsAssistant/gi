@@ -14,7 +14,6 @@ This is an example of storing the data within the entity.
 module.exports = class ColourEntity extends Entity {
 
   setup() {
-    this.name = "Colour";
     this.data = {
       'red': {},
       'blue': {},

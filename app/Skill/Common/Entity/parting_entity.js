@@ -6,8 +6,6 @@ const Entity = require('../../../../src/Entity/entity');
 module.exports = class PartingEntity extends Entity {
 
 	setup() {
-		this.name = "Parting";
-
 		this.data = {
 			"i'll be back": {
 				"reply": "See you then!"

@@ -11,7 +11,6 @@ Using `this.train()` function you can train the bot to understand the intent.
 module.exports = class PingIntent extends Intent {
 
   setup() {
-    this.name = 'Ping';
     this.train(['ping','pong']);
   }
 
@@ -53,7 +52,6 @@ The entity file is stored in `app/Skills/Example/Entity/colour_entity.js`.
 module.exports = class ColourEntity extends Entity {
 
   setup() {
-    this.name = "Colour";
     this.data = {
       'red': {},
       'blue': {},
@@ -110,8 +108,6 @@ Case is ignored.
 module.exports = class KissMeIntent extends Intent {
 
   setup() {
-    this.name = 'Kiss me';
-
     this.train(['kiss me'], {
       classifier: 'strict'
     });

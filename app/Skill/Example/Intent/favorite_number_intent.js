@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class FavoriteNumberIntent extends Intent {
 
 	setup() {
-		this.name = 'Favorite number';
 		this.train([
       'what is your favorite number'
 		]);

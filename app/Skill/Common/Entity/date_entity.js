@@ -6,7 +6,6 @@ const moment = require('moment');
 
 function DateEntity() {
 	var entity = {
-		name: "Date",
 		import: {
 			file: "Common/Data/dates.json",
 			type: "json"

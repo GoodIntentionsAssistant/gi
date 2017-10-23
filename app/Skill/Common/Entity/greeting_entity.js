@@ -6,8 +6,6 @@ const Entity = require('../../../../src/Entity/entity');
 module.exports = class GreetingEntity extends Entity {
 
 	setup() {
-		this.name = "Greeting";
-
 		this.data = {
 			"hello": {
 				"synonyms": [

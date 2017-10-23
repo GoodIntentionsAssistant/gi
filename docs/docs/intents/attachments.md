@@ -69,8 +69,6 @@ The Apptem Confirm entity has a small dictionary of common confirmations for yes
 module.exports = class AskMeAgainIntent extends Intent {
 
   setup() {
-    this.name = 'Ask me again';
-
     this.train(['ask me again'], { classifier:'strict' });
 
     this.add_parameter('ask_again', {

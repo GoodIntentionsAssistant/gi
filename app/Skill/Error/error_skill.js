@@ -14,7 +14,6 @@ module.exports = class ErrorSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Error';
 	}
 
 }

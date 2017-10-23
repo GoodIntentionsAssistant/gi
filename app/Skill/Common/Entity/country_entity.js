@@ -8,7 +8,6 @@ const moment = require('moment');
 module.exports = class CountryEntity extends Entity {
 
 	setup() {
-		this.name = "Country";
 		this.data = {};
 		this.ignore_index_key = true;
 		this.import = {

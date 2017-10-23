@@ -6,8 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class OrderIntent extends Intent {
 
 	setup() {
-		this.name = 'Order Food';
-
 		this.train([
 			'order',
 			'order food'

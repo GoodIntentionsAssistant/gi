@@ -8,7 +8,6 @@ const extend = require('extend');
 module.exports = class UnitEntity extends Entity {
 
 	setup() {
-		this.name = "Unit";
 		this.import = {
 			file: "Data.Common.units",
 			type: "json"

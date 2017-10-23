@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class RandomPictureIntent extends Intent {
 
 	setup() {
-		this.name = 'Random picture';
     this.train(['random picture'], { classifier:'strict' });
 	}
 

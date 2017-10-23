@@ -6,8 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class ConfirmIntent extends Intent {
 
 	setup() {
-		this.name = 'Confirm Fallback';
-
 		this.entities = {
 			'Common/Confirm': {}
 		};

@@ -23,7 +23,6 @@ Example of the system `why` intent.
 module.exports = class WhyIntent extends Intent {
 
   setup() {
-    this.name = 'Why Fallback';
     this.train(['why'], {
       classifier: 'fallback'
     });

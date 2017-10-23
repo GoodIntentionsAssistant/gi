@@ -25,7 +25,6 @@ module.exports = class ExampleMenuSkill extends Skill {
 
 	constructor(app) {
 		super(app);
-		this.name = 'Example Menu';
 		this.intents = [];
 	}
 

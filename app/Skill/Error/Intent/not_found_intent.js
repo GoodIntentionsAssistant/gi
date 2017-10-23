@@ -7,7 +7,6 @@ var _ = require('underscore');
 module.exports = class NotFoundIntent extends Intent {
 
 	setup() {
-		this.name = 'Not Found';
 	}
 	
 

@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class WhatIntent extends Intent {
 
 	setup() {
-		this.name = 'What Fallback';
 		this.train(['what'], {
 			classifier: 'fallback'
 		});

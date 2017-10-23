@@ -11,7 +11,6 @@ The `Drink` Entity and Intent will load data from a .txt file into the entity da
 module.exports = class DrinkEntity extends Entity {
 
   setup() {
-    this.name = 'Drink';
     this.import = {
       type: 'custom'
     };

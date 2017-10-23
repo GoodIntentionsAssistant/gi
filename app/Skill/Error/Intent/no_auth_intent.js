@@ -6,9 +6,7 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class NoAuthIntent extends Intent {
 
 	setup() {
-		this.name = 'No Authorization';
 	}
-
 
 	response () {
 		var output = [

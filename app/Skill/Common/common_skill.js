@@ -14,7 +14,6 @@ module.exports = class CommonSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Common';
 	}
 
 }
