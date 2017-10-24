@@ -7,37 +7,38 @@ const fx = require('money');
 module.exports = class CurrencyIntent extends Intent {
 
 	setup() {
-		this.name = 'Currency';
-		this.entities = {
-			'App.Currency.Entity.Currency': {}
-		};
-		this.trigger = 'currency';
-		this.synonyms = ['exchange rate'];
-		this.parameters = {
-			"amount": {
-				name: "Amount",
-				entity: "App.Common.Entity.Number",
-				required: false,
-				default: 1,
-				slotfill: true
-			},
-			"currency_from": {
-				name: "Currency from",
-				entity: "App.Currency.Entity.Currency",
-				required: true
-			},
-			"currency_to": {
-				name: "Currency to",
-				entity: "App.Currency.Entity.Currency",
-				required: true,
-				slotfill: true
-			}
-		};
-		/*this.tests = [
+		this.train([
+			'@App.Currency.Entity.Currency',
+			'currency',
+			'exchange rate'
+		]);
+
+		this.parameter('amount',{
+			name: "Amount",
+			entity: "App.Common.Entity.Number",
+			required: false,
+			default: 1,
+			slotfill: true
+		});
+
+		this.parameter('currency_from',{
+			name: "Currency from",
+			entity: "App.Currency.Entity.Currency",
+			required: true
+		});
+
+		this.parameter('currency_to',{
+			name: "Currency to",
+			entity: "App.Currency.Entity.Currency",
+			required: true,
+			slotfill: true
+		});
+
+		this.tests([
 			{ input:'1 GBP to BAHT' },
 			{ input:'50GBP to baht' },
 			{ input:'usd to baht' },
-		];*/
+		]);
 	}
 
 

@@ -14,7 +14,6 @@ module.exports = class WeatherSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Weather';
 	}
 
 }

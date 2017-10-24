@@ -14,7 +14,6 @@ module.exports = class DiceSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Dice';
 	}
 
 }

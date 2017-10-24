@@ -51,19 +51,23 @@ module.exports = class Entity {
  * @return void
  */
 	_import(settings, resolve, options) {
+		var is_promise = false;
 		var result = null;
 
 		if(settings.type == 'custom') {
 			//Load custom
 			result = this.load_data(resolve, options);
+			is_promise = (Promise.resolve(result) == result);
 		}
 		else if(settings.type == 'json') {
 			//Load from local json file
 			result = this.app.Data.load(settings.file, 'json');
+			is_promise = true;
 		}
 		else if(settings.type == 'csv') {
 			//Load from local CSV file
 			result = this.app.Data.load(settings.file, 'csv');
+			is_promise = true;
 		}
 		else {
 			console.error('No import type specified');
@@ -71,8 +75,6 @@ module.exports = class Entity {
 		}
 
 		//Check return type
-		let is_promise = (Promise.resolve(result) == result);
-
 		if(is_promise) {
 			result.then((data) => {
 				this.data = data;

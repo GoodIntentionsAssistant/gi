@@ -14,7 +14,6 @@ module.exports = class FlipCoinSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.FlipCoin';
 	}
 
 }

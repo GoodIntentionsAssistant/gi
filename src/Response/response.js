@@ -218,7 +218,7 @@ module.exports = class Response extends EventEmitter {
 			attachments: 	attachments,
 			ident: 				this.request.ident,
 			classifier:   this.request.classifier,
-			intent: 			this.request.intent.name,
+			intent: 			this.request.intent.identifier,
 			action: 			this.request.action,
 			confidence:   this.request.confidence
 		};

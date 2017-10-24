@@ -7,9 +7,10 @@ const _ = require('underscore');
 module.exports = class ColourIntent extends Intent {
 
 	setup() {
-		this.name = 'Colour';
-		this.trigger = 'colour';
-		this.synonyms = ["color"];
+		this.train([
+			'colour',
+			'color'
+		]);
 	}
 
 	response() {

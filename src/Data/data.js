@@ -72,7 +72,7 @@ module.exports = class Data {
 		let output = {};
 
 		let promise = new Promise((resolve, reject) => {
-			fs.readFile(filename, 'utf8', function(err, data) {
+			fs.readFile(filename, 'utf8', (err, data) => {
 				if (err) throw err;
 				
 				var lines = data.split(/\r?\n/);

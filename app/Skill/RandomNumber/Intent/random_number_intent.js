@@ -7,22 +7,21 @@ var _ = require('underscore');
 module.exports = class RandomNumberIntent extends Intent {
 
 	setup() {
-		this.name = 'Random Number';
-		this.trigger = 'random number';
-		this.synonyms = [
-    ];
-		this.parameters = {
-			"number": {
-				name: "Number",
-				entity: "App.Common.Entity.Number",
-				required: false
-			},
-			"number_to": {
-				name: "Number To",
-				entity: "App.Common.Entity.Number",
-				required: false
-			}
-		};
+		this.train([
+			'random number'
+		]);
+
+		this.parameter('number', {
+			name: "Number",
+			entity: "App.Common.Entity.Number",
+			required: false
+		});
+
+		this.parameter('number_to', {
+			name: "Number To",
+			entity: "App.Common.Entity.Number",
+			required: false
+		});
 	}
 
 
@@ -39,7 +38,21 @@ module.exports = class RandomNumberIntent extends Intent {
     }
     else {
       result = _.random(1, 100);
-    }
+		}
+		
+		//Attachments
+		if(number) {
+			request.attachment.add_field({
+				title: "Number from",
+				value: number
+			});
+		}
+		if(number_to) {
+			request.attachment.add_field({
+				title: "Number to",
+				value: number_to
+			});
+		}
 
 		return 'The random number is '+result;
 	}

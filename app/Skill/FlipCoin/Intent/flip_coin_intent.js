@@ -9,23 +9,20 @@ var extend = require('extend');
 module.exports = class FlipCoinIntent extends Intent {
 
 	setup() {
-		this.name = 'Dice';
-		this.trigger = 'flip coin';
-		this.synonyms = [
+		this.train([
+      'flip coin',
       'toss coin',
       'coin toss',
       'flip penny',
       'throw coin'
-    ];
+    ]);
 
-		this.parameters = {
-			"flips": {
-				name: "Flips",
-				entity: 'App.Common.Entity.Number',
-        required: false,
-        default: 1
-			}
-		};
+		this.parameter('flips', {
+      name: "Flips",
+      entity: 'App.Common.Entity.Number',
+      required: false,
+      default: 1
+    });
 	}
 
 	response(request) {

@@ -14,7 +14,6 @@ module.exports = class TimeSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Time';
 	}
 
 }

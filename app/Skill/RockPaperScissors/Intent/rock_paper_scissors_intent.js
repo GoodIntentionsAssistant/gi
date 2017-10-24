@@ -7,25 +7,24 @@ var _ = require('underscore');
 module.exports = class RockPaperScissorsIntent extends Intent {
 
 	setup() {
-		this.name = 'RockPaperScissors';
-		this.trigger = 'play game';
-		this.synonyms = [
+		this.train([
+			'play game',
 			'rock paper scissors'
-		];
-		this.parameters = {
-			"choice": {
-				name: "Choice",
-				data: {
-					"rock":{},
-					"paper":{},
-					"scissors":{}
-				}
-			},
-			"play_again": {
-				name: "Play Again",
-				entity: 'App.Common.Entity.Confirm'
+		]);
+
+		this.parameter('choice', {
+			name: "Choice",
+			data: {
+				"rock":{},
+				"paper":{},
+				"scissors":{}
 			}
-		};
+		});
+
+		this.parameter('play_again', {
+			name: "Play Again",
+			entity: 'App.Common.Entity.Confirm'
+		});
 	}
 
 	response(request) {

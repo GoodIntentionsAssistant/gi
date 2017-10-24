@@ -14,7 +14,6 @@ module.exports = class RandomNumberSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.RandomNumber';
 	}
 
 }

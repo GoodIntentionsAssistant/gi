@@ -8,25 +8,16 @@ const extend = require('extend');
 module.exports = class DiceIntent extends Intent {
 
 	setup() {
-		this.name = 'App.Dice';
-
 		this.train([
 			'roll',
 			'rolling',
 			'dice'
 		]);
 
-		this.trigger = 'roll';
-		this.synonyms = [
-			'rolling',
-			'dice'
-		];
-		this.parameters = {
-			"die": {
-				name: "Choice",
-				entity: 'App.Dice.Entity.Dice'
-			}
-		};
+		this.parameter('die', {
+			name: "Choice",
+			entity: 'App.Dice.Entity.Dice'
+		});
 	}
 
 	response(request) {

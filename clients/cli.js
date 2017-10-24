@@ -100,7 +100,7 @@ GiApp.on('message', (data) => {
   if(data.attachments.fields) {
     var fields = data.attachments.fields;
     for(var ii=0; ii<fields.length; ii++) {
-      output('Field: '+fields[ii].title,fields[ii].value, 'secondary');
+      output('Field: '+fields[ii].title+': '+fields[ii].value, 'secondary');
     }
   }
 
