@@ -165,7 +165,16 @@ module.exports = class ObjectRegistry {
     this.app.Log.add('Load '+this.type+' "'+identifier+'" ('+file+')');
 
     //App and file
-    let Module = require(file);
+    try {
+      var Module = require(file);
+    }
+    catch(e) {
+      this.app.Error.fatal([
+        'Failed to load '+identifier,
+        'Make sure you have created '+file
+      ]);
+    }
+
     let object = new Module(this.app);
 
     //Set the identifier to the object which is used for caching the object

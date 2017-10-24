@@ -25,7 +25,24 @@ module.exports = class GiClient extends EventEmitter {
 
     this.socket = null;
     this.session_token = null;
+
+    this.setup_socket();
   }
+
+
+/**
+ * Setup socket
+ * 
+ * @access public
+ * @return void
+ */
+  setup_socket() {
+    this.socket = io.connect(this.host, {
+      reconnect: true
+    });
+    this.events();
+  }
+
 
 /**
  * Bind Events
@@ -37,6 +54,11 @@ module.exports = class GiClient extends EventEmitter {
  * @return void
  */
   events() {
+    this.socket.on('connect', () => {
+      this.identify();
+      this.emit('connect');
+    });
+    
     this.socket.on('disconnect', () => {
       this.emit('disconnect');
     });
@@ -84,15 +106,6 @@ module.exports = class GiClient extends EventEmitter {
  * @return void
  */
   connect() {
-    this.socket = io.connect(this.host, {
-      reconnect: true
-    });
-
-    this.socket.on('connect', () => {
-      this.events();
-      this.identify();
-      this.emit('connect');
-    });
   }
 
 

@@ -1,8 +1,6 @@
 /**
  * Weather Intent
  */
-'use strict';
-
 const Intent = require('../../../../src/Intent/intent');
 const Forecast = require('forecast');
 const Promise = require('promise');
@@ -10,22 +8,17 @@ const Promise = require('promise');
 module.exports = class WeatherIntent extends Intent {
 
 	setup() {
-		this.name = 'Weather';
-		this.trigger = 'weather';
-		this.synonyms = [
-		];
-		this.entities = {
-			'App.Common.Entity.City': {}
-		};
-		this.parameters = {
-			"city": {
-				name: "City",
-				entity: "App.Common.Entity.City",
-				required: false,
-				action: 'specified',
-				slotfill: true
-			}
-		};
+		this.train([
+			'weather'
+		]);
+
+		this.add_parameter('city', {
+			name: "City",
+			entity: "App.Common.Entity.City",
+			required: false,
+			action: 'specified',
+			slotfill: true
+		});
 	}
 
 

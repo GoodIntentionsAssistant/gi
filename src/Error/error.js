@@ -1,6 +1,7 @@
 /**
  * Error
  */
+const colors = require('colors');
 
 module.exports = class Error {
 
@@ -21,9 +22,18 @@ module.exports = class Error {
  * @access public
  * @return void
  */
-  fatal(message) {
-    console.log('Fatal Error: '+message);
-    process.exit();
+  fatal(messages) {
+    if(typeof messages !== "object") {
+      messages = [messages];
+    }
+
+    console.log('Fatal Error'.red.underline);
+
+    for(let ii=0; ii<messages.length; ii++) {
+      console.log(messages[ii].red);
+    }
+
+    process.exit(1);
   }
 
 }

@@ -269,7 +269,7 @@ module.exports = class Request {
  * @return boolean
  */
 	call(options) {
-		this.log('Calling '+this.intent.name+'::'+this.action);
+		this.log('Calling '+this.intent.identifier+'::'+this.action);
 
 		var promise = this.intent.fire(this);
 		promise.then((result) => {

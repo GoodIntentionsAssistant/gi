@@ -38,16 +38,11 @@ GiApp.on('connect', () => {
 
 GiApp.on('disconnect', () => {
 	output('Disconnected', 'warning');
-  prompt.pause();
+  //prompt.pause();
 });
 
 GiApp.on('identified', () => {
   output('Identified, you can now type in a message', 'success');
-
-  //Message to send once identified
-  prompt.pause();
-	//GiApp.send('pizza');
-
   prompt_me();
 });
 

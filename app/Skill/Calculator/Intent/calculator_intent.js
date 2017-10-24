@@ -8,26 +8,23 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class CalculatorIntent extends Intent {
 
 	setup() {
-		this.name = 'Calculator';
-		this.classifier = 'strict';
-
 		this.train([
 			new RegExp(/^.*[\d+] x [\d+].*$/,'g'),
 			new RegExp(/^(calc )?[\d\+\/\*.\-% \(\)=]*$/,'g'),
 			new RegExp(/^[\d+]*%( of)? [\d\+\/\*.\- \(\)=]*$/,'g')
+		], {
+			classifier: 'strict'
+		});
+
+		this.train([
+			'@App.Calculator.Entity.MathWord'
 		]);
 
-		this.entities = {
-			'App.Calculator.Entity.MathWord': {
-				'classifier': 'main'
-			}
-		};
-		this.parameters = {
-			"math_word": {
-				name: "Math word",
-				entity: 'App.Calculator.Entity.MathWord'
-			}
-		};
+		this.add_parameter('math_word',{
+			name: "Math word",
+			entity: 'App.Calculator.Entity.MathWord'
+		});
+
 		this.tests = [
 			{ input:"calc 1+1" },
 			{ input:"calc 666 * 666" },

@@ -14,7 +14,6 @@ module.exports = class CalculatorSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.Calculator';
 	}
 
 }
