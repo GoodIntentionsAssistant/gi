@@ -12,7 +12,7 @@ module.exports = class WeatherIntent extends Intent {
 			'weather'
 		]);
 
-		this.add_parameter('city', {
+		this.parameter('city', {
 			name: "City",
 			entity: "App.Common.Entity.City",
 			required: false,

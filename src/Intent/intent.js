@@ -20,6 +20,7 @@ module.exports = class Intent {
 		
 		this._keywords = [];
 		this._entities = [];
+		this._tests = [];
 		
 		this.parameters = [];
 
@@ -79,6 +80,21 @@ module.exports = class Intent {
 
 
 /**
+ * Add Tests
+ * 
+ * @param hash data
+ * @access public
+ * @return bool
+ */
+	tests(data, options = {}) {
+		for(let ii=0; ii < data.length; ii++) {
+			this._tests.push(data);
+		}
+		return true;
+	}
+
+
+/**
  * Add Entity
  * 
  * @param string name
@@ -97,7 +113,7 @@ module.exports = class Intent {
  * @param hash data
  * @return bool
  */
-	add_parameter(name, data) {
+	parameter(name, data) {
 		this.parameters[name] = data;
 		return true;
 	}

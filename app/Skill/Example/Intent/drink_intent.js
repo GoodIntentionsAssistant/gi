@@ -10,7 +10,7 @@ module.exports = class DrinkIntent extends Intent {
 			'@App.Example.Entity.Drink'
 		]);
 
-		this.add_parameter('choice', {
+		this.parameter('choice', {
 			name: "Choice",
 			entity: "App.Example.Entity.Drink"
 		});

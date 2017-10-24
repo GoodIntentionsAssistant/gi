@@ -21,7 +21,7 @@ module.exports = class OrderIntent extends Intent {
       'order food'
     ]);
 
-    this.add_parameter('choice', {
+    this.parameter('choice', {
       name: "Choice",
       data: {
         "pizza": {},
@@ -80,7 +80,7 @@ module.exports = class AnimalIntent extends Intent {
 			'cat','dog'
 		]);
 
-		this.add_parameter('choice', {
+		this.parameter('choice', {
 			name: "Choice",
 			entity: "App.Example.Entity.Animal"
 		});
@@ -105,7 +105,7 @@ module.exports = class AnimalIntent extends Intent {
 
 In the previous examples the initial intent and the response go to the same method.
 
-By defining the action in `add_parameter` if the parameter is filled it will use a different method.
+By defining the action in `parameter` if the parameter is filled it will use a different method.
 
 ~~~javascript
 module.exports = class SugarIntent extends Intent {
@@ -115,7 +115,7 @@ module.exports = class SugarIntent extends Intent {
 			'tea'
 		]);
 
-		this.add_parameter('choice', {
+		this.parameter('choice', {
 			name: "Choice",
 			data: {
 				"yes": {},

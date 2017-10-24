@@ -20,12 +20,12 @@ module.exports = class CalculatorIntent extends Intent {
 			'@App.Calculator.Entity.MathWord'
 		]);
 
-		this.add_parameter('math_word',{
+		this.parameter('math_word',{
 			name: "Math word",
 			entity: 'App.Calculator.Entity.MathWord'
 		});
 
-		this.tests = [
+		this.tests([
 			{ input:"calc 1+1" },
 			{ input:"calc 666 * 666" },
 			{ input:"calc 666 * 666 + 10" },
@@ -35,7 +35,7 @@ module.exports = class CalculatorIntent extends Intent {
 			{ input:"what is 5 x 10?" },
 			{ input:"what is 5 times 10?" },
 			{ input:"what is 5 multiplied by 10?" }
-		];
+		]);
 	}
 
 

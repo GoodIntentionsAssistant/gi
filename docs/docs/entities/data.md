@@ -64,7 +64,7 @@ this.data = {
 };
 ~~~
 
-If you used `add_parameter('unit',{});` to your intent you could fetch `label` and `measure` with the `parameters.get()` method.
+If you used `parameter('unit',{});` to your intent you could fetch `label` and `measure` with the `parameters.get()` method.
 
 ~~~javascript
 //Label will be 'Centimeters'

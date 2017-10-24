@@ -71,7 +71,7 @@ module.exports = class AskMeAgainIntent extends Intent {
   setup() {
     this.train(['ask me again'], { classifier:'strict' });
 
-    this.add_parameter('ask_again', {
+    this.parameter('ask_again', {
       name: 'Ask again',
       entity: 'App.Common.Entity.Confirm'
     });

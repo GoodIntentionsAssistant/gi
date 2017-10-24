@@ -14,7 +14,6 @@ module.exports = class CatFactsSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.CatFacts';
 	}
 
 }

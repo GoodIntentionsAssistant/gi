@@ -8,18 +8,18 @@ const _ = require('underscore');
 module.exports = class CatfactsIntent extends Intent {
 
 	setup() {
-		this.name = 'Catfacts';
-		this.trigger = 'catfact';
-		this.synonyms = {
-			'catfacts': {},
-			'cat fact': {}
-		};
-		this.tests = [
+		this.train([
+			'catfact',
+			'cat facts',
+			'cat fact'
+		]);
+
+		this.tests([
 			{ input:'catfact' },
 			{ input:'cat fact' },
 			{ input:'cat facts' },
 			{ input:'give me a cat fact' }
-		];
+		]);
 	}
 
 	response(request) {

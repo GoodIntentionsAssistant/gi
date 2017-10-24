@@ -10,7 +10,7 @@ module.exports = class SugarIntent extends Intent {
 			'tea'
 		]);
 
-		this.add_parameter('choice', {
+		this.parameter('choice', {
 			name: "Choice",
 			data: {
 				"yes": {},

@@ -11,7 +11,7 @@ module.exports = class OrderIntent extends Intent {
 			'order food'
 		]);
 
-		this.add_parameter('choice', {
+		this.parameter('choice', {
 			name: "Choice",
 			data: {
 				"pizza": {},

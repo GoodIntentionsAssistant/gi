@@ -10,7 +10,7 @@ module.exports = class AnimalIntent extends Intent {
 			'cat','dog'
 		]);
 
-		this.add_parameter('choice', {
+		this.parameter('choice', {
 			name: "Choice",
 			entity: "App.Example.Entity.Animal"
 		});
