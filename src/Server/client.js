@@ -153,6 +153,7 @@ module.exports = class Client {
  * @return boolean
  */
 	validate_request(input) {
+		let type = input.type;
 		this.validation_errors = [];
 
 		//Identified
@@ -167,17 +168,18 @@ module.exports = class Client {
 
 		//Client defined
 		if(typeof input.client === 'undefined' || input.client == '') {
-			this.validation_errors.push('Llient not defined');
-		}
-
-		//Text defined
-		if(typeof input.text === 'undefined' || input.text == '') {
-			this.validation_errors.push('Text not defined');
+			this.validation_errors.push('Client not defined');
 		}
 
 		//User defined
 		if(typeof input.user === 'undefined' || input.user == '') {
 			this.validation_errors.push('User not defined');
+		}
+
+		//Text defined
+		//If the type is message
+		if(type == 'message' && (typeof input.text === 'undefined' || input.text == '')) {
+			this.validation_errors.push('Text not defined');
 		}
 
 		return this.validation_errors.length > 0 ? false : true;

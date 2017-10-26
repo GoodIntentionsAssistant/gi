@@ -11,6 +11,8 @@ let name  = 'test';                       // Must be a client name matched in ap
 let token = 'NrCgyKqvyB';                 // The client token found in your config.js file
 let host  = 'http://localhost:3000';      // Host name of the server, the GI server must be running to get a connection
 
+let user  = 'good-intentions-user';
+
 //Colours for terminal output
 const colours = {
   'default':    ['\x1b[36m','\x1b[0m'],      //Blue
@@ -43,12 +45,21 @@ GiApp.on('disconnect', () => {
 
 GiApp.on('identified', () => {
   output('Identified, you can now type in a message', 'success');
+
+  //Handshake for the user
+  GiApp.send(user, 'handshake');
+
   prompt_me();
 });
 
 GiApp.on('error', (data) => {
 	output('Error: '+data.message, 'error');
   prompt.resume();
+});
+
+GiApp.on('notice', (data) => {
+  let message = data.messages.join(', '); 
+	output('Notice: '+message, 'mute');
 });
 
 GiApp.on('type_start', () => {
@@ -137,7 +148,7 @@ function prompt_me() {
   }
 
 	prompt.get(schema, function (err, result) {
-		GiApp.send(result.input);
+		GiApp.send(user, 'message', result.input);
     prompt.pause();
 	});
 }

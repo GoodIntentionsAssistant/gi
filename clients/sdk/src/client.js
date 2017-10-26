@@ -92,6 +92,10 @@ module.exports = class GiClient extends EventEmitter {
         //Finished typing
         this.emit('type_end', data);
       }
+      else if(data.type == 'notice') {
+        //Server notice
+        this.emit('notice', data);
+      }
     });
   }
 
@@ -151,15 +155,17 @@ module.exports = class GiClient extends EventEmitter {
  * @access public
  * @return void
  */
-  send(text) {
+  send(user, type, text) {
     let input = {
       client: this.name,
       session_token: this.session_token,
-      text: text,
-      type: 'message',
-      user: 'good-intentions-user',
+      type: type,
+      user: user,
       fast: true
     };
+    if(text) {
+      input.text = text;
+    }
     this.socket.emit('request',input);
   }
 

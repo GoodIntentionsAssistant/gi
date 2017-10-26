@@ -87,11 +87,29 @@ module.exports = class Response extends EventEmitter {
  * @access public
  * @return void
  */
-	send(result, options) {
-		//
-		this.start();
+	send(type, result) {
+		//If the response has messages then queue them and send
+		//Otherwise just sent the meta data
+		if(type == 'message') {
+			this._send_messages(result);
+		}
+		else {
+			this._send_notice(result);
+		}
 
-		//
+	}
+
+
+/**
+ * Send Messages
+ *
+ * @param object response
+ * @access public
+ * @return void
+ */
+	_send_messages(result) {
+		this.start_typing();
+
 		for(var ii=0; ii<result.messages.length; ii++) {
 			this.queue.push([ result, result.messages[ii] ]);
 		}
@@ -102,10 +120,28 @@ module.exports = class Response extends EventEmitter {
 		}
 
 		//Start loop with speed set so the user gets a realistic reply
-		var that = this;
-		this.timer = setTimeout(function() {
-			that._send();
+		this.timer = setTimeout(() => {
+			this._send();
 		}, this.speed(result.messages[0]));
+	}
+
+
+/**
+ * Send just notice
+ *
+ * @param object result
+ * @access public
+ * @return void
+ */
+  _send_notice(result) {
+		let data = {
+			type:   	'notice',
+			ident: 		this.request.ident,
+			messages: result.messages
+		};
+		this._emit(data);
+		this.emit('sent');
+		return;
 	}
 
 
@@ -122,8 +158,10 @@ module.exports = class Response extends EventEmitter {
 		var result = queue_item[0];
 		var message = queue_item[1];
 
-		//
-		this.request.log('Reply: '+message);
+		//Log the outputted message
+		if(message) {
+			this.request.log('Reply: '+message);
+		}
 
 		//Build message
 		var data = this.build(result, message);
@@ -138,6 +176,7 @@ module.exports = class Response extends EventEmitter {
 		//Check for end of queue
 		if(this.queue.length == 0) {
 			this.timer = null;
+			this.end_typing();
 			this.emit('sent');
 			return;
 		}
@@ -212,16 +251,20 @@ module.exports = class Response extends EventEmitter {
 		}
 
 		//Result
-		var result = {
+		let result = {
 			type: 				'message',
 			messages: 		messages,
 			attachments: 	attachments,
-			ident: 				this.request.ident,
-			classifier:   this.request.classifier,
-			intent: 			this.request.intent.identifier,
-			action: 			this.request.action,
-			confidence:   this.request.confidence
+			ident: 				this.request.ident
 		};
+
+		//Ident
+		if(this.request.intent) {
+			request.classifier 	= this.request.classifier;
+			request.intent 			= this.request.indent.identifier;
+			request.action 			= this.request.action;
+			request.condifence 	= this.request.confidence;
+		}
 
 		return result;
 	}
@@ -233,7 +276,7 @@ module.exports = class Response extends EventEmitter {
  * @access public
  * @return void
  */
-	start() {
+	start_typing() {
 		if(this.typing) {
 			return;
 		}
@@ -251,7 +294,7 @@ module.exports = class Response extends EventEmitter {
  * @access public
  * @return void
  */
-	end() {
+	end_typing() {
 		this.typing = false;
 		this._emit({
 			type: 'end'

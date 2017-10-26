@@ -38,7 +38,6 @@ module.exports = class Request {
 
 		//Response
 		this.response = new Response(this);
-		this.response.start();
 
 		//Expecting
 		this.expecting = new Expecting(this);
@@ -135,7 +134,15 @@ module.exports = class Request {
 		this.session.add_history(this.input);
 
 		//Process the request
-		var result = this.process(this.input.text);
+		var result = null;
+
+		if(this.input.type == 'message') {
+			result = this.process_message(this.input.text);
+		}
+		else if(this.input.type == 'handshake') {
+			result = this.process_handshake();
+		}
+
 		if(!result) {
 			this.resolve();
 		}
@@ -145,15 +152,31 @@ module.exports = class Request {
 
 
 /**
- * Process
- *
- * This method can be called directly from anywhere.
+ * Process Handshake
  * 
  * @param string text
  * @access public
  * @return boolean
  */
-	process(text) {
+	process_handshake() {
+		let options = {
+			messages: ['You are now identified'],
+			status: {
+				code: 200
+			}
+		};
+		this.response.send('notice', options);
+	}
+
+
+/**
+ * Process Message
+ * 
+ * @param string text
+ * @access public
+ * @return boolean
+ */
+  process_message(text) {
 		//Reset
 		this.intent = null;
 		this.confidence = 0;
@@ -342,7 +365,7 @@ module.exports = class Request {
 		// 	options.messages = [text];
 		// }
 
-		this.response.send(options);
+		this.response.send('message', options);
 	}
 
 
@@ -375,7 +398,6 @@ module.exports = class Request {
  * @return void
  */
 	end() {
-		this.response.end();
 		this.resolve();
 	}
 
