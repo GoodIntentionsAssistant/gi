@@ -7,8 +7,6 @@ const moment = require('moment-timezone');
 module.exports = class TimezoneIntent extends Intent {
 
 	setup() {
-		this.name = 'Timezone';
-
 		this.train([
 			'time',
 			'timezone',

@@ -44,7 +44,7 @@ GiApp.on('disconnect', () => {
 });
 
 GiApp.on('identified', () => {
-  output('Identified, you can now type in a message', 'success');
+  output('Client identified', 'success');
 
   //Handshake for the user
   GiApp.send(user, 'handshake');

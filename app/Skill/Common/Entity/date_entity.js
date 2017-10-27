@@ -4,92 +4,31 @@
 const Entity = require('../../../../src/Entity/entity');
 const moment = require('moment');
 
-function DateEntity() {
-	var entity = {
-		import: {
-			file: "Common/Data/dates.json",
-			type: "json"
-		}
-	}
-	entity.__proto__ = Entity()
+module.exports = class DateEntity extends Entity {
 
-	entity.parse = function(string) {
+  setup() {
+    this.import = {
+      file: "Data.Common.countries",
+      type: "json"
+    };
+  }
+
+	parse(string) {
 		var original = null;
 		var value = null;
 
-		//Do dict search
-		var search = this.find(string);
+		let chrono = require('chrono-node');
+		let parsed_date = chrono.parse(string);
 
-		var months = this.build_words(this.data, {
-			type:'month'
-		});
-
-		var aa = this.match_month_ordinal(string, months);
-		console.log(aa);
-
-		//Basic
-		//var easy = this.match_easy(search);
-
-		//2st Jan etc...
-		/*for(key in this.data) {
-			var words = new Array();
-			words.push(key);
-			if(this.data[key].synonyms) {
-				for(var ii=0; ii<this.data[key].synonyms.length; ii++) {
-					words.push(this.data[key].synonyms[ii]);
-				}
-			}
-
-			console.log(words);
-			for(var ii=0; ii<words.length; ii++) {
-				var rgxp = new RegExp('1st '+words[ii], "gi");
-				console.log(string.match(rgxp));
-			}
-		}*/
-
-
-/*
-		string = string.toLowerCase();
-
-		for(key in this.data) {
-			var rgxp = new RegExp('1st '+key, "g");
-			console.log(string.match(rgxp));
+		if(parsed_date.length > 0) {
+			original = parsed_date[0].text;
+			value = parsed_date[0].start.date();
 		}
-*/
+
 		return {
 			value: value,
 			original: original
 		}
 	}
 
-
-	entity.match_easy = function(search) {
-		if(search.value == 'tomorrow') {
-			value = moment().add(1, 'days');
-		}
-		else if(search.value == 'yesterday') {
-			value = moment().subtract(1, 'days');
-		}
-		else if(search.value == 'today') {
-			value = moment();
-		}
-		return value;
-	}
-
-
-	entity.match_month_ordinal = function(string, months) {
-
-		console.log(string);
-
-		for(var ii=0; ii<months.length; ii++) {
-			var rgxp = new RegExp('1st '+months[ii], "gi");
-			console.log(string.match(rgxp));
-		}
-
-	}
-
-
-	return entity
 }
-
-module.exports = DateEntity;

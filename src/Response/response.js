@@ -260,10 +260,10 @@ module.exports = class Response extends EventEmitter {
 
 		//Ident
 		if(this.request.intent) {
-			request.classifier 	= this.request.classifier;
-			request.intent 			= this.request.indent.identifier;
-			request.action 			= this.request.action;
-			request.condifence 	= this.request.confidence;
+			result.classifier 	= this.request.classifier;
+			result.intent 			= this.request.intent.identifier;
+			result.action 			= this.request.action;
+			result.condifence 	= this.request.confidence;
 		}
 
 		return result;

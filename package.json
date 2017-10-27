@@ -26,6 +26,7 @@
     "test_auto": "jasmine --filter=\"app\""
   },
   "dependencies": {
+    "chrono-node": "^1.3.5",
     "colors": "^1.1.2",
     "convert-units": "^2.3.1",
     "dotty": "0.0.2",
