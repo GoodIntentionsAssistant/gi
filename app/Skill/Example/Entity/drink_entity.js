@@ -29,7 +29,7 @@ module.exports = class DrinkEntity extends Entity {
 			});
 		});
 
-		return promise;
+		//return promise;
 	}
 
 }

@@ -84,6 +84,7 @@ module.exports = class Entity {
 		}
 		else {
 			this.loaded = true;
+			resolve();
 			return true;
 		}
 

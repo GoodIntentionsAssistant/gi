@@ -255,7 +255,8 @@ module.exports = class Response extends EventEmitter {
 			type: 				'message',
 			messages: 		messages,
 			attachments: 	attachments,
-			ident: 				this.request.ident
+			ident: 				this.request.ident,
+			user: 				this.request.input.user
 		};
 
 		//Ident
@@ -263,7 +264,7 @@ module.exports = class Response extends EventEmitter {
 			result.classifier 	= this.request.classifier;
 			result.intent 			= this.request.intent.identifier;
 			result.action 			= this.request.action;
-			result.condifence 	= this.request.confidence;
+			result.confidence 	= this.request.confidence;
 		}
 
 		return result;

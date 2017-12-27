@@ -10,26 +10,24 @@ const Promise = require('promise');
 module.exports = class GreetingIntent extends Intent {
 
 	setup() {
-		this.name = 'Hello';
-		this.trigger = 'hello';
-		this.entities = {
-			"App.Common.Entity.Greeting": {}
-		};
+		this.train([
+			'@App.Common.Entity.Greeting'
+		]);
+
 		this.tests = [
 			{ input:'hello' },
 			{ input:'sup' }
 		];
-		this.parameters = {
-			"time_of_day": {
-				name: "Time of day",
-				entity: 'App.Common.Entity.TimeOfDay',
-				full: true
-			},
-			"type": {
-				name: "Type of Greeting",
-				entity: 'App.Common.Entity.Greeting'
-			}
-		};
+
+		this.parameter('time_of_day',{
+			name: "Time of day",
+			entity: 'App.Common.Entity.TimeOfDay'
+		});
+
+		this.parameter('type',{
+			name: "Type of Greeting",
+			entity: 'App.Common.Entity.Greeting'
+		});
 	}
 
 	response(request) {

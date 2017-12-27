@@ -7,13 +7,13 @@ const _ = require('underscore');
 module.exports = class DoingIntent extends Intent {
 
 	setup() {
-		this.name = 'Gratitude';
-		this.trigger = 'doing';
-		this.synonyms = [
-			"up to",
-			"going on",
-			"sup"
-		];
+		this.train([
+			'doing',
+			'up to',
+			'going on',
+			'sup'
+		]);
+		
 		this.tests = [
 			{ input:'what are you doing' }
 		];

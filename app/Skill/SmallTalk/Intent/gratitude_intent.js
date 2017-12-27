@@ -7,13 +7,13 @@ const _ = require('underscore');
 module.exports = class GratitudeIntent extends Intent {
 
 	setup() {
-		this.name = 'Gratitude';
-		this.trigger = 'thanks';
-		this.synonyms = [
-			"thank",
-			"gratitude",
-			"good luck"
-		];
+		this.train([
+			'thanks',
+			'thank',
+			'gratitude',
+			'good luck'
+		]);
+
 		this.tests = [
 			{ input:'thanks' },
 			{ input:'thank you' },
