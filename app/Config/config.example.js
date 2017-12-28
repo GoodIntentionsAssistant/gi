@@ -3,17 +3,32 @@ var config = {};
 config.paths = {
   root:  __dirname+'/../..',
   app: __dirname+'/../../app',
-  skills: __dirname+'/../../app/Skills',
-  system: __dirname+'/../../src'
+  logs: __dirname+'/../../app/Log',
+  system: __dirname+'/../../src',
+  data: __dirname+'/../../data',
+  skills: {
+    app: __dirname+'/../../app/Skill',
+    sys: __dirname+'/../../src/Skill'
+  }
 };
 
 config.name = "Good Intentions";
 
-config.apps = [
-  'Common',
-  'Fun',
-  'Productivity',
-  'Examples'
+config.skills = [
+  'App.Currency',
+  'App.Dice',
+  'App.FlipCoin',
+  'App.CatFacts',
+  'App.RandomNumber',
+  'App.Calculator',
+  'App.Time',
+  'App.Unit',
+  'App.RockPaperScissors',
+  'App.Example',
+  'App.Fallback',
+  'App.Weather',
+  'App.Error',
+  //'App.SmallTalk',
 ];
 
 config.app = {
@@ -53,7 +68,7 @@ config.classifiers = {
 }
 
 config.logging = {
-  enabled: true
+  enabled: false
 };
 
 config.response = {
