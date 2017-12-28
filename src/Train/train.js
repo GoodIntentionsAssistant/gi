@@ -29,7 +29,16 @@ module.exports = class Train {
  */
 	add_classifier(name, type) {
 		let filename = this.app.Path.get('system')+'/Train/Classifier/'+type+'_classifier.js';
-		let Classifier = require(filename);
+
+    try {
+      var Classifier = require(filename);
+    }
+    catch(e) {
+      this.app.Error.fatal([
+        'Failed to load '+type+' classifier',
+        'Make sure you have created '+file
+      ]);
+    }
 
 		//Create classifier
 		this.classifiers[name] = new Classifier();
@@ -105,13 +114,16 @@ module.exports = class Train {
 
 		//Check classifier exists
 		if(!this.classifiers[classifier]) {
+      this.app.Error.fatal([
+        'Failed to call the classifer "'+classifier+'"',
+        'It does not look like it has been loaded in or there is a problem in the classifier'
+      ]);
 			return false;
 		}
 
 		//Scrub the incoming string
 		str = Scrubber.lower(str);
 		str = Scrubber.contractions(str);
-		str = Scrubber.stop_words(str);
 		str = Scrubber.grammar(str);
 
 		//Result

@@ -260,10 +260,18 @@ module.exports = class Parameters {
 				result.value = this.request.session.user(field);
 			}
 
-			//No result
-			//Default
+			//Default value used if no value found
+			//The default value should also be processed by the entity for example if the parameter
+			//was for Date Entity setting the default to 'today' needs to be processed for the value
+			//field to be entered.
 			if(!result.value && data[field].default) {
-				result.value = data[field].default;
+				let _result = entity.parse(data[field].default);
+				if(_result) {
+					result = _result;
+				}
+				else {
+					result.value = data[field].default;
+				}
 			}
 
 			//If successful then 

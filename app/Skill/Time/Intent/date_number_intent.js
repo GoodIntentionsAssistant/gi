@@ -14,7 +14,7 @@ module.exports = class DateNumberIntent extends Intent {
     this.parameter('date', {
       name: 'date',
 			entity: 'App.Common.Entity.Date',
-			required: true
+			default: 'today'
     });
 	}
 
@@ -24,7 +24,9 @@ module.exports = class DateNumberIntent extends Intent {
 		let ref = request.parameters.get('date.string');
 		let tense = 'is';
 
-		if(moment(date) < moment()) {
+		let _date = moment(date);
+		let now = moment();
+		if(_date.diff(now,'days') < 0) {
 			tense = 'was';
 		}
 

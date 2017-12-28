@@ -7,17 +7,25 @@ module.exports = class CheeseIntent extends Intent {
 
 	setup() {
 		this.train(['cheese']);
+		this.parameter('confirm', {
+			name: 'Confirm',
+      entity: 'App.Common.Entity.Confirm',
+      action: 'answered'
+		});
 	}
 
 	response(request) {
     request.attachment.add_action('Yes');
     request.attachment.add_action('No');
+    request.expecting.set({
+      force: true
+    });
 		return 'Do you like cheese?';
 	}
 
 	answered(request) {
-		let choice = request.parameters.value('choice');
-		return choice == 'yes' ? 'Sweet tooth' : 'Health option';
+		let confirm = request.parameters.value('confirm');
+		return confirm == 'yes' ? 'I like cheese too!' : 'Smell my cheese';
 	}
 
 }

@@ -45,6 +45,7 @@ module.exports = class Expecting {
 
 		//Quit commands to get out of expecting
 		//@todo Expand on this to scan for text in the input better
+		//@todo Break this reset into a new method and document it
 		if(this.input == 'quit' || this.input == 'stop') {
 			this.request.session.reset_expecting();
 			return;
@@ -122,7 +123,9 @@ module.exports = class Expecting {
 		}
 		else if(this.expecting.force) {
 			this.expecting = this.request.session.data('last_expecting');
-			this.expecting.save_answer = false;
+			if(this.expecting) {
+				this.expecting.save_answer = false;
+			}
 			this.redirect = true;
 		}
 

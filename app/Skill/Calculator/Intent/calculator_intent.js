@@ -125,7 +125,7 @@ module.exports = class CalculatorIntent extends Intent {
 		}
 
 		//90% + 5?
-		if(input.substr(-1)) {
+		if(input.indexOf('+') != -1) {
 			remaining += ' + '+against;
 		}
 
@@ -133,8 +133,6 @@ module.exports = class CalculatorIntent extends Intent {
 		//5 / 100 * 400
 
 		var cmd = '('+percentage+' / 100 * '+against+') '+remaining;
-
-		//console.log(cmd);
 
 		return this.calc_simple(cmd);
 	}

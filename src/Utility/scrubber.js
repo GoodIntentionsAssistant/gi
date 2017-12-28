@@ -68,6 +68,10 @@ exports.stop_words = function(str) {
 		' is ',
 		' it ',
 		' of ',
+		' are ',
+		' you$',
+		'^how ',
+		'^what '
 	];
 	for(var ii=0; ii<stopwords.length; ii++) {
 		var regex = new RegExp(stopwords[ii], "gi");

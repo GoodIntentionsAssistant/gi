@@ -1,9 +1,9 @@
 /**
- * Sugar Example
+ * Tea Example
  */
 const Intent = require('../../../../src/Intent/intent');
 
-module.exports = class SugarIntent extends Intent {
+module.exports = class TeaIntent extends Intent {
 
 	setup() {
 		this.train([
@@ -21,12 +21,15 @@ module.exports = class SugarIntent extends Intent {
 	}
 
 	response(request) {
+    request.expecting.set({
+      force: true
+    });
 		return 'Do you want sugar in your tea?';
 	}
 
 	answered(request) {
 		let choice = request.parameters.value('choice');
-		return choice == 'yes' ? 'Sweet tooth' : 'Health option';
+		return choice == 'yes' ? 'Sweet tooth' : 'Healthy option';
 	}
 
 }

@@ -1,9 +1,8 @@
 /**
- * Classify NLP Classifier
+ * Fallback Classifier
  */
 
 const Classify = require('../Vendor/classify.js');
-const Scrubber = require('../../Utility/scrubber');
 
 module.exports = class ClassifyClassifier {
 
@@ -39,9 +38,6 @@ module.exports = class ClassifyClassifier {
  * @return mixed
  */
 	find(str) {
-		//Clean words
-		str = Scrubber.stop_words(str);
-
 		var result = this.Classify.rank(str);
 
 		if(result.groups.length == 0) {

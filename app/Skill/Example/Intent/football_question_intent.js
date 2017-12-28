@@ -7,7 +7,7 @@ module.exports = class FootballQuestionIntent extends Intent {
 
 	setup() {
 		this.train([
-      'do you like football?'
+      'football'
 		]);
 	}
 

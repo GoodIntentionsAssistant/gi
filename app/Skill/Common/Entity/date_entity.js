@@ -17,6 +17,8 @@ module.exports = class DateEntity extends Entity {
 		var original = null;
 		var value = null;
 
+		console.log(string);
+
 		let chrono = require('chrono-node');
 		let parsed_date = chrono.parse(string);
 
