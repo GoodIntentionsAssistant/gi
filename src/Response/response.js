@@ -261,7 +261,7 @@ module.exports = class Response extends EventEmitter {
 
 		//Ident
 		if(this.request.intent) {
-			result.classifier 	= this.request.classifier;
+			result.collection 	= this.request.collection;
 			result.intent 			= this.request.intent.identifier;
 			result.action 			= this.request.action;
 			result.confidence 	= this.request.confidence;

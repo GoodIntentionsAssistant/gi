@@ -178,10 +178,9 @@ module.exports = class Request {
  */
   process_message(text) {
 		//Reset
-		this.intent = null;
-		this.confidence = 0;
-		this.action = 'response';
-		this.classifier = 'default';
+		this.intent 			= null;							//Intent to call if text matches
+		this.collection 	= null;							//Training collection intent match found in
+		this.action 			= 'response';				//Default intent action to call, can be overwritten
 
 		//Logs
 		this.log('');
@@ -196,33 +195,14 @@ module.exports = class Request {
 			this.expecting.load(this);
 		}
 
-		//Strict matching
+		//Understand input if Expecting didn't set it
 		if(!this.intent) {
-			let match = this.app.Train.find(text, 'strict');
-			if(match) {
-				this.intent = this.app.IntentRegistry.get(match.result);
-				this.confidence = match.confidence;
-				this.classifier = 'strict';
-			}
-		}
+			let result = this.app.Understand.process(text);
 
-		//Load the intent from the inputted string if it's not already set
-		if(!this.intent) {
-			let match = this.app.Train.find(text, this.classifier);
-			if(match) {
-				this.intent = this.app.IntentRegistry.get(match.result);
-				this.confidence = match.confidence;
-			}
-		}
-
-		//Fall back classifiers if not found
-		if(!this.intent) {
-			let match = this.app.Train.find(text, 'fallback');
-			if(match) {
-				this.intent = this.app.IntentRegistry.get(match.result);
-				this.confidence = 0;
-				this.classifier = 'fallback';
-				this.app.Log.write_log('unknown',text);
+			if(result) {
+				this.intent 		= result.intent;
+				this.collection = result.collection;
+				this.confidence = result.confidence;
 			}
 		}
 
@@ -247,6 +227,7 @@ module.exports = class Request {
 		//needs clean data to work. But not all parameters are required.
 		//Parameter checking might require entities to fetch live remote data so we
 		//need to create a promise and wait or the parsing to finish first.
+		//@todo Move this to Understand
 		if(this.intent.parameters) {
 			//Create a new parameter object
 			this.parameters.parse_from_intent(text, this.intent);
@@ -271,10 +252,10 @@ module.exports = class Request {
 /**
  * Error
  *
- * @param string user_id
+ * @param string error_name
  * @return object Session
  */
-	throw_error(error_name, options) {
+	throw_error(error_name) {
 		this.intent = this.app.IntentRegistry.get('App.Error.Intent.'+error_name);
 
 		if(!this.intent) {
@@ -293,9 +274,8 @@ module.exports = class Request {
  */
 	call(options) {
 		this.log('Calling ' + this.intent.identifier+'::' + this.action);
-		//this.log('Confidence:', this.confidence);
 
-		var promise = this.intent.fire(this);
+		let promise = this.intent.fire(this);
 		promise.then((result) => {
 			this.result(result);
 		});

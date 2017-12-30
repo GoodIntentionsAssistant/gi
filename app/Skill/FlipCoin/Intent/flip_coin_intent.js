@@ -1,10 +1,9 @@
 /**
  * Flip Coin Intent
  */
-	
 const Intent = require('../../../../src/Intent/intent');
-var _ = require('underscore');
-var extend = require('extend');
+const _ = require('underscore');
+const extend = require('extend');
 
 module.exports = class FlipCoinIntent extends Intent {
 

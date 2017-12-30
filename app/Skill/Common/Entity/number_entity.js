@@ -13,7 +13,11 @@ module.exports = class NumberEntity extends Entity {
 		var original = null;
 		var value = null;
 
-		var match = string.match(/^\d+|\d+\b|\d+(?=\w)/);
+		//Force incoming to a string, if it's an int match fails
+		string = string.toString();
+
+		//Match numbers in the string
+		let match = string.match(/^\d+|\d+\b|\d+(?=\w)/);
 
 		if(match) {
 			value = match[0];

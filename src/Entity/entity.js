@@ -36,7 +36,6 @@ module.exports = class Entity {
 			}
 			else {
 				//Entity has data set already
-				this.loaded = true;
 				resolve();
 			}
 		});
