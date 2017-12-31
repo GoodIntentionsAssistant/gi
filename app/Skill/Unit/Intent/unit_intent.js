@@ -10,29 +10,30 @@ _.mixin(require('underscore.inflections'));
 module.exports = class UnitIntent extends Intent {
 
 	setup() {
-		this.name = 'Unit Converter';
-		this.trigger = 'convert';
-		this.entities = {
-			'App.Common.Entity.Unit': {}
-		};
-		this.parameters = {
-			"amount": {
-				name: "Amount",
-				entity: "App.Common.Entity.Number",
-				required: false,
-				default: 1
-			},
-			"unit_from": {
-				name: "Unit From",
-				entity: "App.Common.Entity.Unit",
-				required: true
-			},
-			"unit_to": {
-				name: "Unit To",
-				entity: "App.Common.Entity.Unit",
-				required: true
-			}
-		};
+		this.train([
+			'convert',
+			'@App.Common.Entity.Unit'
+		]);
+
+		this.parameter('amount', {
+      name: "Amount",
+      entity: 'App.Common.Entity.Number',
+      required: false,
+      default: 1
+    });
+
+		this.parameter('unit_from', {
+      name: "Unit From",
+      entity: 'App.Common.Entity.Unit',
+      required: true
+    });
+
+		this.parameter('unit_to', {
+      name: "Unit To",
+      entity: 'App.Common.Entity.Unit',
+      required: true
+    });
+
 		this.tests = [
 			{ input:'1 lb to kg' },
 			{ input:'lb to kg' },

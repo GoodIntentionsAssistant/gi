@@ -68,6 +68,7 @@ exports.stop_words = function(str) {
 		' is ',
 		' it ',
 		' of ',
+		' to ',
 		' are ',
 		' you$',
 		'^how ',

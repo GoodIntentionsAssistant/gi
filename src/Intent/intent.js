@@ -185,7 +185,6 @@ module.exports = class Intent {
 			//Loop the keywords and add to the intent
 			for(var key in keywords) {
 				//Might not want to index the key for the entity
-				//@todo Remove this totally, never index the key
 				if(!entity.ignore_index_key) {
 					this.add_keyword(key, options);
 				}

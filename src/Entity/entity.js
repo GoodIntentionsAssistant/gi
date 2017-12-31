@@ -26,8 +26,13 @@ module.exports = class Entity {
 /**
  * Load
  *
+ * Load in the data for the entity and check using promises.
+ * Data can be loaded in async or hardcoded into the entity so
+ * the promise can be resolved straight away.
+ *
+ * @param hash options
  * @access public
- * @return void
+ * @return bool
  */
 	load(options) {
 		this.promise = new Promise((resolve, reject) => {
@@ -39,6 +44,8 @@ module.exports = class Entity {
 				resolve();
 			}
 		});
+		
+		return true;
 	}
 
 

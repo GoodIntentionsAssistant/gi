@@ -14,20 +14,20 @@ module.exports = class Train {
  * @return void
  */
 	constructor(app) {
-		this.classifiers = {};
+		this.collections = {};
 		this.app = app;
 	}
 
 
 /**
- * Add classifier
+ * Add classifier to collection
  *
  * @param string name
  * @param string type
  * @access public
  * @return boolean
  */
-	add_classifier(name, type) {
+	add_collection(name, type) {
 		let filename = this.app.Path.get('system')+'/Train/Classifier/'+type+'_classifier.js';
 
     try {
@@ -40,22 +40,22 @@ module.exports = class Train {
       ]);
     }
 
-		//Create classifier
-		this.classifiers[name] = new Classifier();
+		//Create collection
+		this.collections[name] = new Classifier();
 
 		return true;
 	}
 
 
 /**
- * Has classifier
+ * Has collection
  *
  * @param string name
  * @access public
  * @return boolean
  */
-	has_classifier(name) {
-		return this.classifiers[name] ? true : false;
+	has_collection(name) {
+		return this.collections[name] ? true : false;
 	}
 
 
@@ -68,14 +68,14 @@ module.exports = class Train {
  * @return boolean
  */
 	train(intent, keyword, options) {
-		//Classifier group
-		var group = 'default';
+		//Collection
+		var collection = 'default';
 		if(options && options.classifier) {
-			group = options.classifier;
+			collection = options.classifier;
 		}
 
 		//Classifier type
-		var type = this.app.Config.read('classifiers.'+group+'.classifier');
+		var type = this.app.Config.read('classifiers.'+collection+'.classifier');
 
 		//Priority
 		let priority = 1;
@@ -84,8 +84,8 @@ module.exports = class Train {
 		}
 
 		//Check classifier exists
-		if(!this.has_classifier(group)) {
-			this.add_classifier(group, type);
+		if(!this.has_collection(collection)) {
+			this.add_collection(collection, type);
 		}
 
 		//Clean up
@@ -93,8 +93,8 @@ module.exports = class Train {
 			keyword = keyword.toLowerCase();
 		}
 
-		//Add to the classifer
-		this.classifiers[group].train(intent, keyword);
+		//Add to the collection
+		this.collections[collection].train(intent, keyword);
 
 		return true;
 	}
@@ -106,17 +106,17 @@ module.exports = class Train {
  * @param string str To search for
  * @return object
  */
-	find(str, classifier) {
-		//Default classifier if not set
-		if(!classifier) {
-			classifier = 'default';
+	find(str, collection) {
+		//Default collection if not set
+		if(!collection) {
+			collection = 'default';
 		}
 
-		//Check classifier exists
-		if(!this.classifiers[classifier]) {
+		//Check collection exists
+		if(!this.collections[collection]) {
       this.app.Error.fatal([
-        'Failed to call the classifer "'+classifier+'"',
-        'It does not look like it has been loaded in or there is a problem in the classifier'
+        'Failed to call the collection "'+collection+'"',
+        'It does not look like it has been loaded in or there is a problem in the collection'
       ]);
 			return false;
 		}
@@ -127,7 +127,7 @@ module.exports = class Train {
 		str = Scrubber.grammar(str);
 
 		//Result
-		return this.classifiers[classifier].find(str);
+		return this.collections[collection].find(str);
 	}
 
 
@@ -139,7 +139,7 @@ module.exports = class Train {
  */
 	status() {
 		var data = {
-			'classifiers_count': Object.keys(this.classifiers).length
+			'collections_count': Object.keys(this.collections).length
 		};
 		return data;
 	}

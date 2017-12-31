@@ -265,7 +265,7 @@ module.exports = class Parameters {
 			//was for Date Entity setting the default to 'today' needs to be processed for the value
 			//field to be entered.
 			if(!result.value && data[field].default) {
-				let _result = entity.parse(data[field].default);
+				let _result = entity.parse(data[field].default.toString());
 				if(_result) {
 					result = _result;
 				}

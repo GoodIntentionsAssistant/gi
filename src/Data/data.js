@@ -50,10 +50,20 @@ module.exports = class Data {
 		let fs = require('fs');
 
 		let promise = new Promise((resolve, reject) => {
-			fs.readFile(filename, 'utf8', function(err, data) {
+			fs.readFile(filename, 'utf8', (err, data) => {
 				if (err) throw err;
+
 				let json = JSON.parse(data);
-			  resolve(json);
+
+				//Validate entries exists
+				if(!json.entries) {
+					this.App.Error.fatal([
+						'Failed to load JSON entity data from '+this.identifier,
+						'Make sure the key "entries" exists in the file'
+					]);
+				}
+
+			  resolve(json.entries);
 			});
 		});
 
@@ -109,11 +119,12 @@ module.exports = class Data {
 	}
 
 
-
 /**
  * Identifier to filename
  *
- * @param string name
+ * @param string identifier
+ * @param string extension
+ * @todo Move this and other identifier methods to a central class
  * @access public
  * @return string
  */

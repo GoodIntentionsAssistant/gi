@@ -13,6 +13,7 @@ module.exports = class FlipCoinIntent extends Intent {
       'toss coin',
       'coin toss',
       'flip penny',
+      'flip pennies',
       'throw coin'
     ]);
 
@@ -27,6 +28,10 @@ module.exports = class FlipCoinIntent extends Intent {
 	response(request) {
     let results = [];
     let flips = request.parameters.value('flips');
+
+    if(flips > 5) {
+      flips = 5;
+    }
 
     for(let ii=0; ii < flips; ii++) {
       let flip = _.random(1, 2);

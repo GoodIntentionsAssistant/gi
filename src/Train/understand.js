@@ -40,6 +40,12 @@ module.exports = class Understand {
 
     //Go through each training collection to try and find a match in order
     for(var collection_name in this.collections) {
+      //Check if collection exists
+      if(!this.App.Train.has_collection(collection_name)) {
+        continue;
+      }
+
+      //Process the text on the collection
       result = this._process(text, collection_name);
       if(result) {
         break;
