@@ -14,34 +14,23 @@ module.exports = class GreetingIntent extends Intent {
 			'@App.Common.Entity.Greeting'
 		]);
 
-		this.tests = [
-			{ input:'hello' },
-			{ input:'sup' }
-		];
-
 		this.parameter('time_of_day',{
 			name: "Time of day",
 			entity: 'App.Common.Entity.TimeOfDay'
 		});
-
-		this.parameter('type',{
-			name: "Type of Greeting",
-			entity: 'App.Common.Entity.Greeting'
-		});
 	}
 
 	response(request) {
-		var type = request.parameters.value('type');
-		var time_of_day = request.parameters.value('time_of_day');
+		let output = null;
 
-		if(type == 'time_of_day') {
-			if(!time_of_day) {
-				time_of_day = 'morning'
-			}
-			var output = 'Good '+time_of_day+' to you too';
+		//Check if time of day has been included
+		let time_of_day = request.parameters.value('time_of_day');
+
+		if(time_of_day) {
+			output = 'Good '+time_of_day+' to you too';
 		}
 		else {
-			var output = [
+			output = [
 				"Hi! I'm the Good Intentions bot!",
 				"I'm all about productivity and getting things done!"
 			];

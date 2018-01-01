@@ -51,6 +51,21 @@ module.exports = class Parameters {
 		return this.data[key].value;
 	}
 
+
+/**
+ * Check if set
+ * 
+ * @param string key
+ * @access public
+ * @return mixed
+ */
+	has(key) {
+		if(!this.data[key]) {
+			return false;
+		}
+		return true;
+	}
+
 	
 /**
  * Get the data matched of a key

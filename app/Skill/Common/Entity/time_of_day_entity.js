@@ -15,6 +15,7 @@ module.exports = class TimeOfDayEntity extends Entity {
 
 	parse(string) {
 		var result = this.find(string);
+		console.log(result);
 		return result;
 	}
 

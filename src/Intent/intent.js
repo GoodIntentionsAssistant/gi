@@ -33,7 +33,8 @@ module.exports = class Intent {
  *
  * Initaliser has to call method this to setup the intent
  *
- * @return boolean
+ * @access public
+ * @return bool
  */
 	load() {
 		//Load
@@ -67,7 +68,7 @@ module.exports = class Intent {
 		for(var ii=0; ii < data.length; ii++) {
 			if(typeof data[ii] == 'string' && data[ii].substr(0,1) == '@') {
 				//Train with entity data
-				this.add_entity(data[ii].substr(1));
+				this.add_entity(data[ii].substr(1), options);
 			}
 			else {
 				//Train normal word
@@ -205,6 +206,8 @@ module.exports = class Intent {
  *
  * @param array keywords
  * @param array options
+ * @access public
+ * @return bool
  */
 	add_keyword(keyword, options) {
 		let _options = {
@@ -214,11 +217,19 @@ module.exports = class Intent {
 			classifier: this.classifier
 		};
 		options = extend(_options, options);
-		
+
+		//If the keyword is a regular expression then change the collection to be strict
+		//e.g. this.train([new RegExp(/^(\d+)?d((\d+)([+-]\d+)?)?$/,'g')]);
+		if(keyword instanceof RegExp) {
+			options.classifier = 'strict';
+		}
+
 		this._keywords.push({
 			keyword: keyword,
 			options: options
 		});
+
+		return true;
 	}
 
 

@@ -1,9 +1,9 @@
 /**
- * Random Number Skill
+ * Number Skill
  */
 var Skill = require('../../../src/Skill/skill');
 
-module.exports = class RandomNumberSkill extends Skill {
+module.exports = class NumberSkill extends Skill {
 
 /**
  * Constructor
