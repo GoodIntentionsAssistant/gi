@@ -6,18 +6,16 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class ConfirmIntent extends Intent {
 
 	setup() {
-		this.entities = {
-			'Common/Confirm': {}
-		};
+		this.train([
+			'@App.Common.Entity.Confirm'
+		], {
+			collection: 'fallback'
+		});
 
-		this.classifier = 'fallback';
-
-		this.parameters = {
-			"confirm": {
-				name: "Confirm",
-				entity: 'Common/Confirm'
-			}
-		};
+		this.parameter('confirm', {
+			name: 'Confirm',
+			entity: 'App.Common.Entity.Confirm'
+		});
 	}
 
 	response(request) {

@@ -7,7 +7,7 @@ module.exports = class WhoIntent extends Intent {
 
 	setup() {
 		this.train(['who'], {
-			classifier: 'fallback'
+			collection: 'fallback'
 		});
 	}
 	

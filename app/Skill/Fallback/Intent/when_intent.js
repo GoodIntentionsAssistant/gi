@@ -7,7 +7,7 @@ module.exports = class WhenIntent extends Intent {
 
 	setup() {
 		this.train(['when'], {
-			classifier: 'fallback'
+			collection: 'fallback'
 		});
 	}
 	

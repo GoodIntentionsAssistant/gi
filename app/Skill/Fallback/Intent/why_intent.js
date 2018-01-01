@@ -7,7 +7,7 @@ module.exports = class WhyIntent extends Intent {
 
 	setup() {
 		this.train(['why'], {
-			classifier: 'fallback'
+			collection: 'fallback'
 		});
 	}
 	

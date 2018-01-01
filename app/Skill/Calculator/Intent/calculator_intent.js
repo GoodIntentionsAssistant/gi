@@ -13,7 +13,7 @@ module.exports = class CalculatorIntent extends Intent {
 			new RegExp(/^(calc )?[\d\+\/\*.\-% \(\)=]*$/,'g'),
 			new RegExp(/^[\d+]*%( of)? [\d\+\/\*.\- \(\)=]*$/,'g')
 		], {
-			classifier: 'strict'
+			collection: 'strict'
 		});
 
 		this.train([
@@ -24,18 +24,6 @@ module.exports = class CalculatorIntent extends Intent {
 			name: "Math word",
 			entity: 'App.Calculator.Entity.MathWord'
 		});
-
-		this.tests([
-			{ input:"calc 1+1" },
-			{ input:"calc 666 * 666" },
-			{ input:"calc 666 * 666 + 10" },
-			{ input:"10% of 90" },
-			{ input:"90 + 5%" },
-			{ input:"2+2" },
-			{ input:"what is 5 x 10?" },
-			{ input:"what is 5 times 10?" },
-			{ input:"what is 5 multiplied by 10?" }
-		]);
 	}
 
 

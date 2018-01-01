@@ -10,7 +10,7 @@ module.exports = class RepeatIntent extends Intent {
       new RegExp(/^repeat/,'i'),
       new RegExp(/^say/,'i')
     ], {
-      classifier: 'strict'
+      collection: 'strict'
     });
 	}
 

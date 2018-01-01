@@ -120,7 +120,7 @@ GiApp.on('message', (data) => {
   debug.push('Confidence: '+data.confidence);
   debug.push('Intent: '+data.intent);
   debug.push('Action: '+data.action);
-  debug.push('Classifier: '+data.classifier);
+  debug.push('Collection: '+data.collection);
   debug.push('Seq.: '+data.sequence);
   output(debug.join(' | '),'mute');
 });

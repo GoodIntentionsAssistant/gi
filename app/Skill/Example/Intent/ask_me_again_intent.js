@@ -6,7 +6,7 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class AskMeAgainIntent extends Intent {
 
 	setup() {
-    this.train(['ask me again'], { classifier:'strict' });
+    this.train(['ask me again'], { collection:'strict' });
     
 		this.parameter('ask_again', {
       name: 'Ask again',

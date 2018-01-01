@@ -45,14 +45,7 @@ config.clients = {
   }
 };
 
-config.learn = {
-  default_classifier: 'classify'
-};
-
-config.classifiers = {
-  '_default': {
-    'classifier': 'classify'
-  },
+config.collections = {
   'admin': {
     'classifier': 'strict'
   },

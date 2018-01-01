@@ -3,9 +3,10 @@
  */
 const Entity = require('../../../../src/Entity/entity');
 
-function ModifierEntity() {
-	var entity = {
-		data: {
+module.exports = class NumberEntity extends Entity {
+
+	setup() {
+		this.data = {
 			'+': {
 				synonyms:[]
 			},
@@ -15,11 +16,10 @@ function ModifierEntity() {
 			'*': {
 				synonyms:[]
 			}
-		}
+		};
 	}
-	entity.__proto__ = Entity()
 
-	entity.parse = function(string) {
+	parsen(string) {
 		var remaining = string;
 		var value = null;
 
@@ -42,7 +42,4 @@ function ModifierEntity() {
 		}
 	}
 
-	return entity
 }
-
-module.exports = ModifierEntity;

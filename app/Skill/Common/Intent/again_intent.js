@@ -18,7 +18,7 @@ module.exports = class AgainIntent extends Intent {
 			'more',
 			'another'
 		], {
-			classifier: 'strict'
+			collection: 'strict'
 		});
 	}
 	

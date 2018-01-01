@@ -24,7 +24,7 @@ module.exports = class Intent {
 		
 		this.parameters = [];
 
-		this.classifier = 'default';
+		this.collection = 'default';
 	}
 
 
@@ -214,14 +214,14 @@ module.exports = class Intent {
 			probability: 1,
 			boost: 0,
 			action: false,
-			classifier: this.classifier
+			collection: this.collection
 		};
 		options = extend(_options, options);
 
 		//If the keyword is a regular expression then change the collection to be strict
 		//e.g. this.train([new RegExp(/^(\d+)?d((\d+)([+-]\d+)?)?$/,'g')]);
 		if(keyword instanceof RegExp) {
-			options.classifier = 'strict';
+			options.collection = 'strict';
 		}
 
 		this._keywords.push({

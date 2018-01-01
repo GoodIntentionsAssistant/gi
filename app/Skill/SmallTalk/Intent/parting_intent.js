@@ -10,7 +10,7 @@ module.exports = class PartingIntent extends Intent {
 		this.train([
 			'@App.Common.Entity.Parting'
 		], {
-			classifier: 'strict'
+			collection: 'strict'
 		});
 	}
 

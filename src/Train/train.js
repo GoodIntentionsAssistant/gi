@@ -70,12 +70,21 @@ module.exports = class Train {
 	train(intent, keyword, options) {
 		//Collection
 		var collection = 'default';
-		if(options && options.classifier) {
-			collection = options.classifier;
+		if(options && options.collection) {
+			collection = options.collection;
 		}
 
-		//Classifier type
-		var type = this.app.Config.read('classifiers.'+collection+'.classifier');
+		//Collection classifier
+		var classifier = this.app.Config.read('collections.'+collection+'.classifier');
+
+		//If no classifier defined for the collection then fatal error
+		//Each collection must have a defined classifier
+		if(!classifier) {
+      this.app.Error.fatal([
+        'Collection "'+collection+'" has no specified classifer',
+        'Check your config file and make sure the collection has a classifier defined'
+      ]);
+		}
 
 		//Priority
 		let priority = 1;
@@ -83,9 +92,9 @@ module.exports = class Train {
 			priority = options.priority;
 		}
 
-		//Check classifier exists
+		//Check collection exists
 		if(!this.has_collection(collection)) {
-			this.add_collection(collection, type);
+			this.add_collection(collection, classifier);
 		}
 
 		//Clean up

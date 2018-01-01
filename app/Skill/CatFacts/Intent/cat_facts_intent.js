@@ -13,13 +13,6 @@ module.exports = class CatfactsIntent extends Intent {
 			'cat facts',
 			'cat fact'
 		]);
-
-		this.tests([
-			{ input:'catfact' },
-			{ input:'cat fact' },
-			{ input:'cat facts' },
-			{ input:'give me a cat fact' }
-		]);
 	}
 
 	response(request) {

@@ -7,7 +7,7 @@ module.exports = class HowIntent extends Intent {
 
 	setup() {
 		this.train(['how'], {
-			classifier: 'fallback'
+			collection: 'fallback'
 		});
 	}
 	

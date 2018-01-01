@@ -11,7 +11,7 @@ module.exports = class HowAreYouIntent extends Intent {
 			'how are you',
 			'how do you feel'
 		],{
-			classifier:'strict'
+			collection: 'strict'
 		});
 		
 		this.train([

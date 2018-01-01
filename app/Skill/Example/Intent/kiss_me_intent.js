@@ -7,7 +7,7 @@ module.exports = class KissMeIntent extends Intent {
 
 	setup() {
 		this.train(['kiss me'], {
-      classifier: 'strict'
+      collection: 'strict'
     });
 	}
 

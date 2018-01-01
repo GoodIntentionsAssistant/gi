@@ -7,7 +7,7 @@ module.exports = class WhereIntent extends Intent {
 
 	setup() {
 		this.train(['where'], {
-			classifier: 'fallback'
+			collection: 'fallback'
 		});
 	}
 	
