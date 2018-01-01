@@ -14,7 +14,6 @@ module.exports = class SmallTalkSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.name = 'App.SmallTalk';
 	}
 
 }

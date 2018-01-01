@@ -13,12 +13,6 @@ module.exports = class GratitudeIntent extends Intent {
 			'gratitude',
 			'good luck'
 		]);
-
-		this.tests = [
-			{ input:'thanks' },
-			{ input:'thank you' },
-			{ input:'good luck' }
-		];
 	}
 
 	response() {

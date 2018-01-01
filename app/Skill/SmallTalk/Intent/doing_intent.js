@@ -13,10 +13,6 @@ module.exports = class DoingIntent extends Intent {
 			'going on',
 			'sup'
 		]);
-		
-		this.tests = [
-			{ input:'what are you doing' }
-		];
 	}
 
 	response() {

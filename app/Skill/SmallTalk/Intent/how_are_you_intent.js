@@ -7,23 +7,24 @@ const _ = require('underscore');
 module.exports = class HowAreYouIntent extends Intent {
 
 	setup() {
-		this.name = 'How are you';
-		this.trigger = 'how are you';
-		this.synonyms = [
-			"i'm feeling",
-			"i feel",
-			"how do you feel"
-		];
-		this.entities = {
-			'App.Common.Entity.Emotion':{}
-		};
-		this.parameters = {
-			"user_emotion": {
-				name: "User Emotion",
-				entity: 'App.Common.Entity.Emotion',
-				action: 'user_emotion'
-			}
-		};
+		this.train([
+			'how are you',
+			'how do you feel'
+		],{
+			classifier:'strict'
+		});
+		
+		this.train([
+			'i feel',
+			'feeling',
+			'@App.Common.Entity.Emotion'
+		]);
+
+		this.parameter('user_emotion',{
+			name: "User Emotion",
+			entity: 'App.Common.Entity.Emotion',
+			action: 'user_emotion'
+		});
 	}
 
 	response(request) {

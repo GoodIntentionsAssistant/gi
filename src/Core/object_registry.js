@@ -162,7 +162,7 @@ module.exports = class ObjectRegistry {
     options = extend(_options, options);
 
     //
-    this.app.Log.add('Load '+this.type+' "'+identifier);
+    this.app.Log.add('Load '+this.type+' '+identifier);
 
     //App and file
     try {

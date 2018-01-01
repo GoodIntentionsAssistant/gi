@@ -70,6 +70,7 @@ exports.stop_words = function(str) {
 		' of ',
 		' to ',
 		' are ',
+		' you ',
 		' you$',
 		'^how ',
 		'^what '
