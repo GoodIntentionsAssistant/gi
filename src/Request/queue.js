@@ -3,6 +3,7 @@
  */
 const Request = require('./request.js');
 const Randtoken = require('rand-token');
+const Config = require('../Core/config.js');
 
 module.exports = class Queue {
 
@@ -20,7 +21,8 @@ module.exports = class Queue {
 
 		this.app = app;
 
-		this.max_consecutive = this.app.Config.read('queue.max_consecutive');
+		this.max_consecutive = Config.read('queue.max_consecutive');
+		this.queue_timeout   = Config.read('queue.timeout');
 	}
 
 
@@ -98,7 +100,7 @@ module.exports = class Queue {
 			var diff = parseInt(Date.now() - this.requests[key].request.last_activity);
 			
 			//Over time out
-			if(diff >= this.app.Config.read('queue.timeout')) {
+			if(diff >= this.queue_timeout) {
 				this.requests[key].active = false;
 				this.requests[key].request.timeout();
 			}

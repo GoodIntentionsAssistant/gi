@@ -277,12 +277,15 @@ module.exports = class Intent {
  * @return hash
  */
 	fire(request) {
+		this.before_request(request);
+
 		return new Promise((resolve, reject) => {
 			var promise = this[request.action](request);
 			var is_promise = (Promise.resolve(promise) == promise);
 			
 			if(is_promise) {
 				promise.then(function(result) {
+					this.after_request(request);
 					resolve(result);
 				});
 			}
@@ -290,10 +293,29 @@ module.exports = class Intent {
 				//Method does not need promise so return directly
 				//If false was returned then the intent must finish the request manually
 				//using request.end();
+				this.after_request(request);
 				resolve(promise);
 			}
 
 		});
+	}
+
+
+/**
+ * Before request
+ * 
+ * @return mixed
+ */
+	before_request(request) {
+	}
+
+
+/**
+ * After request
+ * 
+ * @return mixed
+ */
+	after_request(request) {
 	}
 
 

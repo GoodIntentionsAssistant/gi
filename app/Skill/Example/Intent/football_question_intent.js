@@ -13,7 +13,7 @@ module.exports = class FootballQuestionIntent extends Intent {
 
 	response(request) {
     if(request.session.has('user.football')) {
-      if(request.session.data('user.football') == 'yes') {
+      if(request.session.get('user.football') == 'yes') {
         return 'Yes I do and I know you love it too!';
       }
       else {

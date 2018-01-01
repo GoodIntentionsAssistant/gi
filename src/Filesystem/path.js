@@ -2,6 +2,7 @@
  * Path
  */
 const dotty = require("dotty");
+const Config = require('../Core/config.js');
 
 module.exports = class Path {
 
@@ -12,7 +13,7 @@ module.exports = class Path {
  * @return void
  */
   constructor(app) {
-    this.paths = app.Config.read('paths');
+    this.paths = Config.read('paths');
   }
 
 

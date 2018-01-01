@@ -2,6 +2,7 @@
  * Client
  */
 const Randtoken = require('rand-token');
+const Config = require('../Core/config.js');
 
 module.exports = class Client {
 
@@ -194,7 +195,7 @@ module.exports = class Client {
  * @return void
  */
 	validate_client_token(token) {
-		var expecting = this.app.Config.read('clients.'+this.name+'.token');
+		var expecting = Config.read('clients.'+this.name+'.token');
 		if(token != expecting) {
 			return false;
 		}

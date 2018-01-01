@@ -3,6 +3,7 @@
  */
 const extend = require('extend');
 const Scrubber = require('../Utility/scrubber');
+const Config = require('../Core/config.js');
 
 module.exports = class Train {
 
@@ -75,7 +76,7 @@ module.exports = class Train {
 		}
 
 		//Collection classifier
-		var classifier = this.app.Config.read('collections.'+collection+'.classifier');
+		var classifier = Config.read('collections.'+collection+'.classifier');
 
 		//If no classifier defined for the collection then fatal error
 		//Each collection must have a defined classifier

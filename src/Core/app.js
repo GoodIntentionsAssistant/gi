@@ -52,7 +52,6 @@ module.exports = class App extends EventEmitter {
 		this.Folder = new Folder();
 
 		this.Event = new Event(this);
-		this.Config = new Config(this);
 		this.Path = new Path(this);
 		this.Log = new Log(this);
 		
@@ -82,7 +81,7 @@ module.exports = class App extends EventEmitter {
  */
 	load() {
 		//Skills
-		let skills = this.Config.read('skills');
+		let skills = Config.read('skills');
 
 		//Health check the skills
 		if(!skills.length) {
@@ -91,7 +90,7 @@ module.exports = class App extends EventEmitter {
 
 		//Start the main loop
 		this.timer = null;
-		this.loop_speed = this.Config.read('app.loop_speed');
+		this.loop_speed = Config.read('app.loop_speed');
 		this.loop();
 
 		//Require skill files
@@ -161,7 +160,7 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load_server() {
-		if(!this.Config.read("server.enabled")) {
+		if(!Config.read("server.enabled")) {
 			return;
 		}
 		this.Log.add('Starting Server');

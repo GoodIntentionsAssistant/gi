@@ -5,6 +5,7 @@ const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const Client = require('./client.js');
 const Randtoken = require('rand-token');
+const Config = require('../Core/config.js');
 
 module.exports = class Server extends EventEmitter {
 
@@ -40,7 +41,7 @@ module.exports = class Server extends EventEmitter {
 		});
 	
 		//Listen
-		let port = this.app.Config.read('server.port');
+		let port = Config.read('server.port');
 	
 		try {
 			this.object.listen(port, () => {

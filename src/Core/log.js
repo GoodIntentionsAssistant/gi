@@ -3,6 +3,7 @@
  */
 const fs = require('fs');
 const moment = require('moment');
+const Config = require('../Core/config.js');
 
 module.exports = class Log {
 
@@ -62,7 +63,7 @@ module.exports = class Log {
 */
   write_log(type, text) {
     //Disabled logging
-    if(!this.app.Config.read('logging.enabled')) {
+    if(!Config.read('logging.enabled')) {
       return false;
     }
 

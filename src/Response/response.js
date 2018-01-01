@@ -5,6 +5,7 @@ const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const extend = require('extend');
 const moment = require('moment');
+const Config = require('../Core/config.js');
 
 module.exports = class Response extends EventEmitter {
 
@@ -28,9 +29,9 @@ module.exports = class Response extends EventEmitter {
 		this.sequence_count = 0;
 
 		//Speed each letter takes to type
-		this.min_reply_time = request.app.Config.read('response.min_reply_time');
-		this.letter_speed = request.app.Config.read('response.letter_speed');
-		this.max_response = request.app.Config.read('response.max_response');
+		this.min_reply_time = Config.read('response.min_reply_time');
+		this.letter_speed 	= Config.read('response.letter_speed');
+		this.max_response 	= Config.read('response.max_response');
 	}
 
 

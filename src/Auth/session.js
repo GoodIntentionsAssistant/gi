@@ -153,15 +153,27 @@ module.exports = class Session {
 
 
 /**
- * Data
+ * Get
  *
  * Return data based on the key
  *
  * @param string key
  * @return mixed
  */
-	data(key) {
+	get(key) {
 		return dotty.get(this._data, key);
+	}
+
+
+/**
+ * Data
+ *
+ * @todo Remove this and change to get::
+ * @param string key
+ * @return mixed
+ */
+	data(key) {
+		return this.get(key);
 	}
 	
 
@@ -186,6 +198,17 @@ module.exports = class Session {
  */
 	set(key, value) {
 		dotty.put(this._data, key, value);
+	}
+
+
+/**
+ * Remove key
+ *
+ * @param string key
+ * @return void
+ */
+	remove(key) {
+		dotty.remove(this._data, key);
 	}
 
 

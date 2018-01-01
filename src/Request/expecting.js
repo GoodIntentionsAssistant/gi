@@ -101,7 +101,6 @@ module.exports = class Expecting {
 /**
  * Check entity input
  *
- * @param object request
  * @access public
  * @return void
  */
@@ -122,10 +121,22 @@ module.exports = class Expecting {
 			this.request.parameters.set(parameter_key, parsed.value);
 		}
 		else if(this.expecting.force) {
-			this.expecting = this.request.session.data('last_expecting');
+			//Expecting was forced but nothing was parsed
+
+			//@todo Work out what the idea of this was, it doesn't always work
+			let _last = this.request.session.data('last_expecting');
+			if(_last) {
+				this.expecting = _last;
+			}
+
 			if(this.expecting) {
 				this.expecting.save_answer = false;
 			}
+
+			if(this.expecting.fail) {
+				this.expecting.action = this.expecting.fail;
+			}
+
 			this.redirect = true;
 		}
 
