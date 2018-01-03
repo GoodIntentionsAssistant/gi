@@ -12,7 +12,7 @@ module.exports = class RandomPictureIntent extends Intent {
 	}
 
 	response(request) {
-    request.attachment.add_image('https://picsum.photos/300/300/?random');
+    request.attachment('image','https://picsum.photos/300/300/?random');
     return true;
   }
 

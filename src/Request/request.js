@@ -7,7 +7,6 @@ const Promise = require('promise');
 
 const Parameters = require('./parameters.js');
 const Expecting = require('./expecting.js');
-const Attachment = require('./attachment.js');
 const Response = require('./../Response/response.js');
 
 module.exports = class Request {
@@ -41,9 +40,6 @@ module.exports = class Request {
 
 		//Expecting
 		this.expecting = new Expecting(this);
-
-		//Attachment
-		this.attachment = new Attachment(this);
 
 		//Parameters
 		this.parameters = new Parameters(this);
@@ -347,6 +343,19 @@ module.exports = class Request {
 		// }
 
 		this.response.send('message', options);
+	}
+
+
+/**
+ * Attachment
+ *
+ * @param type Type of attachment, e.g. image, action, link
+ * @param mixed data
+ * @access public
+ * @return boolean
+ */
+	attachment(type, data) {
+		return this.response.attachment(type, data);
 	}
 
 

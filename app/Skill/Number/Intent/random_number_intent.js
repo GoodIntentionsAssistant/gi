@@ -42,13 +42,13 @@ module.exports = class RandomNumberIntent extends Intent {
 		
 		//Attachments
 		if(number) {
-			request.attachment.add_field({
+			request.attachment('field',{
 				title: "Number from",
 				value: number
 			});
 		}
 		if(number_to) {
-			request.attachment.add_field({
+			request.attachment('field',{
 				title: "Number to",
 				value: number_to
 			});

@@ -13,9 +13,6 @@ module.exports = class Attachment {
  */
   constructor(app) {
     this.app = app;
-
-    this._key = null;
-    this._data = {};
   }
 
 
@@ -27,46 +24,6 @@ module.exports = class Attachment {
  */
   load() {
     return true;
-  }
-
-
-/**
- * Set key for attachment
- *
- * @param hash dash
- * @access public
- * @return bool
- */
-  key(name = null) {
-    if(!name) {
-      return this._key;
-    }
-    this._key = name;
-    return true;
-  }
-
-
-/**
- * Set data
- *
- * @param hash dash
- * @access public
- * @return bool
- */
-  set(data) {
-    this._data = data;
-    return true;
-  }
-
-
-/**
- * Get data
- *
- * @access public
- * @return hash
- */
-  get() {
-    return this._data;
   }
 
 }

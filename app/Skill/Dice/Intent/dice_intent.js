@@ -59,12 +59,12 @@ module.exports = class DiceIntent extends Intent {
 
 		var output = 'Rolled '+answer;
 
-		request.attachment.add_field({
+		request.attachment('field',{
 			title: "Dice",
 			value: options.dice
 		});
 
-		request.attachment.add_field({
+		request.attachment('field',{
 			title: "Rolls",
 			value: rolls.join(' ')
 		});

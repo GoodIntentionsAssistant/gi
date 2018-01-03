@@ -3,11 +3,11 @@
  */
 const Attachment = require('./attachment.js');
 
-module.exports = class ImageAttachment extends Attachment {
+module.exports = class ActionAttachment extends Attachment {
 
   build(data) {
     return {
-      url: data
+      text: data
     };
   }
 

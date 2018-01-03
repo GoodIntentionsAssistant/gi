@@ -7,6 +7,9 @@ const extend = require('extend');
 const moment = require('moment');
 const Config = require('../Core/config.js');
 
+const _ = require('underscore');
+_.mixin(require('underscore.inflections'));
+
 module.exports = class Response extends EventEmitter {
 
 /**
@@ -21,8 +24,10 @@ module.exports = class Response extends EventEmitter {
 
 		//
 		this.request = request;
+		this.app = request.app;
 
 		//
+		this.attachments = {};
 		this.typing = false;
 		this.queue = [];
 		this.namespace = 'response';
@@ -78,6 +83,35 @@ module.exports = class Response extends EventEmitter {
 		}
 
 		return speed;
+	}
+
+
+/**
+ * Attachments
+ *
+ * @param type Type of attachment, e.g. image, action, link
+ * @param mixed data
+ * @access public
+ * @return boolean
+ */
+	attachment(type, data) {
+		//Identifier
+		let identifier = 'Sys.Attachment.'+_.camelize(type);
+
+		//Get attachment object and build
+		let obj = this.request.app.AttachmentRegistry.get(identifier);
+		let result = obj.build(data);
+
+		//Inflector, image -> images
+		let key = _.pluralize(type);
+
+		//Check if the attachment key has been added already
+		if(!this.attachments[key]) {
+			this.attachments[key] = [];
+		}
+
+		this.attachments[key].push(result);
+		return true;
 	}
 
 
@@ -216,31 +250,8 @@ module.exports = class Response extends EventEmitter {
 		var attachments = {};
 
 		//Add attachments on last message
-		if(this.queue.length == 0) {
-			//Actions
-			if(this.request.attachment.attachments.actions.length > 0) {
-				attachments.actions = this.request.attachment.attachments.actions;
-			}
-
-			//Images
-			if(this.request.attachment.attachments.images.length > 0) {
-				attachments.images = this.request.attachment.attachments.images;
-			}
-
-			//Shortcuts
-			if(this.request.attachment.attachments.shortcuts.length > 0) {
-				attachments.shortcuts = this.request.attachment.attachments.shortcuts;
-			}
-
-			//Fields
-			if(this.request.attachment.attachments.fields.length > 0) {
-				attachments.fields = this.request.attachment.attachments.fields;
-			}
-
-			//Links
-			if(this.request.attachment.attachments.links.length > 0) {
-				attachments.links = this.request.attachment.attachments.links;
-			}
+		if(this.queue.length == 0 && this.attachments) {
+			attachments = this.attachments;
 		}
 
 		//Messages

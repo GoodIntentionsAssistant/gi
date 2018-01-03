@@ -15,8 +15,8 @@ module.exports = class CheeseIntent extends Intent {
 	}
 
 	response(request) {
-    request.attachment.add_action('Yes');
-    request.attachment.add_action('No');
+    request.attachment('action','Yes');
+    request.attachment('action','No');
     request.expecting.set({
       force: true
     });
