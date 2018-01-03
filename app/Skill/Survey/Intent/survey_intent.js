@@ -30,8 +30,8 @@ module.exports = class SurveyIntent extends Intent {
 				'key': 'survey.sports_tv'
 			}
 		});
-		request.attachment.add_action('Yes');
-		request.attachment.add_action('No');
+		request.attachment('action','Yes');
+		request.attachment('action','No');
 		return 'Do you watch sports TV?';
 	}
 	

@@ -15,8 +15,8 @@ module.exports = class AskMeAgainIntent extends Intent {
 	}
 
 	response(request) {
-    request.attachment.add_action('Yes');
-    request.attachment.add_action('No');
+    request.attachment('action','Yes');
+    request.attachment('action','No');
 
 		request.expecting.set({
 			action: 'chosen',

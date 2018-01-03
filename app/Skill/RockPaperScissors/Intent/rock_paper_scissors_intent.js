@@ -34,9 +34,9 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 	}
 
 	_set_required(request) {
-		request.attachment.add_action('Rock');
-		request.attachment.add_action('Paper');
-		request.attachment.add_action('Scissors');
+		request.attachment('action','Rock');
+		request.attachment('action','Paper');
+		request.attachment('action','Scissors');
 		request.expecting.set({
 			action: 'chosen',
 			force: true
@@ -93,8 +93,8 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 			action: 'play_again',
 			force: false
 		});
-		request.attachment.add_action('Yes');
-		request.attachment.add_action('No');
+		request.attachment('action','Yes');
+		request.attachment('action','No');
 
 		return output;
 	}
