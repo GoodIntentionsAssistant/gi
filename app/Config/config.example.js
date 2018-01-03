@@ -15,20 +15,27 @@ config.paths = {
 config.name = "Good Intentions";
 
 config.skills = [
-  'App.Currency',
+  'App.Example',
+  'App.SmallTalk',
   'App.Dice',
+  'App.Currency',
   'App.FlipCoin',
   'App.CatFacts',
-  'App.RandomNumber',
+  'App.Number',
   'App.Calculator',
   'App.Time',
   'App.Unit',
   'App.RockPaperScissors',
-  'App.Example',
   'App.Fallback',
   'App.Weather',
   'App.Error',
-  //'App.SmallTalk',
+  'App.Common'
+];
+
+config.attachments = [
+  'Sys.Attachment.Image',
+  'Sys.Attachment.Action',
+  'Sys.Attachment.Field'
 ];
 
 config.app = {
