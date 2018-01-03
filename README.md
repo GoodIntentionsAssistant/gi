@@ -5,7 +5,7 @@ GI is a rule based chatbot assistant framework for Node.js using simple design p
 
 ## Documentation
 
-Find the work in progress documentation at https://goodintentionsassistant.github.io/docs/
+Find the work in progress documentation at http://goodintentions.firecreekweb.com
 
 
 ## License
