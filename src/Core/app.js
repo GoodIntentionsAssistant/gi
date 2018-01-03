@@ -30,6 +30,7 @@ const Data = require('./../Data/data.js');
 const SkillRegistry = require('./../Skill/skill_registry.js');
 const EntityRegistry = require('./../Entity/entity_registry.js');
 const IntentRegistry = require('./../Intent/intent_registry.js');
+const AttachmentRegistry = require('./../Attachment/attachment_registry.js');
 
 
 module.exports = class App extends EventEmitter {
@@ -43,8 +44,9 @@ module.exports = class App extends EventEmitter {
 	constructor() {
 		super();
 
-		this.skills = [];
-		this.verbose = true;
+		this.skills 	= [];
+		this.verbose 	= true;
+		this.timer 		= null;
 
 		this.Error = new Error();
 
@@ -64,12 +66,10 @@ module.exports = class App extends EventEmitter {
 
 		this.Data = new Data(this);
 
-		this.EntityRegistry = new EntityRegistry(this);
-		this.IntentRegistry = new IntentRegistry(this);
-		this.SkillRegistry = new SkillRegistry(this);
-
-		//Setup app
-		this.setup();
+		this.SkillRegistry 			= new SkillRegistry(this);
+		this.EntityRegistry 		= new EntityRegistry(this);
+		this.IntentRegistry 		= new IntentRegistry(this);
+		this.AttachmentRegistry = new AttachmentRegistry(this);
 	}
 
 
@@ -80,21 +80,15 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load() {
-		//Skills
-		let skills = Config.read('skills');
-
-		//Health check the skills
-		if(!skills.length) {
-			this.Error.fatal('No skills specified to load in your config file. You must have at least one skill to load.');
-		}
-
 		//Start the main loop
-		this.timer = null;
 		this.loop_speed = Config.read('app.loop_speed');
 		this.loop();
 
+		//Load attachments
+		this.load_attachments();
+
 		//Require skill files
-		this.load_skills(skills);
+		this.load_skills();
 	}
 	
 
@@ -121,12 +115,36 @@ module.exports = class App extends EventEmitter {
 
 
 /**
+ * Load attachments
+ *
+ * @access public
+ * @return void
+ */
+	load_attachments() {
+		let attachments = Config.read('attachments');
+
+		for(var ii=0; ii<attachments.length; ii++) {
+			this.AttachmentRegistry.load(attachments[ii]);
+		}
+	}
+
+
+/**
  * Load skills
  *
  * @access public
  * @return void
  */
-	load_skills(skills) {
+	load_skills() {
+		//Skills
+		let skills = Config.read('skills');
+
+		//Health check the skills
+		if(!skills.length) {
+			this.Error.fatal('No skills specified to load in your config file. You must have at least one skill to load.');
+		}
+
+		//Promises
 		let promises = [];
 
 		for(var ii=0; ii<skills.length; ii++) {

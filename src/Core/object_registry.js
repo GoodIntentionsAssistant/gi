@@ -7,6 +7,8 @@ const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
+const Identifier = require('../Core/identifier');
+
 module.exports = class ObjectRegistry {
 
 /**
@@ -42,7 +44,7 @@ module.exports = class ObjectRegistry {
   load_all(skill, options = {}) {
     //Path to find entity and intents
     //The type is set from EntityRegistry and IntentRegistry
-    let path = this.identifier_to_directory(skill+'.'+this.type);
+    let path = Identifier.to_directory(skill+'.'+this.type);
 
     //Type, e.g. _entity, _intent
     let type_lower = this.type.toLowerCase();
@@ -136,12 +138,8 @@ module.exports = class ObjectRegistry {
 			return this.objects[name];
     }
 
-    //Path based on incoming
-    let path = this.identifier_to_directory(name);
-    let filename = this.identifier_to_filename(name);
-
-    let file = path+'/'+filename;
-
+    //
+    let file = Identifier.to_file(name);
 		return this._load(name, file, options);
   }
 
@@ -225,80 +223,22 @@ module.exports = class ObjectRegistry {
 
 
 /**
- * Create an identifier for the name
- * 
- * This is used when loading objects from object cache and intent training
- * The scope, e.g. Sys. and App. must be removed.
- * 
- * Meaning System skills can be overwritten by 
+ * After load
  *
- * @param string name
  * @access public
- * @return string
+ * @return void
  */
-  identifier(name) {
-    let parts = name.split('.');
-
-    let type = parts[0];
-    let skill = parts[1];
-
-    let path = this.app.Path.get('skills.'+type.toLowerCase());
-    path += '/'+skill;
-
-    if(parts.length == 4) {
-      path += '/'+parts[2];
-    }
-
-    return path;
+  after_load() {
   }
 
 
 /**
- * Identifier to directory
+ * Before load
  *
- * @param string name
  * @access public
- * @return string
+ * @return void
  */
-  identifier_to_directory(identifier) {
-    let parts = identifier.split('.');
-
-    let type = parts[0];
-    let skill = parts[1];
-
-    let path = this.app.Path.get('skills.'+type.toLowerCase());
-    path += '/'+skill;
-
-    if(parts.length == 4) {
-      path += '/'+parts[2];
-    }
-    else if(parts.length == 3) {
-      path += '/'+parts[2];
-    }
-
-    return path;
+  before_load() {
   }
-
-
-/**
- * Identifier to file
- *
- * @param string identifier
- * @access public
- * @return string
- */
-  identifier_to_filename(identifier) {
-    let parts = identifier.split('.');
-
-    let type  = parts[0];                 //App.
-    let skill = parts[1];                 //Error.
-    let filename  = parts.slice(-1)[0];   //NoAuth
-
-		filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
-    filename = filename.toLowerCase() + '_' + this.type.toLowerCase();
-
-    return filename;
-  }
-
 
 }

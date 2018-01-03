@@ -18,17 +18,4 @@ module.exports = class AttachmentRegistry extends ObjectRegistry {
     this.type = 'Attachment';
   }
 
-
-/**
- * Add attachment
- *
- * @param string type
- * @param hash options
- * @access public
- * @return bool
- */
-  add(type, options) {
-
-  }
-
 }
