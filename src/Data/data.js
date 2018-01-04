@@ -63,7 +63,7 @@ module.exports = class Data {
 					]);
 				}
 
-			  resolve(json.entries);
+			  resolve(json);
 			});
 		});
 

@@ -23,6 +23,7 @@ module.exports = class WeatherIntent extends Intent {
 
 
 	response(request) {
+		console.log(request.parameters.value('city'));
 		return 'For the weather please specify the city';
 	}
 

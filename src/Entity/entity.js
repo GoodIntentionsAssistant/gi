@@ -35,6 +35,8 @@ module.exports = class Entity {
  * @return bool
  */
 	load(options) {
+		this.before_load();
+
 		this.promise = new Promise((resolve, reject) => {
 			if(this.import) {
 				this._import(this.import, resolve, options);
@@ -43,6 +45,10 @@ module.exports = class Entity {
 				//Entity has data set already
 				resolve();
 			}
+		});
+
+		this.promise.then(() => {
+			this.after_load();
 		});
 		
 		return true;
@@ -57,9 +63,11 @@ module.exports = class Entity {
  * @return void
  */
 	_import(settings, resolve, options) {
-		var is_promise = false;
-		var result = null;
+		let is_promise = false;					//Check if loading the data is using a promise
+		let result = null;							//The result of calling the data loading
+		let entity_key = false;					//If the data result has a `entries`. key, used for json importing
 
+		//Load data in depending on the type
 		if(settings.type == 'custom') {
 			//Load custom
 			result = this.load_data(resolve, options);
@@ -68,6 +76,7 @@ module.exports = class Entity {
 		else if(settings.type == 'json') {
 			//Load from local json file
 			result = this.app.Data.load(settings.file, 'json');
+			entity_key = true;
 			is_promise = true;
 		}
 		else if(settings.type == 'csv') {
@@ -83,7 +92,13 @@ module.exports = class Entity {
 		//Check return type
 		if(is_promise) {
 			result.then((data) => {
-				this.data = data;
+				if(entity_key) {
+					this.data = data.entries;
+				}
+				else {
+					this.data = data;
+				}
+
 				this.loaded = true;
 				resolve();
 			});
@@ -307,5 +322,20 @@ module.exports = class Entity {
 
 		return words;
 	}
+
+
+/**
+ * Before load call back
+ */
+  before_load() {
+  }
+
+
+/**
+ * After load call back
+ */
+  after_load() {
+  }
+
 
 }
