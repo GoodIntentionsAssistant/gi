@@ -387,7 +387,7 @@ module.exports = class Parameters {
 			return false;
 		}
 
-		entity.data = parameter.data;
+		entity.set_data(parameter.data);
 		return entity;
 	}
 

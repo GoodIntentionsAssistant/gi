@@ -113,6 +113,18 @@ module.exports = class Entity {
 
 
 /**
+ * Set data
+ *
+ * @param hash data
+ * @access public
+ * @return array
+ */
+	set_data(data) {
+		this.data = data;
+	}
+
+
+/**
  * Get data
  *
  * @access public

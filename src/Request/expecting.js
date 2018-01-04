@@ -12,9 +12,10 @@ module.exports = class Expecting {
  * @return void
  */
 	constructor(request) {
-		this.request = request;
-		this.redirect = false;
-		this.expecting = null;
+		this.request 		= request;
+		this.app       	= request.app;
+		this.redirect 	= false;
+		this.expecting 	= null;
 	}
 
 
@@ -57,9 +58,7 @@ module.exports = class Expecting {
 		}
 
 		//Check the results on entity data
-		if(this.expecting.entity) {
-			this._check_entity_input();
-		}
+		this._check_entity_input();
 
 		//Need to check
 		if(this.redirect) {
@@ -105,8 +104,19 @@ module.exports = class Expecting {
  * @return void
  */
 	_check_entity_input() {
-		var entity = this.request.app.EntityRegistry.get(this.expecting.entity);
-		var parsed = entity.parse(this.input);
+		//Fetch the entity so the input can be parsed
+		//The entity might be specified in the expect attribute or
+		//it might be set in the data attribute. If it's data then a
+		//dummy entity is created.
+		let entity = this.get_entity();
+
+		//Maybe no entity set so return out of here
+		if(!entity) {
+			return false;
+		}
+
+		//Parse the user input on the entity
+		let parsed = entity.parse(this.input);
 
 		if(parsed.value) {
 			this.input = parsed.value;
@@ -140,6 +150,33 @@ module.exports = class Expecting {
 			this.redirect = true;
 		}
 
+	}
+
+
+/**
+ * Get entity
+ *
+ * @access public
+ * @return object
+ */
+	get_entity() {
+		//No entity or data
+		if(!this.expecting.entity && !this.expecting.data) {
+			return false;
+		}
+
+		//Entity is set in expecting
+		if(this.expecting.entity) {
+			return this.request.app.EntityRegistry.get(this.expecting.entity);
+		}
+
+		//Load from data
+		let entity = this.app.EntityRegistry.get('App.Common.Entity.Dummy', {
+			cache: false
+		});
+		entity.set_data(this.expecting.data);
+
+		return entity;
 	}
 
 

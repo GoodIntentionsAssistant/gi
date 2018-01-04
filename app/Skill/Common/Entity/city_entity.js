@@ -48,11 +48,6 @@ module.exports = class CityEntity extends Entity {
 	}
 
 
-	after_load() {
-		console.log(this.data);
-	}
-
-
 	parse(string) {
 		var result = this.find(string, {
 			use_key: false
