@@ -31,8 +31,8 @@ module.exports = class WeatherIntent extends Intent {
 		var city = request.parameters.value('city');
 
 		var label = city.label;
-		var lat = city.lat;
-		var long = city.long;
+		var lat 	= city.lat;
+		var long 	= city.long;
 
 		var forecast = new Forecast({
 		  service: 'darksky',

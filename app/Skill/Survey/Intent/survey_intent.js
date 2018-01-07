@@ -6,18 +6,13 @@ var Intent = require('../../../../src/Intent/intent');
 module.exports = class SurveyIntent extends Intent {
 
 	setup() {
-		this.name = 'Survey';
-		this.trigger = 'take survey';
-
-		this.synonyms = [
-		];
-
-		this.entities = {
-		};
+		this.train([
+			'take survey'
+		]);
 	}
 
 	response(request) {
-		request.session.set_expecting({
+		request.expecting.set({
 			intent: this,
 			entity: 'Common/Confirm',
 			force: true,
@@ -37,7 +32,7 @@ module.exports = class SurveyIntent extends Intent {
 	
 
 	what_sport(request) {
-		request.session.set_expecting({
+		request.expecting.set({
 			intent: this,
 			force: true,
 			action: 'watch_online',
@@ -51,7 +46,7 @@ module.exports = class SurveyIntent extends Intent {
 	
 
 	watch_online(request) {
-		request.session.set_expecting({
+		request.expecting.set({
 			intent: this,
 			force: true,
 			entity: 'Common/Confirm',
@@ -66,11 +61,10 @@ module.exports = class SurveyIntent extends Intent {
 
 
 	finished(request) {
-		var output = ['Great, thanks for participatating. Here are your answers.'];
+		let output = ['Great, thanks for participatating. Here are your answers.'];
+		let data = request.session.data('survey');
 
-		var data = request.session.data('survey');
-
-		for(var key in data) {
+		for(let key in data) {
 			output.push(data[key].name+': '+data[key].result);
 		}
 

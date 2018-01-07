@@ -20,13 +20,53 @@ module.exports = class Expecting {
 
 
 /**
+ * Get expecting data
+ *
+ * @access public
+ * @return boolean
+ */
+	get() {
+		let result = this.request.session.data('expecting');
+		return result ? result : false;
+	}
+
+
+/**
  * Has
+ *
+ * Check if the previous call had something expected.
  *
  * @access public
  * @return boolean
  */
 	has() {
-		return this.request.session.has_expecting();
+		return this.request.session.has('expecting');
+	}
+
+
+/**
+ * Reset expecting
+ *
+ * @access public
+ * @return boolean
+ */
+	reset() {
+		return this.request.session.remove('expecting');
+	}
+
+
+/**
+ * Set expecting
+ *
+ * @param hash expecting
+ * @access public
+ * @return void
+ */
+	set(expecting) {
+		//Set the intent to be the request intent name
+		expecting.intent = this.request.intent.identifier;
+
+		this.request.session.set('expecting',expecting);
 	}
 
 
@@ -48,7 +88,7 @@ module.exports = class Expecting {
 		//@todo Expand on this to scan for text in the input better
 		//@todo Break this reset into a new method and document it
 		if(this.input == 'quit' || this.input == 'stop') {
-			this.request.session.reset_expecting();
+			this.reset();
 			return;
 		}
 
@@ -80,20 +120,7 @@ module.exports = class Expecting {
 		}
 
 		//Reset expecting so we don't double call it
-		this.request.session.reset_expecting();
-	}
-
-
-/**
- * Check entity input
- *
- * @param object request
- * @access public
- * @return void
- */
-	set(data) {
-		data.intent = this.request.intent;
-		this.request.session.set_expecting(data);
+		this.reset();
 	}
 
 
