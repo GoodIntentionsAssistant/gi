@@ -41,21 +41,18 @@ GiApp.on('error', (data) => {
 
 GiApp.on('message', (data) => {
   var ident = data.user;
-
-  if(!clients[ident]) {
-    console.log('Error, could not find the client with ident', ident);
-  }
-
   console.log('Received data for', ident);
-
   clients[ident].emit('response', data);
+});
 
-  /*console.log(data);
+GiApp.on('type_start', (data) => {
+  var ident = data.user;
+  clients[ident].emit('response', data);
+});
 
-  //Messages
-  for(var ii=0; ii<data.messages.length; ii++) {
-    console.log(data.messages[ii]);
-  }*/
+GiApp.on('type_end', (data) => {
+  var ident = data.user;
+  clients[ident].emit('response', data);
 });
 
 

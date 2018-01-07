@@ -59,6 +59,9 @@ module.exports = class Response extends EventEmitter {
 		if(this.request.input.namespace) {
 			this.namespace += '::' + this.request.input.namespace;
 		}
+
+		//Start typing emit
+		this.start_typing();
 	}
 
 
@@ -143,8 +146,6 @@ module.exports = class Response extends EventEmitter {
  * @return void
  */
 	_send_messages(result) {
-		this.start_typing();
-
 		for(var ii=0; ii<result.messages.length; ii++) {
 			this.queue.push([ result, result.messages[ii] ]);
 		}
@@ -235,6 +236,8 @@ module.exports = class Response extends EventEmitter {
 		data.namespace 	= this.namespace;
 		data.sequence 	= this.sequence_count++;
 		data.microtime 	= moment().valueOf();
+		data.ident      = this.request.ident;
+		data.user       = this.request.input.user;
 		this.request.client.emit(this.namespace, data);
 	}
 
