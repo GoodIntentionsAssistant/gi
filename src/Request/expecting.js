@@ -79,7 +79,7 @@ module.exports = class Expecting {
  */
 	load(request) {
 		//Get the expecting settings for this request
-		this.expecting = this.request.session.get_expecting();
+		this.expecting = this.get();
 
 		//Inputted text
 		this.input = this.request.input.text;
@@ -97,6 +97,11 @@ module.exports = class Expecting {
 			this.redirect = true;
 		}
 
+		//Parameter key
+		if(!this.expecting.key) {
+			this.expecting.key = 'expects';
+		}
+
 		//Check the results on entity data
 		this._check_entity_input();
 
@@ -109,7 +114,7 @@ module.exports = class Expecting {
 
 			//Save their response
 			if(this.expecting.save_answer) {
-				this._save_answer(this.expecting.save_answer, this.input);
+				this._save_answer(this.expecting.key, this.input);
 			}
 
 			//Change the intent
@@ -148,14 +153,7 @@ module.exports = class Expecting {
 		if(parsed.value) {
 			this.input = parsed.value;
 			this.redirect = true;
-
-			//Parameter key for storing the result
-			//It will have a default unless save_answer has been set
-			let parameter_key = 'expects';
-			if(this.expecting.save_answer) {
-				parameter_key = this.expecting.save_answer;
-			}
-			this.request.parameters.set(parameter_key, parsed.value);
+			this.request.parameters.set(this.expecting.key, parsed.value);
 		}
 		else if(this.expecting.force) {
 			//Expecting was forced but nothing was parsed

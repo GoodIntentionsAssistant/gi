@@ -24,7 +24,8 @@ module.exports = class FootballQuestionIntent extends Intent {
 		request.expecting.set({
       action: 'reply',
       entity: 'App.Common.Entity.Confirm',
-      save_answer: 'football'
+      save_answer: true,
+      key: 'football'
 		});
     return [
       'Yes, I love football, do you?'
