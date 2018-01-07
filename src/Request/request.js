@@ -54,10 +54,9 @@ module.exports = class Request {
 		//Promise to call back to Queue to say we are done so request can be taken out
 		//of the queue. But I'm not sure if this is correctly done. I couldn't figure out how to
 		//this.promise = new Promise(); then resolve it.
-		var that = this;
-		this.promise = new Promise(function(resolve, reject){
-			that.resolve = resolve;
-			that.reject = reject;
+		this.promise = new Promise((resolve, reject) => {
+			this.resolve = resolve;
+			this.reject = reject;
 			return null;
 		});
 	}

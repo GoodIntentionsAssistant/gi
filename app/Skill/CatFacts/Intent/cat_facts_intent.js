@@ -16,12 +16,12 @@ module.exports = class CatfactsIntent extends Intent {
 	}
 
 	response(request) {
-		var filename = request.app.Path.get('skills.app')+'/CatFacts/Data/catfacts.txt';
+		let filename = request.app.Path.get('skills.app')+'/CatFacts/Data/catfacts.txt';
 
-		return new Promise(function(resolve, reject) {
-			var fs = require('fs');
-			fs.readFile(filename, 'utf8', function(err, data) {
-				var lines = data.split(/\r?\n/);
+		return new Promise((resolve, reject) => {
+			let fs = require('fs');
+			fs.readFile(filename, 'utf8', (err, data) => {
+				let lines = data.split(/\r?\n/);
 				resolve(_.sample(lines));
 			});
 		});

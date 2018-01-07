@@ -271,10 +271,12 @@ module.exports = class Intent {
 /**
  * Fire the intent
  *
- * Call the method for this intent and build up return data
+ * Call the method for this intent.
  * 
- * @param hash input
- * @return hash
+ * 
+ * @param hash request
+ * @access public
+ * @return Promise
  */
 	fire(request) {
 		this.before_request(request);
@@ -284,7 +286,7 @@ module.exports = class Intent {
 			var is_promise = (Promise.resolve(promise) == promise);
 			
 			if(is_promise) {
-				promise.then(function(result) {
+				promise.then((result) => {
 					this.after_request(request);
 					resolve(result);
 				});
