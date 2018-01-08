@@ -12,7 +12,7 @@ module.exports = class DiceIntent extends Intent {
 			'roll',
 			'rolling',
 			'dice',
-			//new RegExp(/^(\d+)?d((\d+)([+-]\d+)?)$/,'g')
+			new RegExp(/^(\d+)?d(\d+)$/,'g')
 		]);
 
 		this.parameter('die', {
