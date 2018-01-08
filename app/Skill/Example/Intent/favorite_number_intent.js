@@ -12,7 +12,7 @@ module.exports = class FavoriteNumberIntent extends Intent {
 	}
 
 	response(request) {
-		request.expecting.set({
+		request.expect({
       action: 'reply',
       entity: 'App.Common.Entity.Number',
       force: true

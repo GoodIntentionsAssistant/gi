@@ -25,7 +25,7 @@ module.exports = class FlowerMenuIntent extends Intent {
       return false;
     }
 
-    request.expecting.set({
+    request.expect({
       force: true,
       action: 'chosen',
       fail: 'incorrect',

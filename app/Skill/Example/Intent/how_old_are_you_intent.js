@@ -13,7 +13,7 @@ module.exports = class HowOldAreYouIntent extends Intent {
 	}
 
 	response(request) {
-		request.expecting.set({
+		request.expect({
 			action: 'reply',
 			force: true
 		});

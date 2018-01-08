@@ -1,8 +1,8 @@
 /**
- * Expecting
+ * Expects
  */
 
-module.exports = class Expecting {
+module.exports = class Expects {
 
 /**
  * Constructor
@@ -62,11 +62,11 @@ module.exports = class Expecting {
  * @access public
  * @return void
  */
-	set(expecting) {
+	set(data) {
 		//Set the intent to be the request intent name
-		expecting.intent = this.request.intent.identifier;
+		data.intent = this.request.intent.identifier;
 
-		this.request.session.set('expecting',expecting);
+		this.request.session.set('expecting',data);
 	}
 
 

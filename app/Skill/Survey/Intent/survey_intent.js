@@ -12,7 +12,7 @@ module.exports = class SurveyIntent extends Intent {
 	}
 
 	response(request) {
-		request.expecting.set({
+		request.expect({
 			intent: this,
 			entity: 'Common/Confirm',
 			force: true,
@@ -32,7 +32,7 @@ module.exports = class SurveyIntent extends Intent {
 	
 
 	what_sport(request) {
-		request.expecting.set({
+		request.expect({
 			intent: this,
 			force: true,
 			action: 'watch_online',
@@ -46,7 +46,7 @@ module.exports = class SurveyIntent extends Intent {
 	
 
 	watch_online(request) {
-		request.expecting.set({
+		request.expect({
 			intent: this,
 			force: true,
 			entity: 'Common/Confirm',

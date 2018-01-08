@@ -17,7 +17,7 @@ module.exports = class CheeseIntent extends Intent {
 	response(request) {
     request.attachment('action','Yes');
     request.attachment('action','No');
-    request.expecting.set({
+    request.expect({
       force: true
     });
 		return 'Do you like cheese?';

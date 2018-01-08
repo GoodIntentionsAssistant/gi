@@ -37,7 +37,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 		request.attachment('action','Rock');
 		request.attachment('action','Paper');
 		request.attachment('action','Scissors');
-		request.expecting.set({
+		request.expect({
 			action: 'chosen',
 			force: true
 		});
@@ -88,7 +88,7 @@ module.exports = class RockPaperScissorsIntent extends Intent {
 
 		output.push('Play again?');
 
-		request.expecting.set({
+		request.expect({
 			entity: 'App.Common.Entity.Confirm',
 			action: 'play_again',
 			force: false

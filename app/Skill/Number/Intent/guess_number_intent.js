@@ -25,7 +25,7 @@ module.exports = class GuessNumberIntent extends Intent {
       return;
     }
 
-    request.expecting.set({
+    request.expect({
       entity: 'App.Common.Entity.Number',
       fail: 'invalid',
       force: true

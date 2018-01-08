@@ -21,7 +21,7 @@ module.exports = class TeaIntent extends Intent {
 	}
 
 	response(request) {
-    request.expecting.set({
+    request.expect({
       force: true
     });
 		return 'Do you want sugar in your tea?';

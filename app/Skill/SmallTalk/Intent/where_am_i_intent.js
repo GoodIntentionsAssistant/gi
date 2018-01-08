@@ -26,7 +26,7 @@ module.exports = class WhereAmIIntent extends Intent {
 
 
 	response(request) {
-		request.expecting.set({
+		request.expect({
       force: true,
       action: 'specified'
 		});

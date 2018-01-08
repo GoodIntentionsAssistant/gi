@@ -5,9 +5,9 @@ const _ = require('underscore');
 const extend = require('extend');
 const Promise = require('promise');
 
-const Parameters = require('./parameters.js');
-const Expecting = require('./expecting.js');
-const Response = require('./../Response/response.js');
+const Parameters 	= require('./parameters.js');
+const Expects 		= require('./expects.js');
+const Response 		= require('./../Response/response.js');
 
 module.exports = class Request {
 
@@ -38,8 +38,8 @@ module.exports = class Request {
 		//Response
 		this.response = new Response(this);
 
-		//Expecting
-		this.expecting = new Expecting(this);
+		//Expects
+		this.expects = new Expects(this);
 
 		//Parameters
 		this.parameters = new Parameters(this);
@@ -182,15 +182,15 @@ module.exports = class Request {
 		this.log('Analyzing "'+text+'"');
 		this.app.Log.write_log('incoming',text);
 
-		//Expecting
-		//If expecting is set then we're waiting for input. Could be a
+		//Expects
+		//If expects is set then we're waiting for input. Could be a
 		//simple question like what's your favorite colour or asking them to login
-		//and we need their email and password. The previous intent sets expecting.
-		if(this.expecting.has()) {
-			this.expecting.load(this);
+		//and we need their email and password. The previous intent sets expects.
+		if(this.expects.has()) {
+			this.expects.load(this);
 		}
 
-		//Understand input if Expecting didn't set it
+		//Understand input if Expects didn't set it
 		if(!this.intent) {
 			let result = this.app.Understand.process(text);
 
@@ -342,6 +342,18 @@ module.exports = class Request {
 		// }
 
 		this.response.send('message', options);
+	}
+
+
+/**
+ * Expect
+ *
+ * @param mixed data
+ * @access public
+ * @return boolean
+ */
+	expect(data) {
+		return this.expects.set(data);
 	}
 
 
