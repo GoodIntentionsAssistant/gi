@@ -2,27 +2,36 @@
  * Classify.js
  *
  * Javascript library for automated classification using Bayesian probability.
+ *
+ * Good Intentions Note
+ * I'm not sure where this code is originally from so I can't credit it.
+ * If you are the original creator of this please get in touch.
+ *
+ * Some logic and formatting changes have been made to this code.
+ *
  */
+const _ = require('underscore');
+const fs = require('fs');
 
- var fs = require('fs');
+// Probability to assign to words that do not appear in a group. We cannot use
+// zero because the log(0) is negative infinity.
+const ZERO_PROBABILITY = 0.00000001;
 
- // Probability to assign to words that do not appear in a group. We cannot use
- // zero because the log(0) is negative infinity.
- var ZERO_PROBABILITY = 0.00000001;
 
- // Storage for the input parameters for the model
- var Classifier = function()
- {
-   this.numTrainingExamples = 0;
-   this.groupFrequencyCount = new Object();
+// Storage for the input parameters for the model
+var Classifier = function() {
+ this.numTrainingExamples = 0;
+ this.groupFrequencyCount = new Object();
 
-   this.numWords = 0;
-   this.wordFrequencyCount = new Object();
-   this.groupWordTotal = new Object();
-   this.groupWordFrequencyCount = new Object();
- }
+ this.numWords = 0;
+ this.wordFrequencyCount = new Object();
+ this.groupWordTotal = new Object();
+ this.groupWordFrequencyCount = new Object();
+}
 
- /** Trains the classifier with a known example.
+
+/**
+ * Trains the classifier with a known example.
  *
  * @param input An input value with a known classification
  * @param group The group the input should be classified as belonging to
@@ -57,8 +66,9 @@ Classifier.prototype.train = function(group, input)
 	});
 }
 
+
 /**
- * Trainsthe classifier with a known example from the given file.
+ * Trains the classifier with a known example from the given file.
  *
  * @param filename A file with a known classification
  * @param group The group the input should be classified as belonging to
@@ -71,7 +81,9 @@ Classifier.prototype.trainFromFile = function(group, filename)
   self.train(group, fs.readFileSync(filename, "utf-8"));
 }
 
- /** Provides the most likely group classification for an input.
+
+/**
+ * Provides the most likely group classification for an input.
  *
  * @param input An input value with unknown classification
  * @returns The group the input is most likely a member of
@@ -87,7 +99,9 @@ Classifier.prototype.classify = function(input)
 	return false;
 }
 
- /** Provides the most likely group classification for a file.
+
+/**
+ * Provides the most likely group classification for a file.
  *
  * @param filename The path to a file with unknown classification
  * @returns The group the input is most likely a member of
@@ -99,12 +113,14 @@ Classifier.prototype.classifyFile = function(filename)
   return this.classify(fs.readFileSync(filename, "utf-8"));
 }
 
- /** Provides all possible groups for an input in ranked order of probability of matching.
+
+/**
+ * Provides all possible groups for an input in ranked order of probability of matching.
  *
  * @param input An input value with unknown classification
  * @returns An array of groups and the probability the input belongs to one of them.
  */
-Classifier.prototype.rank = function(input)
+Classifier.prototype.rank = function(input, remove_unranked = false)
 {
   var self = this;
 
@@ -116,6 +132,7 @@ Classifier.prototype.rank = function(input)
 	groups.forEach(function(group) {
 		groupLikelihood[counter] = new Object();
 		groupLikelihood[counter].group = group;
+    groupLikelihood[counter].matched = 0;
 
     // Start with the overall probability of this group
     groupLikelihood[counter].probability = Math.log(groupProb[group]);
@@ -152,6 +169,10 @@ Classifier.prototype.rank = function(input)
       if(!matched) {
         groupLikelihood[i].probability += Math.log(ZERO_PROBABILITY);
       }
+      else {
+        //Increase number of matched words
+        groupLikelihood[i].matched++;
+      }
 
 
 		}
@@ -172,13 +193,23 @@ Classifier.prototype.rank = function(input)
     certainty *= -1;
   }
 
+  //Remove anything without a match
+  //Added for GI
+  if(remove_unranked) {
+    groupLikelihood = _.reject(groupLikelihood, function(data){
+      return data.matched === 0 ? true : false;
+    });
+  }
+
 	return {
     certainty: certainty,
     groups: groupLikelihood
   };
 }
 
- /** Returns all training groups and their associated probabilities (simple frequencies).
+
+/**
+ * Returns all training groups and their associated probabilities (simple frequencies).
  *
  * @returns An object with properties names for the input groups whose values are the probability of that group.
  */
@@ -199,6 +230,7 @@ Classifier.prototype.getGroupProbabilities = function()
 
 	return groups;
 }
+
 
 /**
  * Returns number of unique groups seen in the training data.

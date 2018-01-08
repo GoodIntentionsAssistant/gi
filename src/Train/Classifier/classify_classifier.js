@@ -42,7 +42,9 @@ module.exports = class ClassifyClassifier {
 		//Clean words
 		str = Scrubber.stop_words(str);
 
-		var result = this.Classify.rank(str);
+		let result = this.Classify.rank(str, true);
+
+		//console.log(result);
 
 		if(result.groups.length == 0) {
 			return false;

@@ -33,12 +33,6 @@ module.exports = class CurrencyIntent extends Intent {
 			required: true,
 			slotfill: true
 		});
-
-		this.tests([
-			{ input:'1 GBP to BAHT' },
-			{ input:'50GBP to baht' },
-			{ input:'usd to baht' },
-		]);
 	}
 
 

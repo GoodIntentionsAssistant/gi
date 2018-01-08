@@ -190,7 +190,7 @@ module.exports = class Request {
 			this.expects.load(this);
 		}
 
-		//Understand input if Expects didn't set it
+		//Understand input if expects didn't set it
 		if(!this.intent) {
 			let result = this.app.Understand.process(text);
 
@@ -211,7 +211,7 @@ module.exports = class Request {
 		//Intent requires authorized session
 		//If not authorized then change the intent to an error asking them to login
 		if(this.intent.auth && !this.session.authorized(this.intent.get_auth())) {
-			this.log('No auth allowed for intent '+this.intent.name);
+			this.log('No auth allowed for intent '+this.intent.identifier);
 			this.throw_error('NoAuth');
 			return false;
 		}
@@ -224,6 +224,9 @@ module.exports = class Request {
 		//need to create a promise and wait or the parsing to finish first.
 		//@todo Move this to Understand
 		if(this.intent.parameters) {
+			//Check parameters for intent
+			this.log('Checking parameters for intent '+this.intent.identifier);
+
 			//Create a new parameter object
 			this.parameters.parse_from_intent(text, this.intent);
 

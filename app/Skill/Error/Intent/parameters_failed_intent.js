@@ -10,7 +10,7 @@ module.exports = class ParametersFailedIntent extends Intent {
 
 
 	response(request) {
-		var intent_name = request._failed_intent.name;
+		var intent_name = request._failed_intent.identifier;
 
 		var output = [
 			"Parameters failed for "+intent_name
