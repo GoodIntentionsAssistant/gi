@@ -194,10 +194,10 @@ module.exports = class Request {
 		if(!this.intent) {
 			let result = this.app.Understand.process(text);
 
-			if(result) {
-				this.intent 		= result.intent;
-				this.collection = result.collection;
-				this.confidence = result.confidence;
+			if(result.success) {
+				this.intent 		= result.match.intent;
+				this.collection = result.match.collection;
+				this.confidence = result.match.confidence;
 			}
 		}
 

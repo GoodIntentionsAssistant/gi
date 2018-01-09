@@ -56,6 +56,9 @@ config.collections = {
   'admin': {
     'classifier': 'strict'
   },
+  'cancel': {
+    'classifier': 'strict'
+  },
   'strict': {
     'classifier': 'strict'
   },

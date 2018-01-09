@@ -6,7 +6,6 @@ const Intent = require('../../../../src/Intent/intent');
 module.exports = class AgainIntent extends Intent {
 
 	setup() {
-		this.name = 'Again';
 		this.train([
 			'again',
 			'again!',

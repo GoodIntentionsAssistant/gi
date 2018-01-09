@@ -82,13 +82,18 @@ module.exports = class Expects {
 		this.expecting = this.get();
 
 		//Inputted text
-		this.input = this.request.input.text;
+		this.text = this.request.input.text;
 
-		//Quit commands to get out of expecting
-		//@todo Expand on this to scan for text in the input better
-		//@todo Break this reset into a new method and document it
-		if(this.input == 'quit' || this.input == 'stop') {
+		//Cancel commands to get out of expecting
+		//Using Understand and the cancel classifier to check if
+		//the user is trying to cancel the current expects.
+		//Cancel Entity and Intent are within the common skill.
+		let cancel = this.app.Understand.process(this.text, ['cancel']);
+		if(cancel.success) {
 			this.reset();
+			this.request.intent 		= cancel.match.intent;
+			this.request.collection = cancel.match.collection;
+			this.request.confidence = cancel.match.confidence;
 			return;
 		}
 
@@ -109,12 +114,12 @@ module.exports = class Expects {
 		if(this.redirect) {
 			//Set the intent action
 			if(this.expecting.action) {
-				this._action(this.expecting.action, this.input);
+				this._action(this.expecting.action, this.text);
 			}
 
 			//Save their response
 			if(this.expecting.save_answer) {
-				this._save_answer(this.expecting.key, this.input);
+				this._save_answer(this.expecting.key, this.text);
 			}
 
 			//Change the intent
@@ -148,10 +153,10 @@ module.exports = class Expects {
 		}
 
 		//Parse the user input on the entity
-		let parsed = entity.parse(this.input);
+		let parsed = entity.parse(this.text);
 
 		if(parsed.value) {
-			this.input = parsed.value;
+			this.text = parsed.value;
 			this.redirect = true;
 			this.request.parameters.set(this.expecting.key, parsed.value);
 		}
@@ -232,11 +237,11 @@ module.exports = class Expects {
 		}
 
 		//Otherwise it'll be a hash of result key and action
-		if(!expecting[this.input]) {
+		if(!expecting[this.text]) {
 			return false;
 		}
 
-		this.request.action = expecting[this.input];
+		this.request.action = expecting[this.text];
 		return true;
 	}
 
