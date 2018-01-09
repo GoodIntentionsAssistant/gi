@@ -13,8 +13,19 @@ module.exports = class Understand {
  */
   constructor(App) {
     this.App = App;
+    this.collections();
+  }
 
-    this.collections = {
+
+/**
+ * Load collections
+ *
+ * @param string text
+ * @access public
+ * @return mixed False or hash of the result
+ */
+  collections(text) {
+    this._collections = {
       'strict': {
       },
       'default': {
@@ -31,22 +42,40 @@ module.exports = class Understand {
  * Check each training collection in order then call trainer to
  * find the intent.
  *
+ * @param object request object
  * @param string text
  * @access public
  * @return mixed False or hash of the result
  */
   process(text) {
-    var result = null;
+    let result = this.match(text);
+    return result
+  }
+
+
+/**
+ * Match the text on all collections
+ *
+ * Check each training collection in order then call trainer to
+ * find the intent.
+ *
+ * @param object request object
+ * @param string text
+ * @access public
+ * @return mixed False or hash of the result
+ */
+  match(text) {
+    let result = null;
 
     //Go through each training collection to try and find a match in order
-    for(var collection_name in this.collections) {
+    for(var collection_name in this._collections) {
       //Check if collection exists
       if(!this.App.Train.has_collection(collection_name)) {
         continue;
       }
 
       //Process the text on the collection
-      result = this._process(text, collection_name);
+      result = this._match(text, collection_name);
       if(result) {
         break;
       }
@@ -62,15 +91,14 @@ module.exports = class Understand {
 
 
 /**
- * Process individual collection
+ * Match text on individual collection
  *
  * @param string text
  * @param string collection
  * @access public
  * @return mixed False or hash of the result
  */
-  _process(text, collection) {
-    //console.log('Checking '+collection+' for "'+text+'"');
+  _match(text, collection) {
     let match = this.App.Train.find(text, collection);
 
     if(match) {

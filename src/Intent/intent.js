@@ -18,11 +18,11 @@ module.exports = class Intent {
 		this.input = null;
 		this.session = null;
 		
-		this._keywords = [];
-		this._entities = [];
-		this._tests = [];
+		this._keywords 	= [];
+		this._entities 	= [];
+		this._tests 		= [];
 		
-		this.parameters = [];
+		this.parameters = {};
 
 		this.collection = 'default';
 	}
@@ -117,6 +117,17 @@ module.exports = class Intent {
 	parameter(name, data) {
 		this.parameters[name] = data;
 		return true;
+	}
+
+
+/**
+ * Has parameters
+ * 
+ * @access public
+ * @return bool
+ */
+	has_parameters() {
+		return Object.keys(this.parameters).length;;
 	}
 
 

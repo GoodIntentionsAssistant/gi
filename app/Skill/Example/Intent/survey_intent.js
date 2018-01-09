@@ -1,7 +1,8 @@
 /**
  * Survey Example
  */
-var Intent = require('../../../../src/Intent/intent');
+const Intent = require('../../../../src/Intent/intent');
+const _ = require('underscore');
 
 module.exports = class SurveyIntent extends Intent {
 
@@ -13,16 +14,13 @@ module.exports = class SurveyIntent extends Intent {
 
 	response(request) {
 		request.expect({
-			intent: this,
-			entity: 'Common/Confirm',
+			entity: 'App.Common.Entity.Confirm',
 			force: true,
+			key: 'survey.do_you_watch_sports_tv',
+			save_answer: true,
 			action: {
 				'yes': 'what_sport',
 				'no': 'watch_online'
-			},
-			save_answer: {
-				'name': 'Watch sports on TV',
-				'key': 'survey.sports_tv'
 			}
 		});
 		request.attachment('action','Yes');
@@ -33,13 +31,10 @@ module.exports = class SurveyIntent extends Intent {
 
 	what_sport(request) {
 		request.expect({
-			intent: this,
 			force: true,
 			action: 'watch_online',
-			save_answer: {
-				'name': 'Sport watched the most',
-				'key': 'survey.sport_most_watched'
-			}
+			key: 'survey.most_watched_sports',
+			save_answer: true
 		});
 		return 'Which sports do you watch the most?';
 	}
@@ -47,25 +42,24 @@ module.exports = class SurveyIntent extends Intent {
 
 	watch_online(request) {
 		request.expect({
-			intent: this,
 			force: true,
-			entity: 'Common/Confirm',
+			entity: 'App.Common.Entity.Confirm',
 			action: 'finished',
-			save_answer: {
-				'name': 'Watch online',
-				'key': 'survey.watch_sport_online'
-			}
+			key: 'survey.watch_sports_online',
+			save_answer: true
 		});
+		request.attachment('action','Yes');
+		request.attachment('action','No');
 		return 'Ok. And do you watch sports online?';
 	}
 
 
 	finished(request) {
 		let output = ['Great, thanks for participatating. Here are your answers.'];
-		let data = request.session.data('survey');
+		let data = request.session.user('survey');
 
 		for(let key in data) {
-			output.push(data[key].name+': '+data[key].result);
+			output.push(_.humanize(key)+': '+data[key]);
 		}
 
 		return output;

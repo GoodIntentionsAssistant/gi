@@ -223,7 +223,7 @@ module.exports = class Request {
 		//Parameter checking might require entities to fetch live remote data so we
 		//need to create a promise and wait or the parsing to finish first.
 		//@todo Move this to Understand
-		if(this.intent.parameters) {
+		if(this.intent.has_parameters()) {
 			//Check parameters for intent
 			this.log('Checking parameters for intent '+this.intent.identifier);
 
@@ -319,7 +319,7 @@ module.exports = class Request {
  * @return boolean
  */
 	send(text, options) {
-		var _options = {
+		let _options = {
 			messages: '',
 			attachments:[],
 			status: {
@@ -330,7 +330,8 @@ module.exports = class Request {
 		options = extend(_options, options);
 
 		if(text instanceof Array) {
-			options.messages = [text.join("\n")];
+			//options.messages = [text.join("\n")];
+			options.messages = text;
 		}
 		else if(text instanceof Object) {
 			options = extend(_options, text);
