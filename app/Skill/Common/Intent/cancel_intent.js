@@ -11,7 +11,6 @@ module.exports = class CancelIntent extends Intent {
 		});
 	}
 	
-
 	response(request) {
 		return 'No problems!';
 	}

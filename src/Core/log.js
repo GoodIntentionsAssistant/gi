@@ -1,8 +1,6 @@
 /**
  * Log
  */
-const fs = require('fs');
-const moment = require('moment');
 const Config = require('../Core/config.js');
 
 module.exports = class Log {
@@ -32,7 +30,6 @@ module.exports = class Log {
     if(this.app.verbose) {
       console.log(msg);
     }
-    this.write_log('system',msg);
   }
 
 
@@ -49,29 +46,6 @@ module.exports = class Log {
     }
 
     this.add(msg);
-    this.write_log('error',msg);
-  }
-
-
-/**
-* Write to a log file
-* 
-* @param string type
-* @param string msg
-* @access public
-* @return void
-*/
-  write_log(type, text) {
-    //Disabled logging
-    if(!Config.read('logging.enabled')) {
-      return false;
-    }
-
-    var filename = this.app.Path.get('logs')+'/'+type+'/'+moment().format('MM-DD-YYYY')+'.txt'
-    var line = moment().format('MM-DD-YYYY HH:mm:ss')+': '+text+"\n";
-
-    fs.appendFile(filename, line, function (err) {
-    });
   }
 
 }

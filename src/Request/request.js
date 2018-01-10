@@ -180,7 +180,12 @@ module.exports = class Request {
 		//Logs
 		this.log('');
 		this.log('Analyzing "'+text+'"');
-		this.app.Log.write_log('incoming',text);
+
+		//Event
+		this.app.Event.emit('incoming',{
+			ident: this.ident,
+			input: this.input
+		});
 
 		//Expects
 		//If expects is set then we're waiting for input. Could be a
@@ -204,7 +209,10 @@ module.exports = class Request {
 		//If intent not found then error
 		if(!this.intent) {
 			this.throw_error('NotFound');
-			this.app.Log.write_log('unknown',text);
+			this.app.Event.emit('unknown',{
+				ident: this.ident,
+				input: this.input
+			});
 			return false;
 		};
 
@@ -268,10 +276,17 @@ module.exports = class Request {
  * Call intent
  *
  * @param string user_id
+ * @access public
  * @return boolean
  */
 	call(options) {
 		this.log('Calling ' + this.intent.identifier+'::' + this.action);
+
+		this.app.Event.emit('intent',{
+			ident: this.ident,
+			identifier: this.intent.identifier,
+			action: this.action
+		});
 
 		let promise = this.intent.fire(this);
 		promise.then((result) => {
