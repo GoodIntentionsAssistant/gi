@@ -15,6 +15,12 @@ module.exports = class ExampleSkill extends Skill {
 	constructor(app) {
 		super(app);
 		this.intents = [];
+
+    app.on('intent', (data) => {
+      if(data.identifier === 'App.Example.Intent.Boing') {
+        console.log('Boing redirect was called!');
+      }
+    });
 	}
 
 }

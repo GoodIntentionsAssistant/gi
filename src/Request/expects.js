@@ -91,9 +91,9 @@ module.exports = class Expects {
 		let cancel = this.app.Understand.process(this.text, ['cancel']);
 		if(cancel.success) {
 			this.reset();
-			this.request.intent 		= cancel.match.intent;
-			this.request.collection = cancel.match.collection;
-			this.request.confidence = cancel.match.confidence;
+			this.request.intent 		= cancel.matches[0].intent;
+			this.request.collection = cancel.matches[0].collection;
+			this.request.confidence = cancel.matches[0].confidence;
 			return;
 		}
 

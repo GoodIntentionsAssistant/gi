@@ -7,6 +7,7 @@ const Promise = require('promise');
 
 const Parameters 	= require('./parameters.js');
 const Expects 		= require('./expects.js');
+const Router 			= require('./router.js');
 const Response 		= require('./../Response/response.js');
 
 module.exports = class Request {
@@ -43,6 +44,9 @@ module.exports = class Request {
 
 		//Parameters
 		this.parameters = new Parameters(this);
+
+		//Router
+		this.router = new Router(this);
 
 		//Intent action / method to call
 		this.action = 'response';
@@ -197,31 +201,13 @@ module.exports = class Request {
 
 		//Understand input if expects didn't set it
 		if(!this.intent) {
-			let result = this.app.Understand.process(text);
+			let result = this.router.route(text);
 
-			if(result.success) {
-				this.intent 		= result.match.intent;
-				this.collection = result.match.collection;
-				this.confidence = result.match.confidence;
+			if(result) {
+				this.intent 		= result.intent;
+				this.collection = result.collection;
+				this.confidence = result.confidence;
 			}
-		}
-
-		//If intent not found then error
-		if(!this.intent) {
-			this.throw_error('NotFound');
-			this.app.Event.emit('unknown',{
-				ident: this.ident,
-				input: this.input
-			});
-			return false;
-		};
-
-		//Intent requires authorized session
-		//If not authorized then change the intent to an error asking them to login
-		if(this.intent.auth && !this.session.authorized(this.intent.get_auth())) {
-			this.log('No auth allowed for intent '+this.intent.identifier);
-			this.throw_error('NoAuth');
-			return false;
 		}
 
 		//Check parameters
@@ -230,7 +216,7 @@ module.exports = class Request {
 		//needs clean data to work. But not all parameters are required.
 		//Parameter checking might require entities to fetch live remote data so we
 		//need to create a promise and wait or the parsing to finish first.
-		//@todo Move this to Understand
+		//@todo Move this to Router
 		if(this.intent.has_parameters()) {
 			//Check parameters for intent
 			this.log('Checking parameters for intent '+this.intent.identifier);
@@ -285,7 +271,8 @@ module.exports = class Request {
 		this.app.Event.emit('intent',{
 			ident: this.ident,
 			identifier: this.intent.identifier,
-			action: this.action
+			action: this.action,
+			input: this.input
 		});
 
 		let promise = this.intent.fire(this);

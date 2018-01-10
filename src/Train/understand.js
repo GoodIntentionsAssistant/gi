@@ -47,7 +47,6 @@ module.exports = class Understand {
   process(text, collections = []) {
     let result = {
       success: false,
-      match: null,
       matches: []
     };
 
@@ -56,7 +55,6 @@ module.exports = class Understand {
 
     if(matches) {
       result.success  = true;
-      result.match    = matches;
       result.matches  = [matches];
     }
 
