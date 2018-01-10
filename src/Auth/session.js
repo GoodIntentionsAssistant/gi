@@ -227,27 +227,4 @@ module.exports = class Session {
 		return this.set('user.'+key,value);
 	}
 
-
-/**
- * Add history
- *
- * @param object data
- * @access public
- * @return void
- */
-	add_history(data) {
-		this._data.history.push(data);
-	}
-
-
-/**
- * History
- *
- * @access public
- * @return mixed
- */
-	history() {
-		return this._data.history;
-	}
-
 }

@@ -27,7 +27,7 @@ module.exports = class Router {
 
     //Couldn't understand the text
     if(result.success === false) {
-      return this._error('NotFound');
+      return this.error('NotFound');
     }
 
     //Get top match
@@ -36,7 +36,7 @@ module.exports = class Router {
 
     //Check the user has the correct auth for the intent
     //Intent might have no auth requirements
-    if(!this._check_auth(output.intent)) {
+    if(!this.check_auth(output.intent)) {
       return this._error('NoAuth');
     }
 
@@ -50,7 +50,7 @@ module.exports = class Router {
  * @access private
  * @return bool
  */
-  _check_auth(intent) {
+  check_auth(intent) {
     //Intent requires no authorization
     if(!intent.auth) {
       return true;
@@ -76,7 +76,7 @@ module.exports = class Router {
  * @access public
  * @return hash
  */
-  _error(type) {
+  error(type) {
     let intent = this.app.IntentRegistry.get('App.Error.Intent.'+type);
 
     if(type == 'NotFound') {

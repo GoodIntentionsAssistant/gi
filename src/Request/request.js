@@ -8,6 +8,8 @@ const Promise = require('promise');
 const Parameters 	= require('./parameters.js');
 const Expects 		= require('./expects.js');
 const Router 			= require('./router.js');
+const Dispatcher	= require('./dispatcher.js');
+const History  		= require('./../Auth/history.js');
 const Response 		= require('./../Response/response.js');
 const Utterance		= require('./../Utterance/utterance.js');
 
@@ -45,6 +47,12 @@ module.exports = class Request {
 
 		//Parameters
 		this.parameters = new Parameters(this);
+
+		//Router
+		this.router = new Router(this);
+
+		//Dispatcher
+		this.dispatcher = new Dispatcher(this);
 
 		//Intent action / method to call
 		this.action = 'response';
@@ -121,14 +129,14 @@ module.exports = class Request {
 		//Setup the response after the input has been set
 		this.response.setup();
 
+		//
+		this.log('');
+
 		//Auth
 		//Session will be an object and store the bots user details
 		//Some intents require to be identified
 		this.session = this.app.Auth.identify(this.input.user, this.client);
 		this.log('Session: '+this.session.data('ident'));
-
-		//Add to history
-		this.session.add_history(this.input);
 
 		//Process the request
 		var result = null;
@@ -180,15 +188,15 @@ module.exports = class Request {
 		this.action 			= 'response';				//Default intent action to call, can be overwritten
 
 		//Logs
-		this.log('');
 		this.log('Analyzing "'+text+'"');
 
 		//Utterance
 		//Stores the text, tagging and sentiments
 		this.utterance = new Utterance(text);
 
-		//Router
-		this.router = new Router(this);
+		//Setup history
+		this.history = new History(this);
+		this.history.add(this.utterance);
 
 		//Event
 		this.app.Event.emit('incoming',{
@@ -232,76 +240,35 @@ module.exports = class Request {
 			this.parameters.promise.then(() => {
 				if(!this.parameters.validates) {
 					this._failed_intent = this.intent;
-					return this.throw_error('ParametersFailed');
+
+					let err = this.router.error('ParametersFailed');
+					this.intent 		= err.intent;
+					this.collection = err.collection;
+					this.confidence = err.confidence;
 				}
 
-				return this.call();
+				return this.dispatcher.dispatch();
 			});
 
 			return true;
 		}
 
 		//Fire the result
-		return this.call();
-	}
-
-
-/**
- * Error
- *
- * @todo remove this when parameters has been removed from this file
- * @param string error_name
- * @return object Session
- */
-	throw_error(error_name) {
-		this.intent = this.app.IntentRegistry.get('App.Error.Intent.'+error_name);
-
-		if(!this.intent) {
-			this.app.Error.fatal('Intent ' + error_name + ' was not loaded. Make sure you include errors in your skills.');
-		}
-
-		this.call();
-	}
-	
-
-/**
- * Call intent
- *
- * @param string user_id
- * @access public
- * @return boolean
- */
-	call(options) {
-		this.log('Calling ' + this.intent.identifier+'::' + this.action);
-
-		this.app.Event.emit('intent',{
-			ident: this.ident,
-			identifier: this.intent.identifier,
-			action: this.action,
-			input: this.input
-		});
-
-		let promise = this.intent.fire(this);
-		promise.then((result) => {
-			this.result(result);
-		});
-
-		return true;
+		return this.dispatcher.dispatch();
 	}
 
 
 /**
  * Redirect
  *
- * @param string intent
+ * Method must return a false otherwise the request will send "true"
+ *
+ * @param string intent identifier, e.g. App.Example.Intent.Ping
  * @access public
- * @return boolean
+ * @return bool
  */
-	redirect(name) {
-		this.intent = this.app.IntentRegistry.get(name);
-		this.action = 'response';
-
-		this.call();
+	redirect(identifier) {
+		this.dispatcher.redirect(identifier);
 		return false;
 	}
 
@@ -310,7 +277,7 @@ module.exports = class Request {
  * Time out
  *
  * @access public
- * @return boolean
+ * @return bool
  */
 	timeout() {
 		this.error('Request timed out');

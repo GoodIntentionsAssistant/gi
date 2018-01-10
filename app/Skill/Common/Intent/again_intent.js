@@ -23,15 +23,8 @@ module.exports = class AgainIntent extends Intent {
 	
 
 	response(request) {
-		var history = request.session.history();
-
-		//Remove again
-		history.pop();
-
-		var last = history[history.length-1].text;
-		request.input.text = last;
-
-		request._process();
+		let history = request.history.last();
+		request.process_message(history.text);
 		return false;
 	}
 
