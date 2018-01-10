@@ -9,6 +9,7 @@ const Parameters 	= require('./parameters.js');
 const Expects 		= require('./expects.js');
 const Router 			= require('./router.js');
 const Response 		= require('./../Response/response.js');
+const Utterance		= require('./../Utterance/utterance.js');
 
 module.exports = class Request {
 
@@ -44,9 +45,6 @@ module.exports = class Request {
 
 		//Parameters
 		this.parameters = new Parameters(this);
-
-		//Router
-		this.router = new Router(this);
 
 		//Intent action / method to call
 		this.action = 'response';
@@ -185,6 +183,13 @@ module.exports = class Request {
 		this.log('');
 		this.log('Analyzing "'+text+'"');
 
+		//Utterance
+		//Stores the text, tagging and sentiments
+		this.utterance = new Utterance(text);
+
+		//Router
+		this.router = new Router(this);
+
 		//Event
 		this.app.Event.emit('incoming',{
 			ident: this.ident,
@@ -201,7 +206,7 @@ module.exports = class Request {
 
 		//Understand input if expects didn't set it
 		if(!this.intent) {
-			let result = this.router.route(text);
+			let result = this.router.route(this.utterance.text);
 
 			if(result) {
 				this.intent 		= result.intent;
@@ -244,6 +249,7 @@ module.exports = class Request {
 /**
  * Error
  *
+ * @todo remove this when parameters has been removed from this file
  * @param string error_name
  * @return object Session
  */
