@@ -39,7 +39,7 @@ exports.to_directory = function(identifier) {
 
   //Shortcut paths
   //App.Example.Entity.Colour -> App.Skill.Example.Entity.Colour
-  if(['Entity','Intent','Data'].indexOf(parts[2]) !== -1) {
+  if(['Entity','Intent','Data','Attachment'].indexOf(parts[2]) !== -1) {
     path += '/Skill';
 
     //App.Example.Intent

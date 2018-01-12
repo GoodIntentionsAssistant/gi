@@ -16,6 +16,8 @@ config.name = "Good Intentions";
 
 config.skills = [
   'App.Example',
+  'App.Error',
+  'App.Weather',
   'App.SmallTalk',
   'App.Dice',
   'App.Currency',
@@ -27,15 +29,16 @@ config.skills = [
   'App.Unit',
   'App.RockPaperScissors',
   'App.Fallback',
-  'App.Weather',
   'App.Error',
-  'App.Common'
+  'App.Common',
+  'App.Logging'
 ];
 
 config.attachments = [
   'Sys.Attachment.Image',
   'Sys.Attachment.Action',
-  'Sys.Attachment.Field'
+  'Sys.Attachment.Field',
+  'App.Example.Attachment.Navigation'
 ];
 
 config.app = {

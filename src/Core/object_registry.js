@@ -199,11 +199,47 @@ module.exports = class ObjectRegistry {
  * @return object
  */
   get(name) {
-    if(!this.objects[name]) {
-      this.app.Log.error(this.type+' '+name+' not found in objects');
+    let identifier = this.find(name);
+
+    if(!identifier) {
+      this.app.Log.error(this.type+' '+identifier+' not found in objects');
       return false;
     }
-    return this.objects[name];
+    
+    return this.objects[identifier];
+  }
+
+
+/**
+ * Find an object by name
+ *
+ * The name could come through as the full identifier path or just the name
+ * Such as App.Example.Attachment.Navigation or just navigation
+ *
+ * @param string name
+ * @access public
+ * @return string
+ */
+  find(name) {
+    let identifier = null;
+    let split = name.split('.');
+
+    if(split.length == 1) {
+      //Passed as just the name and not full identifier
+      for(let key in this.objects) {
+        //App.Example.Attachment.Navigation => navigation
+        let _name = key.split('.').splice(-1,1)[0].toLowerCase();
+        if(_name == name) {
+          identifier = key;
+          continue;
+        }
+      }
+    }
+    else {
+      identifier = name;
+    }
+
+    return identifier;
   }
 
 

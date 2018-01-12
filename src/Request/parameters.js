@@ -54,13 +54,16 @@ module.exports = class Parameters {
 
 /**
  * Check if set
+ *
+ * The key might be set but it might not have a value
  * 
  * @param string key
  * @access public
- * @return mixed
+ * @return bool
  */
 	has(key) {
-		if(!this.data[key]) {
+		let val = this.value(key);
+		if(!val) {
 			return false;
 		}
 		return true;
@@ -266,7 +269,8 @@ module.exports = class Parameters {
 				label: null,
 				entity: entity,
 				required: required,
-				valid: valid
+				valid: valid,
+				data: {}
 			}
 
 			//No result:
@@ -305,6 +309,9 @@ module.exports = class Parameters {
 				if(this.request) {
 					this.request.session.user(field, result.value);
 				}
+
+				//Pass all entity data
+				output[field].data = entity.data[result.value];
 
 				//Labels are used when the Entity.data key is something useless like an id
 				//so a label can be used to show a friendly name. For example the key for employee

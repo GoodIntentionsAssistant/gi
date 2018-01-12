@@ -99,21 +99,30 @@ module.exports = class Response extends EventEmitter {
  */
 	attachment(type, data) {
 		//Identifier
-		let identifier = 'Sys.Attachment.'+_.camelize(type);
+		//let identifier = 'Sys.Attachment.'+_.camelize(type);
+		let identifier = type;
 
 		//Get attachment object and build
 		let obj = this.request.app.AttachmentRegistry.get(identifier);
 		let result = obj.build(data);
 
-		//Inflector, image -> images
-		let key = _.pluralize(type);
+		//Multiple attachments or just one
+		if(obj.multiple) {
+			//Inflector, image -> images
+			let key = _.pluralize(type);
 
-		//Check if the attachment key has been added already
-		if(!this.attachments[key]) {
-			this.attachments[key] = [];
+			//Check if the attachment key has been added already
+			if(!this.attachments[key]) {
+				this.attachments[key] = [];
+			}
+
+			this.attachments[key].push(result);
+		}
+		else {
+			//Single attachment
+			this.attachments[type] = result;
 		}
 
-		this.attachments[key].push(result);
 		return true;
 	}
 

@@ -6,11 +6,11 @@
   "author": {
     "name": "Darren Moore",
     "email": "darren.m@firecreekweb.com",
-    "url": "firecreekweb.com"
+    "url": "http://goodintentions.firecreekweb.com/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/darrenmoore/GoodIntentionsChatBot.git"
+    "url": "https://github.com/GoodIntentionsAssistant/gi.git"
   },
   "licenses": [],
   "engines": {

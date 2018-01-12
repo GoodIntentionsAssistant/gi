@@ -77,7 +77,12 @@ module.exports = class Router {
  * @return hash
  */
   error(type) {
-    let intent = this.app.IntentRegistry.get('App.Error.Intent.'+type);
+    let identifier = 'App.Error.Intent.'+type;
+    let intent = this.app.IntentRegistry.get(identifier);
+
+    if(!intent) {
+      this.app.Error.fatal('Error intent not found, '+identifier);
+    }
 
     if(type == 'NotFound') {
       this.app.Event.emit('unknown',{

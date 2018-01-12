@@ -13,6 +13,7 @@ module.exports = class Attachment {
  */
   constructor(app) {
     this.app = app;
+    this.multiple = true;
   }
 
 
