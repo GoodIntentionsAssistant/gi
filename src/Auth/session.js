@@ -12,25 +12,27 @@ module.exports = class Session {
  * @access public
  * @return void
  */
-	constructor(Auth, Client) {
-		this.Auth = Auth;
-		this.App = Auth.App;
-		this.Client = Client;
+	constructor(auth) {
+		this.auth = auth;
 
 		this._data = {};
 	}
 
 
 /**
- * Setup
+ * Load
  *
- * @param string source
- * @param boolean value
+ * @param string session_id
+ * @param hash session_data
+ * @access public
  * @return void
  */
-	setup(identifier, user) {
-		this.set_data(user);
-		this.set_account(identifier);
+	load(session_id, session_data) {
+		//Session id
+		this.session_id = session_id;
+
+		//Hold auth session data
+		this._data = session_data;
 	}
 
 
@@ -119,36 +121,11 @@ module.exports = class Session {
  * set the private variable to true so we can check later.
  *
  * @param boolean value
+ * @access public
  * @return void
  */
-	add_account(identifier) {
-		this._data.accounts[identifier] = {};
-	}
-
-
-/**
- * Set account
- *
- * Current session account this person is using
- *
- * @param hash data
- * @return void
- */
-	set_account(identifier) {
-		this.add_account(identifier);
-	}
-
-
-/**
- * Set data
- *
- * User data for the system. This is not API data from devi etc...
- *
- * @param hash data
- * @return void
- */
-	set_data(data) {
-		this._data = data;
+	add_token(token) {
+		this._data.tokens[token] = {};
 	}
 
 
@@ -158,6 +135,7 @@ module.exports = class Session {
  * Return data based on the key
  *
  * @param string key
+ * @access public
  * @return mixed
  */
 	get(key) {
@@ -170,6 +148,7 @@ module.exports = class Session {
  *
  * @todo Remove this and change to get::
  * @param string key
+ * @access public
  * @return mixed
  */
 	data(key) {
@@ -183,6 +162,7 @@ module.exports = class Session {
  * Checks to see if a key for the user data exists
  *
  * @param string key
+ * @access public
  * @return bool
  */
 	has(key) {
@@ -194,6 +174,7 @@ module.exports = class Session {
  * Set
  *
  * @param string key
+ * @access public
  * @return void
  */
 	set(key, value) {
@@ -205,6 +186,7 @@ module.exports = class Session {
  * Remove key
  *
  * @param string key
+ * @access public
  * @return void
  */
 	remove(key) {

@@ -48,7 +48,7 @@ module.exports = class Response extends EventEmitter {
 		data.ident      = this.request.ident;
 
 		//User session data
-		data.user       = this.request.input.user;
+		data.session_id = this.request.session.session_id;
 
 		//Name space used
 		data.namespace 	= namespace;

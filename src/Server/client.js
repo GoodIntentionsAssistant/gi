@@ -121,20 +121,24 @@ module.exports = class Client {
 	handshake(input) {
 		this.app.Log.add('Handshake from '+input.token+' ('+this.ident+')');
 
+		//Identify this user
+		//This will create them a new session and trigger an onboarding
+		//event if this is a new session. e.g. Welcome to GI!
+		let session = this.app.Auth.authenticate(input.token, this);
+
 		//Handshake from user via client
 		this.app.Event.emit('client.handshake', {
 			client: this,
-			token: input.token
+			token: input.token,
+			session_id: session.session_id,
 		});
 
-		//Identify this person
-		//This will create them a new session and trigger an onboarding
-		//event if this is a new session. e.g. Welcome to GI!
-		let session = this.app.Auth.identify(input.token, this);
-
+		//Send data back to client for the user
 		this.emit('event','handshake', {
 			success: true,
-			message: 'Successfully handshaked'
+			message: 'Successfully handshaked',
+			session_id: session.session_id,
+			token: input.token
 		});
 	}
 
@@ -161,23 +165,31 @@ module.exports = class Client {
 			return false;
 		}
 
+		//Users auth session
+		input.session = this.user_session(input);
+		if(!input.session) {
+			this.app.Log.error('User session does not exist');
+			this.emit('event', 'request', {
+				success: false,
+				message: ['User session does not exist']
+			});
+			return false;
+		}
+
 		this.app.request(this.client, input);
 	}
 
 
 /**
- * Call Intent
+ * User session
  *
- * @param string Intent identifier
+ * @param hash input
  * @access public
- * @return void
+ * @return object
  */
-	call_intent() {
-		let input = {
-			
-		};
-		this.app.request(this.client, input);
-	}
+  user_session(input) {
+  	return this.app.Auth.identify(input.session_id, this);
+  }
 
 
 /**
@@ -196,9 +208,9 @@ module.exports = class Client {
 			this.validation_errors.push('Client not identified');
 		}
 
-		//Session token is valid
-		if(!this.validate_session_token(input.session_token)) {
-			this.validation_errors.push('Session token is not valid');
+		//Client token is valid
+		if(!this.validate_client_session_id(input.client_session_id)) {
+			this.validation_errors.push('Client token is not valid');
 		}
 
 		//Client defined
@@ -206,9 +218,9 @@ module.exports = class Client {
 			this.validation_errors.push('Client not defined');
 		}
 
-		//User defined
-		if(typeof input.user === 'undefined' || input.user == '') {
-			this.validation_errors.push('User not defined');
+		//Session id defined
+		if(typeof input.session_id === 'undefined' || input.session_id == '') {
+			this.validation_errors.push('User session id not defined');
 		}
 
 		//Text defined
@@ -230,6 +242,7 @@ module.exports = class Client {
  */
 	validate_client_token(token) {
 		var expecting = Config.read('clients.'+this.name+'.token');
+
 		if(token != expecting) {
 			return false;
 		}
@@ -244,7 +257,7 @@ module.exports = class Client {
  * @access public
  * @return void
  */
-	validate_session_token(token) {
+	validate_client_session_id(token) {
 		if(token != this.session_token) {
 			return false;
 		}

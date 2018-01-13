@@ -1,6 +1,7 @@
 /**
  * Auth
  */
+const Config = require('../Core/config.js');
 const Session = require('./session.js');
 const _ = require('underscore');
 const Randtoken = require('rand-token');
@@ -10,105 +11,150 @@ module.exports = class Auth {
 /**
  * Constructor
  *
+ * @param object app
+ * @access public
+ * @return void
  */
-	constructor(App) {
-		this.App = App;
+	constructor(app) {
+		this.app = app;
 
 		//Template record when adding new accounts
 		this._templateRecord = {
 			"ident": null,
 			"authorized": {},
-			"accounts": {},
-			"user": {},
+			"tokens": {},
 			"history": [],
-			"api_token": "",
-			"sub_domain": "firecreek",
-			"current_account": null,
-			"context": null,
-			"history": [],
-			"variables": {}
+			"context": null
 		};
 
-		this.data = [];
+		this.sessions = [];
+
+		//Strict mode
+		//If the user did not handshake
+    this.strict = Config.read('auth.strict');
 	}
 
 
 /**
- * Identify the user
+ * Authenticate the user
  *
  * Based on the user_id from incoming we need to try and
  * match it to an existing session and then return a session
  * object. The session object is always returned but the
  * user might not be identified.
  *
- * AFAIK there is no reason to keep an array of sessions
- *
- * @param string user_id
- * @param Client client object
- * @return object Session
+ * @param string token Token generated from the user
+ * @param object client object
+ * @return string session_id
  */
-	identify(identifier, Client) {
-		let user = this.find_user(identifier);
+	authenticate(token, client) {
+		let session_data = this.find_token(token);
 
 		//If no user session record found then create one
-		if(!user) {
-			this.create(identifier);
-			user = this.find_user(identifier);
+		if(!session_data) {
+			//Create a new session
+			session_data = this.create();
+
+			//Build session object and add the token
+			//Session object is required so event handler can use it
+			let session = new Session(this);
+			session.load(session_data.session_id, session_data);
+			session.add_token(token);
 
 			//Event
-			this.App.Event.emit('auth.new', Client);
+			this.app.Event.emit('auth.new', {
+				session: this,
+				client: client
+			});
+		}
+		
+		return session_data;
+	}
+
+
+/**
+ * Identify the user by their session_id
+ *
+ * @param string session_id
+ * @param client client object
+ * @return object Session
+ */
+	identify(session_id, client) {
+		let session_data = this.find_session(session_id);
+
+		//User cannot be identified
+		//The session_id is invalid or the user didn't do a handshake
+		if(!session_data) {
+			//Strict mode is on so don't let them continue
+			if(this.strict) {
+				return false;
+			}
+
+			//Create a session for them
+			session_data = this.create(session_id);
 		}
 
 		//Set data for session
-		let session = new Session(this, Client);
-		session.setup(identifier, user);
+		let session = new Session(this);
+		session.load(session_id, session_data);
 		
 		return session;
 	}
 
 
 /**
- * Identify the user
+ * Create
  *
- * Based on the user_id from incoming we need to try and
- * match it to an existing session and then return a session
- * object. The session object is always returned but the
- * user might not be identified.
+ * Creates auth session data
+ * This does not create an object
  *
- * AFAIK there is no reason to keep an array of sessions
- *
- * @param string identifier
- * @return boolean
+ * @param string session_id Optional
+ * @access public
+ * @return session_id
  */
-	create(identifier) {
-		if(!identifier) {
-			return false;
+	create(session_id = null) {
+		//Generate random session id
+		if(!session_id) {
+			session_id = Randtoken.generate(16);
 		}
 
-		let ident = Randtoken.generate(16);
+		let session = JSON.parse(JSON.stringify(this._templateRecord));
+		session.session_id = session_id;
 
-		let data = JSON.parse(JSON.stringify(this._templateRecord));
-		data.ident = ident;
-		data.accounts[identifier] = {};
+		this.sessions.push(session);
 
-		this.data.push(data);
-
-		return true;
+		return session;
 	}
 
 
 /**
- * Find user
+ * Find user by token
  *
- * Find a user based on the identifier from incoming.
- *
- * @param string identifier
+ * @param string token
+ * @access public
  * @return mixed hash or boolean
  */
-	find_user(identifier) {
-		for(var ii=0; ii < this.data.length; ii++) {
-			if(_.has(this.data[ii].accounts, identifier)) {
-				return this.data[ii];
+	find_token(token) {
+		for(var ii=0; ii < this.sessions.length; ii++) {
+			if(_.has(this.sessions[ii].tokens, token)) {
+				return this.sessions[ii];
+			}
+		}
+		return false;
+	}
+
+
+/**
+ * Find user by session_id
+ *
+ * @param string session_id
+ * @access public
+ * @return mixed hash or boolean
+ */
+	find_session(session_id) {
+		for(var ii=0; ii < this.sessions.length; ii++) {
+			if(this.sessions[ii].session_id == session_id) {
+				return this.sessions[ii];
 			}
 		}
 		return false;

@@ -41,6 +41,10 @@ config.attachments = [
   'App.Example.Attachment.Navigation'
 ];
 
+config.auth = {
+  strict: true
+};
+
 config.app = {
   loop_speed: 500
 }

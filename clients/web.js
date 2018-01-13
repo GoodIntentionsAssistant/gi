@@ -15,7 +15,8 @@ let server_port = 7000;
 
 
 //
-var clients = {};
+var tokens = {};
+var sessions = {};
 
 
 
@@ -35,8 +36,18 @@ GiApp.on('identified', () => {
   console.log('GI: Identified');
 });
 
-GiApp.on('handshaked', () => {
-  console.log('Handshaked');
+GiApp.on('handshaked', (data) => {
+  let token = data.token;
+  let session_id = data.session_id
+  console.log('Handshaked token', token);
+  console.log('Session id', session_id);
+
+  //Move client to live sessions
+  sessions[session_id] = tokens[token];
+  sessions[session_id].emit('handshake', data);
+
+  //Remove old
+  delete tokens[token];
 });
 
 GiApp.on('error', (data) => {
@@ -44,25 +55,24 @@ GiApp.on('error', (data) => {
 });
 
 GiApp.on('message', (data) => {
-  var ident = data.user;
-  console.log('Received data for', ident);
-  clients[ident].emit('response', data);
+  console.log('Received data for', data.session_id);
+  sessions[data.session_id].emit('response', data);
 });
 
 GiApp.on('type_start', (data) => {
-  var ident = data.user;
-  clients[ident].emit('response', data);
+  sessions[data.session_id].emit('response', data);
 });
 
 GiApp.on('type_end', (data) => {
-  var ident = data.user;
-  clients[ident].emit('response', data);
+  sessions[data.session_id].emit('response', data);
 });
 
 
 
 
-//Start the socket
+/**
+ * Start listening for web connections
+ */
 this.object = require('http').createServer();
 let io = require('socket.io')(this.object);
 
@@ -75,17 +85,21 @@ catch(err) {
   console.log('error', err);
 }
 
-io.on('connection', (client) => {
-  console.log('New connection');
 
-  client.on('identify', (data) => {
-    console.log('Client has identified', data.ident);
-    console.log('Doing handshake')
-    GiApp.handshake(data.ident);
-    clients[data.ident] = client;
+/**
+ * New web connection
+ */
+io.on('connection', (client) => {
+  console.log('New user connection');
+
+  client.on('handshake', (data) => {
+    console.log('Handshake for token', data.token);
+    GiApp.handshake(data.token);
+    tokens[data.token] = client;
   });
 
+  //User sending data to GI
   client.on('request', (data) => {
-    GiApp.send(data.ident, 'message', data.text);
+    GiApp.send(data.session_id, 'message', data.text);
   });
 });

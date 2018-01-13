@@ -116,23 +116,9 @@ module.exports = class Request {
  * @return boolean
  */
 	incoming(input) {
-		//Validate incoming
-		if(!this.client) {
-			this.resolve();
-			return false;
-		}
-
 		//Set input
 		this.input = input;
-
-		//
-		this.log('');
-
-		//Auth
-		//Session will be an object and store the bots user details
-		//Some intents require to be identified
-		this.session = this.app.Auth.identify(this.input.user, this.client);
-		this.log('Session: '+this.session.data('ident'));
+		this.session = input.session;
 
 		//Process the request
 		var result = null;
@@ -141,10 +127,6 @@ module.exports = class Request {
 			this.setup_response('message');
 			result = this.process_message(this.input.text);
 		}
-		// else if(this.input.type == 'handshake') {
-		// 	this.setup_response('notice');
-		// 	result = this.process_handshake();
-		// }
 
 		if(!result) {
 			this.resolve();
@@ -182,6 +164,7 @@ module.exports = class Request {
 		this.action 			= 'response';				//Default intent action to call, can be overwritten
 
 		//Logs
+		this.log('');
 		this.log('Analyzing "'+text+'"');
 
 		//Utterance

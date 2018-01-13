@@ -24,7 +24,7 @@ module.exports = class GiClient extends EventEmitter {
     this.host   = host;
 
     this.socket = null;
-    this.session_token = null;
+    this.client_token = null;
 
     this.setup_socket();
   }
@@ -77,7 +77,7 @@ module.exports = class GiClient extends EventEmitter {
         this.emit('error', data);
       }
       else if(data.type == 'identify' && data.success) {
-        this.session_token = data.session_token;
+        this.client_token = data.session_token;
         this.emit('identified', data);
       }
       else if(data.type == 'handshake' && data.success) {
@@ -137,7 +137,7 @@ module.exports = class GiClient extends EventEmitter {
  * These details must match what is stored in the app/Config/config.js file.
  * If the client does not identify then no other messages can be sent to the server.
  * 
- * If the identification is successful the GI server will return a session_token. This session_token
+ * If the identification is successful the GI server will return a client_session. This client_session
  * is then used on all future calls. This identification token is only required once.
  * 
  * @access public
@@ -160,10 +160,10 @@ module.exports = class GiClient extends EventEmitter {
  * @access public
  * @return void
  */
-  handshake() {
+  handshake(user_token) {
     this.socket.emit('handshake',{
       client: this.name,
-      token: this.token
+      token: user_token
     });
   }
 
@@ -174,21 +174,25 @@ module.exports = class GiClient extends EventEmitter {
  * Raw text sent to GI server. The client and session token must match otherwise the 
  * server will reject the input. Identification is required before sending a message.
  * 
+ * @param string user_session
+ * @param string type
  * @param string text
  * @access public
  * @return void
  */
-  send(user, type, text) {
+  send(session_id, type, text) {
     let input = {
       client: this.name,
-      session_token: this.session_token,
+      client_session_id: this.client_token,
+      session_id: session_id,
       type: type,
-      user: user,
       fast: true
     };
+
     if(text) {
       input.text = text;
     }
+
     this.socket.emit('request',input);
   }
 
