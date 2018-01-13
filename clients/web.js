@@ -35,6 +35,10 @@ GiApp.on('identified', () => {
   console.log('GI: Identified');
 });
 
+GiApp.on('handshaked', () => {
+  console.log('Handshaked');
+});
+
 GiApp.on('error', (data) => {
   console.log('GI: Error, '+data.message);
 });
@@ -76,6 +80,8 @@ io.on('connection', (client) => {
 
   client.on('identify', (data) => {
     console.log('Client has identified', data.ident);
+    console.log('Doing handshake')
+    GiApp.handshake(data.ident);
     clients[data.ident] = client;
   });
 

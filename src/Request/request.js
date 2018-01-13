@@ -10,8 +10,10 @@ const Expects 		= require('./expects.js');
 const Router 			= require('./router.js');
 const Dispatcher	= require('./dispatcher.js');
 const History  		= require('./../Auth/history.js');
-const Response 		= require('./../Response/response.js');
 const Utterance		= require('./../Utterance/utterance.js');
+
+const MessageResponse = require('./../Response/message_response.js');
+const NoticeResponse = require('./../Response/notice_response.js');
 
 module.exports = class Request {
 
@@ -38,9 +40,6 @@ module.exports = class Request {
 			fast: false,
 			namespace: null
 		};
-
-		//Response
-		this.response = new Response(this);
 
 		//Expects
 		this.expects = new Expects(this);
@@ -126,9 +125,6 @@ module.exports = class Request {
 		//Set input
 		this.input = input;
 
-		//Setup the response after the input has been set
-		this.response.setup();
-
 		//
 		this.log('');
 
@@ -142,11 +138,13 @@ module.exports = class Request {
 		var result = null;
 
 		if(this.input.type == 'message') {
+			this.setup_response('message');
 			result = this.process_message(this.input.text);
 		}
-		else if(this.input.type == 'handshake') {
-			result = this.process_handshake();
-		}
+		// else if(this.input.type == 'handshake') {
+		// 	this.setup_response('notice');
+		// 	result = this.process_handshake();
+		// }
 
 		if(!result) {
 			this.resolve();
@@ -157,21 +155,17 @@ module.exports = class Request {
 
 
 /**
- * Process Handshake
+ * Setup response
  * 
- * @param string text
+ * @param string type
  * @access public
  * @return boolean
  */
-	process_handshake() {
-		let options = {
-			messages: ['You are now identified'],
-			status: {
-				code: 200
-			}
-		};
-		this.response.send('notice', options);
-	}
+  setup_response(type) {
+		this.response = new MessageResponse(this);
+		this.response.load();
+		return true;
+  }
 
 
 /**
@@ -286,41 +280,39 @@ module.exports = class Request {
 
 
 /**
- * Send
- * 
- * @param string text
- * @param object result
+ * Result of request
+ *
+ * @param hash result
  * @access public
  * @return boolean
  */
-	send(text, options) {
-		let _options = {
-			messages: '',
-			attachments:[],
-			status: {
-				code: 200,
-				error_msg: ''
-			}
-		};
-		options = extend(_options, options);
+	result(result) {
+		//Result is array 
+		//Listen for the sent event
+		this.response.on('sent', () => {
+			this.end();
+		});
 
-		if(text instanceof Array) {
-			//options.messages = [text.join("\n")];
-			options.messages = text;
+		if(!result) {
+			return;
 		}
-		else if(text instanceof Object) {
-			options = extend(_options, text);
-		}
-		else {
-			options.messages = [text];
-		}
+		
+		this.response.send(result, {
+			type: 'message'
+		});
+	}
 
-		//@todo For now if the intent returns true then just send this as a message
-		// else if(text instanceof String) {
-		// 	options.messages = [text];
-		// }
 
-		this.response.send('message', options);
+/**
+ * Send
+ * 
+ * @param string text
+ * @param object options
+ * @access public
+ * @return boolean
+ */
+	send(text, options = {}) {
+		this.response.send(text, options);
 	}
 
 
@@ -346,28 +338,6 @@ module.exports = class Request {
  */
 	attachment(type, data) {
 		return this.response.attachment(type, data);
-	}
-
-
-/**
- * Result of request
- *
- * @param hash result
- * @access public
- * @return boolean
- */
-	result(result) {
-		//Result is array 
-		//Listen for the sent event
-		this.response.on('sent', () => {
-			this.end();
-		});
-
-		if(!result) {
-			return;
-		}
-		
-		this.send(result);
 	}
 	
 

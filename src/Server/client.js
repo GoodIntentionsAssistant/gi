@@ -53,6 +53,10 @@ module.exports = class Client {
 			that.identify(input);
 		});
 
+		this.client.on('handshake', function(input) {
+			that.handshake(input);
+		});
+
 		this.client.on('disconnect', function(){
 			that.disconnect();
 		});
@@ -101,7 +105,37 @@ module.exports = class Client {
 			session_token: this.session_token
 		});
 
-		this.app.Event.emit('client.identified', this);
+		this.app.Event.emit('client.identified', {
+			client: this
+		});
+	}
+
+
+/**
+ * Handshake from user
+ *
+ * @param hash input
+ * @access public
+ * @return void
+ */
+	handshake(input) {
+		this.app.Log.add('Handshake from '+input.token+' ('+this.ident+')');
+
+		//Handshake from user via client
+		this.app.Event.emit('client.handshake', {
+			client: this,
+			token: input.token
+		});
+
+		//Identify this person
+		//This will create them a new session and trigger an onboarding
+		//event if this is a new session. e.g. Welcome to GI!
+		let session = this.app.Auth.identify(input.token, this);
+
+		this.emit('event','handshake', {
+			success: true,
+			message: 'Successfully handshaked'
+		});
 	}
 
 

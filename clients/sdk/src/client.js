@@ -73,9 +73,15 @@ module.exports = class GiClient extends EventEmitter {
       else if(data.type == 'identify' && !data.success) {
         this.emit('error', data);
       }
+      else if(data.type == 'handshake' && !data.success) {
+        this.emit('error', data);
+      }
       else if(data.type == 'identify' && data.success) {
         this.session_token = data.session_token;
         this.emit('identified', data);
+      }
+      else if(data.type == 'handshake' && data.success) {
+        this.emit('handshaked', data);
       }
     });
 
@@ -139,6 +145,23 @@ module.exports = class GiClient extends EventEmitter {
  */
   identify() {
     this.socket.emit('identify',{
+      client: this.name,
+      token: this.token
+    });
+  }
+
+
+/**
+ * Handshake
+ *
+ * Handshake from the user using the client back to the server.
+ * A handshake must happen before any data can be sent from this user.
+ * 
+ * @access public
+ * @return void
+ */
+  handshake() {
+    this.socket.emit('handshake',{
       client: this.name,
       token: this.token
     });
