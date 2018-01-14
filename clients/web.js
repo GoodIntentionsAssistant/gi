@@ -6,9 +6,9 @@
 const GiClient = require('./sdk/index.js');
 
 //Configuration
-let name  = 'test';                       // Must be a client name matched in app/Config/config.js
-let token = 'NrCgyKqvyB';                 // The client token found in your config.js file
-let host  = 'http://localhost:3000';      // Host name of the server, the GI server must be running to get a connection
+let name   = 'test';                       // Must be a client name matched in app/Config/config.js
+let secret = 'NrCgyKqvyB';                 // The client secret found in your config.js file
+let host   = 'http://localhost:3000';      // Host name of the server, the GI server must be running to get a connection
 
 //
 let server_port = 7000;
@@ -21,7 +21,7 @@ var sessions = {};
 
 
 //Start the SDK
-GiApp = new GiClient(name, token, host);
+GiApp = new GiClient(name, secret, host);
 GiApp.connect();
 
 GiApp.on('connect', () => {

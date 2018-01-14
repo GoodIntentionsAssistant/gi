@@ -28,9 +28,6 @@ module.exports = class Client {
 		//Vars
 		this.name = 'Unknown Client';
 		this.created = Date.now();
-
-		//Client session token
-		this.session_token = Randtoken.generate(16);
 	}
 
 
@@ -86,28 +83,42 @@ module.exports = class Client {
 	identify(input) {
 		this.name = input.client;
 
-		if(!this.validate_client_token(input.token)) {
+		if(!this.validate_client_secret(input.secret)) {
 			this.identified = false;
-			this.app.Log.error('Client '+this.name+' failed token auth');
+			this.app.Log.error('Client '+this.name+' failed secret');
 			this.emit('event', 'identify', {
 				success: false,
-				message: 'Client token is not correct'
+				message: 'Client secret is not correct'
 			});
 			return;
 		}
 
-		this.app.Log.add('Client identified '+this.name+' ('+this.ident+')');
+		//Create auth token
+		this.create_auth_token();
+
+		this.app.Log.add('Client identified '+this.name+' secret ('+this.ident+')');
 		this.identified = true;
 		
 		this.emit('event','identify', {
 			success: true,
 			message: 'Successfully identified',
-			session_token: this.session_token
+			auth_token: this.auth_token
 		});
 
 		this.app.Event.emit('client.identified', {
 			client: this
 		});
+	}
+
+
+/**
+ * Create auth token
+ *
+ * @access public
+ * @return void
+ */
+	create_auth_token() {
+		this.auth_token = Randtoken.generate(16);
 	}
 
 
@@ -205,11 +216,11 @@ module.exports = class Client {
 
 		//Identified
 		if(!this.identified) {
-			this.validation_errors.push('Client not identified');
+			this.validation_errors.push('Client not identified with secret');
 		}
 
-		//Client token is valid
-		if(!this.validate_client_session_id(input.client_session_id)) {
+		//Client auth is valid
+		if(!this.validate_auth_token(input.auth_token)) {
 			this.validation_errors.push('Client token is not valid');
 		}
 
@@ -234,16 +245,15 @@ module.exports = class Client {
 
 
 /**
- * Validate client token
+ * Validate client secret
  *
  * @param hash input
  * @access public
  * @return void
  */
-	validate_client_token(token) {
-		var expecting = Config.read('clients.'+this.name+'.token');
-
-		if(token != expecting) {
+	validate_client_secret(secret) {
+		var expecting = Config.read('clients.'+this.name+'.secret');
+		if(secret != expecting) {
 			return false;
 		}
 		return true;
@@ -257,8 +267,8 @@ module.exports = class Client {
  * @access public
  * @return void
  */
-	validate_client_session_id(token) {
-		if(token != this.session_token) {
+	validate_auth_token(token) {
+		if(token != this.auth_token) {
 			return false;
 		}
 		return true;

@@ -11,20 +11,20 @@ module.exports = class GiClient extends EventEmitter {
  * Constructor 
  * 
  * @param string name Client name found in your config.js file
- * @param string token Token found in your config.js file with the client name
+ * @param string secret Secret found in your config.js file with the client name
  * @param string host Host name for connecting to the GI server, may require http:// and defining the port number
  * @access publuc
  * @return void
  */
-  constructor(name, token, host) {
+  constructor(name, secret, host) {
     super();
 
     this.name   = name;
-    this.token  = token;
+    this.secret = secret;
     this.host   = host;
 
     this.socket = null;
-    this.client_token = null;
+    this.auth_token = null;
 
     this.setup_socket();
   }
@@ -77,7 +77,7 @@ module.exports = class GiClient extends EventEmitter {
         this.emit('error', data);
       }
       else if(data.type == 'identify' && data.success) {
-        this.client_token = data.session_token;
+        this.auth_token = data.auth_token;
         this.emit('identified', data);
       }
       else if(data.type == 'handshake' && data.success) {
@@ -138,7 +138,7 @@ module.exports = class GiClient extends EventEmitter {
  * If the client does not identify then no other messages can be sent to the server.
  * 
  * If the identification is successful the GI server will return a client_session. This client_session
- * is then used on all future calls. This identification token is only required once.
+ * is then used on all future calls. This identification secret is only required once.
  * 
  * @access public
  * @return void
@@ -146,7 +146,7 @@ module.exports = class GiClient extends EventEmitter {
   identify() {
     this.socket.emit('identify',{
       client: this.name,
-      token: this.token
+      secret: this.secret
     });
   }
 
@@ -183,7 +183,7 @@ module.exports = class GiClient extends EventEmitter {
   send(session_id, type, text) {
     let input = {
       client: this.name,
-      client_session_id: this.client_token,
+      auth_token: this.auth_token,
       session_id: session_id,
       type: type,
       fast: true

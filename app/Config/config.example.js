@@ -55,7 +55,7 @@ config.admin = {
 
 config.clients = {
   'test': {
-    'token': 'NrCgyKqvyB'
+    'secret': 'NrCgyKqvyB'
   }
 };
 
