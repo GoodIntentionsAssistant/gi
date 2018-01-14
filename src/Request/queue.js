@@ -11,6 +11,7 @@ module.exports = class Queue {
  * Initialize
  *
  * @param object app
+ * @access public
  * @return void
  */
 	constructor(app) {
@@ -23,6 +24,13 @@ module.exports = class Queue {
 
 		this.max_consecutive = Config.read('queue.max_consecutive');
 		this.queue_timeout   = Config.read('queue.timeout');
+
+		//Check queue on app loop
+    app.on('app.loop', (data) => {
+    	if(this.active) {
+      	this.check();
+      }
+    });
 	}
 
 
@@ -117,6 +125,7 @@ module.exports = class Queue {
  */
 	request(request) {
 		var req = new Request(this.app, request.client, request.ident);
+
 		req.incoming(request.input);
 
 		//

@@ -27,7 +27,7 @@ module.exports = class Dispatcher {
     this.request.log('Calling ' + this.request.intent.identifier+'::' + this.request.action);
 
     //Emit event
-    this.app.Event.emit('dipatch',{
+    this.app.Event.emit('request.dispatch',{
       ident: this.request.ident,
       identifier: this.request.intent.identifier,
       action: this.request.action,

@@ -25,6 +25,8 @@ const Understand = require('./../Train/understand.js');
 const Queue = require('./../Request/queue.js');
 const Server = require('./../Server/server.js');
 
+const Scheduler = require('./../Scheduler/scheduler.js');
+
 const Data = require('./../Data/data.js');
 
 const SkillRegistry = require('./../Skill/skill_registry.js');
@@ -63,6 +65,8 @@ module.exports = class App extends EventEmitter {
 		this.Auth = new Auth(this);
 		this.Queue = new Queue(this);
 		this.Server = new Server(this);
+
+		this.Scheduler = new Scheduler(this);
 
 		this.Data = new Data(this);
 
@@ -214,7 +218,18 @@ module.exports = class App extends EventEmitter {
  * @return boolean
  */
 	request(client, input) {
-		this.Queue.add(client,input);
+		//Default type will be message
+		if(!input.type) {
+			input.type = 'message';
+		}
+
+		//Intent has been defined, no text will be passed
+		//The user wants to go directly to an intent
+		if(input.intent) {
+			input.type = 'intent';
+		}
+
+		this.Queue.add(client, input);
 	}
 
 }

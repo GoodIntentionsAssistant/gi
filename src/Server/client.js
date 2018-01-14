@@ -66,10 +66,10 @@ module.exports = class Client {
  * @access public
  * @return void
  */
-	emit(namespace, type, data) {
+	emit(namespace, data) {
 		data.ident = this.ident;
-		data.type = type;
-		this.client.emit(namespace,data);
+
+		this.client.emit(namespace, data);
 	}
 
 
@@ -86,7 +86,8 @@ module.exports = class Client {
 		if(!this.validate_client_secret(input.secret)) {
 			this.identified = false;
 			this.app.Log.error('Client '+this.name+' failed secret');
-			this.emit('event', 'identify', {
+			this.emit('event', {
+				type: 'identify',
 				success: false,
 				message: 'Client secret is not correct'
 			});
@@ -99,7 +100,8 @@ module.exports = class Client {
 		this.app.Log.add('Client identified '+this.name+' secret ('+this.ident+')');
 		this.identified = true;
 		
-		this.emit('event','identify', {
+		this.emit('event', {
+			type: 'identify',
 			success: true,
 			message: 'Successfully identified',
 			auth_token: this.auth_token
@@ -145,7 +147,8 @@ module.exports = class Client {
 		});
 
 		//Send data back to client for the user
-		this.emit('event','handshake', {
+		this.emit('event', {
+			type: 'handshake',
 			success: true,
 			message: 'Successfully handshaked',
 			session_id: session.session_id,
@@ -169,7 +172,8 @@ module.exports = class Client {
 			for(var ii = 0; ii < this.validation_errors.length; ii++) {
 				this.app.Log.error('Request validation error: '+this.validation_errors[ii]);
 			}
-			this.emit('event', 'request', {
+			this.emit('event', {
+				type: 'request',
 				success: false,
 				message: this.validation_errors.join(', ')
 			});
@@ -180,7 +184,8 @@ module.exports = class Client {
 		input.session = this.user_session(input);
 		if(!input.session) {
 			this.app.Log.error('User session does not exist');
-			this.emit('event', 'request', {
+			this.emit('event', {
+				type: 'request',
 				success: false,
 				message: ['User session does not exist']
 			});

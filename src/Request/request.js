@@ -120,12 +120,28 @@ module.exports = class Request {
 		this.input = input;
 		this.session = input.session;
 
+		//Reset
+		this.intent 			= null;							//Intent to call if text matches
+		this.collection 	= null;							//Training collection intent match found in
+		this.action 			= 'response';				//Default intent action to call, can be overwritten
+
 		//Process the request
+		//@todo Flip request and dispatch the other way around so dispatch calls a request type
 		var result = null;
 
 		if(this.input.type == 'message') {
 			this.setup_response('message');
 			result = this.process_message(this.input.text);
+		}
+		else if(this.input.type == 'intent') {
+			//@todo Remove this, it's horrible!
+			let intent = this.app.IntentRegistry.get(this.input.intent);
+
+			this.intent 		= intent;
+			this.confidence = 1;
+
+			this.setup_response('message');
+			result = this.dispatcher.dispatch();
 		}
 
 		if(!result) {
@@ -158,11 +174,6 @@ module.exports = class Request {
  * @return boolean
  */
   process_message(text) {
-		//Reset
-		this.intent 			= null;							//Intent to call if text matches
-		this.collection 	= null;							//Training collection intent match found in
-		this.action 			= 'response';				//Default intent action to call, can be overwritten
-
 		//Logs
 		this.log('');
 		this.log('Analyzing "'+text+'"');
@@ -176,7 +187,7 @@ module.exports = class Request {
 		this.history.add(this.utterance);
 
 		//Event
-		this.app.Event.emit('incoming',{
+		this.app.Event.emit('request.incoming',{
 			ident: this.ident,
 			input: this.input
 		});

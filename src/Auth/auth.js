@@ -63,7 +63,7 @@ module.exports = class Auth {
 
 			//Event
 			this.app.Event.emit('auth.new', {
-				session: this,
+				session: session,
 				client: client
 			});
 		}

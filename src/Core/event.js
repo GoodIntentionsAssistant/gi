@@ -10,8 +10,8 @@ module.exports = class Event {
  * @access public
  * @return void
  */
-  constructor(App) {
-    this.App = App;
+  constructor(app) {
+    this.app = app;
   }
 
 
@@ -23,8 +23,9 @@ module.exports = class Event {
  * @access public
  * @return void
  */
-  emit(event_name, args) {
-    return this.App.emit(event_name, args);
+  emit(event_name, args = {}) {
+    args.app = this.app;
+    return this.app.emit(event_name, args);
   }
 
 }

@@ -16,7 +16,8 @@ module.exports = class ExampleSkill extends Skill {
 		super(app);
 		this.intents = [];
 
-    app.on('intent', (data) => {
+    //Dispatch example
+    app.on('request.dispatch', (data) => {
       if(data.identifier === 'App.Example.Intent.Boing') {
         console.log('Boing redirect was called!');
       }
