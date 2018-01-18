@@ -113,10 +113,12 @@ module.exports = class Train {
 /**
  * Find
  *
- * @param string str To search for
+ * @param object utterance
+ * @param string collection
+ * @access public
  * @return object
  */
-	find(str, collection) {
+	find(utterance, collection) {
 		//Default collection if not set
 		if(!collection) {
 			collection = 'default';
@@ -131,27 +133,8 @@ module.exports = class Train {
 			return false;
 		}
 
-		//Scrub the incoming string
-		str = Scrubber.lower(str);
-		str = Scrubber.contractions(str);
-		str = Scrubber.grammar(str);
-
 		//Result
-		return this.collections[collection].find(str);
-	}
-
-
-/**
- * Status
- *
- * @access public
- * @return hash
- */
-	status() {
-		var data = {
-			'collections_count': Object.keys(this.collections).length
-		};
-		return data;
+		return this.collections[collection].find(utterance);
 	}
 
 }

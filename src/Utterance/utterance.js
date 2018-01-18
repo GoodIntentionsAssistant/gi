@@ -1,6 +1,8 @@
 /**
  * Utterance
  */
+const Scrubber = require('../Utility/scrubber');
+
 module.exports = class Utterance {
 
 /**
@@ -13,9 +15,29 @@ module.exports = class Utterance {
   constructor(text) {
     this.data = {
       text: text,
+      scrubbed: null,
       tags: [],
       sentiments: {}
     };
+
+    this.scrub();
+  }
+
+
+/**
+ * Scrub
+ *
+ * @access public
+ * @return void
+ */
+  scrub() {
+    let text = this.text();
+
+    text = Scrubber.lower(text);
+    text = Scrubber.contractions(text);
+    text = Scrubber.grammar(text);
+
+    this.data.scrubbed = text;
   }
 
 
@@ -27,6 +49,17 @@ module.exports = class Utterance {
  */
   text() {
     return this.data.text;
+  }
+
+
+/**
+ * Scrubbed text
+ *
+ * @access public
+ * @return hash
+ */
+  scrubbed() {
+    return this.data.scrubbed;
   }
 
 

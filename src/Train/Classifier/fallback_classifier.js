@@ -33,12 +33,13 @@ module.exports = class ClassifyClassifier {
 /**
  * Find
  *
- * @param string str
+ * @param object utterance
  * @access public
  * @return mixed
  */
-	find(str) {
-		var result = this.Classify.rank(str);
+	find(utterance) {
+		let str = utterance.scrubbed();
+		let result = this.Classify.rank(str);
 
 		if(result.groups.length == 0) {
 			return false;

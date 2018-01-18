@@ -31,11 +31,12 @@ module.exports = class StrictClassifier {
 /**
  * Find
  *
- * @param string str
+ * @param object utterance
  * @access public
  * @return mixed
  */
-	find(str) {
+	find(utterance) {
+		let str = utterance.scrubbed();
 
 		for(var ii=0; ii<this.data.length; ii++) {
 			//Vars

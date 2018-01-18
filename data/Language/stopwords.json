@@ -1,0 +1,40 @@
+{
+  "entries": {
+    "a": {
+      "match": "all"
+    },
+    "an": {
+      "match": "all"
+    },
+    "in": {
+      "match": "all"
+    },
+    "the": {
+      "match": "all"
+    },
+    "is": {
+      "match": "all"
+    },
+    "it": {
+      "match": "all"
+    },
+    "of": {
+      "match": "all"
+    },
+    "to": {
+      "match": "all"
+    },
+    "are": {
+      "match": "all"
+    },
+    "you": {
+      "match": "all"
+    },
+    "how": {
+      "match": "start"
+    },
+    "what": {
+      "match": "start"
+    }
+  }
+}

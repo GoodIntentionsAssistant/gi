@@ -19,13 +19,14 @@ module.exports = class Router {
 /**
  * Route
  * 
+ * @param object utterance
  * @access public
  * @return hash
  */
-  route(text) {
-    let result = this.app.Understand.process(text);
+  route(utterance) {
+    let result = this.app.Understand.process(utterance);
 
-    //Couldn't understand the text
+    //Couldn't understand the utterance
     if(result.success === false) {
       return this.error('NotFound');
     }
@@ -47,6 +48,7 @@ module.exports = class Router {
 /**
  * Check auth
  *
+ * @param object intent
  * @access private
  * @return bool
  */

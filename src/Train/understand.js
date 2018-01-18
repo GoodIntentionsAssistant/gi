@@ -20,11 +20,10 @@ module.exports = class Understand {
 /**
  * Load collections
  *
- * @param string text
  * @access public
- * @return mixed False or hash of the result
+ * @return void
  */
-  collections(text) {
+  collections() {
     this._collections = [
       'strict',
       'default',
@@ -34,24 +33,24 @@ module.exports = class Understand {
 
 
 /**
- * Process the text on all collections
+ * Process the utterance on all collections
  *
  * Check each training collection in order then call trainer to
  * find the intent.
  *
- * @param string text
+ * @param object utterance
  * @param array collections
  * @access public
  * @return mixed False or hash of the result
  */
-  process(text, collections = []) {
+  process(utterance, collections = []) {
     let result = {
       success: false,
       matches: []
     };
 
     //Match
-    let matches = this.match(text, collections)
+    let matches = this.match(utterance, collections)
 
     if(matches) {
       result.success  = true;
@@ -63,17 +62,17 @@ module.exports = class Understand {
 
 
 /**
- * Match the text on all collections
+ * Match the utterance on all collections
  *
  * Check each training collection in order then call trainer to
  * find the intent.
  *
- * @param string text
+ * @param object utterance
  * @param array collections
  * @access public
  * @return mixed False or hash of the result
  */
-  match(text, collections = []) {
+  match(utterance, collections = []) {
     let result = null;
 
     //Collections list
@@ -93,8 +92,8 @@ module.exports = class Understand {
         continue;
       }
 
-      //Process the text on the collection
-      result = this._match(text, collection_name);
+      //Process the utterance on the collection
+      result = this._match(utterance, collection_name);
       if(result) {
         break;
       }
@@ -110,17 +109,15 @@ module.exports = class Understand {
 
 
 /**
- * Match text on individual collection
+ * Match utterance on individual collection
  *
- * @param string text
+ * @param object utterance
  * @param string collection
  * @access public
  * @return mixed False or hash of the result
  */
-  _match(text, collection) {
-    let match = this.App.Train.find(text, collection);
-
-    //console.log('Checking '+text+' on '+collection);
+  _match(utterance, collection) {
+    let match = this.App.Train.find(utterance, collection);
 
     if(match) {
       let intent = this.App.IntentRegistry.get(match.result);

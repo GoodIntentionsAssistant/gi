@@ -34,12 +34,13 @@ module.exports = class ClassifyClassifier {
 /**
  * Find
  *
- * @param string str
+ * @param object utterance
  * @access public
  * @return mixed
  */
-	find(str) {
+	find(utterance) {
 		//Clean words
+		let str = utterance.scrubbed();
 		str = Scrubber.stop_words(str);
 
 		let result = this.Classify.rank(str, true);

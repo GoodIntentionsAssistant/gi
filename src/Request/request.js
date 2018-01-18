@@ -184,7 +184,7 @@ module.exports = class Request {
 		this.log('Analyzing "'+text+'"');
 
 		//Utterance
-		//Stores the text, tagging and sentiments
+		//Stores the text, scrubbed text, tagging and sentiments
 		this.utterance = new Utterance(text);
 
 		//Setup history
@@ -207,7 +207,7 @@ module.exports = class Request {
 
 		//Understand input if expects didn't set it
 		if(!this.intent) {
-			let result = this.router.route(this.utterance.text());
+			let result = this.router.route(this.utterance);
 
 			if(result) {
 				this.intent 		= result.intent;
