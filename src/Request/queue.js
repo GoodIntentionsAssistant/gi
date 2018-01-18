@@ -63,16 +63,30 @@ module.exports = class Queue {
  * @param object client
  * @param hash input
  * @access public
- * @return void
+ * @return bool
  */
 	add(input) {
 		//Create a unique ident for this queue
 		let ident = Randtoken.generate(16);
 
+		//Check if skipping the queue
+		if(input.skip_queue) {
+			this.app.Log.add('Request skipping queue', ident);
+			this.request({
+				ident: ident,
+				input: input
+			});
+			return true;
+		}
+
+		//Add to queue
+		//The app loop listener will process this in ::check
 		this.queue.push({
 			ident: ident,
 			input: input
 		});
+
+		return true;
 	}
 
 

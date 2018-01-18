@@ -20,6 +20,7 @@ module.exports = class WakeupIntent extends Intent {
         intent: 'App.Example.Intent.WakeUp',
         action: 'wakeup',
         schedule_data: data.schedule,
+        skip_queue: true,
         fast: true
       });
     });
