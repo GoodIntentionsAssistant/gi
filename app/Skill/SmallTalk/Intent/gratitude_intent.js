@@ -11,7 +11,8 @@ module.exports = class GratitudeIntent extends Intent {
 			'thanks',
 			'thank',
 			'gratitude',
-			'good luck'
+			'good luck',
+			'cool'
 		]);
 	}
 

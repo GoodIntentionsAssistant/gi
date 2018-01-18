@@ -20,7 +20,9 @@ module.exports = class IntentRegistry extends ObjectRegistry {
  */
 	constructor(app) {
 		super(app);
+
 		this.type = 'Intent';
+		this.app = app;
 	}
 
 
@@ -32,7 +34,7 @@ module.exports = class IntentRegistry extends ObjectRegistry {
  */
   after_load(intent) {
 		//Setup intent
-		intent.setup();
+		intent.setup(this.app);
 
 		//Load the intent
 		intent.load();

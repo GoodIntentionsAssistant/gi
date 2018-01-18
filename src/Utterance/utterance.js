@@ -11,9 +11,22 @@ module.exports = class Utterance {
  * @return void
  */
   constructor(text) {
-    this.text = text;
-    this.tags = [];
-    this.sentiments = {};
+    this.data = {
+      text: text,
+      tags: [],
+      sentiments: {}
+    };
+  }
+
+
+/**
+ * Text
+ *
+ * @access public
+ * @return hash
+ */
+  text() {
+    return this.data.text;
   }
 
 
@@ -27,11 +40,7 @@ module.exports = class Utterance {
  * @return hash
  */
   get() {
-    return {
-      text: this.text,
-      tags: this.tags,
-      sentiments: this.sentiments
-    }
+    return this.data;
   }
 
 

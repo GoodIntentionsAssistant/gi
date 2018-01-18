@@ -8,7 +8,7 @@ module.exports = class SurveyIntent extends Intent {
 
 	setup() {
 		this.train([
-			'take survey'
+			'survey'
 		]);
 	}
 

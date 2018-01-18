@@ -7,55 +7,70 @@ module.exports = class DocumentationEntity extends Entity {
 
   setup() {
     this.data = {
+      'docs': {
+        'label': 'Documentation',
+        'url': '/docs',
+        'synonyms': ['documentation']
+      },
+      'skills': {
+        'label': 'Skills',
+        'url': '/docs/overview/skills',
+        'synonyms': ['skill']
+      },
       'training': {
-        'label': 'Intent training',
-        'url': '/docs/intents/training',
+        'label': 'Training',
+        'url': '/docs/overview/training',
         'synonyms': ['train']
       },
       'parameters': {
-        'label': 'Intent parameters',
-        'url': '/docs/intents/parameters',
+        'label': 'Parameters',
+        'url': '/docs/overview/parameters',
         'synonyms': ['params']
       },
       'result': {
-        'label': 'Intent returning result',
-        'url': '/docs/intents/result',
+        'label': 'Returning result',
+        'url': '/docs/overview/result',
         'synonyms': []
-      },
-      'attachment': {
-        'label': 'Intent attachments',
-        'url': '/docs/intents/attachments',
-        'synonyms': ['attach']
-      },
-      'expects': {
-        'label': 'Intent expects',
-        'url': '/docs/intents/expects',
-        'synonyms': ['expecting']
-      },
-      'redirect': {
-        'label': 'Intent redirecting',
-        'url': '/docs/intents/redirect',
-        'synonyms': ['redirecting']
-      },
-      'fallback': {
-        'label': 'Intent fallbacks',
-        'url': '/docs/intents/fallback',
-        'synonyms': ['fallbacks']
-      },
-      'callback': {
-        'label': 'Intent callbacks',
-        'url': '/docs/intents/callback',
-        'synonyms': ['callbacks']
-      },
-      'intents': {
-        'label': 'Intents',
-        'url': '/docs/intents',
-        'synonyms': ['intent']
       },
       'entities': {
         'label': 'Entities',
-        'url': '/docs/entities',
+        'url': '/docs/overview/entities',
         'synonyms': ['entity']
+      },
+      'attachment': {
+        'label': 'Attachments',
+        'url': '/docs/overview/attachments',
+        'synonyms': ['attach']
+      },
+      'expects': {
+        'label': 'Expects',
+        'url': '/docs/overview/expects',
+        'synonyms': ['expecting']
+      },
+      'redirect': {
+        'label': 'Redirecting',
+        'url': '/docs/overview/redirect',
+        'synonyms': ['redirecting']
+      },
+      'fallback': {
+        'label': 'Fallbacks',
+        'url': '/docs/overview/fallback',
+        'synonyms': ['fallbacks']
+      },
+      'callback': {
+        'label': 'Callbacks',
+        'url': '/docs/overview/callback',
+        'synonyms': ['callbacks']
+      },
+      'events': {
+        'label': 'Events',
+        'url': '/docs/overview/intents',
+        'synonyms': ['intent']
+      },
+      'events': {
+        'label': 'Events',
+        'url': '/docs/overview/events',
+        'synonyms': ['event']
       },
       'home': {
         'label': 'Good intentions home page',

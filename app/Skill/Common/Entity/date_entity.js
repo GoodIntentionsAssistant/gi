@@ -14,13 +14,11 @@ module.exports = class DateEntity extends Entity {
   }
 
 	parse(string) {
-		var original = null;
-		var value = null;
-
-		console.log(string);
+		let original = null;
+		let value = null;
 
 		let chrono = require('chrono-node');
-		let parsed_date = chrono.parse(string);
+		let parsed_date = chrono.parse(string, new Date());
 
 		if(parsed_date.length > 0) {
 			original = parsed_date[0].text;

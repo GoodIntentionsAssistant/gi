@@ -31,14 +31,17 @@ config.skills = [
   'App.Fallback',
   'App.Error',
   'App.Common',
-  'App.Logging'
+  'App.Reminder',
+  'App.Logging',
+  'App.Welcome'
 ];
 
 config.attachments = [
   'Sys.Attachment.Image',
   'Sys.Attachment.Action',
   'Sys.Attachment.Field',
-  'App.Example.Attachment.Navigation'
+  'App.Example.Attachment.Navigation',
+  'App.Example.Attachment.Display'
 ];
 
 config.auth = {

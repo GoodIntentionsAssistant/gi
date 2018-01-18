@@ -15,17 +15,28 @@ module.exports = class Queue {
  * @return void
  */
 	constructor(app) {
-		this.requests = [];
-		this.timer = null;
-		this.queue = [];
-		this.active = false;
-
 		this.app = app;
 
-		this.max_consecutive = Config.read('queue.max_consecutive');
-		this.queue_timeout   = Config.read('queue.timeout');
+		//Queued requests waiting for dispatching
+		this.queue = [];
 
-		//Check queue on app loop
+		//Active requests
+		//If max_consecutive is one there will only be one request at a time
+		this.requests = [];
+
+		//Queue needs to be started before it can start processing requests
+		this.active = false;
+
+		//Total number of requests that can be handled simultaneously
+		//It's suggested to keep this number low
+		this.max_consecutive = Config.read('queue.max_consecutive');
+
+		//Request time out
+		//If a request takes too much time to process the request will time out
+		//This will free up the number of requests based on max_consecutive
+		this.queue_timeout = Config.read('queue.timeout');
+
+		//Listen to the main app loop
     app.on('app.loop', (data) => {
     	if(this.active) {
       	this.check();
@@ -54,11 +65,12 @@ module.exports = class Queue {
  * @access public
  * @return void
  */
-	add(client, input) {
-		var ident = Randtoken.generate(16);
+	add(input) {
+		//Create a unique ident for this queue
+		let ident = Randtoken.generate(16);
+
 		this.queue.push({
 			ident: ident,
-			client: client,
 			input: input
 		});
 	}
@@ -124,11 +136,20 @@ module.exports = class Queue {
  * @return object
  */
 	request(request) {
-		var req = new Request(this.app, request.client, request.ident);
+		//Client id is passed in the request
+		//Use this to find the correct client to send the response back to
+		let client = this.app.Server.find_client(request.input.client_id);
 
+		//Build a new request object
+		//Each request object is unique and will be destroyed after its completed
+		//or if it's timed out.
+		let req = new Request(this.app, client, request.ident);
+
+		//Process the request
 		req.incoming(request.input);
 
-		//
+		//Push the request to local array
+		//This will be checked on the loop to make sure it's not timed out
 		this.requests[request.ident] = {
 			started: Date.now(),
 			request: req,
@@ -159,23 +180,6 @@ module.exports = class Queue {
 		this.app.Log.add('Request finished', ident);
 		delete this.requests[ident];
 		return true;
-	}
-
-
-/**
- * Status
- *
- * @access public
- * @return hash
- */
-	status() {
-		var data = {
-			'queue_length': this.queue.length,
-			'speed': this.speed,
-			'max': this.max_consecutive,
-			'active_requests': Object.keys(this.requests).length
-		};
-		return data;
 	}
 
 }

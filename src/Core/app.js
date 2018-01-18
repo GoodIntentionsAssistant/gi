@@ -213,11 +213,19 @@ module.exports = class App extends EventEmitter {
  *
  * Take input and process it
  *
- * @param object client
  * @param string input
  * @return boolean
  */
-	request(client, input) {
+	request(input) {
+		//Validate
+		if(!input.session) {
+			App.Error.fatal('Input had no session specified');
+		}
+
+		if(!input.client_id) {
+			App.Error.fatal('Input had no client_id specified');
+		}
+
 		//Default type will be message
 		if(!input.type) {
 			input.type = 'message';
@@ -229,7 +237,7 @@ module.exports = class App extends EventEmitter {
 			input.type = 'intent';
 		}
 
-		this.Queue.add(client, input);
+		this.Queue.add(input);
 	}
 
 }

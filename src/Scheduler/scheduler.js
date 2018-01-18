@@ -68,13 +68,21 @@ module.exports = class Scheduler {
  * Add
  *
  * @param string type
- * @param int session_id users session id
  * @param hash data
  * @access public
  * @return bool
  */
-  add(type, session_id, data) {
+  add(type, data) {
     let schedule_id = Randtoken.generate(16);
+
+    //If request has been passed in data we'll use that for the session and client id
+    //This makes putting in a scheduled job in intents quicker
+    //The request object must be removed from data because it'll add overhead to the job
+    if(data.request) {
+      data.client_id = data.request.client.client_id;
+      data.session_id = data.request.session.session_id;
+      delete data.request;
+    }
 
     //Convert momentjs to javascript date
     let when = data.when.toDate();

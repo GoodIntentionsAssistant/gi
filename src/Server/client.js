@@ -20,6 +20,8 @@ module.exports = class Client {
 		this.client = client;
 
 		this.ident = null;
+		this.client_id = null;
+
 		this.created = null;
 		this.name = null;
 		this.identified = false;
@@ -192,7 +194,10 @@ module.exports = class Client {
 			return false;
 		}
 
-		this.app.request(this.client, input);
+		//Client identifier
+		input.client_id = this.ident;
+
+		this.app.request(input);
 	}
 
 
@@ -204,7 +209,7 @@ module.exports = class Client {
  * @return object
  */
   user_session(input) {
-  	return this.app.Auth.identify(input.session_id, this);
+  	return this.app.Auth.identify(input.session_id);
   }
 
 

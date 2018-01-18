@@ -72,6 +72,23 @@ module.exports = class Server extends EventEmitter {
 
 
 /**
+ * Find client
+ *
+ * @param client_id
+ * @access public
+ * @return object
+ */
+	find_client(client_id) {
+		for(let ii=0; ii<this.clients.length; ii++) {
+			if(this.clients[ii].client_id == client_id) {
+				return this.clients[ii].client;
+			}
+		}
+		return false;
+	}
+
+
+/**
  * Add client
  *
  * @param object client
@@ -79,13 +96,17 @@ module.exports = class Server extends EventEmitter {
  * @return void
  */
 	add_client(client) {
-		let ident = Randtoken.generate(16);
-		client.ident = ident;
+		let client_id = Randtoken.generate(16);
+
+		client.ident = client_id;
+		client.client_id = client_id;
+
 		this.clients.push({
-			ident: ident,
+			client_id: client_id,
 			client: client
 		});
-		return ident;
+
+		return client_id;
 	}
 
 
@@ -96,9 +117,9 @@ module.exports = class Server extends EventEmitter {
  * @access public
  * @return void
  */
-	remove_client(ident) {
+	remove_client(client_id) {
 		for(var ii=0; ii<this.clients.length; ii++) {
-			if(this.clients[ii].ident == ident) {
+			if(this.clients[ii].client_id == client_id) {
 				this.app.Log.add('Client removed');
 				this.clients.splice(ii, 1);
 				return true;

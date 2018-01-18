@@ -17,7 +17,8 @@ module.exports = class WelcomeSkill extends Skill {
 
     //Onboarding
     app.on('auth.new', (data) => {
-      app.request(data.client, {
+      app.request({
+        client_id: data.client.ident,
         session: data.session,
         intent: 'App.Welcome.Intent.Welcome'
       });

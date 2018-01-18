@@ -125,6 +125,11 @@ module.exports = class Request {
 		this.collection 	= null;							//Training collection intent match found in
 		this.action 			= 'response';				//Default intent action to call, can be overwritten
 
+		//Action
+		if(input.action) {
+			this.action = input.action;
+		}
+
 		//Process the request
 		//@todo Flip request and dispatch the other way around so dispatch calls a request type
 		var result = null;
@@ -202,7 +207,7 @@ module.exports = class Request {
 
 		//Understand input if expects didn't set it
 		if(!this.intent) {
-			let result = this.router.route(this.utterance.text);
+			let result = this.router.route(this.utterance.text());
 
 			if(result) {
 				this.intent 		= result.intent;

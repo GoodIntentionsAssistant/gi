@@ -76,10 +76,9 @@ module.exports = class Auth {
  * Identify the user by their session_id
  *
  * @param string session_id
- * @param client client object
  * @return object Session
  */
-	identify(session_id, client) {
+	identify(session_id) {
 		let session_data = this.find_session(session_id);
 
 		//User cannot be identified
