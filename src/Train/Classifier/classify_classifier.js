@@ -39,9 +39,8 @@ module.exports = class ClassifyClassifier {
  * @return mixed
  */
 	find(utterance) {
-		//Clean words
-		let str = utterance.scrubbed();
-		str = Scrubber.stop_words(str);
+		//Get the scrubbed text, excluding stop words
+		let str = utterance.scrubbed('stopwords');
 
 		let result = this.Classify.rank(str, true);
 

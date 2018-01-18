@@ -15,7 +15,7 @@ module.exports = class Utterance {
   constructor(text) {
     this.data = {
       text: text,
-      scrubbed: null,
+      scrubbed: {},
       tags: [],
       sentiments: {}
     };
@@ -27,17 +27,33 @@ module.exports = class Utterance {
 /**
  * Scrub
  *
+ * Different versions of the inputted string for the classifiers to use.
+ * Centralised in this Utterance so the strings don't need to be scrubbed multiple times
+ *
  * @access public
- * @return void
+ * @return bool
  */
   scrub() {
     let text = this.text();
 
-    text = Scrubber.lower(text);
-    text = Scrubber.contractions(text);
-    text = Scrubber.grammar(text);
+    //Normal scrubbing
+    //Make the text lower, contractions and grammar standardising
+    let normal = text;
+    normal = Scrubber.lower(normal);
+    normal = Scrubber.contractions(normal);
+    normal = Scrubber.grammar(normal);
 
-    this.data.scrubbed = text;
+    //Remove stop words
+    //Use normal and additionally remove all stop words, like and, it, is, a...
+    let stopwords = normal;
+    stopwords = Scrubber.stop_words(stopwords);
+
+    this.data.scrubbed = {
+      'normal': normal,
+      'stopwords': stopwords
+    };
+
+    return true;
   }
 
 
@@ -45,7 +61,7 @@ module.exports = class Utterance {
  * Text
  *
  * @access public
- * @return hash
+ * @return string
  */
   text() {
     return this.data.text;
@@ -55,11 +71,12 @@ module.exports = class Utterance {
 /**
  * Scrubbed text
  *
+ * @param type string
  * @access public
- * @return hash
+ * @return string
  */
-  scrubbed() {
-    return this.data.scrubbed;
+  scrubbed(type = 'normal') {
+    return this.data.scrubbed[type];
   }
 
 
