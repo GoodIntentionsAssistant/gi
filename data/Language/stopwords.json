@@ -30,6 +30,12 @@
     "you": {
       "match": "all"
     },
+    "me": {
+      "match": "all"
+    },
+    "by": {
+      "match": "all"
+    },
     "how": {
       "match": "start"
     },

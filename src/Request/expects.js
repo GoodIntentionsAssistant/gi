@@ -88,7 +88,7 @@ module.exports = class Expects {
 		//Using Understand and the cancel classifier to check if
 		//the user is trying to cancel the current expects.
 		//Cancel Entity and Intent are within the common skill.
-		let cancel = this.app.Understand.process(this.text, ['cancel']);
+		let cancel = this.app.Understand.process(this.request.utterance, ['cancel']);
 		if(cancel.success) {
 			this.reset();
 			this.request.intent 		= cancel.matches[0].intent;
