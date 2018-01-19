@@ -1,6 +1,8 @@
 /**
  * Scrubber
  */
+const fs = require('fs');
+
 
 /**
  * Brackets
@@ -55,34 +57,37 @@ exports.sentence_case = function(str) {
  * Stop words
  * 
  * Similar to mysql stop words. In most cases these are useless words which should be removed
+ * stopwords.json is used to define what should be removed.
  * 
+ * @todo Move the file loading into data.js when it's changed to a singleton
  * @param string str
+ * @access public
  * @return string
  */
 exports.stop_words = function(str) {
-	var stopwords = [
-		' a ',
-		' an ',
-		' in ',
-		' the ',
-		' is ',
-		' it ',
-		' of ',
-		' to ',
-		'^to ',
-		' to$',
-		' are ',
-		' you ',
-		' you$',
-		' me ',
-		' me$',
-		'^how ',
-		'^what '
-	];
-	for(var ii=0; ii<stopwords.length; ii++) {
-		var regex = new RegExp(stopwords[ii], "gi");
+	let contents = fs.readFileSync('./data/Language/stopwords.json').toString();
+	let stopwords = JSON.parse(contents);
+
+	//@todo Optimise this by using pipes in the regular expression
+	for(let word in stopwords.entries) {
+		let regex = null;
+
+		if(stopwords.entries[word].match == 'start') {
+			regex = new RegExp('^'+word, 'gi');
+		}
+		else if(stopwords.entries[word].match == 'end') {
+			regex = new RegExp(word+'$', 'gi');
+		}
+		else {
+			//Default do all
+			regex = new RegExp('\\b('+word+')\\b', 'gi');
+		}
+
 		str = str.replace(regex,' ');
 	}
+
+	str = str.trim();
+
 	return str;
 }
 
