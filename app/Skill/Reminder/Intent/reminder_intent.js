@@ -46,11 +46,9 @@ module.exports = class ReminderIntent extends Intent {
 
     //Listen for the reminder trigger
     this.app.on('scheduler.trigger.reminder', (data) => {
-      let session = this.app.Auth.identify(data.schedule.session_id);
-
       this.app.request({
         client_id: data.schedule.client_id,
-        session: session,
+        session_id: data.schedule.session_id,
         intent: 'App.Reminder.Intent.Reminder',
         action: 'send',
         schedule_data: data.schedule,

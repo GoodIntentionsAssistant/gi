@@ -12,11 +12,9 @@ module.exports = class WakeupIntent extends Intent {
     });
 
     this.app.on('scheduler.trigger.wakeup', (data) => {
-      let session = this.app.Auth.identify(data.schedule.session_id);
-
       this.app.request({
         client_id: data.schedule.client_id,
-        session: session,
+        session_id: data.schedule.session_id,
         intent: 'App.Example.Intent.WakeUp',
         action: 'wakeup',
         schedule_data: data.schedule,

@@ -25,11 +25,10 @@ module.exports = class Request {
  * @access public
  * @return void
  */
-	constructor(app, client, ident) {
+	constructor(app, ident) {
 		//
 		this.app = app;
 		this.ident = ident;
-		this.client = client;
 
 		//Vars
 		this.session = null;
@@ -117,8 +116,11 @@ module.exports = class Request {
  */
 	incoming(input) {
 		//Set input
-		this.input = input;
-		this.session = input.session;
+		this.input 		= input;
+
+		//Setup auth
+		//Client, session and user
+		this.auth();
 
 		//Reset
 		this.intent 			= null;							//Intent to call if text matches
@@ -155,6 +157,29 @@ module.exports = class Request {
 
 		return false;
 	}
+
+
+/**
+ * Set auth details
+ * 
+ * @param string type
+ * @access public
+ * @return boolean
+ */
+  auth() {
+		//Client id is passed in the request
+		//Use this to find the correct client to send the response back to
+		this.client = this.app.Server.find_client(this.input.client_id);
+
+		//Identify
+		let auth = this.app.Auth.identify(this.input.session_id)
+
+		//Session
+		this.session = auth.session;
+
+		//User from the session data
+		this.user = auth.user;
+  }
 
 
 /**

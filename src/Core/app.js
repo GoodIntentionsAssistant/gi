@@ -211,19 +211,22 @@ module.exports = class App extends EventEmitter {
 /**
  * Request
  *
- * Take input and process it
+ * Take input and add it to the queue.
+ * All requests go through this method.
  *
+ * @todo Change errors so they aren't fatal
  * @param string input
+ * @access public
  * @return boolean
  */
 	request(input) {
 		//Validate
-		if(!input.session) {
-			App.Error.fatal('Input had no session specified');
+		if(!input.session_id) {
+			this.Error.fatal('Input had no session_id specified');
 		}
 
 		if(!input.client_id) {
-			App.Error.fatal('Input had no client_id specified');
+			this.Error.fatal('Input had no client_id specified');
 		}
 
 		//Default type will be message

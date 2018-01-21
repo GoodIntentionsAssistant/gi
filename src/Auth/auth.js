@@ -1,8 +1,13 @@
 /**
  * Auth
+ *
+ * A user has many sessions
  */
 const Config = require('../Core/config.js');
+
+const User = require('./user.js');
 const Session = require('./session.js');
+
 const _ = require('underscore');
 const Randtoken = require('rand-token');
 
@@ -18,15 +23,27 @@ module.exports = class Auth {
 	constructor(app) {
 		this.app = app;
 
-		//Template record when adding new accounts
-		this._templateRecord = {
-			"ident": null,
-			"authorized": {},
-			"tokens": {},
+		//Session template
+		this._session = {
+			"session_id": null,
+			"user_id": null,
+			"tokens": {}
+		};
+
+		//User template
+		this._user = {
+			"user_id": null,
 			"history": [],
+			"sessions": [],
 			"context": null
 		};
 
+		//Users
+		//Users can have many sessions
+		this.users = [];
+
+		//Sessions
+		//Sessions belongs to a user
 		this.sessions = [];
 
 		//Strict mode
@@ -76,7 +93,7 @@ module.exports = class Auth {
  * Identify the user by their session_id
  *
  * @param string session_id
- * @return object Session
+ * @return hash user and session objects
  */
 	identify(session_id) {
 		let session_data = this.find_session(session_id);
@@ -93,11 +110,21 @@ module.exports = class Auth {
 			session_data = this.create(session_id);
 		}
 
-		//Set data for session
+		//Session object
 		let session = new Session(this);
 		session.load(session_id, session_data);
+
+		//User data
+		let user_data = this.find_user(session_data.user_id);
+
+		//User object
+		let user = new User(this);
+		user.load(user_data.user_id, user_data);
 		
-		return session;
+		return {
+			user: user,
+			session: session
+		};
 	}
 
 
@@ -117,9 +144,17 @@ module.exports = class Auth {
 			session_id = Randtoken.generate(16);
 		}
 
-		let session = JSON.parse(JSON.stringify(this._templateRecord));
+		let session = JSON.parse(JSON.stringify(this._session));
 		session.session_id = session_id;
 
+		//Create user
+		let user = JSON.parse(JSON.stringify(this._user));
+		user.user_id = Randtoken.generate(16);
+		user.sessions.push(session_id);
+		this.users.push(user);
+
+		//Save session with user
+		session.user_id = user.user_id;
 		this.sessions.push(session);
 
 		return session;
@@ -144,7 +179,7 @@ module.exports = class Auth {
 
 
 /**
- * Find user by session_id
+ * Find session by session id
  *
  * @param string session_id
  * @access public
@@ -154,6 +189,23 @@ module.exports = class Auth {
 		for(var ii=0; ii < this.sessions.length; ii++) {
 			if(this.sessions[ii].session_id == session_id) {
 				return this.sessions[ii];
+			}
+		}
+		return false;
+	}
+
+
+/**
+ * Find user by user id
+ *
+ * @param string user_id
+ * @access public
+ * @return mixed hash or boolean
+ */
+	find_user(user_id) {
+		for(var ii=0; ii < this.users.length; ii++) {
+			if(this.users[ii].user_id == user_id) {
+				return this.users[ii];
 			}
 		}
 		return false;

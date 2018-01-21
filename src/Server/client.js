@@ -183,8 +183,9 @@ module.exports = class Client {
 		}
 
 		//Users auth session
-		input.session = this.user_session(input);
-		if(!input.session) {
+		let _auth = this.user_auth(input);
+
+		if(!_auth) {
 			this.app.Log.error('User session does not exist');
 			this.emit('event', {
 				type: 'request',
@@ -193,6 +194,9 @@ module.exports = class Client {
 			});
 			return false;
 		}
+
+		//Session id to input
+		input.session_id = _auth.session.session_id
 
 		//Client identifier
 		input.client_id = this.ident;
@@ -208,7 +212,7 @@ module.exports = class Client {
  * @access public
  * @return object
  */
-  user_session(input) {
+  user_auth(input) {
   	return this.app.Auth.identify(input.session_id);
   }
 

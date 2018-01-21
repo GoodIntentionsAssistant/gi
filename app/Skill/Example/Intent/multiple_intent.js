@@ -17,8 +17,8 @@ module.exports = class MultipleIntent extends Intent {
     response.send('Let\'s ping!');
 
     response.app.request({
-      client: response.client.client_id,
-      session: response.session,
+      client_id: response.client.client_id,
+      session_id: response.session.session_id,
       intent: 'App.Example.Intent.Ping',
       fast: true
     });

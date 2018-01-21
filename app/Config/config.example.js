@@ -52,8 +52,8 @@ config.app = {
   loop_speed: 500
 }
 
-config.admin = {
-  password: ''
+config.database = {
+  'driver': 'jfs'
 };
 
 config.clients = {

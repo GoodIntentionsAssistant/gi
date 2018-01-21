@@ -164,7 +164,7 @@ module.exports = class Expects {
 			//Expecting was forced but nothing was parsed
 
 			//@todo Work out what the idea of this was, it doesn't always work
-			let _last = this.request.session.data('last_expecting');
+			let _last = this.request.session.get('last_expecting');
 			if(_last) {
 				this.expecting = _last;
 			}
@@ -218,7 +218,7 @@ module.exports = class Expects {
  * @return void
  */
 	_save_answer(key, value) {
-		this.request.session.user(key, value);
+		this.request.user.set(key, value);
 	}
 
 

@@ -60,7 +60,6 @@ module.exports = class Queue {
 /**
  * Add to queue
  *
- * @param object client
  * @param hash input
  * @access public
  * @return bool
@@ -145,19 +144,15 @@ module.exports = class Queue {
 /**
  * Request
  *
- * @param object client`
- * @param string input
+ * @param hash request
+ * @access public
  * @return object
  */
 	request(request) {
-		//Client id is passed in the request
-		//Use this to find the correct client to send the response back to
-		let client = this.app.Server.find_client(request.input.client_id);
-
 		//Build a new request object
 		//Each request object is unique and will be destroyed after its completed
 		//or if it's timed out.
-		let req = new Request(this.app, client, request.ident);
+		let req = new Request(this.app, request.ident);
 
 		//Process the request
 		req.incoming(request.input);
