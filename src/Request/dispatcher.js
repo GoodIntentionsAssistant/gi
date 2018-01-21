@@ -1,6 +1,11 @@
 /**
  * Dispatcher
  */
+const RequestMessage = require('./Type/request_message.js');
+const RequestIntent = require('./Type/request_intent.js');
+const Response = require('./../Response/response.js');
+
+
 module.exports = class Dispatcher {
 
 /**
@@ -10,50 +15,77 @@ module.exports = class Dispatcher {
  * @access public
  * @return void
  */
-  constructor(request) {
-    this.request = request;
-    this.app = request.app;
+  constructor(queue) {
+    this.queue = queue;
+    this.app = queue.app;
   }
 
 
 /**
  * Dispatch
  * 
+ * @param hash data
  * @access public
- * @return bool
+ * @return object Request object
  */
-  dispatch() {
-    //
-    this.request.log('Calling ' + this.request.intent.identifier+'::' + this.request.action);
+  dispatch(data) {
+    let request = null;
 
-    //Emit event
-    this.app.Event.emit('request.dispatch',{
-      ident: this.request.ident,
-      identifier: this.request.intent.identifier,
-      action: this.request.action,
-      input: this.request.input
-    });
+    //Check auth
+    let auth = this.auth(data);
 
-    let promise = this.request.intent.fire(this.request);
-    promise.then((result) => {
-      this.request.result(result);
-    });
+    if(data.input.type == 'message') {
+      request = new RequestMessage(this.app, data.ident);
+    }
+    else if(data.input.type == 'intent') {
+      request = new RequestIntent(this.app, data.ident);
+    }
 
-    return true;
+    //Set request auth
+    request.client = auth.client;
+    request.session = auth.session;
+    request.user = auth.user;
+
+    //Set input
+    request.set_input(data.input);
+
+    //Response
+    request.response = new Response(request);
+    request.response.load();
+
+    //Load request
+    let result = request.process();
+
+    if(!result) {
+      request.resolve();
+    }
+
+    return request;
   }
 
 
 /**
- * Redirect
- *
+ * Set auth details
+ * 
+ * @param string type
  * @access public
- * @return void
+ * @return boolean
  */
-  redirect(identifier) {
-    this.request.intent = this.app.IntentRegistry.get(identifier);
-    this.request.action = 'response';
-    return this.dispatch();
+  auth(data) {
+    //Client id is passed in the request
+    //Use this to find the correct client to send the response back to
+    let client = this.app.Server.find_client(data.input.client_id);
+
+    //Identify
+    let auth = this.app.Auth.identify(data.input.session_id)
+
+    return {
+      client: client,
+      session: auth.session,
+      user: auth.user
+    }
   }
+
 
 
 }

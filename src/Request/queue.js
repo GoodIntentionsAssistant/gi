@@ -1,7 +1,7 @@
 /**
  * Queue
  */
-const Request = require('./request.js');
+const Dispatcher = require('./dispatcher.js');
 const Randtoken = require('rand-token');
 const Config = require('../Core/config.js');
 
@@ -16,6 +16,9 @@ module.exports = class Queue {
  */
 	constructor(app) {
 		this.app = app;
+
+		//Dispatcher
+		this.dispatcher = new Dispatcher(this);
 
 		//Queued requests waiting for dispatching
 		this.queue = [];
@@ -144,33 +147,28 @@ module.exports = class Queue {
 /**
  * Request
  *
- * @param hash request
+ * @param hash data
  * @access public
  * @return object
  */
-	request(request) {
-		//Build a new request object
-		//Each request object is unique and will be destroyed after its completed
-		//or if it's timed out.
-		let req = new Request(this.app, request.ident);
-
-		//Process the request
-		req.incoming(request.input);
+	request(data) {
+		//Dispatch the queue request
+		let request = this.dispatcher.dispatch(data);
 
 		//Push the request to local array
 		//This will be checked on the loop to make sure it's not timed out
-		this.requests[request.ident] = {
+		this.requests[data.ident] = {
 			started: Date.now(),
-			request: req,
+			request: request,
 			active: true
 		};
 
 		//Check when the result has finished
-		req.promise.then((result) => {
-			this.destroy_request(request.ident);
+		request.promise.then((result) => {
+			this.destroy_request(data.ident);
 		});
 
-		return req;
+		return request;
 	}
 
 

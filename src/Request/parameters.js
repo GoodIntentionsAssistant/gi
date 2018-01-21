@@ -276,7 +276,7 @@ module.exports = class Parameters {
 			//No result:
 			//Load from session user data
 			if(!result.value && data[field].slotfill) {
-				result.value = this.request.session.user(field);
+				result.value = this.request.user.get(field);
 			}
 
 			//Default value used if no value found
@@ -307,7 +307,7 @@ module.exports = class Parameters {
 
 				//Save to session user data
 				if(this.request) {
-					this.request.session.user(field, result.value);
+					this.request.user.set(field, result.value);
 				}
 
 				//Pass all entity data
