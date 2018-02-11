@@ -295,12 +295,14 @@ module.exports = class Parameters {
 
 			//If successful then 
 			if(result && result.value) {
+				output[field].valid = true;
+
 				output[field].value = result.value;
 				output[field].string = result.original;
-				output[field].valid = true;
 				output[field].matched  = result.matched;
 
 				//Change the intent action
+				//@todo This needs to be documented, I can't remember where it's used
 				if(data[field].action) {
 					this._action(data[field], result);
 				}
@@ -310,8 +312,16 @@ module.exports = class Parameters {
 					this.request.user.set(field, result.value);
 				}
 
-				//Pass all entity data
-				output[field].data = entity.data[result.value];
+				//Pass all matched entity meta data
+				if(result.data) {
+					//If the parse method returned data then use that
+					output[field].data = result.data;
+				}
+				else {
+					//Otherwise fetch it from the entity data
+					//@todo Add some error checking here
+					output[field].data = entity.data[result.value];
+				}
 
 				//Labels are used when the Entity.data key is something useless like an id
 				//so a label can be used to show a friendly name. For example the key for employee

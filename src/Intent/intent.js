@@ -10,6 +10,7 @@ module.exports = class Intent {
  * Constructor
  *
  * @param object app
+ * @access public
  * @return void
  */
 	constructor(app) {
@@ -20,6 +21,8 @@ module.exports = class Intent {
 		
 		this._keywords 	= [];
 		this._entities 	= [];
+		this._musts     = [];
+
 		this._tests 		= [];
 		
 		this.parameters = {};
@@ -97,9 +100,13 @@ module.exports = class Intent {
 
 /**
  * Add Entity
+ *
+ * Entities are added to a list and when ready each entity is loaded in
+ * and then trained using the add_keyword method
  * 
  * @param string name
  * @param hash options
+ * @access public
  * @return bool
  */
 	add_entity(name, options = {}) {
@@ -109,9 +116,24 @@ module.exports = class Intent {
 
 
 /**
- * Add Parameter
+ * Must haves
  * 
  * @param hash data
+ * @access public
+ * @return bool
+ */
+	must(data) {
+		this._musts.push(data);
+		return true;
+	}
+
+
+/**
+ * Add Parameter
+ * 
+ * @param string name
+ * @param hash data
+ * @access public
  * @return bool
  */
 	parameter(name, data) {
@@ -127,7 +149,7 @@ module.exports = class Intent {
  * @return bool
  */
 	has_parameters() {
-		return Object.keys(this.parameters).length;;
+		return Object.keys(this.parameters).length;
 	}
 
 
@@ -183,19 +205,19 @@ module.exports = class Intent {
 /**
  * Train from entities
  *
- * @param array keywords
- * @param array options
+ * @access public
+ * @return void
  */
 	_train_from_entities() {
 
-		for(var key in this._entities) {
+		for(let key in this._entities) {
 			//Fetch the loaded entity grab the keywords
-			var entity = this.app.EntityRegistry.get(key);
-			var keywords = entity.get_data();
-			var options = this._entities[key];
+			let entity = this.app.EntityRegistry.get(key);
+			let keywords = entity.get_data();
+			let options = this._entities[key];
 
 			//Loop the keywords and add to the intent
-			for(var key in keywords) {
+			for(let key in keywords) {
 				//Might not want to index the key for the entity
 				if(!entity.ignore_index_key) {
 					this.add_keyword(key, options);
@@ -203,7 +225,7 @@ module.exports = class Intent {
 
 				//Add synonyms
 				if(keywords[key].synonyms) {
-					for(var ii=0; ii < keywords[key].synonyms.length; ii++) {
+					for(let ii=0; ii < keywords[key].synonyms.length; ii++) {
 						this.add_keyword(keywords[key].synonyms[ii], options);
 					}
 				}
@@ -215,8 +237,8 @@ module.exports = class Intent {
 /**
  * Add Keyword
  *
- * @param array keywords
- * @param array options
+ * @param string keywords
+ * @param hash options
  * @access public
  * @return bool
  */
@@ -260,15 +282,16 @@ module.exports = class Intent {
 
 
 /**
- * Return intents
+ * Return keywords for intent
  *
- * After the intents are loaded they are added to an array
- * which can then be passed back so training can start 
+ * @todo Is the loop required? Could that not be moved to add_keyword?
+ * @access public
+ * @return array
  */
 	keywords() {
-		var output = [];
+		let output = [];
 
-		for(var ii=0; ii< this._keywords.length; ii++) {
+		for(let ii=0; ii< this._keywords.length; ii++) {
 			output.push(extend(
 				{ identifier: this.identifier },
 				this._keywords[ii]
@@ -317,7 +340,9 @@ module.exports = class Intent {
 /**
  * Before request
  * 
- * @return mixed
+ * @param object request
+ * @access public
+ * @return void
  */
 	before_request(request) {
 	}
@@ -326,7 +351,9 @@ module.exports = class Intent {
 /**
  * After request
  * 
- * @return mixed
+ * @param object request
+ * @access public
+ * @return void
  */
 	after_request(request) {
 	}
@@ -335,7 +362,9 @@ module.exports = class Intent {
 /**
  * Before load callback
  * 
- * @return mixed
+ * @param object request
+ * @access public
+ * @return void
  */
 	before_load() {
 	}
@@ -344,7 +373,9 @@ module.exports = class Intent {
 /**
  * After load callback
  * 
- * @return mixed
+ * @param object request
+ * @access public
+ * @return void
  */
 	after_load() {
 	}

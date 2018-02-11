@@ -3,6 +3,8 @@
  */
 const Scrubber = require('../Utility/scrubber');
 
+const pos = require('pos');
+
 module.exports = class Utterance {
 
 /**
@@ -21,6 +23,7 @@ module.exports = class Utterance {
     };
 
     this.scrub();
+    this.tags();
   }
 
 
@@ -54,6 +57,21 @@ module.exports = class Utterance {
     };
 
     return true;
+  }
+
+
+/**
+ * Tags
+ *
+ * @access public
+ * @return bool
+ */
+  tags() {
+    let words = new pos.Lexer().lex(this.scrubbed());
+    let tagger = new pos.Tagger();
+    let taggedWords = tagger.tag(words);
+
+    //@todo Add this in
   }
 
 

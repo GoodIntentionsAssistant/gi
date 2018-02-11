@@ -1,14 +1,14 @@
 /**
  * Time Skill
  */
-var Skill = require('../../../src/Skill/skill');
+const Skill = require('../../../src/Skill/skill');
 
 module.exports = class TimeSkill extends Skill {
 
 /**
  * Constructor
  *
- * @param App app
+ * @param app app
  * @access public
  * @return void
  */

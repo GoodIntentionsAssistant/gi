@@ -8,7 +8,9 @@ module.exports = class DateNumberIntent extends Intent {
 
 	setup() {
 		this.train([
-			'date on'
+			'date',
+			'day',
+			'@App.Common.Entity.Date'
     ]);
 
     this.parameter('date', {
@@ -30,7 +32,7 @@ module.exports = class DateNumberIntent extends Intent {
 			tense = 'was';
 		}
 
-		let output = 'The date '+ref+' '+tense+' '+moment(date).format('Do MMMM');
+		let output = 'The date '+ref+' '+tense+' '+moment(date).format('dddd Do MMMM');
 
 
 		return output;
