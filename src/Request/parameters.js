@@ -217,6 +217,18 @@ module.exports = class Parameters {
 		var remaining = string;
 
 		for(var field in data) {
+			//Default data
+			let _default = {
+				keep: false,
+				slotfill: false
+			};
+			data[field] = extend(_default, data[field]);
+
+			//If using slotfill then turn keep on so the user session data is stored
+			if(data[field].slotfill) {
+				data[field].keep = true;
+			}
+
 			//Entities to array
 			var entities = data[field]['entity'];
 			if(typeof entities == 'string') {
@@ -310,8 +322,8 @@ module.exports = class Parameters {
 					this._action(data[field], result);
 				}
 
-				//Save to session user data
-				if(this.request) {
+				//Keep / save result value to session user data
+				if(data[field].keep && this.request) {
 					this.request.user.set(field, result.value);
 				}
 
