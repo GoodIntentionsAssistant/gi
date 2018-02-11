@@ -30,6 +30,9 @@
     "you": {
       "match": "all"
     },
+    "your": {
+      "match": "all"
+    },
     "me": {
       "match": "all"
     },

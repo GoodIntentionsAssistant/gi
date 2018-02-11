@@ -273,10 +273,13 @@ module.exports = class Parameters {
 				data: {}
 			}
 
-			//No result:
-			//Load from session user data
+			//No result found in incoming text
+			//Check for slotfilling if slotfilling is enabled on the parameter
 			if(!result.value && data[field].slotfill) {
-				result.value = this.request.user.get(field);
+				let _value = this._slotfill(field, data[field].slotfill);
+				if(_value) {
+					result.value = _value;
+				}
 			}
 
 			//Default value used if no value found
@@ -354,6 +357,43 @@ module.exports = class Parameters {
 		}
 
 		return true;
+	}
+
+
+/**
+ * Slotfill
+ *
+ * Fetch value from user session for the parameter if slotfill is enabled.
+ *
+ * First the field is checked
+ * If options is an array (and not bool) each array key will be checked.
+ *
+ * @param field
+ * @param mixed options
+ * @access private
+ * @return mixed False for no match or string for the matched session result
+ */
+	_slotfill(field, options) {
+		let _keys = [];
+
+		//Add field to keys
+		_keys.push(field);
+
+		//If options is array
+		if(options instanceof Array) {
+			for(let ii=0; ii<options.length; ii++) {
+				_keys.push(options[ii]);
+			}
+		}
+
+		//Check each key
+		for(let kk=0; kk<_keys.length; kk++) {
+			if(this.request.user.has(_keys[kk])) {
+				return this.request.user.get(_keys[kk]);
+			}
+		}
+
+		return false
 	}
 
 

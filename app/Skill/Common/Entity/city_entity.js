@@ -33,12 +33,13 @@ module.exports = class CityEntity extends Entity {
 				}
 
 				this.data[key] = {
-					label:    json.entries[key].name,
-					synonyms: synonyms,
-					zone_key: key,
-					zones: 		json.entries[key].zones,
-					lat:  		json.entries[key].lat,
-					long:  		json.entries[key].long
+					label:    		name,
+					label_full:   json.entries[key].name,
+					synonyms: 		synonyms,
+					zone_key: 		key,
+					zones: 				json.entries[key].zones,
+					lat:  				json.entries[key].lat,
+					long:  				json.entries[key].long
 				};
 			}
 
@@ -49,12 +50,13 @@ module.exports = class CityEntity extends Entity {
 
 
 	parse(string) {
-		var result = this.find(string, {
+		let result = this.find(string, {
 			use_key: false
 		});
 
+		//Set data
 		if(result.value) {
-			result.value = this.data[result.value];
+			result.data = this.data[result.value];
 		}
 
 		return result;

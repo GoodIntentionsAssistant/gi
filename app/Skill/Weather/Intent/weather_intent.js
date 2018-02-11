@@ -23,18 +23,17 @@ module.exports = class WeatherIntent extends Intent {
 
 
 	response(request) {
-		console.log(request.parameters.value('city'));
 		return 'For the weather please specify the city';
 	}
 
 	specified(request) {
-		var city = request.parameters.value('city');
+		let city = request.parameters.get('city.data');
 
-		var label = city.label;
-		var lat 	= city.lat;
-		var long 	= city.long;
+		let label = city.label;
+		let lat 	= city.lat;
+		let long 	= city.long;
 
-		var forecast = new Forecast({
+		let forecast = new Forecast({
 		  service: 'darksky',
 		  key: '136a4563badc66b047e42eb74472f285',
 		  units: 'celcius',
@@ -49,12 +48,12 @@ module.exports = class WeatherIntent extends Intent {
 				  	resolve('Sorry, I cannot get the weather at the moment');
 				  }
 				  else {
-				  	var temp = Math.round(weather.currently.temperature);
-				  	var summary = weather.currently.summary;
-				  	var location = label;
+				  	let temp = Math.round(weather.currently.temperature);
+				  	let summary = weather.currently.summary;
+				  	let location = label;
 				  	location = location.replace('/',', ');
 
-				  	var output = [];
+				  	let output = [];
 				  	output.push('Currently '+temp+'c, '+summary+' in '+location);
 				  	output.push(weather.daily.summary+' (provided by darksky.net)');
 				  	resolve(output);

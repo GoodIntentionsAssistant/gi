@@ -15,22 +15,20 @@ module.exports = class TimezoneIntent extends Intent {
 		]);
 
 		this.parameter('location',{
-			name: "Location",
-			entity: ["App.Common.Entity.Country","App.Common.Entity.City"],
+			name: 'Location',
+			entity: ['App.Common.Entity.Country','App.Common.Entity.City'],
 			required: false,
 			action: 'specified',
-			slotfill: true
+			slotfill: ['city','country']
 		});
 	}
-
 
 	response(request) {
 		return 'For a timezone please specify the country or city';
 	}
 
-
 	specified(request) {
-		let location = request.parameters.value('location');
+		let location = request.parameters.get('location.data');
 
 		//Vars
 		let label = location.label;
