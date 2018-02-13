@@ -22,6 +22,7 @@ module.exports = class FlowerMenuIntent extends Intent {
 
   after_request(request) {
     if(this.stop) {
+      this.stop = false;
       return false;
     }
 

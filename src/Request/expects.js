@@ -73,9 +73,10 @@ module.exports = class Expects {
 /**
  * Load
  *
+ * @todo Clean this code up, return bool
  * @param object request
  * @access public
- * @return void
+ * @return bool
  */
 	load(request) {
 		//Get the expecting settings for this request
@@ -94,7 +95,7 @@ module.exports = class Expects {
 			this.request.intent 		= cancel.matches[0].intent;
 			this.request.collection = cancel.matches[0].collection;
 			this.request.confidence = cancel.matches[0].confidence;
-			return;
+			return true;
 		}
 
 		//Check if we need to update the intent and action
@@ -163,16 +164,19 @@ module.exports = class Expects {
 		else if(this.expecting.force) {
 			//Expecting was forced but nothing was parsed
 
-			//@todo Work out what the idea of this was, it doesn't always work
+			//Fetch the last expecting that triggered this expecting
 			let _last = this.request.session.get('last_expecting');
 			if(_last) {
 				this.expecting = _last;
 			}
 
+			//Make sure the answer is not saved
 			if(this.expecting) {
 				this.expecting.save_answer = false;
 			}
 
+			//When expects fails check if the action should be changed
+			//This is useful to show the user an error message
 			if(this.expecting.fail) {
 				this.expecting.action = this.expecting.fail;
 			}
