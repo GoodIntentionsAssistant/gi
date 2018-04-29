@@ -181,6 +181,15 @@ Classifier.prototype.rank = function(input, remove_unranked = false)
   groupLikelihood.sort(function(a,b){return b.probability - a.probability});
 
 
+  //Remove anything without a match
+  //Added for GI
+  if(remove_unranked) {
+    groupLikelihood = _.reject(groupLikelihood, function(data){
+      return data.matched === 0 ? true : false;
+    });
+  }
+  
+
   //Check the certainty of the match
   var certainty = 1;
 
@@ -191,14 +200,6 @@ Classifier.prototype.rank = function(input, remove_unranked = false)
     });
     certainty = (certainty / groupLikelihood.length) - groupLikelihood[0].probability;
     certainty *= -1;
-  }
-
-  //Remove anything without a match
-  //Added for GI
-  if(remove_unranked) {
-    groupLikelihood = _.reject(groupLikelihood, function(data){
-      return data.matched === 0 ? true : false;
-    });
   }
 
 	return {

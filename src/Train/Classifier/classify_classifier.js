@@ -44,7 +44,7 @@ module.exports = class ClassifyClassifier {
 
 		let result = this.Classify.rank(str, true);
 
-		//console.log(result);
+		console.log(result);
 
 		if(result.groups.length == 0) {
 			return false;

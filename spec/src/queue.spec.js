@@ -1,19 +1,11 @@
 describe('Queue', function(){
-  var Queue = require('../../src/queue');
+  var Queue = require('../../src/Request/queue');
   var Config = require('../../src/config');
   var queue;
 
   var fakeApp = new Object();
   fakeApp.log = function() {};
   fakeApp.error = function() {};
-
-  fakeApp.Config = new Config({
-    queue: {
-      speed: 500,
-      max_consecutive: 1,
-      timeout: 5000
-    }
-  });
 
   var fakeClient = new Object();
 
