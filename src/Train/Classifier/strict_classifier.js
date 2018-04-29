@@ -46,18 +46,18 @@ module.exports = class StrictClassifier {
 			//Check if regex
 			if(keyword instanceof RegExp) {
 				if(str.match(keyword)) {
-					return {
+					return [{
 						confidence: 0.9,
 						result: intent
-					};
+					}];
 				}
 			}
 			else if(this.data[ii][0] == str) {
 				//String to string
-				return {
+				return [{
 					confidence: 1,
 					result: intent
-				};
+				}];
 			}
 
 		}

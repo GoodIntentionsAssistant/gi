@@ -14,7 +14,7 @@ module.exports = class ExampleSkill extends Skill {
  */
 	constructor(app) {
 		super(app);
-		this.intents = [];
+		this.intents = ['Utility'];
 
     //Dispatch example
     app.on('request.call', (data) => {

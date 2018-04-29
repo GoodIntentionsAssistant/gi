@@ -44,8 +44,6 @@ module.exports = class ClassifyClassifier {
 
 		let result = this.Classify.rank(str, true);
 
-		console.log(result);
-
 		if(result.groups.length == 0) {
 			return false;
 		}
@@ -54,10 +52,10 @@ module.exports = class ClassifyClassifier {
 			return false;
 		}
 
-		return {
+		return [{
 			confidence: result.certainty,
 			result: result.groups[0].group
-		};
+		}];
 	}
 
 }

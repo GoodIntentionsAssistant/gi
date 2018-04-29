@@ -19,9 +19,9 @@ module.exports = class Intent {
 		this.input = null;
 		this.session = null;
 		
-		this._keywords 	= [];
-		this._entities 	= [];
-		this._musts     = [];
+		this._keywords 	= [];			//Trained keywords
+		this._rejects   = [];			//Matches to reject
+		this._explicits = [];			//Matches that are a must or reject
 
 		this._tests 		= [];
 		
@@ -84,6 +84,67 @@ module.exports = class Intent {
 
 
 /**
+ * Must haves
+ * 
+ * @param mixed data
+ * @param hash options
+ * @return bool
+ */
+	must(data, options = {}) {
+  	return this.add_explicit('must', data, options);
+	}
+
+
+/**
+ * Reject
+ *
+ * @param mixed data
+ * @param hash options
+ * @return bool
+ */
+  reject(data, options = {}) {
+  	return this.add_explicit('reject', data, options);
+  }
+
+
+/**
+ * Explicit
+ *
+ * Either the intent MUST have or REJECT
+ * This will be loaded in with intent_registry
+ *
+ * @param string type Reject or Must
+ * @param mixed data
+ * @param hash options
+ * @return bool
+ */
+  add_explicit(type, data, options = {}) {
+  	if(typeof data == 'object') {
+  		//Passed as an array
+			for(var ii=0; ii < data.length; ii++) {
+	  		this._explicits.push({
+	  			type: type,
+	  			identifier: this.identifier,
+					keyword: data[ii],
+					options: options
+	  		});
+			}
+  	}
+  	else {
+  		//Passed as a single string, e.g. .reject('add')
+  		this._explicits.push({
+	  		type: type,
+	  		identifier: this.identifier,
+				keyword: data,
+				options: options
+  		});
+  	}
+
+		return true;
+  }
+
+
+/**
  * Add Tests
  * 
  * @param hash data
@@ -111,19 +172,6 @@ module.exports = class Intent {
  */
 	add_entity(name, options = {}) {
 		this._entities[name] = options;
-		return true;
-	}
-
-
-/**
- * Must haves
- * 
- * @param hash data
- * @access public
- * @return bool
- */
-	must(data) {
-		this._musts.push(data);
 		return true;
 	}
 
@@ -299,6 +347,19 @@ module.exports = class Intent {
 		}
 
 		return output;
+	}
+
+
+/**
+ * Explicits
+ *
+ * Loaded in from intent registry
+ *
+ * @access public
+ * @return array
+ */
+	explicits() {
+		return this._explicits;
 	}
 
 

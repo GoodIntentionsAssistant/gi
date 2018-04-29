@@ -117,19 +117,50 @@ module.exports = class Understand {
  * @return mixed False or hash of the result
  */
   _match(utterance, collection) {
-    let match = this.App.Train.find(utterance, collection);
+    //Matches returns more than one result from Train / classifier
+    let matches = this.App.Train.find(utterance, collection);
 
-    if(match) {
-      let intent = this.App.IntentRegistry.get(match.result);
+    if(matches.length > 0) {
 
-      return {
-        intent: intent,
-        confidence: match.confidence,
-        collection: collection
+      //Loop through each match
+      for(let mm=0; mm < matches.length; mm++) {
+        let match = matches[mm];
+        let check = this._check(match, utterance);
+
+        //Check has not passed
+        if(!check) {
+          continue;
+        }
+
+        //Check has passed
+        //This means explicit reject / must is fine
+        let intent = this.App.IntentRegistry.get(match.result);
+
+        return {
+          intent: intent,
+          confidence: match.confidence,
+          collection: collection
+        }
       }
     }
 
     return false;
   }
+
+
+/**
+ * Check matched
+ *
+ * @param hash match
+ * @access public
+ * @return bool
+ */
+  _check(match, utterance) {
+    let result = this.App.Explicit.check(match, utterance);
+
+    return result;
+
+  }
+
 
 }

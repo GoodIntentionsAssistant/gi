@@ -49,10 +49,10 @@ module.exports = class ClassifyClassifier {
 			return false;
 		}
 
-		return {
+		return [{
 			confidence: result.certainty,
 			result: result.groups[0].group
-		};
+		}];
 	}
 
 }
