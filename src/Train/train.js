@@ -76,7 +76,15 @@ module.exports = class Train {
 		}
 
 		//Collection classifier
-		var classifier = Config.read('collections.'+collection+'.classifier');
+    var classifier = null;
+    if(options && options.classifier) {
+      //Use classifier defined in options
+      classifier = options.classifier;
+    }
+    else {
+      //Load the classifier from config file
+		  classifier = Config.read('collections.'+collection+'.classifier');
+    }
 
 		//If no classifier defined for the collection then fatal error
 		//Each collection must have a defined classifier

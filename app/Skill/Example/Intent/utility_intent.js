@@ -10,9 +10,13 @@ module.exports = class UtilityIntent extends Intent {
 			'utility'
 		]);
 
-		this.reject('add');
+		this.must([
+			'reading',
+			'value'
+		]);
 
 		this.reject([
+			'add',
 			'remove',
 			'update'
 		]);
