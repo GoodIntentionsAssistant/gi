@@ -20,7 +20,7 @@ module.exports = class Intent {
 		this.session = null;
 		
 		this._keywords 	= [];			//Trained keywords
-		this._rejects   = [];			//Matches to reject
+		this._entities  = [];			//Entities required
 		this._explicits = [];			//Matches that are a must or reject
 
 		this._tests 		= [];

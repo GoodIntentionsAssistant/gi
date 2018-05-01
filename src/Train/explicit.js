@@ -13,15 +13,7 @@ module.exports = class Explicit {
  * @return void
  */
   constructor(app) {
-    this.explicits = {};
     this.app = app;
-
-    this._reject = [];
-    this._must = [];
-
-    //Load up two classifiers with train
-    this.app.Train.add_collection('reject', 'strict');
-    this.app.Train.add_collection('must', 'strict');
   }
 
 
