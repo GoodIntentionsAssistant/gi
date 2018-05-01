@@ -11,11 +11,8 @@ module.exports = class TeaIntent extends Intent {
 		]);
 
 		this.parameter('choice', {
-			name: "Choice",
-			data: {
-				"yes": {},
-				"no": {}
-			},
+			name: 'Choice',
+			data: ['yes', 'no'],
 			action: 'answered'
 		});
 	}

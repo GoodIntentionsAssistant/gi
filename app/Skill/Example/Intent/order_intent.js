@@ -13,11 +13,11 @@ module.exports = class OrderIntent extends Intent {
 
 		this.parameter('choice', {
 			name: "Choice",
-			data: {
-				"pizza": {},
-				"burger": {},
-				"fries": {}
-			}
+			data: [
+				"pizza",
+				"burger",
+				"fries"
+			]
 		});
 	}
 
