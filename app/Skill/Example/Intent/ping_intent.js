@@ -13,5 +13,9 @@ module.exports = class PingIntent extends Intent {
 		return 'Pong';
 	}
 
+  shutdown() {
+    console.log('Ping shutting down');
+  }
+
 }
 

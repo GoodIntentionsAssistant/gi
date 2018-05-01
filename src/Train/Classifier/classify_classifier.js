@@ -32,6 +32,18 @@ module.exports = class ClassifyClassifier {
 
 
 /**
+ * Untrain
+ *
+ * @param stirng intent
+ * @access public
+ * @return bool
+ */
+	untrain(intent) {
+		this.Classify.untrain(intent);
+	}
+
+
+/**
  * Find
  *
  * @param object utterance

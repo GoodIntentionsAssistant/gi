@@ -68,6 +68,12 @@ module.exports = class Intent {
  * @return bool
  */
 	train(data, options = {}) {
+		//Data could be a string, change it to an array
+		if(typeof data == 'string') {
+			data = [data];
+		}
+
+		//Loop through data array
 		for(var ii=0; ii < data.length; ii++) {
 			if(typeof data[ii] == 'string' && data[ii].substr(0,1) == '@') {
 				//Train with entity data
@@ -418,6 +424,16 @@ module.exports = class Intent {
  */
 	after_request(request) {
 	}
+
+
+/**
+ * Shutdown callback
+ *
+ * @access public
+ * @return void
+ */
+  shutdown() {
+  }
 
 
 /**

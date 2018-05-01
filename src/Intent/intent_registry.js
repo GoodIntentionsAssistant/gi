@@ -81,6 +81,27 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 		}
 	}
 
+
+/**
+ * Unload Intent
+ *
+ * @param string intent
+ * @access public
+ * @return bool
+ */
+ 	unload(identifier) {
+ 		let check = this.remove(identifier);
+
+ 		if(!check) {
+ 			return false;
+ 		}
+
+ 		//Untrain
+ 		this.app.Train.untrain(identifier);
+
+ 		return true;
+ 	}
+
 }
 
 

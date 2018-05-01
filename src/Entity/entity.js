@@ -120,6 +120,20 @@ module.exports = class Entity {
  * @return array
  */
 	set_data(data) {
+		//Check how the data is being passed
+		//If the data is being passed in the second format then change it to the first format with hash key values
+		//1. { "pizza":{}, "burger": {}, "fries": {} }
+		//2. ["pizza", "burger", "fries"]
+		if(data.constructor == Array) {
+			let _data = {};
+
+			data.forEach((key) => {
+				_data[key] = {};
+			});
+
+			data = _data;
+		}
+
 		this.data = data;
 	}
 

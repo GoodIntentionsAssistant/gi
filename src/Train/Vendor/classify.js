@@ -20,6 +20,11 @@ const ZERO_PROBABILITY = 0.00000001;
 
 // Storage for the input parameters for the model
 var Classifier = function() {
+  this.reset();
+}
+
+
+Classifier.prototype.reset = function() {
  this.numTrainingExamples = 0;
  this.groupFrequencyCount = new Object();
 
@@ -27,6 +32,9 @@ var Classifier = function() {
  this.wordFrequencyCount = new Object();
  this.groupWordTotal = new Object();
  this.groupWordFrequencyCount = new Object();
+
+  //All words are kept in the store so it can be reindexed
+  this.storage = [];
 }
 
 
@@ -40,6 +48,11 @@ var Classifier = function() {
 Classifier.prototype.train = function(group, input)
 {
   var self = this;
+
+  //Push to storage
+  //@todo With big data sets this is not efficient because we're duplicating the data stored
+  //@todo FIgure out how to use the existing data
+  this.storage.push([group, input]);
 
   self.numTrainingExamples += 1;
 
@@ -64,6 +77,31 @@ Classifier.prototype.train = function(group, input)
       seenWord[cleanWord] = true;
     }
 	});
+}
+
+
+/**
+ * Untrain by group
+ *
+ * @param string group
+ * @return void
+ */
+Classifier.prototype.untrain = function(group) {
+  let _storage = this.storage;
+
+  this.reset();
+
+  for(let ii=0; ii < _storage.length; ii++) {
+    let _group = _storage[ii][0];
+    let _input = _storage[ii][1];
+
+    //Remove the group requested
+    if(group == _group) {
+      continue;
+    }
+
+    this.train(_group, _input);
+  }
 }
 
 

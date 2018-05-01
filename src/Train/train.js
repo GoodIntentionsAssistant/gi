@@ -145,5 +145,24 @@ module.exports = class Train {
 		return this.collections[collection].find(utterance);
 	}
 
+
+/**
+ * Untrain
+ *
+ * Goes through all loaded classifiers and removes trained data for the identifier
+ *
+ * @param string identifier
+ * @access public
+ * @return bool
+ */
+  untrain(identifier) {
+    //Go through each collection loaded and untrain for the identifier
+    for(var collection in this.collections) {
+      this.collections[collection].untrain(identifier);
+    }
+
+    return true;
+  }
+
 }
 

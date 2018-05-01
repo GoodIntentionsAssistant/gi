@@ -269,8 +269,7 @@ module.exports = class Parameters {
 
 			//Check name was provided
 			if(!data[field].name) {
-				console.error('Your parameter "'+field+'" was missing a name');
-				process.exit();
+				data[field].name = field;
 			}
 
 			//Add to output

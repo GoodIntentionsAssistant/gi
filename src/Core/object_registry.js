@@ -133,10 +133,16 @@ module.exports = class ObjectRegistry {
       return false;
     }
 
-    //Try to use cache
-		if(options.cache && this.objects[name]) {
-			return this.objects[name];
+    //Loaded already
+    if(this.objects[name]) {
+      return false;
     }
+
+    //Try to use cache
+    //@todo This is useless if we are returning false if it's loaded already
+		/*if(options.cache && this.objects[name]) {
+			return this.objects[name];
+    }*/
 
     //
     let file = Identifier.to_file(name);
@@ -188,6 +194,32 @@ module.exports = class ObjectRegistry {
     this.after_load(object);
 
     return object;
+  }
+
+
+/**
+ * Remove
+ *
+ * @param string identifier
+ * @access public
+ * @return bool
+ */
+  remove(identifier) {
+    let object = this.get(identifier);
+
+    //Object by the identifier name could not be found
+    //Maybe it was never loaded in or was removed already
+    if(!object) {
+      return false;
+    }
+
+    //Call shutdown method call back
+    object.shutdown();
+
+    //Remove from objects
+    delete this.objects[identifier];
+
+    return true;
   }
 
 
