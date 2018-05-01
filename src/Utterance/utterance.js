@@ -4,6 +4,8 @@
 const Scrubber = require('../Utility/scrubber');
 
 const pos = require('pos');
+const Sentiment = require('sentiment');
+
 
 module.exports = class Utterance {
 
@@ -19,11 +21,12 @@ module.exports = class Utterance {
       text: text,
       scrubbed: {},
       tags: [],
-      sentiments: {}
+      sentiment: {}
     };
 
-    this.scrub();
-    this.tags();
+    this._scrub();
+    this._tags();
+    this._sentiment();
   }
 
 
@@ -36,7 +39,7 @@ module.exports = class Utterance {
  * @access public
  * @return bool
  */
-  scrub() {
+  _scrub() {
     let text = this.text();
 
     //Normal scrubbing
@@ -66,12 +69,66 @@ module.exports = class Utterance {
  * @access public
  * @return bool
  */
-  tags() {
-    let words = new pos.Lexer().lex(this.scrubbed());
-    let tagger = new pos.Tagger();
-    let taggedWords = tagger.tag(words);
+  _tags() {
+    //Tokenize string
+    let words   = new pos.Lexer().lex(this.scrubbed());
 
-    //@todo Add this in
+    //Setup tagger and build up tags
+    let tagger  = new pos.Tagger();
+    let tags    = tagger.tag(words);
+
+    this.data.tags = tags;
+  }
+
+
+/**
+ * Sentiment
+ *
+ * @access public
+ * @return bool
+ */
+  _sentiment() {
+    let sentiment = new Sentiment();
+    let result = sentiment.analyze(this.scrubbed());
+
+    this.data.sentiment = {
+      score: result.score,
+      positive: result.positive,
+      negative: result.negative
+    };
+  }
+
+
+/**
+ * Sentiment
+ *
+ * @access public
+ * @return hash
+ */
+  sentiment() {
+    return this.data.sentiment;
+  }
+
+
+/**
+ * Is positive
+ *
+ * @access public
+ * @return bool
+ */
+  is_positive() {
+    return this.data.sentiment.score > 0 ? true : false;
+  }
+
+
+/**
+ * Is negative
+ *
+ * @access public
+ * @return bool
+ */
+  is_negative() {
+    return this.data.sentiment.score < 0 ? true : false;
   }
 
 

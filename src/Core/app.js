@@ -224,11 +224,13 @@ module.exports = class App extends EventEmitter {
 	request(input) {
 		//Validate
 		if(!input.session_id) {
-			this.Error.fatal('Input had no session_id specified');
+			this.Error.warning('Input had no session_id specified');
+			return;
 		}
 
 		if(!input.client_id) {
-			this.Error.fatal('Input had no client_id specified');
+			this.Error.warning('Input had no client_id specified');
+			return;
 		}
 
 		//Default type will be message

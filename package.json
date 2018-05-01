@@ -45,6 +45,7 @@
     "promise": "^8.0.1",
     "prompt": "^1.0.0",
     "rand-token": "^0.3.0",
+    "sentiment": "^5.0.0",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "underscore": "^1.8.3",

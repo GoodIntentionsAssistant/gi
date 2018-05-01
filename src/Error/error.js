@@ -16,6 +16,26 @@ module.exports = class Error {
 
 
 /**
+ * Warning error
+ * 
+ * @param string message
+ * @access public
+ * @return void
+ */
+  warning(messages) {
+    if(typeof messages !== "object") {
+      messages = [messages];
+    }
+
+    console.log('Warning Error'.red.underline);
+
+    for(let ii=0; ii<messages.length; ii++) {
+      console.log(messages[ii].orange);
+    }
+  }
+
+
+/**
  * Fatal error
  * 
  * @param string message
