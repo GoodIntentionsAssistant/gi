@@ -227,7 +227,6 @@ module.exports = class Entity {
 			//Loop through the list and try to find the array list in the string
 			for(var ii = 0; ii < _list.length; ii++) {
 				let result = this.find_word(_list[ii], string);
-				//var position = string.indexOf(_list[ii]);
 
 				if(result) {
 					matches.push({
@@ -279,7 +278,14 @@ module.exports = class Entity {
  * @access public
  * @return hash
  */
-  find_word(word, input) {
+  find_word(word, input, options = {}) {
+		//Options
+		//@todo Method only supporting indexOf for now
+		var _options = {
+			method: 'indexOf'
+		};
+		options = extend(_options, options);
+
 		let position = input.indexOf(word);
 
 		if(position === -1) {

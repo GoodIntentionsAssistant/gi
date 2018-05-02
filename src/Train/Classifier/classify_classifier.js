@@ -64,10 +64,17 @@ module.exports = class ClassifyClassifier {
 			return false;
 		}
 
-		return [{
-			confidence: result.certainty,
-			result: result.groups[0].group
-		}];
+		//Build up standardised result
+		let output = [];
+
+		for(let ii=0; ii<result.groups.length; ii++) {
+			output.push({
+				confidence: result.groups[ii].probability,
+				result: result.groups[ii].group
+			});
+		}
+
+		return output;
 	}
 
 }
