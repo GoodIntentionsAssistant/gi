@@ -226,11 +226,12 @@ module.exports = class Entity {
 
 			//Loop through the list and try to find the array list in the string
 			for(var ii = 0; ii < _list.length; ii++) {
-				var position = string.indexOf(_list[ii]);
+				let result = this.find_word(_list[ii], string);
+				//var position = string.indexOf(_list[ii]);
 
-				if(position > -1) {
+				if(result) {
 					matches.push({
-						position: position,
+						position: result.position,
 						string: _list[ii],
 						value: key
 					});
@@ -271,8 +272,34 @@ module.exports = class Entity {
 
 
 /**
+ * Find word in input
+ *
+ * @param string word Word from the entity
+ * @param string input User input
+ * @access public
+ * @return hash
+ */
+  find_word(word, input) {
+		let position = input.indexOf(word);
+
+		if(position === -1) {
+			return false;
+		}
+
+		return {
+			position: position
+		};
+  }
+
+
+/**
  * Score words
  *
+ * @param string string Original string
+ * @param string keyword Keyword matched
+ * @param int position Position in the string
+ * @access public
+ * @return int
  */
 	score(string, keyword, position) {
 		var score = 0;
