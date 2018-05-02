@@ -35,7 +35,7 @@
     "forecast": "^0.3.2",
     "giphy-api": "^1.2.7",
     "jfs": "^0.3.0",
-    "moment": "^2.18.1",
+    "moment": "^2.22.1",
     "moment-timezone": "^0.5.13",
     "money": "^0.2.0",
     "natural": "^0.5.6",
