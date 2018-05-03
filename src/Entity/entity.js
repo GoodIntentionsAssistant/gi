@@ -200,6 +200,7 @@ module.exports = class Entity {
 		//Value is the key of the entity data
 		var value = null;
 		var record = null;
+		var position = null;
 
 		//Matches
 		var matches = [];
@@ -240,8 +241,10 @@ module.exports = class Entity {
 
 		//Score each
 		if(matches.length == 1) {
-			original = matches[0].string;
-			value = matches[0].value;
+			//Just one match so no reason to score
+			original 	= matches[0].string;
+			value 		= matches[0].value;
+			position 	= matches[0].position;
 		}
 		else if(matches.length > 1) {
 			//Score each match based on position and a few regular expressions
@@ -255,8 +258,9 @@ module.exports = class Entity {
 			//the highest score is the first record
 			matches = _.sortBy(matches, function(record){ return record.score; }).reverse();
 
-			original = matches[0].string;
-			value = matches[0].value;
+			original 	= matches[0].string;
+			value 		= matches[0].value;
+			position  = matches[0].position;
 		}
 
 		//Matched data
@@ -265,7 +269,8 @@ module.exports = class Entity {
 		return {
 			original: original,
 			value: value,
-			matched: matched
+			matched: matched,
+			position: position
 		}
 	}
 

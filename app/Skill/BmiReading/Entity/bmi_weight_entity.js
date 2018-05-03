@@ -18,13 +18,22 @@ module.exports = class BmiHeightEntity extends Entity {
 
 
   find_word(word, input, options = {}) {
-    //Matching 50lb, 50 lb, abc 50lb abc
-    let re = new RegExp('([0-9]+)(\s|)' + word, 'g');
-    let position = input.search(re);
+    //Matching 50m, 50 m, abc 50m abc
+    let re = new RegExp('([0-9]+)( |)' + word, 'g');
+    let result = input.match(re);
 
-    if(position === -1) {
+    if(result === null) {
       return false;
     }
+
+    //Remove anything that is numbers or spaces from the match
+    //50 m -> m
+    //150lb -> lb
+    result = result[0].replace(/[0-9]+/g,'');
+    result = result.trim();
+
+    //Get the index of the result
+    let position = input.indexOf(result);
 
     return {
       position: position

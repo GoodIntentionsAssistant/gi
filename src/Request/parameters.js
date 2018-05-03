@@ -274,14 +274,15 @@ module.exports = class Parameters {
 
 			//Add to output
 			output[field] = {
-				name: data[field].name,
-				value: null,
-				string: null,
-				label: null,
-				entity: entity,
-				required: required,
-				valid: valid,
-				data: {}
+				name: 			data[field].name,
+				value: 			null,
+				string: 		null,
+				label: 			null,
+				position:   null,
+				entity: 		entity,
+				required: 	required,
+				valid: 			valid,
+				data: 			{}
 			}
 
 			//No result found in incoming text
@@ -311,9 +312,10 @@ module.exports = class Parameters {
 			if(result && result.value) {
 				output[field].valid = true;
 
-				output[field].value = result.value;
-				output[field].string = result.original;
-				output[field].matched  = result.matched;
+				output[field].value 		= result.value;
+				output[field].string 		= result.original;
+				output[field].matched  	= result.matched;
+				output[field].position  = result.position;
 
 				//Change the intent action
 				//@todo This needs to be documented, I can't remember where it's used

@@ -26,7 +26,7 @@ module.exports = class Explicit {
  * @param hash options
  * @return boolean
  */
-  train(type, intent, keyword, options) {
+  train(type, intent, keyword, options = {}) {
     let collection;
 
     //Build the collection name

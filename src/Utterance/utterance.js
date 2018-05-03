@@ -18,15 +18,30 @@ module.exports = class Utterance {
  */
   constructor(text) {
     this.data = {
-      text: text,
+      original: text,
+      text: null,
       scrubbed: {},
       tags: [],
       sentiment: {}
     };
 
+    this._text();
     this._scrub();
     this._tags();
     this._sentiment();
+  }
+
+
+/**
+ * Text
+ *
+ * @access public
+ * @return void
+ */
+  _text() {
+    let text = this.data.original.trim();
+
+    this.data.text = text;
   }
 
 
