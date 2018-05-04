@@ -4,6 +4,7 @@
 //http://stackoverflow.com/questions/28198370/regex-for-validating-correct-input-for-calculator
 	
 const Intent = require('../../../../src/Intent/intent');
+const wordsToNumbers = require('words-to-numbers');
 
 module.exports = class CalculatorIntent extends Intent {
 
@@ -63,6 +64,10 @@ module.exports = class CalculatorIntent extends Intent {
 
 
 	clean_string(request, input) {
+		//Words to numbers
+		//one -> 1
+		input = wordsToNumbers.wordsToNumbers(input);
+
 		//Replace math strings, e.g. times to *
 		let math_string = request.parameters.get('math_word.string');
 		if(math_string) {

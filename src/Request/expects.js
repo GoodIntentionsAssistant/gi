@@ -63,10 +63,21 @@ module.exports = class Expects {
  * @return void
  */
 	set(data) {
+		//If the data is a string convert it to a string
+		if(typeof data === 'string' && data === 'reply') {
+			this.request.attachment('reply');
+			return;
+		}
+
 		//Set the intent to be the request intent name
 		data.intent = this.request.intent.identifier;
 
+		//Set the session to expect
+		//The next call from this user will read this in and check the user input
 		this.request.session.set('expecting',data);
+
+		//Expect a reply attachment
+		this.request.attachment('reply');
 	}
 
 

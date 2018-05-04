@@ -28,6 +28,7 @@ module.exports = class OrderIntent extends Intent {
 			return 'You chose '+choice;
 		}
 		else {
+			request.expect('reply');
 			return 'Pizza, burger or fries?';
 		}
 	}

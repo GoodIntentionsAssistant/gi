@@ -221,7 +221,11 @@ module.exports = class Response extends EventEmitter {
     //Multiple attachments or just one
     if(obj.multiple) {
       //Inflector, image -> images
-      let key = _.pluralize(type);
+      //let key = _.pluralize(type);
+
+      //Key is the type
+      //@todo Check if we need an inflector, feels ambigious
+      let key = type;
 
       //Check if the attachment key has been added already
       if(!this.attachments[key]) {

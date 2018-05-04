@@ -10,7 +10,7 @@ module.exports = class MathWordEntity extends Entity {
 		this.data = {
 			'addition': {
 				value: '+',
-				synonyms:['add','sum']
+				synonyms:['add','sum','plus']
 			},
 			'subtraction': {
 				value: '-',
@@ -19,6 +19,10 @@ module.exports = class MathWordEntity extends Entity {
 			'multiplication': {
 				value: '*',
 				synonyms:['multiply','multiplied','times','x']
+			},
+			'percent': {
+				value: '%',
+				synonyms:['percentage']
 			}
 		};
 	}

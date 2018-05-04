@@ -49,7 +49,8 @@
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "underscore": "^1.8.3",
-    "underscore.inflections": "^0.2.1"
+    "underscore.inflections": "^0.2.1",
+    "words-to-numbers": "^1.4.1"
   },
   "keywords": []
 }

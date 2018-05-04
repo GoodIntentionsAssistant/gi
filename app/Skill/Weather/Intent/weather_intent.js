@@ -23,6 +23,7 @@ module.exports = class WeatherIntent extends Intent {
 
 
 	response(request) {
+		request.expect('reply');
 		return 'For the weather please specify the city';
 	}
 
