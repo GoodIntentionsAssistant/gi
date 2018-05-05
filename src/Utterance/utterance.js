@@ -27,8 +27,9 @@ module.exports = class Utterance {
 
     this._text();
     this._scrub();
-    this._tags();
     this._sentiment();
+    this._pos();
+    this._tags();
   }
 
 
@@ -79,12 +80,12 @@ module.exports = class Utterance {
 
 
 /**
- * Tags
+ * POS
  *
  * @access public
  * @return bool
  */
-  _tags() {
+  _pos() {
     //Tokenize string
     let words   = new pos.Lexer().lex(this.scrubbed());
 
@@ -92,7 +93,18 @@ module.exports = class Utterance {
     let tagger  = new pos.Tagger();
     let tags    = tagger.tag(words);
 
-    this.data.tags = tags;
+    this.data.pos = tags;
+  }
+
+
+/**
+ * Tags
+ *
+ * @access public
+ * @return bool
+ */
+  _tags() {
+    
   }
 
 

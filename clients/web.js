@@ -99,7 +99,11 @@ io.on('connection', (client) => {
   });
 
   //User sending data to GI
-  client.on('request', (data) => {
-    GiApp.send(data.session_id, 'message', data.text);
+  client.on('request', (request) => {
+    if(!request.type) {
+      request.type = 'message';
+    }
+
+    GiApp.send(request.session_id, request.type, request.text, request.data);
   });
 });

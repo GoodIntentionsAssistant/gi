@@ -16,6 +16,7 @@ module.exports = class Request {
  *
  * @param object app
  * @param string ident
+ * @param hash data
  * @access public
  * @return void
  */
@@ -61,6 +62,25 @@ module.exports = class Request {
     };
 
     this.input = extend(_input, input);
+
+    this._check_data_parameters();
+  }
+
+
+/**
+ * Check data
+ *
+ * @access public
+ * @return void
+ */
+  _check_data_parameters() {
+    if(!this.input.data) {
+      return false;
+    }
+
+    for(let key in this.input.data) {
+      this.parameters.set(key, this.input.data[key]);
+    }
   }
 
 

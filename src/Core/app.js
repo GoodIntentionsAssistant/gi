@@ -222,6 +222,7 @@ module.exports = class App extends EventEmitter {
  * @return boolean
  */
 	request(input) {
+
 		//Validate
 		if(!input.session_id) {
 			this.Error.warning('Input had no session_id specified');

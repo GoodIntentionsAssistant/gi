@@ -78,6 +78,10 @@ module.exports = class Parameters {
  * @return mixed
  */
 	get(key) {
+		if(!key) {
+			return this.data;
+		}
+
 		return dotty.get(this.data, key);
 	}
 

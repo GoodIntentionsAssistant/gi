@@ -3,6 +3,8 @@
  */
 const RequestMessage = require('./Type/request_message.js');
 const RequestIntent = require('./Type/request_intent.js');
+const RequestEvent = require('./Type/request_event.js');
+
 const Response = require('./../Response/response.js');
 
 
@@ -35,10 +37,16 @@ module.exports = class Dispatcher {
     let auth = this.auth(data);
 
     if(data.input.type == 'message') {
+      //User input text
       request = new RequestMessage(this.app, data.ident);
     }
     else if(data.input.type == 'intent') {
+      //Direct call to an intent, no need to do NLP
       request = new RequestIntent(this.app, data.ident);
+    }
+    else if(data.input.type == 'event') {
+      //Custom client event
+      request = new RequestEvent(this.app, data.ident);
     }
 
     //Set request auth
