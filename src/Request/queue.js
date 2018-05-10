@@ -155,6 +155,11 @@ module.exports = class Queue {
 		//Dispatch the queue request
 		let request = this.dispatcher.dispatch(data);
 
+		//Failed to make request?
+		if(!request) {
+			return false;
+		}
+
 		//Push the request to local array
 		//This will be checked on the loop to make sure it's not timed out
 		this.requests[data.ident] = {

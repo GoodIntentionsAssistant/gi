@@ -27,10 +27,10 @@ module.exports = class Error {
       messages = [messages];
     }
 
-    console.log('Warning Error'.red.underline);
+    console.log('Warning'.magenta.underline);
 
     for(let ii=0; ii<messages.length; ii++) {
-      console.log(messages[ii].orange);
+      console.log(messages[ii].magenta);
     }
   }
 

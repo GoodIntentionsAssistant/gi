@@ -49,6 +49,12 @@ module.exports = class Dispatcher {
       request = new RequestEvent(this.app, data.ident);
     }
 
+    //Unrecongised
+    if(!request) {
+      this.app.Error.warning('Unrecongised input type "'+data.input.type+'" from client');
+      return false;
+    }
+
     //Set request auth
     request.client = auth.client;
     request.session = auth.session;

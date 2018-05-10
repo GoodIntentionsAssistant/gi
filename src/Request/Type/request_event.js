@@ -25,14 +25,14 @@ module.exports = class RequestEvent extends Request {
  */
   process() {
     //Make sure an event was defined
-    if(!this.input || !this.input.data) {
-      this.app.Error.warning('Invalid input');
+    if(!this.input.data) {
+      this.app.Error.warning('Invalid input for event request. Data was not defined.');
       return;
     }
 
     //Make sure an event was defined
     if(!this.input.data.event) {
-      this.app.Error.warning('Custom event not specified');
+      this.app.Error.warning('Custom event name not specified');
       return;
     }
 
