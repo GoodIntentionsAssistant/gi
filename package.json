@@ -20,7 +20,8 @@
     "grunt": ">=0.4.5",
     "jasmin": "0.0.2",
     "jasmine": "^2.8.0",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "npm-check": "^5.7.0"
   },
   "scripts": {
     "test": "jasmine",
