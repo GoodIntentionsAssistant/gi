@@ -15,6 +15,7 @@ module.exports = class Expects {
 		this.request 		= request;
 		this.app       	= request.app;
 		this.redirect 	= false;
+		this.finish     = false;
 		this.expecting 	= null;
 	}
 
@@ -76,6 +77,9 @@ module.exports = class Expects {
 		//The next call from this user will read this in and check the user input
 		this.request.session.set('expecting',data);
 
+		//Expecting response log
+		this.request.log('Expecting a response to "'+data.intent+'"');
+
 		//Expect a reply attachment
 		this.request.attachment('reply');
 	}
@@ -89,7 +93,9 @@ module.exports = class Expects {
  * @access public
  * @return bool
  */
-	load(request) {
+	check(request) {
+    request.log('Checking expects');
+
 		//Get the expecting settings for this request
 		this.expecting = this.get();
 
@@ -136,13 +142,13 @@ module.exports = class Expects {
 
 			//Change the intent
 			this.request.intent = this.request.app.IntentRegistry.get(this.expecting.intent);
-
-			//Save this 
-			this.request.session.set('last_expecting',this.expecting)
 		}
 
 		//Reset expecting so we don't double call it
-		this.reset();
+		//If the expects has been forced and it failed then do not reset
+		if(this.finish) {
+			this.reset();
+		}
 	}
 
 
@@ -170,7 +176,11 @@ module.exports = class Expects {
 		if(parsed.value) {
 			this.text = parsed.value;
 			this.redirect = true;
+			this.finish = true;
 			this.request.parameters.set(this.expecting.key, parsed.value);
+
+			//Reset last_expecting
+			this.request.session.remove('last_expecting');
 		}
 		else if(this.expecting.force) {
 			//Expecting was forced but nothing was parsed
@@ -193,6 +203,7 @@ module.exports = class Expects {
 			}
 
 			this.redirect = true;
+			this.finish = false;
 		}
 
 	}

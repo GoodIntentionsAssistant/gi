@@ -67,8 +67,7 @@ module.exports = class RequestMessage extends Request {
     //simple question like what's your favorite colour or asking them to login
     //and we need their email and password. The previous intent sets expects.
     if(this.expects.has()) {
-      this.log('Checking expects');
-      this.expects.load(this);
+      this.expects.check(this);
     }
 
     //Understand input if expects didn't set it
