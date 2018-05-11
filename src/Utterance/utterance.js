@@ -25,8 +25,8 @@ module.exports = class Utterance {
       sentiment: {}
     };
 
-    this._text();
     this._scrub();
+    this._text();
     this._sentiment();
     this._pos();
     this._tags();
@@ -40,7 +40,7 @@ module.exports = class Utterance {
  * @return void
  */
   _text() {
-    let text = this.data.original.trim();
+    let text = this.data.scrubbed.normal;
 
     this.data.text = text;
   }
@@ -56,7 +56,7 @@ module.exports = class Utterance {
  * @return bool
  */
   _scrub() {
-    let text = this.text();
+    let text = this.data.original.trim();
 
     //Normal scrubbing
     //Make the text lower, contractions and grammar standardising
@@ -64,6 +64,7 @@ module.exports = class Utterance {
     normal = Scrubber.lower(normal);
     normal = Scrubber.contractions(normal);
     normal = Scrubber.grammar(normal);
+    normal = Scrubber.octal(normal);
 
     //Remove stop words
     //Use normal and additionally remove all stop words, like and, it, is, a...

@@ -2,6 +2,7 @@
  * Scrubber
  */
 const fs = require('fs');
+const wordsToNumbers = require('words-to-numbers');
 
 
 /**
@@ -88,6 +89,18 @@ exports.stop_words = function(str) {
 
 	str = str.trim();
 
+	return str;
+}
+
+
+/**
+ * Word numbers to numbers
+ * 
+ * @param string str
+ * @return string
+ */
+exports.octal = function(str) {
+	str = wordsToNumbers.wordsToNumbers(str);
 	return str;
 }
 

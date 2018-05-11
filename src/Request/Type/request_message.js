@@ -41,16 +41,16 @@ module.exports = class RequestMessage extends Request {
  * @return boolean
  */
   process() {
+    //Utterance
+    //Stores the text, scrubbed text, tagging and sentiments
+    this.utterance = new Utterance(this.input.text);
+
     //Text
-    let text = this.input.text
+    let text = this.utterance.text();
 
     //Logs
     this.log('');
     this.log('Analyzing "'+text+'"');
-
-    //Utterance
-    //Stores the text, scrubbed text, tagging and sentiments
-    this.utterance = new Utterance(text);
 
     //Setup history
     this.history = new History(this);

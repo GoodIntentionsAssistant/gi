@@ -1,5 +1,8 @@
 {
   "entries": {
+    "i": {
+      "match": "all"
+    },
     "a": {
       "match": "all"
     },
