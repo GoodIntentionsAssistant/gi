@@ -46,7 +46,7 @@ config.attachments = [
 ];
 
 config.auth = {
-  strict: true
+  strict: false
 };
 
 config.app = {
