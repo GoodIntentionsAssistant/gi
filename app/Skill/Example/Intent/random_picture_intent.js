@@ -13,6 +13,9 @@ module.exports = class RandomPictureIntent extends Intent {
 
 	response(request) {
     request.attachment('image','https://picsum.photos/300/300/?random');
+
+    request.attachment('voice','I can\'t show you a picture');
+
     return true;
   }
 

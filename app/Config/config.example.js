@@ -41,6 +41,7 @@ config.attachments = [
   'Sys.Attachment.Action',
   'Sys.Attachment.Field',
   'Sys.Attachment.Reply',
+  'Sys.Attachment.Voice',
   'App.Example.Attachment.Navigation',
   'App.Example.Attachment.Display'
 ];
