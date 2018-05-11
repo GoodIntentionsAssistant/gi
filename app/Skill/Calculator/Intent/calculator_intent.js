@@ -22,7 +22,7 @@ module.exports = class CalculatorIntent extends Intent {
 		]);
 
 		this.reject([
-			new RegExp(/^[\d+]$/,'g'),			//Just number entered, e.g. '5' with no math
+			new RegExp(/^[\d+]+$/,'g'),			//Just number entered, e.g. '5' with no math
 		]);
 
 		this.parameter('math_word',{

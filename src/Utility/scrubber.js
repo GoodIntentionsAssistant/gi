@@ -101,6 +101,7 @@ exports.stop_words = function(str) {
  */
 exports.octal = function(str) {
 	str = wordsToNumbers.wordsToNumbers(str);
+	str = String(str);
 	return str;
 }
 
