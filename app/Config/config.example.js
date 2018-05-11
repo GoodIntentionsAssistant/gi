@@ -15,8 +15,9 @@ config.paths = {
 config.name = "Good Intentions";
 
 config.skills = [
-  'App.Example',
   'App.Error',
+  'App.Example',
+  'App.Calculator',
   'App.Weather',
   'App.SmallTalk',
   'App.Dice',
@@ -24,22 +25,22 @@ config.skills = [
   'App.FlipCoin',
   'App.CatFacts',
   'App.Number',
-  'App.Calculator',
   'App.Time',
   'App.Unit',
   'App.RockPaperScissors',
   'App.Fallback',
-  'App.Error',
   'App.Common',
   'App.Reminder',
   'App.Logging',
-  'App.Welcome'
+  'App.Welcome',
+  'App.BmiReading'
 ];
 
 config.attachments = [
   'Sys.Attachment.Image',
   'Sys.Attachment.Action',
   'Sys.Attachment.Field',
+  'Sys.Attachment.Reply',
   'App.Example.Attachment.Navigation',
   'App.Example.Attachment.Display'
 ];
