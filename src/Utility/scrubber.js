@@ -100,8 +100,18 @@ exports.stop_words = function(str) {
  * @return string
  */
 exports.octal = function(str) {
+	//The word "a" gets replaced by the library so need to hack it a bit
+	str = str.replace(/\ba\b/g, '{{aa}}');
+
+	//One to 1
 	str = wordsToNumbers.wordsToNumbers(str);
+
+	//Force the result to be a string, if "thirty" was replaced with 30 JS changes it to an int
 	str = String(str);
+
+	//Set "a" back to normal
+	str = str.replace('{{aa}}', 'a');
+
 	return str;
 }
 
