@@ -21,6 +21,9 @@
     "it": {
       "match": "all"
     },
+    "on": {
+      "match": "all"
+    },
     "of": {
       "match": "all"
     },

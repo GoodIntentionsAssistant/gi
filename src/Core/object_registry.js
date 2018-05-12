@@ -133,16 +133,10 @@ module.exports = class ObjectRegistry {
       return false;
     }
 
-    //Loaded already
-    if(this.objects[name]) {
-      return false;
-    }
-
     //Try to use cache
-    //@todo This is useless if we are returning false if it's loaded already
-		/*if(options.cache && this.objects[name]) {
+		if(options.cache && this.objects[name]) {
 			return this.objects[name];
-    }*/
+    }
 
     //
     let file = Identifier.to_file(name);

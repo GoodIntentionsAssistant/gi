@@ -3,6 +3,7 @@
  */
 const Scrubber = require('../Utility/scrubber');
 
+const _ = require('underscore');
 const pos = require('pos');
 const Sentiment = require('sentiment');
 
@@ -25,6 +26,10 @@ module.exports = class Utterance {
       sentiment: {}
     };
 
+    //Original text
+    this.data.original = text.trim();
+
+    //Break it up
     this._scrub();
     this._text();
     this._sentiment();
@@ -56,7 +61,7 @@ module.exports = class Utterance {
  * @return bool
  */
   _scrub() {
-    let text = this.data.original.trim();
+    let text = this.data.original;
 
     //Normal scrubbing
     //Make the text lower, contractions and grammar standardising
@@ -83,12 +88,15 @@ module.exports = class Utterance {
 /**
  * POS
  *
+ * https://www.npmjs.com/package/pos
+ *
  * @access public
  * @return bool
  */
   _pos() {
-    //Tokenize string
-    let words   = new pos.Lexer().lex(this.scrubbed());
+    //Get original text and tokenize
+    let text = this.data.original;
+    let words = new pos.Lexer().lex(text);
 
     //Setup tagger and build up tags
     let tagger  = new pos.Tagger();
@@ -101,16 +109,68 @@ module.exports = class Utterance {
 /**
  * Tags
  *
+ * @todo Break this into a new method to support languages
  * @access public
  * @return bool
  */
   _tags() {
-    
+    //Keywords
+    let keywords = {
+      //'is': { tags: ['question'] }, "The cat is in the hat"
+      'how': { tags: ['question', 'how'] },
+      'who': { tags: ['question', 'who'] },
+      'what': { tags: ['question', 'what'] },
+      'which': { tags: ['question', 'which'] },
+      'where': { tags: ['question', 'where'] },
+      'why': { tags: ['question', 'why'] },
+      '?': { tags: ['question'] },
+    };
+
+    //Get original text and tokenize
+    let text = this.data.original;
+    text = Scrubber.lower(text);
+
+    let words = new pos.Lexer().lex(text);
+
+    //
+    for(let ii=0; ii<words.length; ii++) {
+      //Not found in keywords
+      if(!keywords[words[ii]]) {
+        continue;
+      }
+
+      //Add each tag
+      for(let tt=0; tt<keywords[words[ii]].tags.length; tt++) {
+        this.add_tag(keywords[words[ii]].tags[tt]);
+      }
+    }
+
+    return true;
+  }
+
+
+/**
+ * Add tag keyword
+ *
+ * @param string keyword
+ * @access public
+ * @return bool
+ */
+  add_tag(keyword) {
+    //Already exists
+    if(_.indexOf(this.data.tags,keyword) !== -1) {
+      return false;
+    }
+
+    this.data.tags.push(keyword);
+    return true;
   }
 
 
 /**
  * Sentiment
+ *
+ * A feeling of emotion, view of an attitude towards a situation, even or opinion.
  *
  * @access public
  * @return bool
@@ -118,6 +178,16 @@ module.exports = class Utterance {
   _sentiment() {
     let sentiment = new Sentiment();
     let result = sentiment.analyze(this.scrubbed());
+
+    if(result.score > 0) {
+      this.add_tag('positive');
+    }
+    else if(result.score < 0) {
+      this.add_tag('negative');
+    }
+    else {
+      this.add_tag('neutral');
+    }
 
     this.data.sentiment = {
       score: result.score,
@@ -145,7 +215,7 @@ module.exports = class Utterance {
  * @return bool
  */
   is_positive() {
-    return this.data.sentiment.score > 0 ? true : false;
+    return this.has_tag('positive');
   }
 
 
@@ -156,7 +226,56 @@ module.exports = class Utterance {
  * @return bool
  */
   is_negative() {
-    return this.data.sentiment.score < 0 ? true : false;
+    return this.has_tag('negative');
+  }
+
+
+/**
+ * Tags
+ *
+ * @access public
+ * @return string
+ */
+  tags() {
+    return this.data.tags;
+  }
+
+
+/**
+ * Has a tag
+ *
+ * @param string tag
+ * @access public
+ * @return string
+ */
+  has_tag(tag) {
+    if(_.indexOf(this.data.tags, tag) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
+
+
+/**
+ * Is question
+ *
+ * @access public
+ * @return string
+ */
+  is_question() {
+    return this.has_tag('question');
+  }
+
+
+/**
+ * Original
+ *
+ * @access public
+ * @return string
+ */
+  original() {
+    return this.data.original;
   }
 
 

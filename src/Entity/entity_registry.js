@@ -45,28 +45,29 @@ module.exports = class EntityRegistry extends ObjectRegistry {
  * 
  * @access public
  * @param string identifier
- * @param object request optional
+ * @param object options optional
  * @return object
  */
-	get(identifier, request = null) {
-    if(!this.objects[identifier]) {
-			var entity = this.load(identifier);
+	get(identifier, options = {}) {
+		//Options
+		let _options = {
+			cache: true
+		};
+		options = extend(_options, options);
+
+		//If the object doesn't exist already or caching if off
+    if(!this.objects[identifier] || options.cache === false) {
+			let entity = this.load(identifier, options);
 			return entity;
 		}
 		
-		var entity = this.objects[identifier];
+		let entity = this.objects[identifier];
 		return entity;
 
-		//No entity is loaded
-		//Entities must always be preloaded using load() before get
-		if(!entity) {
-			this.app.Log.error('Entity '+name+' has not been loaded');
-			return false;
-		}
-
+		//@todo Entities loading in session data in needs to be checked again
 		//Entity requires session so it can load live data
 		//Live data could be something like employee names or project titles.
-		if(entity.require_session) {
+		/*if(entity.require_session) {
 			//Request object is needed
 			if(!request) {
 				this.app.Log.error('Entity get '+name+' called but no request object passed');
@@ -108,7 +109,7 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 					request: request
 				}
 			});
-		}
+		}*/
 
 		return entity;
 	}

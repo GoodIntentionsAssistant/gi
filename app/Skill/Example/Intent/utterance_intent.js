@@ -14,8 +14,8 @@ module.exports = class UtteranceIntent extends Intent {
   response(request) {
     let output = [];
 
-    output.push('Original: ' + request.utterance.text());
-    output.push('Scrubbed: ' + request.utterance.scrubbed());
+    output.push('Original: ' + request.utterance.original());
+    output.push('Scrubbed: ' + request.utterance.text());
     output.push('Stop words: ' + request.utterance.scrubbed('stopwords'));
 
     return output;
