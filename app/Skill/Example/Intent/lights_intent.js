@@ -161,7 +161,7 @@ module.exports = class LightsIntent extends Intent {
   _getLight(request) {
     if(!request.user.has('example.light')) {
       request.user.set('example.light', {
-        state: 'on',
+        state: 'off',
         colour: 'white',
         brightness: '100'
       });

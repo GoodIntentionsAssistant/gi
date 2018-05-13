@@ -145,6 +145,16 @@ module.exports = class Utterance {
       }
     }
 
+    //Check if the first or second words in the string "is"
+    //If the input is "is the light on" without a question mark it'll detect it
+    //If the input is "the cat is in the hat" it'll ignore it - but this is not solid!
+    //@todo Find an improvement, maying using POS
+    for(let ii=0; ii<2; ii++) {
+      if(words[ii] && words[ii] == 'is') {
+        this.add_tag('question');
+      }
+    }
+
     return true;
   }
 
