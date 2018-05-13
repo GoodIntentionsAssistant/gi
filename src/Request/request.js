@@ -154,8 +154,14 @@ module.exports = class Request {
     });
 
     let promise = this.intent.fire(this);
+
     promise.then((result) => {
       this.result(result);
+    });
+
+    promise.catch((error) => {
+      this.app.Error.warning(['Intent failed to call', error.message, error.stack]);
+      this.result('Oops, looks like I have a problem doing that! I have reported it to my owner!');
     });
 
     return true;

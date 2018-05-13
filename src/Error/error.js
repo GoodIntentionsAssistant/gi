@@ -30,6 +30,10 @@ module.exports = class Error {
     console.log('Warning'.magenta.underline);
 
     for(let ii=0; ii<messages.length; ii++) {
+      if(typeof messages[ii] == 'object') {
+        messages[ii] = messages[ii].toString();
+      }
+
       console.log(messages[ii].magenta);
     }
   }
