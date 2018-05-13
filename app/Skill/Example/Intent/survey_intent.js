@@ -56,7 +56,7 @@ module.exports = class SurveyIntent extends Intent {
 
 	finished(request) {
 		let output = ['Great, thanks for participatating. Here are your answers.'];
-		let data = request.session.user('survey');
+		let data = request.user.get('survey');
 
 		for(let key in data) {
 			output.push(_.humanize(key)+': '+data[key]);
