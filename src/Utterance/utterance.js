@@ -123,6 +123,7 @@ module.exports = class Utterance {
       'which': { tags: ['question', 'which'] },
       'where': { tags: ['question', 'where'] },
       'why': { tags: ['question', 'why'] },
+      'are': { tags: ['question', 'are'] },
       '?': { tags: ['question'] },
     };
 
@@ -219,24 +220,18 @@ module.exports = class Utterance {
 
 
 /**
- * Is positive
+ * Is
  *
+ * @param string tag
  * @access public
  * @return bool
  */
-  is_positive() {
-    return this.has_tag('positive');
-  }
+  is(tag) {
+    if(_.indexOf(this.data.tags, tag) !== -1) {
+      return true;
+    }
 
-
-/**
- * Is negative
- *
- * @access public
- * @return bool
- */
-  is_negative() {
-    return this.has_tag('negative');
+    return false;
   }
 
 
@@ -248,33 +243,6 @@ module.exports = class Utterance {
  */
   tags() {
     return this.data.tags;
-  }
-
-
-/**
- * Has a tag
- *
- * @param string tag
- * @access public
- * @return string
- */
-  has_tag(tag) {
-    if(_.indexOf(this.data.tags, tag) !== -1) {
-      return true;
-    }
-
-    return false;
-  }
-
-
-/**
- * Is question
- *
- * @access public
- * @return string
- */
-  is_question() {
-    return this.has_tag('question');
   }
 
 

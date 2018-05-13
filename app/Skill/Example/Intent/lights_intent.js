@@ -2,6 +2,8 @@
  * Lights Intent
  */
 const Intent = require('../../../../src/Intent/intent');
+const arrayToSentence = require('array-to-sentence');
+
 
 module.exports = class LightsIntent extends Intent {
 
@@ -15,7 +17,7 @@ module.exports = class LightsIntent extends Intent {
       data: {
         'on': {},
         'off': {
-          'synonyms': 'of'
+          'synonyms': ['of']
         }
       }
     });
@@ -45,7 +47,7 @@ module.exports = class LightsIntent extends Intent {
 
   response(request) {
     //Question
-    if(request.utterance.is_question()) {
+    if(request.utterance.is('question')) {
       return this.question(request);
     }
 
@@ -124,7 +126,7 @@ module.exports = class LightsIntent extends Intent {
       changes.push('Brightness set to '+brightness_percentage+'%');
     }
 
-    let output = changes.join(', ');
+    let output = arrayToSentence(changes);
 
     return output;
   }
@@ -143,7 +145,7 @@ module.exports = class LightsIntent extends Intent {
       return 'Yes, the light is '+light.state;
     }
     else if(state && state != light.state) {
-      return 'Yes, the light is '+light.state;
+      return 'No, the light is '+light.state;
     }
 
     //Colour

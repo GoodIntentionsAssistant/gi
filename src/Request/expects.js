@@ -182,9 +182,12 @@ module.exports = class Expects {
 			//Reset last_expecting
 			this.request.session.remove('last_expecting');
 		}
+		else if(!this.expecting.force) {
+			//Reply is not forced
+			this.finish = true;
+		}
 		else if(this.expecting.force) {
 			//Expecting was forced but nothing was parsed
-
 			//Fetch the last expecting that triggered this expecting
 			let _last = this.request.session.get('last_expecting');
 			if(_last) {
@@ -200,6 +203,10 @@ module.exports = class Expects {
 			//This is useful to show the user an error message
 			if(this.expecting.fail) {
 				this.expecting.action = this.expecting.fail;
+			}
+			else {
+				//Failed to get forced input, redirect them back to response
+				this.expecting.action = 'response';
 			}
 
 			this.redirect = true;

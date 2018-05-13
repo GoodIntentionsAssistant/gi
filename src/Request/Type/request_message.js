@@ -50,7 +50,8 @@ module.exports = class RequestMessage extends Request {
 
     //Logs
     this.log('');
-    this.log('Analyzing "'+text+'"');
+    this.log('Analyzing... "'+text+'"');
+    this.log('Scrubbed: "'+this.utterance.scrubbed('stopwords')+'"');
 
     //Setup history
     this.history = new History(this);

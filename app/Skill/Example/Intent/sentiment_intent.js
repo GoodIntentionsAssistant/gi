@@ -14,10 +14,10 @@ module.exports = class SentimentIntent extends Intent {
   response(request) {
     let output = [];
 
-    if(request.utterance.is_positive()) {
+    if(request.utterance.is('positive')) {
       output.push('Sentiment is positive!');
     }
-    else if(request.utterance.is_negative()) {
+    else if(request.utterance.is('negative')) {
       output.push('Sentiment is negative :(');
     }
     else {
