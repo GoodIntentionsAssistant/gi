@@ -1,7 +1,8 @@
 /**
  * Request Message
  */
-const Request = require('../request.js');
+const Request     = require('../request.js');
+const Prompt      = require('../prompt.js');
 const Router      = require('./../router.js');
 const History     = require('./../../Auth/history.js');
 const Utterance   = require('./../../Utterance/utterance.js');
@@ -97,7 +98,15 @@ module.exports = class RequestMessage extends Request {
       this.parameters.parse_from_intent(text, this.intent);
 
       this.parameters.promise.then(() => {
-        if(!this.parameters.validates) {
+
+        if(this.parameters.prompt) {
+          //Parameter requires a prompt
+          let prompt = new Prompt(this);
+          prompt.load(this.parameters.prompt);
+        }
+        else if(!this.parameters.validates) {
+          //Parameters did not validate
+          //Throw an error
           this._failed_intent = this.intent;
 
           let err = this.router.error('ParametersFailed');

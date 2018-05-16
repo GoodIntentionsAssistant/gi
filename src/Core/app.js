@@ -160,6 +160,9 @@ module.exports = class App extends EventEmitter {
 
 		Promise.all(promises).then(() => {
 			this.load_queue();
+		}).catch((err) => {
+			//@todo Catch error
+			console.log(err);
 		});
 	}
 

@@ -25,6 +25,9 @@ module.exports = class Parameters {
 		//Validates boolean is set depending what the intent wants
 		this.validates = false;
 
+		//Prompt message
+		this.prompt = false;
+
 		//List of entities loaded for this request to be parsed
 		this.entities = {};
 
@@ -215,6 +218,11 @@ module.exports = class Parameters {
 		//Clean string
 		string = Scrubber.lower(string);
 
+		//this.request.user.set('dob_year', 'yes');
+		//this.request.user.set('dob_month', 'yes');
+		//this.request.user.set('dob_day', 'yes');
+
+
 		//As we parse string we need to cut it down so we don't detect the same string again
 		//If the input is "GBP to BAHT" and the entity finds GBP then the remaining will be
 		//" to BAHT", then when we do the next loop the remaining will be " to ".
@@ -227,6 +235,12 @@ module.exports = class Parameters {
 				slotfill: false
 			};
 			data[field] = extend(_default, data[field]);
+
+			//Prompt always uses slotfill so the answers can be remembered and it'll
+			//go to the next prompt question or next action to call
+			if(data[field].prompt) {
+				data[field].slotfill = true;
+			}
 
 			//If using slotfill then turn keep on so the user session data is stored
 			if(data[field].slotfill) {
@@ -279,6 +293,7 @@ module.exports = class Parameters {
 			//Add to output
 			output[field] = {
 				name: 			data[field].name,
+				prompt: 		data[field].prompt,
 				value: 			null,
 				string: 		null,
 				label: 			null,
@@ -286,6 +301,7 @@ module.exports = class Parameters {
 				entity: 		entity,
 				required: 	required,
 				valid: 			valid,
+				slotfilled: false,
 				data: 			{}
 			}
 
@@ -295,6 +311,8 @@ module.exports = class Parameters {
 				let _value = this._slotfill(field, data[field].slotfill);
 				if(_value) {
 					result.value = _value;
+					remove_remaining = false;
+					output[field].slotfilled = true;
 				}
 			}
 
@@ -310,6 +328,12 @@ module.exports = class Parameters {
 				else {
 					result.value = data[field].default;
 				}
+			}
+
+			//Prompt
+			if(!result.value && data[field].prompt) {
+				output[field].valid = false;
+				output[field].required = true;
 			}
 
 			//If successful then 
@@ -329,6 +353,7 @@ module.exports = class Parameters {
 
 				//Keep / save result value to session user data
 				if(data[field].keep && this.request) {
+					console.log('keep', field, result.value);
 					this.request.user.set(field, result.value);
 				}
 
@@ -360,11 +385,23 @@ module.exports = class Parameters {
 			}
 		}
 
+		//Prompt
+		let _prompt = null;
+
 		//Success based on required
 		this.validates = true;
 		for(var field in output) {
+			//If required and no value
 			if(output[field].required && !output[field].value) {
+				//Required field has no value
 				this.validates = false;
+
+				//Check if has a prompt
+				//The field is required and it has no value
+				if(output[field].prompt && !this.prompt) {
+					console.log('set prompt for ', field);
+					this.prompt = output[field].prompt;
+				}
 			}
 		}
 

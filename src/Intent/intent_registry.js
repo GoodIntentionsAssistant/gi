@@ -46,6 +46,9 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 
 			//Explicits
 			this._explicits(intent);
+		}).catch((error) => {
+			//Error
+      this.app.Error.fatal(['Failed to train', error.message, error.stack]);
 		});
 	}
 

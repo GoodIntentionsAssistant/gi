@@ -1,10 +1,10 @@
 /**
  * Fallback Classifier
  */
-
+const Classifier = require('./classifier.js');
 const Classify = require('../Vendor/classify.js');
 
-module.exports = class ClassifyClassifier {
+module.exports = class ClassifyClassifier extends Classifier {
 
 /**
  * Constructor
@@ -13,6 +13,7 @@ module.exports = class ClassifyClassifier {
  * @return void
  */
 	constructor() {
+		super();
 		this.Classify = new Classify();
 	}
 

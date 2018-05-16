@@ -405,6 +405,26 @@ module.exports = class Intent {
 
 
 /**
+ * Prompt
+ * 
+ * @param object request
+ * @access public
+ * @return void
+ */
+	prompt(request) {
+		console.log('ok');
+
+		let prompt = request.parameters.value('prompt');
+
+		request.expect({
+      force: true
+    });
+
+		return prompt;
+	}
+
+
+/**
  * Before request
  * 
  * @param object request

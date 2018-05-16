@@ -27,9 +27,24 @@ module.exports = class Explicit {
  * @return boolean
  */
   train(type, intent, keyword, options = {}) {
-    let collection;
+    //Default classifier is strict
+    let classifier = 'strict';
+
+    //Force to lowercase
+    if(typeof keyword === 'string') {
+      keyword = keyword.toLowerCase();
+    }
+
+    //If keyword starts with tilde, ~ then it's a utterance tag match
+    //Make sure the keyword is a string, it could be passed as a regular expression
+    let tag_search = false;
+    if(typeof keyword === 'string' && keyword.substring(0,1) == '#') {
+      tag_search = true;
+      classifier = 'tag';
+    }
 
     //Build the collection name
+    let collection;
     if(type == 'reject') {
       collection = '_reject_'+intent;
     }
@@ -38,14 +53,14 @@ module.exports = class Explicit {
     }
 
     //Keyword force to a regular expression if it's not already
-    if(typeof keyword === 'string') {
+    if(classifier == 'strict' && typeof keyword === 'string') {
       keyword = new RegExp(keyword,'g');
     }
 
     //Train with the defined collection and keyword
     this.app.Train.train(intent, keyword, {
       collection: collection,
-      classifier: 'strict'
+      classifier: classifier
     });
 
     return true;

@@ -61,6 +61,9 @@ module.exports = class Session {
  * @return mixed
  */
 	get(key) {
+		if(!key) {
+			return this._data;
+		}
 		return dotty.get(this._data, key);
 	}
 

@@ -43,7 +43,14 @@ module.exports = class Skill {
 
 			Promise.all([intent_promises, entity_promises]).then(() => {
 				resolve();
+			}).catch((err) => {
+				//@todo Catch error
+				console.log(err);
 			});
+
+		}).catch((err) => {
+			//@todo Catch error
+			console.log(err);
 		});
 	}
 
