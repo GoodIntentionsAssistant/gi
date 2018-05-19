@@ -9,6 +9,9 @@ module.exports = class UserFromIntent extends Intent {
 		this.train([
 			'where am I?'
 		]);
+
+    //Ignore PRP$ Possessive pronoun
+    this.reject('#PRP$');
 	}
 
 	response(request) {

@@ -2,8 +2,9 @@
  * Labeler
  */
 const _ = require('underscore');
-const pos = require('pos');
 const Sentiment = require('sentiment');
+const Compendium = require('compendium-js');
+const Pos = require('pos');
 
 module.exports = class Labeler {
 
@@ -31,6 +32,7 @@ module.exports = class Labeler {
 
     this._keywords();
     this._sentiment();
+    this._pos();
   }
 
 
@@ -56,7 +58,7 @@ module.exports = class Labeler {
 
     //Get original text and tokenize
     let text = this.text;
-    let words = new pos.Lexer().lex(text);
+    let words = new Pos.Lexer().lex(text);
 
     //
     for(let ii=0; ii<words.length; ii++) {
@@ -107,6 +109,32 @@ module.exports = class Labeler {
   }
 
 
+/**
+ * POS
+ *
+ * https://github.com/Ulflander/compendium-js
+ *
+ * @access public
+ * @return bool
+ */
+  _pos() {
+    let output = Compendium.analyse(this.text);
+    
+    if(!output) {
+      return false;
+    }
+
+    for(let ii=0; ii<output[0].tags.length; ii++) {
+      let label = output[0].tags[ii];
+
+      if(!label) { continue; }
+
+      this.add(label);
+    }
+
+    return true;
+  }
+
 
 /**
  * Add label
@@ -116,6 +144,9 @@ module.exports = class Labeler {
  * @return bool
  */
   add(keyword) {
+    //Push to lower
+    keyword = keyword.toLowerCase();
+
     //Already exists
     if(_.indexOf(this.labels, keyword) !== -1) {
       return false;

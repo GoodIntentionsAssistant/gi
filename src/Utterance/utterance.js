@@ -4,7 +4,6 @@
 const Scrubber = require('../Utility/scrubber');
 const Labeler = require('./labeler');
 
-const pos = require('pos');
 const _ = require('underscore');
 
 module.exports = class Utterance {
@@ -29,7 +28,6 @@ module.exports = class Utterance {
     //Break it up
     this._scrub();
     this._text();
-    this._pos();
     this._labels();
   }
 
@@ -78,27 +76,6 @@ module.exports = class Utterance {
     };
 
     return true;
-  }
-
-
-/**
- * POS
- *
- * https://www.npmjs.com/package/pos
- *
- * @access public
- * @return bool
- */
-  _pos() {
-    //Get original text and tokenize
-    let text = this.data.original;
-    let words = new pos.Lexer().lex(text);
-
-    //Setup tagger and build up tags
-    let tagger  = new pos.Tagger();
-    let tags    = tagger.tag(words);
-
-    this.data.pos = tags;
   }
 
 

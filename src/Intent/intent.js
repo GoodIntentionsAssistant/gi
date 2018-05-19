@@ -412,8 +412,6 @@ module.exports = class Intent {
  * @return void
  */
 	prompt(request) {
-		console.log('ok');
-
 		let prompt = request.parameters.value('prompt');
 
 		request.expect({
