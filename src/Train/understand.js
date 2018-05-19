@@ -127,11 +127,7 @@ module.exports = class Understand {
     //Matches returns more than one result from Train / classifier
     let matches = this.App.Train.find(utterance, collection);
 
-    console.log(collection);
-    console.log(matches);
-
     if(matches.length > 0) {
-
       //Loop through each match
       for(let mm=0; mm < matches.length; mm++) {
         let match = matches[mm];
