@@ -1,6 +1,10 @@
 /**
  * Expects
  */
+const Config = require('../Core/config.js');
+
+const extend = require('extend');
+const moment = require('moment');
 
 module.exports = class Expects {
 
@@ -17,6 +21,8 @@ module.exports = class Expects {
 		this.redirect 	= false;
 		this.finish     = false;
 		this.expecting 	= null;
+
+		this.expire_default = Config.read('expects.expire');
 	}
 
 
@@ -27,6 +33,7 @@ module.exports = class Expects {
  * @return boolean
  */
 	get() {
+		this.check_expiry();
 		let result = this.request.session.data('expecting');
 		return result ? result : false;
 	}
@@ -41,6 +48,7 @@ module.exports = class Expects {
  * @return boolean
  */
 	has() {
+		this.check_expiry();
 		return this.request.session.has('expecting');
 	}
 
@@ -57,6 +65,29 @@ module.exports = class Expects {
 
 
 /**
+ * Check if expecting has expired
+ *
+ * @access public
+ * @return boolean
+ */
+	check_expiry() {
+		//Check if the expects has expired
+		let result = this.request.session.data('expecting');
+
+		if(!result) {
+			return false;
+		}
+
+		if(result.expire_at && moment().isAfter(result.expire_at)) {
+			this.reset();
+			return true;
+		}
+
+		return false;
+	}
+
+
+/**
  * Set expecting
  *
  * @param hash expecting
@@ -64,18 +95,27 @@ module.exports = class Expects {
  * @return void
  */
 	set(data) {
+		//Default
+		let _data = {
+			expire: this.expire_default
+		};
+		data = extend(_data, data);
+
 		//If the data is a string convert it to a string
 		if(typeof data === 'string' && data === 'reply') {
 			this.request.attachment('reply');
 			return;
 		}
 
+		//Set expiry
+		data.expire_at = moment().add(data.expire, 'seconds');
+
 		//Set the intent to be the request intent name
 		data.intent = this.request.intent.identifier;
 
 		//Set the session to expect
 		//The next call from this user will read this in and check the user input
-		this.request.session.set('expecting',data);
+		this.request.session.set('expecting', data);
 
 		//Expecting response log
 		this.request.log('Expecting a response to "'+data.intent+'"');
@@ -166,7 +206,9 @@ module.exports = class Expects {
 		let entity = this.get_entity();
 
 		//Maybe no entity set so return out of here
+		//@todo Check this, I don't think it's going to check all other conditions like redirect
 		if(!entity) {
+			this.finish = true;
 			return false;
 		}
 
