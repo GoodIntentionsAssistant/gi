@@ -50,6 +50,9 @@
     },
     "what": {
       "match": "start"
+    },
+    "my": {
+      "match": "all"
     }
   }
 }
