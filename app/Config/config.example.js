@@ -97,6 +97,10 @@ config.queue = {
   timeout: 5000
 };
 
+config.expects = {
+  expire: 60
+};
+
 config.server = {
   enabled: true,
   port: 3000
