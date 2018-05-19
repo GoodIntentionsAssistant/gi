@@ -3,7 +3,6 @@
  */
 const Classifier = require('./classifier.js');
 const Classify = require('../Vendor/classify.js');
-const Scrubber = require('../../Utility/scrubber');
 
 module.exports = class ClassifyClassifier extends Classifier {
 
@@ -55,6 +54,14 @@ module.exports = class ClassifyClassifier extends Classifier {
 		//Get the scrubbed text, excluding stop words
 		let str = utterance.scrubbed('stopwords');
 
+		//If the scrubbed input is short we'll use a lesser scrubbed string
+		//"how old are you?" can be scrubbed down to "old" if all stop words are removed
+		//This doesn't give the NLP engine much to work with
+		if(str.length <= 4) {
+			str = utterance.scrubbed();
+		}
+
+		//Rank the results
 		let result = this.Classify.rank(str, true);
 
 		if(result.groups.length == 0) {
