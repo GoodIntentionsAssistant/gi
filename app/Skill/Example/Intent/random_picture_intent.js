@@ -7,7 +7,8 @@ module.exports = class RandomPictureIntent extends Intent {
 
 	setup() {
     this.train([
-      'random picture'
+      'random picture',
+      'random image'
     ]);
 	}
 
