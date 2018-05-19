@@ -35,12 +35,12 @@ module.exports = class Explicit {
       keyword = keyword.toLowerCase();
     }
 
-    //If keyword starts with tilde, ~ then it's a utterance tag match
+    //If keyword starts with tilde, ~ then it's a utterance label match
     //Make sure the keyword is a string, it could be passed as a regular expression
-    let tag_search = false;
+    let label_search = false;
     if(typeof keyword === 'string' && keyword.substring(0,1) == '#') {
-      tag_search = true;
-      classifier = 'tag';
+      label_search = true;
+      classifier = 'label';
     }
 
     //Build the collection name

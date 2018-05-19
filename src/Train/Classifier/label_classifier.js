@@ -1,9 +1,9 @@
 /**
- * Tag Classifier
+ * Label Classifier
  */
 const Classifier = require('./classifier.js');
 
-module.exports = class TagClassifier extends Classifier {
+module.exports = class LabelClassifier extends Classifier {
 
 /**
  * Find
@@ -18,17 +18,17 @@ module.exports = class TagClassifier extends Classifier {
 		//Matches
 		let matches = [];
 
-		//Find which tags are required
+		//Find which labels are required
 		for(let ii=0; ii<this.data.length; ii++) {
-			let _tag = this.data[ii][0].substring(1);
+			let _label = this.data[ii][0].substring(1);
 			
-			if(utterance.is(_tag)) {
-				matches.push(_tag);
+			if(utterance.is(_label)) {
+				matches.push(_label);
 			}
 		}
 
 		//No matches then no match was found
-		//The users utterance / inputted text did not match the required tag
+		//The users utterance / inputted text did not match the required label
 		if(matches.length == 0) {
 			return false;
 		}

@@ -2,11 +2,10 @@
  * Utterance
  */
 const Scrubber = require('../Utility/scrubber');
+const Labeler = require('./labeler');
 
-const _ = require('underscore');
 const pos = require('pos');
-const Sentiment = require('sentiment');
-
+const _ = require('underscore');
 
 module.exports = class Utterance {
 
@@ -21,9 +20,7 @@ module.exports = class Utterance {
     this.data = {
       original: text,
       text: null,
-      scrubbed: {},
-      tags: [],
-      sentiment: {}
+      scrubbed: {}
     };
 
     //Original text
@@ -32,9 +29,8 @@ module.exports = class Utterance {
     //Break it up
     this._scrub();
     this._text();
-    this._sentiment();
     this._pos();
-    this._tags();
+    this._labels();
   }
 
 
@@ -107,142 +103,37 @@ module.exports = class Utterance {
 
 
 /**
- * Tags
- *
- * @todo Break this into a new method to support languages
- * @access public
- * @return bool
- */
-  _tags() {
-    //Keywords
-    let keywords = {
-      //'is': { tags: ['question'] }, "The cat is in the hat"
-      'how': { tags: ['question', 'how'] },
-      'who': { tags: ['question', 'who'] },
-      'what': { tags: ['question', 'what'] },
-      'which': { tags: ['question', 'which'] },
-      'where': { tags: ['question', 'where'] },
-      'why': { tags: ['question', 'why'] },
-      'are': { tags: ['question', 'are'] },
-      '?': { tags: ['question'] },
-    };
-
-    //Get original text and tokenize
-    let text = this.data.original;
-    text = Scrubber.lower(text);
-
-    let words = new pos.Lexer().lex(text);
-
-    //
-    for(let ii=0; ii<words.length; ii++) {
-      //Not found in keywords
-      if(!keywords[words[ii]]) {
-        continue;
-      }
-
-      //Add each tag
-      for(let tt=0; tt<keywords[words[ii]].tags.length; tt++) {
-        this.add_tag(keywords[words[ii]].tags[tt]);
-      }
-    }
-
-    //Check if the first or second words in the string "is"
-    //If the input is "is the light on" without a question mark it'll detect it
-    //If the input is "the cat is in the hat" it'll ignore it - but this is not solid!
-    //@todo Find an improvement, maying using POS
-    for(let ii=0; ii<2; ii++) {
-      if(words[ii] && words[ii] == 'is') {
-        this.add_tag('question');
-      }
-    }
-
-    return true;
-  }
-
-
-/**
- * Add tag keyword
- *
- * @param string keyword
- * @access public
- * @return bool
- */
-  add_tag(keyword) {
-    //Already exists
-    if(_.indexOf(this.data.tags,keyword) !== -1) {
-      return false;
-    }
-
-    this.data.tags.push(keyword);
-    return true;
-  }
-
-
-/**
- * Sentiment
- *
- * A feeling of emotion, view of an attitude towards a situation, even or opinion.
+ * Labels
  *
  * @access public
  * @return bool
  */
-  _sentiment() {
-    let sentiment = new Sentiment();
-    let result = sentiment.analyze(this.scrubbed());
-
-    if(result.score > 0) {
-      this.add_tag('positive');
-    }
-    else if(result.score < 0) {
-      this.add_tag('negative');
-    }
-    else {
-      this.add_tag('neutral');
-    }
-
-    this.data.sentiment = {
-      score: result.score,
-      positive: result.positive,
-      negative: result.negative
-    };
-  }
-
-
-/**
- * Sentiment
- *
- * @access public
- * @return hash
- */
-  sentiment() {
-    return this.data.sentiment;
+  _labels() {
+    this.Labeler = new Labeler();
+    return this.Labeler.label(this.data.original);
   }
 
 
 /**
  * Is
  *
- * @param string tag
+ * @param string label
  * @access public
  * @return bool
  */
-  is(tag) {
-    if(_.indexOf(this.data.tags, tag) !== -1) {
-      return true;
-    }
-
-    return false;
+  is(label) {
+    return this.Labeler.is(label);
   }
 
 
 /**
- * Tags
+ * Labels
  *
  * @access public
  * @return string
  */
-  tags() {
-    return this.data.tags;
+  labels() {
+    return this.Labeler.labels;
   }
 
 
