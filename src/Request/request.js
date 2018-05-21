@@ -189,15 +189,23 @@ module.exports = class Request {
  * @return boolean
  */
 	result(result) {
-		//Result is array 
-		//Listen for the sent event
-		this.response.on('sent', () => {
-			this.end();
-		});
+    //
+    if(!result) {
+      this.end();
+      return;
+    }
 
-		if(!result) {
-			return;
-		}
+    //Empty array returned
+    if(result instanceof Array && result.length == 0) {
+      this.end();
+      return;
+    }
+
+    //Result is array 
+    //Listen for the sent event
+    this.response.on('sent', () => {
+      this.end();
+    });
 		
 		this.response.send(result, {
 			type: 'message'

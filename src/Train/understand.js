@@ -83,12 +83,6 @@ module.exports = class Understand {
       collections = this._collections;
     }
 
-    //
-    this.App.Event.emit('app.understand.match',{
-      utterance: utterance,
-      collections: collections
-    });
-
 
     //Go through each training collection to try and find a match in order
     for(var key in collections) {
@@ -126,6 +120,13 @@ module.exports = class Understand {
   _match(utterance, collection) {
     //Matches returns more than one result from Train / classifier
     let matches = this.App.Train.find(utterance, collection);
+
+    //
+    this.App.Event.emit('app.understand.match',{
+      utterance: utterance,
+      collection: collection,
+      matches: matches
+    });
 
     if(matches.length > 0) {
       //Loop through each match

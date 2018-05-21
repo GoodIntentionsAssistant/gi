@@ -173,7 +173,14 @@ module.exports = class ObjectRegistry {
       ]);
     }
 
-    let object = new Module(this.app);
+    //Create the new module
+    //If the file does not have an exported module it'll error
+    try {
+      var object = new Module(this.app);
+    }
+    catch(error) {
+      this.app.Error.fatal(['Failed to load intent', error.message, error.stack]);
+    }
 
     //Set the identifier to the object which is used for caching the object
     //This identifier is also used for intent training

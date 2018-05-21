@@ -4,6 +4,7 @@
 const Randtoken = require('rand-token');
 const schedule = require('node-schedule');
 const moment = require('moment');
+const dotty = require("dotty");
 
 module.exports = class Scheduler {
 
@@ -115,6 +116,31 @@ module.exports = class Scheduler {
       return false;
     }
     return this.scheduled[schedule_id];
+  }
+
+
+/**
+ * Find by session_id
+ *
+ * @param int session_id
+ * @access public
+ * @return array
+ */
+  find_by_session_id(session_id) {
+    let output = [];
+
+    for(let key in this.scheduled) {
+      //Get the session id for this
+      let _session_id = dotty.get(this.scheduled[key], 'data.session_id');
+      if(_session_id != session_id) {
+        continue;
+      }
+
+      //Session matches
+      output.push(this.scheduled[key]);
+    }
+
+    return output;
   }
 
 

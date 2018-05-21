@@ -220,7 +220,7 @@ Classifier.prototype.rank = function(input, remove_unranked = false)
 
 
   //Remove anything without a match
-  //Added for GI
+  //Added for GI.
   if(remove_unranked) {
     groupLikelihood = _.reject(groupLikelihood, function(data){
       return data.matched === 0 ? true : false;

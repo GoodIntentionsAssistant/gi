@@ -22,8 +22,8 @@ module.exports = class DateEntity extends Entity {
     let custom = new chrono.Chrono();
 
     //Refiners
-    let PreferFuture = this.refiner_prefer_next_week();
-    custom.refiners.push(PreferFuture);
+    //let PreferFuture = this.refiner_prefer_next_week();
+    //custom.refiners.push(PreferFuture);
 
 		let parsed_date = custom.parse(string, new Date());
 

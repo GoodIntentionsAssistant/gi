@@ -25,6 +25,7 @@ module.exports = class Event {
  */
   emit(event_name, args = {}) {
     args.app = this.app;
+
     return this.app.emit(event_name, args);
   }
 

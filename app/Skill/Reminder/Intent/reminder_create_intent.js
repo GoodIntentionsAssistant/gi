@@ -1,11 +1,11 @@
 /**
- * Reminder Intent
+ * Reminder Create Intent
  */
 const Intent = require('../../../../src/Intent/intent');
 const _ = require('underscore');
 const moment = require('moment');
 
-module.exports = class ReminderIntent extends Intent {
+module.exports = class ReminderCreateIntent extends Intent {
 
   setup(app) {
     this.train([
@@ -15,7 +15,8 @@ module.exports = class ReminderIntent extends Intent {
       'notifications',
       'remind',
       'remind me',
-      'notify me'
+      'notify me',
+      'set reminder for'
     ]);
 
     this.parameter('when', {
@@ -36,24 +37,6 @@ module.exports = class ReminderIntent extends Intent {
           'synonyms': ['everything']
         }
       }
-    });
-
-    this.parameter('cancel', {
-      name: 'Cancel',
-      entity: 'App.Common.Entity.Cancel',
-      action: 'cancel'
-    });
-
-    //Listen for the reminder trigger
-    this.app.on('scheduler.trigger.reminder', (data) => {
-      this.app.request({
-        client_id: data.schedule.client_id,
-        session_id: data.schedule.session_id,
-        intent: 'App.Reminder.Intent.Reminder',
-        action: 'send',
-        schedule_data: data.schedule,
-        fast: true
-      });
     });
   }
 
@@ -82,7 +65,7 @@ module.exports = class ReminderIntent extends Intent {
     //From
     let from = when_obj.from(moment());
 
-    return 'Added reminder '+from;
+    return 'Added reminder '+from +' to "'+reminder_text+'"';
   }
 
 
@@ -107,33 +90,13 @@ module.exports = class ReminderIntent extends Intent {
       str = str.replace(re, '');
     }
 
-    //Remove starting 'to'
+    //Remove starting words
     str = str.trim().replace(/^to/i,'');
+    str = str.trim().replace(/^about/i,'');
 
     str = str.trim(str);
 
     return str;
-  }
-
-
-  cancel(request) {
-    return 'Reminder has been cancelled';
-  }
-
-
-  send(request) {
-    let output = [];
-    let reminder_text = request.input.schedule_data.text;
-
-    if(reminder_text) {
-      output.push('You asked me to remind you...');
-      output.push(reminder_text)
-    }
-    else {
-      output.push('This is your reminder');
-    }
-
-    return output;
   }
 
 }
