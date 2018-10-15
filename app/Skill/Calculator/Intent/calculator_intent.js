@@ -131,6 +131,6 @@ module.exports = class CalculatorIntent extends Intent {
 
 		var cmd = '('+percentage+' / 100 * '+against+') '+remaining;
 
-		return this.calc_simple(cmd);
+		return this.calc_simple(cmd)+'%';
 	}
 }

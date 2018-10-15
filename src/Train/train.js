@@ -29,15 +29,18 @@ module.exports = class Train {
  * @return boolean
  */
 	add_collection(name, type) {
-		let filename = this.app.Path.get('system')+'/Train/Classifier/'+type+'_classifier.js';
+    let file = type+'_classifier.js';
+		let filename = this.app.Path.get('system')+'/Train/Classifier/'+file;
 
     try {
       var Classifier = require(filename);
     }
-    catch(e) {
+    catch(error) {
       this.app.Error.fatal([
         'Failed to load '+type+' classifier',
-        'Make sure you have created '+file
+        'Make sure you have created '+file,
+        error.message,
+        error.stack
       ]);
     }
 

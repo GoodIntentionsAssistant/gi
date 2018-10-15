@@ -17,6 +17,7 @@ module.exports = class Labeler {
   constructor() {
     this.text = null;
     this.labels = [];
+    this.pos = [];
   }
 
 
@@ -130,6 +131,8 @@ module.exports = class Labeler {
       if(!label) { continue; }
 
       this.add(label);
+
+      this.pos.push(label);
     }
 
     return true;
