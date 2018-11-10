@@ -114,8 +114,8 @@ module.exports = class PackageManager {
     console.log('Skills:');
 
     for(var key in this.packages.skills) {
-      console.log(' ',this.packages.skills[key].name,'('+key+')');
-      console.log('  -',this.packages.skills[key].description);
+      console.log(this.packages.skills[key].name);
+      console.log(this.packages.skills[key].description);
       console.log('');
     }
 
