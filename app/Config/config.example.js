@@ -2,8 +2,10 @@ var config = {};
 
 config.paths = {
   root:  __dirname+'/../..',
-  app: __dirname+'/../../app',
-  logs: __dirname+'/../../app/Log',
+  app: __dirname + '/../../app',
+  temp: __dirname + '/../../app/Temp',
+  logs: __dirname + '/../../app/Temp/Log',
+  package: __dirname + '/../../app/Temp/Package',
   system: __dirname+'/../../src',
   data: __dirname+'/../../data',
   skills: {
@@ -99,6 +101,10 @@ config.queue = {
 
 config.expects = {
   expire: 60
+};
+
+config.packages = {
+  url: "https://raw.githubusercontent.com/GoodIntentionsAssistant/gi-packages/master/gi-packages.json"
 };
 
 config.server = {

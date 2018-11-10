@@ -4,7 +4,7 @@
  * Good intentions
  */
 const App = require('./app/app.js');
-const Package = require('./src/Package/package.js');
+const PackageManager = require('./src/Package/package_manager.js');
 
 var program = require('commander');
 
@@ -20,31 +20,39 @@ program
   .command('fetch')
   .description('Fetch packages')
   .action(function (name) {
-    GiPackage = new Package();
+    GiPackage = new PackageManager();
     GiPackage.fetch();
   });
 
 program
-  .command('install <name>')
+  .command('install <type> <name>')
   .description('Install a package')
-  .action(function(name) {
-    GiPackage = new Package();
-    GiPackage.install(name);
+  .action(function(type, name) {
+    GiPackage = new PackageManager();
+    GiPackage.install(type, name);
   });
 
 program
-  .command('remove <name>')
+  .command('remove <type> <name>')
   .description('Remove a package')
-  .action(function(name) {
-    GiPackage = new Package();
-    GiPackage.remove(name);
+  .action(function(type, name) {
+    GiPackage = new PackageManager();
+    GiPackage.remove(type, name);
+  });
+
+program
+  .command('reinstall <type> <name>')
+  .description('Reinstall a package')
+  .action(function(type, name) {
+    GiPackage = new PackageManager();
+    GiPackage.reinstall(type, name);
   });
 
 program
   .command('list')
   .description('List installed packages')
   .action(function() {
-    GiPackage = new Package();
+    GiPackage = new PackageManager();
     GiPackage.list();
   });
 
