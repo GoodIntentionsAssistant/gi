@@ -2,6 +2,8 @@
 
 GI is a rule based chatbot assistant framework for Node.js using simple design patterns. Our goal is to provide a structured framework that enables developers to rapidly develop robust and reliable chatbots with full flexibility.
 
+To run the server `node gi serve`
+
 
 ## Documentation
 
