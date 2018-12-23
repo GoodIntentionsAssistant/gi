@@ -160,7 +160,7 @@ module.exports = class ObjectRegistry {
     options = extend(_options, options);
 
     //
-    this.app.Log.add('Load '+this.type+' '+identifier);
+    this.app.Log.add(this.type + ' ' + identifier + ' Loaded');
 
     //App and file
     try {
@@ -179,7 +179,7 @@ module.exports = class ObjectRegistry {
       var object = new Module(this.app);
     }
     catch(error) {
-      this.app.Error.fatal(['Failed to load intent', error.message, error.stack]);
+      this.app.Error.fatal(['Failed to load', this.type, error.message, error.stack]);
     }
 
     //Set the identifier to the object which is used for caching the object
