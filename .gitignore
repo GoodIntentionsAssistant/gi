@@ -1,5 +1,5 @@
 node_modules/
 temp/
-app/Config/config.js
+app/Config/config.json
 app/Logs/*
 app/Skill/*
