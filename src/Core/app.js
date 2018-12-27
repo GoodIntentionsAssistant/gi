@@ -165,7 +165,7 @@ module.exports = class App extends EventEmitter {
 
 		//Health check the skills
 		if(!skills.length) {
-			this.Error.fatal('No skills specified to load in your config file. You must have at least one skill to load.');
+			//this.Error.fatal('No skills specified to load in your config file. You must have at least one skill to load.');
 		}
 
 		//Promises
