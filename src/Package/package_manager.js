@@ -1,7 +1,7 @@
 /**
  * Package Manager
  */
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 const fetch = require('node-fetch');
 const fs = require('fs-extra');
 
@@ -26,7 +26,7 @@ module.exports = class PackageManager {
  * @return void
  */
   load() {
-    var filename = Config.read('paths.package') + '/packages.json';
+    var filename = Config.path('package') + '/packages.json';
 
     var data = fs.readFileSync(filename, { encoding: 'utf-8' });
     var json = JSON.parse(data);
@@ -64,7 +64,7 @@ module.exports = class PackageManager {
  * @return void
  */
   _writeToPackages(data) {
-    var filename = Config.read('paths.package')+'/packages.json';
+    var filename = Config.path('package')+'/packages.json';
 
     fs.writeFile(filename, data, (err) => {
       if(err) {
@@ -211,7 +211,7 @@ module.exports = class PackageManager {
  * @return array
  */
   _getModulePaths(name) {
-    var path = Config.read('paths.root') + '/node_modules/' + name;
+    var path = Config.path('root') + '/node_modules/' + name;
 
     if (!fs.existsSync(path)) {
       console.log('Path for ' + name + ' does not exist');
@@ -246,7 +246,7 @@ module.exports = class PackageManager {
  * @return bool
  */
   _link(type, directory, pathFrom) {
-    var pathTo = Config.read('paths.'+type+'.app') + '/' + directory;
+    var pathTo = Config.path(type+'.app') + '/' + directory;
     fs.symlink(pathFrom, pathTo);
     return true;
   }
@@ -261,7 +261,7 @@ module.exports = class PackageManager {
  * @return bool
  */
   _unlink(type, directory) {
-    var path = Config.read('paths.' + type + '.app') + '/' + directory;
+    var path = Config.path(type + '.app') + '/' + directory;
 
     let exec = require('child_process').exec, child;
     child = exec('unlink ' + path);

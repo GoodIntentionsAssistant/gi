@@ -2,7 +2,7 @@
  * Client
  */
 const Randtoken = require('rand-token');
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 
 module.exports = class Client {
 

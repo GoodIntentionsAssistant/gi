@@ -3,7 +3,7 @@
  *
  * A user has many sessions
  */
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 
 const User = require('./user.js');
 const Session = require('./session.js');

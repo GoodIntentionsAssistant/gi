@@ -14,7 +14,7 @@ const File = require('./../Filesystem/file.js');
 const Folder = require('./../Filesystem/folder.js');
 const Path = require('./../Filesystem/path.js');
 
-const Config = require('./config.js');
+const Config = require('../Config/config.js');
 const Log = require('./log.js');
 const Event = require('./event.js');
 

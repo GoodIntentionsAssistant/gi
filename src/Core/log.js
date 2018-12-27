@@ -1,7 +1,7 @@
 /**
  * Log
  */
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 
 module.exports = class Log {
 

@@ -1,7 +1,7 @@
 /**
  * Identifier
  */
-const Config = require('../Core/config');
+const Config = require('../Config/config');
 
 
 /**
@@ -23,7 +23,7 @@ exports.to_directory = function(identifier) {
 
   //Build path
   let path = '';
-  path += Config.read('paths.root');
+  path += Config.path('root');
 
   //Main directory, either Sys or App
   let area = parts[0];

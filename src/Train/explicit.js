@@ -1,7 +1,7 @@
 /**
  * Explicit
  */
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 
 module.exports = class Explicit {
 

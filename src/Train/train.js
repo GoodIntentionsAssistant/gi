@@ -3,7 +3,7 @@
  */
 const extend = require('extend');
 const Scrubber = require('../Utility/scrubber');
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 
 module.exports = class Train {
 

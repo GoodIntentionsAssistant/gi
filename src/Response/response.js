@@ -1,7 +1,7 @@
 /**
  * Response
  */
-const Config = require('../Core/config.js');
+const Config = require('../Config/config.js');
 
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
