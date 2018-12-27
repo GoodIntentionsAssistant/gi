@@ -1,19 +1,8 @@
 {
   "name": "Good Intentions",
-  "paths": {
-    "root": "/../..",
-    "app": "/../../app",
-    "temp": "/../../app/Temp",
-    "logs": "/../../app/Temp/Log",
-    "package": "/../../app/Temp/Package",
-    "system": "/../../src",
-    "data": "/../../data",
-    "skills": {
-      "app": "/../../app/Skill",
-      "sys": "/../../src/Skill"
-    }
-  },
+
   "skills": [],
+
   "attachments": [
     "Sys.Attachment.Image",
     "Sys.Attachment.Action",
@@ -21,55 +10,13 @@
     "Sys.Attachment.Reply",
     "Sys.Attachment.Voice"
   ],
-  "app": {
-    "loop_speed": 500
-  },
-  "database": {
-    "driver": "jfs"
-  },
+
   "clients": {
     "test": {
       "secret": "NrCgyKqvyB"
     }
   },
-  "collections": {
-    "admin": {
-      "classifier": "strict"
-    },
-    "cancel": {
-      "classifier": "strict"
-    },
-    "strict": {
-      "classifier": "strict"
-    },
-    "default": {
-      "classifier": "classify"
-    },
-    "fallback": {
-      "classifier": "fallback"
-    }
-  },
-  "auth": {
-    "strict": false
-  },
-  "logging": {
-    "enabled": true
-  },
-  "response": {
-    "min_reply_time": 500,
-    "letter_speed": 20,
-    "max_response": 2000
-  },
-  "queue": {
-    "max_consecutive": 1,
-    "timeout": 5000
-  },
-  "expects": {
-    "expire": 60
-  },
-  "packages": {
-    "url": "https://raw.githubusercontent.com/GoodIntentionsAssistant/gi-packages/master/gi-packages.json"
-  },
+  
   "server": {
     "enabled": true,
     "port": 3000

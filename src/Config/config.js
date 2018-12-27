@@ -3,6 +3,7 @@
  */
 const dotty = require('dotty');
 const fs = require('fs');
+const extend = require('extend');
 
 
 /**
@@ -11,10 +12,18 @@ const fs = require('fs');
  * @todo Find out better way to handle this
  */
 exports._get_file = function() {
-	let filename = './app/Config/config.json';
-	var data = fs.readFileSync(filename, { encoding: 'utf-8' });
-	var json = JSON.parse(data);
-	
+	//Load default
+	let default_filename = './src/Config/default.json';
+	let default_data = fs.readFileSync(default_filename, { encoding: 'utf-8' });
+	let default_json = JSON.parse(default_data);
+
+	//Load app
+	let app_filename = './app/Config/config.json';
+	let app_data = fs.readFileSync(app_filename, { encoding: 'utf-8' });
+	let app_json = JSON.parse(app_data);
+
+	//Merge them together
+	let json = extend(default_json, app_json);
 	this.config = json;
 }
 

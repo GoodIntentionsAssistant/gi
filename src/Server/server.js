@@ -46,7 +46,7 @@ module.exports = class Server extends EventEmitter {
 		try {
 			this.object.listen(port, () => {
 				this.app.Log.add('Listening on port '+port);
-				this.app.Log.add('Ready to take client connections and rock and roll!');
+				this.app.Log.add('Your assistant is ready and named "' + Config.read('name') + '"');
 				this.emit('listening');
 			});
 		}
