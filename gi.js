@@ -19,33 +19,49 @@ program
 program
   .command('fetch')
   .description('Fetch packages')
-  .action(function (name) {
+  .action(function () {
     GiPackage = new PackageManager();
     GiPackage.fetch();
   });
 
 program
-  .command('install <type> <name>')
+  .command('install <name>')
   .description('Install a package')
-  .action(function(type, name) {
+  .action(function(name) {
     GiPackage = new PackageManager();
-    GiPackage.install(type, name);
+    GiPackage.install(name);
   });
 
 program
-  .command('remove <type> <name>')
+  .command('remove <name>')
   .description('Remove a package')
-  .action(function(type, name) {
+  .action(function(name) {
     GiPackage = new PackageManager();
-    GiPackage.remove(type, name);
+    GiPackage.remove(name);
   });
 
 program
-  .command('reinstall <type> <name>')
+  .command('reinstall <name>')
   .description('Reinstall a package')
-  .action(function(type, name) {
+  .action(function(name) {
     GiPackage = new PackageManager();
-    GiPackage.reinstall(type, name);
+    GiPackage.reinstall(name);
+  });
+
+program
+  .command('enable <name>')
+  .description('Enable an installed package')
+  .action(function (name) {
+    GiPackage = new PackageManager();
+    GiPackage.enable(name);
+  });
+
+program
+  .command('disable <name>')
+  .description('Disable an installed package')
+  .action(function (name) {
+    GiPackage = new PackageManager();
+    GiPackage.disable(name);
   });
 
 program

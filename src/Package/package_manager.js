@@ -3,7 +3,6 @@
  */
 const Config = require('../Core/config.js');
 const fetch = require('node-fetch');
-const git = require('simple-git');
 const fs = require('fs-extra');
 
 module.exports = class PackageManager {
@@ -20,6 +19,12 @@ module.exports = class PackageManager {
   }
 
 
+/**
+ * Load module
+ *
+ * @access public
+ * @return void
+ */
   load() {
     var filename = Config.read('paths.package') + '/packages.json';
 
@@ -34,12 +39,31 @@ module.exports = class PackageManager {
   }
 
 
-  stats() {
-    console.log('Skills:', Object.keys(this.packages.skills).length);
+/**
+ * Fetch latest packages file
+ *
+ * @access public
+ * @return void
+ */
+  fetch() {
+    var package_url = Config.read('packages.url');
+
+    fetch(package_url)
+      .catch(err => console.error(err))
+      .then(res => res.text())
+      .then(text => {
+        this._writeToPackages(text);
+      });
   }
 
 
-  write(data) {
+/**
+ * Write packages file to temp directory
+ *
+ * @access public
+ * @return void
+ */
+  _writeToPackages(data) {
     var filename = Config.read('paths.package')+'/packages.json';
 
     fs.writeFile(filename, data, (err) => {
@@ -52,74 +76,198 @@ module.exports = class PackageManager {
   }
 
 
-  fetch() {
-    var package_url = Config.read('packages.url');
-    
-    fetch(package_url)
-      .catch(err => console.error(err))
-      .then(res => res.text())
-      .then(text => {
-        this.write(text);
-      });
+/**
+ * Reinstall a packages
+ *
+ * @param string name
+ * @access public
+ * @return void
+ */
+  reinstall(name) {
+    this.remove(name);
+    this.install(name);
   }
 
 
-  reinstall(type, name) {
-    this.remove(type, name);
-    this.install(type, name);
-  }
-
-
-  install(type, name) {
-    var _type = type+'s'; //skill => skills
-    var identifier = type + '::' + name;
-
-    if(!this.packages[_type] || !this.packages[_type][name]) {
-      return console.error(identifier+' does not exist');
+/**
+ * Install a package
+ *
+ * @param string name
+ * @access public
+ * @return void
+ */
+  install(name) {
+    if(!this.packages[name]) {
+      return console.error(name+' does not exist');
     }
 
     //Check directory
-    var path = Config.read('paths.' + _type + '.app') + '/' + name;
-    if(fs.existsSync(path)) {
-      return console.error('Skill directory '+name+' exists already');
-    }
+    console.log('Installing '+name);
 
-    var _package = this.packages[_type][name];
-    console.log('Installing '+identifier);
-    console.log(_package.repository.url);
-
-    git()
-      .clone(_package.repository.url, path)
-      .exec(() => {
-        console.log(name + ' package installed');
-      });
+    let exec = require('child_process').exec, child;
+    child = exec('npm install '+name, (error, stdout, stderr) => {
+      if(error == null) {
+        console.log('Successfully installed '+name);
+        this.enable(name);
+      }
+      else {
+        console.log('There was an error installing '+name);
+      }
+    });
   }
 
 
-  remove(type, name) {
-    var _type = type + 's';
+/**
+ * Remove a module
+ *
+ * @param string name
+ * @access public
+ * @return void
+ */
+  remove(name) {
+    console.log('Removing '+name);
 
-    var path = Config.read('paths.' + _type + '.app') + '/' + name;
-    if(!fs.existsSync(path)) {
-      return console.error('Skill '+name+' directory not found');
-    }
-
-    fs.removeSync(path);
-
-    console.log('Removed '+name+' package');
+    let exec = require('child_process').exec, child;
+    child = exec('npm uninstall ' + name, (error, stdout, stderr) => {
+      if (error == null) {
+        console.log('Successfully removed ' + name);
+        this.disable(name);
+      }
+      else {
+        console.log('There was an error removing '+name);
+      }
+    });
   }
 
 
+/**
+ * List available packages
+ *
+ * @access public
+ * @return void
+ */
   list() {    
-    console.log('Skills:');
+    console.log('Packages:');
 
-    for(var key in this.packages.skills) {
-      console.log(this.packages.skills[key].name);
-      console.log(this.packages.skills[key].description);
+    for(var key in this.packages) {
+      console.log(this.packages[key].name);
+      console.log(this.packages[key].description);
       console.log('');
     }
-
   }
+
+
+/**
+ * Enable a package
+ *
+ * @param string name
+ * @access public
+ * @return void
+ */
+  enable(name) {
+    console.log('Enabling', name);
+
+    var paths = this._getModulePaths(name);
+    
+    if(!paths) {
+      console.log('Failed to fetch any paths for '+name);
+      return;
+    }
+
+    paths.forEach((result) => {
+      this._link(result.type, result.name, result.path);
+    });
+  }
+
+
+/**
+ * Disable a package
+ *
+ * @param string name
+ * @access public
+ * @return void
+ */
+  disable(name) {
+    console.log('Disabling', name);
+
+    var paths = this._getModulePaths(name);
+
+    if (!paths) {
+      console.log('Failed to fetch any paths for ' + name);
+      return;
+    }
+
+    paths.forEach((result) => {
+      this._unlink(result.type, result.name);
+    });
+  }
+
+
+/**
+ * Fetch paths for a node module
+ *
+ * @param string name
+ * @access private
+ * @return array
+ */
+  _getModulePaths(name) {
+    var path = Config.read('paths.root') + '/node_modules/' + name;
+
+    if (!fs.existsSync(path)) {
+      console.log('Path for ' + name + ' does not exist');
+      return false;
+    }
+
+    var paths = [];
+
+    //Check for skill directory
+    if (fs.existsSync(path + '/Skill')) {
+      fs.readdirSync(path + '/Skill').forEach(dir_name => {
+
+        paths.push({
+          type: 'skills',
+          name: dir_name,
+          path: path + '/Skill/' + dir_name
+        });
+      })
+    }
+
+    return paths;
+  }
+
+
+/**
+ * Link a package directory
+ *
+ * @param string type
+ * @param string directory
+ * @param string pathFrom
+ * @access private
+ * @return bool
+ */
+  _link(type, directory, pathFrom) {
+    var pathTo = Config.read('paths.'+type+'.app') + '/' + directory;
+    fs.symlink(pathFrom, pathTo);
+    return true;
+  }
+
+
+/**
+ * Remove link to a package directory
+ *
+ * @param string type
+ * @param string directory
+ * @access private
+ * @return bool
+ */
+  _unlink(type, directory) {
+    var path = Config.read('paths.' + type + '.app') + '/' + directory;
+
+    let exec = require('child_process').exec, child;
+    child = exec('unlink ' + path);
+    return true;
+  }
+
 
 
 }
