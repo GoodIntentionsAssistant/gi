@@ -2,4 +2,3 @@ node_modules/
 temp/
 app/Config/config.json
 app/Logs/*
-app/Skill/*
