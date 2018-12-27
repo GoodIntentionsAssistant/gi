@@ -1,7 +1,6 @@
 /**
  * App
  */
-
 const Promise = require('promise');
 const fs = require('fs');
 const moment = require('moment');
@@ -76,6 +75,25 @@ module.exports = class App extends EventEmitter {
 		this.EntityRegistry 		= new EntityRegistry(this);
 		this.IntentRegistry 		= new IntentRegistry(this);
 		this.AttachmentRegistry = new AttachmentRegistry(this);
+
+		//Require hack setup
+		//https://gist.github.com/branneman/8048520
+		this._requireSetup();
+	}
+
+
+/**
+ * Setup require wrapper
+ * 
+ * @access public
+ * @return void
+ */
+	_requireSetup() {
+		global.girequire = name => {
+			let path = __dirname + '/../..';
+			let file = name.replace(/src\//,'').toLowerCase();
+			return require(`${path}/${name}/${file}`);
+		};
 	}
 
 

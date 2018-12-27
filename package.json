@@ -38,7 +38,7 @@
     "extend": "^3.0.1",
     "forecast": "^0.3.2",
     "fs-extra": "^7.0.1",
-    "gi-skill-flipcoin": "0.0.5",
+    "gi-skill-flipcoin": "0.0.6",
     "giphy-api": "^1.2.7",
     "jfs": "^0.3.0",
     "moment": "^2.22.1",

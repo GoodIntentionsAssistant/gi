@@ -2,3 +2,4 @@ node_modules/
 temp/
 app/Config/config.js
 app/Logs/*
+app/Skill/*

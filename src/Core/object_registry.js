@@ -160,13 +160,18 @@ module.exports = class ObjectRegistry {
     options = extend(_options, options);
 
     //
-    this.app.Log.add(this.type + ' ' + identifier + ' Loaded');
+    this.app.Log.add(this.type + ' ' + identifier + ' Loading');
+
+    //Try to find the real path
+    //file = fs.realpathSync(file + '.js');
+    //file = file.replace(/\.js$/, '');
 
     //App and file
     try {
       var Module = require(file);
     }
     catch(e) {
+      console.log(e);
       this.app.Error.fatal([
         'Failed to load '+identifier,
         'Make sure you have created '+file
