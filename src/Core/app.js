@@ -91,8 +91,7 @@ module.exports = class App extends EventEmitter {
 	_requireSetup() {
 		global.girequire = name => {
 			let path = __dirname + '/../..';
-			let file = name.replace(/src\//,'').toLowerCase();
-			return require(`${path}/${name}/${file}`);
+			return require(`${path}/${name}`);
 		};
 	}
 
@@ -165,7 +164,7 @@ module.exports = class App extends EventEmitter {
 
 		//Health check the skills
 		if(!skills.length) {
-			//this.Error.fatal('No skills specified to load in your config file. You must have at least one skill to load.');
+			this.Error.warning('No skills loaded. Check your config file and GI docs to get started');
 		}
 
 		//Promises
@@ -206,14 +205,14 @@ module.exports = class App extends EventEmitter {
  */
 	load_server() {
 		if(!Config.read("server.enabled")) {
+			this.Error.warning('Your server is not enabled. Check your config file');
 			return;
 		}
 		this.Log.add('Starting Server');
 		this.Server.start();
 
-		var that = this;
-		this.Server.on('listening', function() {
-			that.emit('ready');
+		this.Server.on('listening', () => {
+			this.emit('ready');
 		});
 	}
 

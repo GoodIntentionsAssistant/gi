@@ -1,7 +1,7 @@
 {
   "name": "GoodIntentionsChatbot",
   "description": "Good Intentions Chatbot is a basic Chatbot framework",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "author": {
     "name": "Darren Moore",
