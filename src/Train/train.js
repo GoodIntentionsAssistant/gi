@@ -30,7 +30,7 @@ module.exports = class Train {
  */
 	add_collection(name, type) {
     let file = type+'_classifier.js';
-		let filename = this.app.Path.get('system')+'/Train/Classifier/'+file;
+		let filename = Config.path('system')+'/Train/Classifier/'+file;
 
     try {
       var Classifier = require(filename);

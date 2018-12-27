@@ -36,6 +36,7 @@
     "dotty": "0.0.2",
     "extend": "^3.0.1",
     "fs-extra": "^7.0.1",
+    "gi-skill-helloworld": "0.0.3",
     "jfs": "^0.3.0",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.13",
