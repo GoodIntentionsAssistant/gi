@@ -5,13 +5,20 @@ const dotty = require('dotty');
 const fs = require('fs');
 const extend = require('extend');
 
+global.gi_config = {};
+
 
 /**
  * Get file
  * 
  * @todo Find out better way to handle this
  */
-exports._get_file = function() {
+exports._init = function() {
+	//Config data already loaded
+	if(Object.keys(global.gi_config).length > 0) {
+		return;
+	}
+
 	//Load default
 	let default_filename = './src/Config/default.json';
 	let default_data = fs.readFileSync(default_filename, { encoding: 'utf-8' });
@@ -24,7 +31,7 @@ exports._get_file = function() {
 
 	//Merge them together
 	let json = extend(default_json, app_json);
-	this.config = json;
+	global.gi_config = json;
 }
 
 
@@ -35,8 +42,8 @@ exports._get_file = function() {
  * @return mixed
  */
 exports.read = function(key) {
-	this._get_file();
-	return dotty.get(this.config, key);
+	this._init();
+	return dotty.get(global.gi_config, key);
 }
 
 
@@ -47,11 +54,10 @@ exports.read = function(key) {
  * @return mixed
  */
 exports.path = function(path) {
-	this._get_file();
-
+	this._init();
 	path = 'paths.' + path;
 
-	var result = dotty.get(this.config, path);
+	var result = dotty.get(global.gi_config, path);
 
 	result = __dirname+result;
 
