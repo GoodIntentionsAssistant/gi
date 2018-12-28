@@ -79,7 +79,7 @@ module.exports = class Router {
  * @return hash
  */
   error(type) {
-    let identifier = 'App.Error.Intent.'+type;
+    let identifier = 'App.Basics.Intent.'+type;
     let intent = this.app.IntentRegistry.get(identifier);
 
     if(!intent) {

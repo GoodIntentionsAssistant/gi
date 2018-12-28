@@ -33,8 +33,8 @@ program
   });
 
 program
-  .command('remove <name>')
-  .description('Remove a package')
+  .command('uninstall <name>')
+  .description('Uninstall a package')
   .action(function(name) {
     GiPackage = new PackageManager();
     GiPackage.remove(name);

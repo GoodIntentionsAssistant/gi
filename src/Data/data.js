@@ -24,11 +24,14 @@ module.exports = class Data {
  *
  * @param string identifier
  * @param string format
- * @return Promise
+ * @return mixed Promise or false
  */
 	load(identifier, format) {
 		//Build data file name
-		let filename = Identifier.to_file(identifier, { append_type: false, extension: format });
+		let filename = Identifier.to_file(identifier, {
+			append_type: false,
+			extension: format
+		});
 
 		//Check the data file exists
 		if(!this._check_file(filename)) {
@@ -49,6 +52,7 @@ module.exports = class Data {
 				break;
 		}
 		
+		return false;
 	}
 
 
@@ -56,6 +60,7 @@ module.exports = class Data {
  * Check the file before trying to load it
  *
  * @param string filename
+ * @access public
  * @return bool
  */
 	_check_file(filename) {
@@ -72,6 +77,7 @@ module.exports = class Data {
  * Load JSON
  *
  * @param string filename
+ * @access public
  * @return Promise
  */
 	_load_json(filename) {
@@ -103,6 +109,7 @@ module.exports = class Data {
  * Load CSV data
  *
  * @param string filename
+ * @access public
  * @return Promise
  */
 	_load_csv(filename) {
