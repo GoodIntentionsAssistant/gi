@@ -164,9 +164,7 @@ module.exports = class Understand {
  */
   _check(match, utterance) {
     let result = this.App.Explicit.check(match, utterance);
-
     return result;
-
   }
 
 

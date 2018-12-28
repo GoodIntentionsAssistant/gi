@@ -2,23 +2,37 @@
  * Identifier
  */
 const Config = require('../Config/config');
-
+const extend = require('extend');
 
 /**
  * To file
  */
-exports.to_file = function(identifier) {
-  let file = this.to_directory(identifier);
+exports.to_file = function (identifier, options = {}) {
+  //Options
+  let _options = {
+    append_type: true,
+    extension: false
+  };
+  options = extend(_options, options);
+
+  //Build the directory and file name
+  let file = this.to_directory(identifier, options);
   file += '/';
-  file += this.to_filename(identifier);
+  file += this.to_filename(identifier, options);
+
   return file;
 }
 
 
 /**
  * To directory
+ *
+ * @param string identifier
+ * @param hash options
+ * @access public
+ * @return string
  */
-exports.to_directory = function(identifier) {
+exports.to_directory = function (identifier, options = {}) {
   let parts = identifier.split('.');
 
   //Build path
@@ -66,8 +80,13 @@ exports.to_directory = function(identifier) {
 
 /**
  * To filename
+ * 
+ * @param string identifier
+ * @param hash options
+ * @access public
+ * @return string
  */
-exports.to_filename = function(identifier) {
+exports.to_filename = function(identifier, options = {}) {
   let parts = identifier.split('.');
 
   let area  = parts[0];                 //App.
@@ -86,7 +105,17 @@ exports.to_filename = function(identifier) {
   //Build filename based on final part of the array
   let filename  = parts.slice(-1)[0];   //NoAuth
   filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
-  filename = filename.toLowerCase() + '_' + type.toLowerCase();
+  filename = filename.toLowerCase();
+
+  //Append the type
+  if(options.append_type) {
+    filename += '_' + type.toLowerCase();
+  }
+
+  //File extension
+  if(options.extension) {
+    filename += '.' + options.extension;
+  }
 
   return filename;
 }

@@ -125,13 +125,14 @@ module.exports = class PackageManager {
  * @return void
  */
   remove(name) {
-    console.log('Removing '+name);
+    console.log('Removing ' + name);
+    
+    this.disable(name);
 
     let exec = require('child_process').exec, child;
     child = exec('npm uninstall ' + name, (error, stdout, stderr) => {
       if (error == null) {
         console.log('Successfully removed ' + name);
-        this.disable(name);
       }
       else {
         console.log('There was an error removing '+name);

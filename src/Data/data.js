@@ -1,6 +1,8 @@
 /**
  * Data
  */
+const Identifier = require('../Core/identifier');
+
 const _ = require('underscore');
 
 module.exports = class Data {
@@ -25,9 +27,19 @@ module.exports = class Data {
  * @return Promise
  */
 	load(identifier, format) {
-		//For scoping when reading the file
-		let filename = this.identifier_to_filename(identifier, format);
+		//Build data file name
+		let filename = Identifier.to_file(identifier, { append_type: false, extension: format });
 
+		//Check the data file exists
+		if(!this._check_file(filename)) {
+			this.App.Error.fatal([
+				'Failed to load data from ' + identifier,
+				'Make sure the data file exists in '+filename
+			]);
+			return;
+		}
+
+		//Depending on the file format of the data load it in
 		switch(format) {
 			case 'json':
 				return this._load_json(filename);
@@ -37,6 +49,22 @@ module.exports = class Data {
 				break;
 		}
 		
+	}
+
+
+/**
+ * Check the file before trying to load it
+ *
+ * @param string filename
+ * @return bool
+ */
+	_check_file(filename) {
+		let fs = require('fs');
+		if(!fs.existsSync(filename)) {
+			return false;
+		}
+
+		return true;
 	}
 
 
@@ -118,35 +146,5 @@ module.exports = class Data {
 		return promise;
 	}
 
-
-/**
- * Identifier to filename
- *
- * @param string identifier
- * @param string extension
- * @todo Move this and other identifier methods to a central class
- * @access public
- * @return string
- */
-  identifier_to_filename(identifier, extension) {
-		let parts = identifier.split('.');
-
-    let type = parts[0];
-		let skill = parts[1];
-		let path = null;
-		
-		if(type == 'App') {
-			path = this.App.Path.get('skills.app');
-		}
-		else {
-			path = this.App.Path.get('data');
-		}
-		
-		parts.shift();
-		let filename = path + '/' + parts.join('/') + '.' + extension;
-
-		return filename;
-	}
-	
 
 }
