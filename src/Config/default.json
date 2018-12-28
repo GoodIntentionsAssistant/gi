@@ -8,6 +8,7 @@
     "package": "/../../app/Temp/Package",
     "system": "/../../src",
     "data": "/../../data",
+    "dev_packages": "/../../../Packages",
     "skills": {
       "app": "/../../app/Skill",
       "sys": "/../../src/Skill"

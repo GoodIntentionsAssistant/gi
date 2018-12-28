@@ -96,7 +96,13 @@ module.exports = class PackageManager {
  * @access public
  * @return void
  */
-  install(name) {
+  install(name, options = {}) {
+    //Installing a package from local for development
+    if(options.dev) {
+      this._install_from_dev(name);
+      return;
+    }
+
     if(!this.packages[name]) {
       return console.error(name+' does not exist');
     }
@@ -114,6 +120,53 @@ module.exports = class PackageManager {
         console.log('There was an error installing '+name);
       }
     });
+  }
+
+
+/**
+ * Install a package from dev
+ *
+ * @param string name
+ * @access public
+ * @return void
+ */
+  _install_from_dev(name) {
+    console.log('Installing dev version of ' + name);
+
+    let pathDev = Config.path('dev_packages');
+    let path = pathDev+'/'+name;
+
+    if(!pathDev) {
+      console.log('dev_packages path not defined');
+      return false;
+    }
+
+    if(!fs.existsSync(path)) {
+      console.log('Package directory does not exist ' + pathFrom);
+      return false;
+    }
+
+    //Paths
+    let paths = [];
+    if (fs.existsSync(path + '/Skill')) {
+      fs.readdirSync(path + '/Skill').forEach(dir_name => {
+
+        paths.push({
+          type: 'skills',
+          name: dir_name,
+          path: path + '/Skill/' + dir_name
+        });
+      })
+    }
+
+    paths.forEach((result) => {
+      var pathFrom = result.path;
+      var pathTo = Config.path('app')+'/Skill/' + result.name;
+      fs.symlink(pathFrom, pathTo, () => {});
+    });
+
+    //console.log(paths);
+    return;
   }
 
 

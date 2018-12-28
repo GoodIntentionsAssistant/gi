@@ -26,10 +26,13 @@ program
 
 program
   .command('install <name>')
+  .option('-d, --dev', 'Development use local version')
   .description('Install a package')
-  .action(function(name) {
+  .action(function(name, cmd) {
     GiPackage = new PackageManager();
-    GiPackage.install(name);
+    GiPackage.install(name, {
+      dev: cmd.dev || false
+    });
   });
 
 program
