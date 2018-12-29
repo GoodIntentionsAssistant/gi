@@ -121,3 +121,19 @@ exports.to_filename = function(identifier, options = {}) {
 }
 
 
+/**
+ * Extract skill name from identifier
+ * 
+ * @todo Recode this, it might not be reliable
+ * @param string identifier
+ * @access public
+ * @return string
+ */
+exports.skill = function (identifier) {
+  let parts = identifier.split('.');
+  let area = parts[0];
+  let skill = parts[1];
+  return skill;
+}
+
+

@@ -1,7 +1,7 @@
 /**
  * Data
  */
-const Identifier = require('../Core/identifier');
+const Identifier = girequire('src/Core/identifier');
 
 const _ = require('underscore');
 

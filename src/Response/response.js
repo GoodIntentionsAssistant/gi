@@ -1,7 +1,7 @@
 /**
  * Response
  */
-const Config = require('../Config/config.js');
+const Config = girequire('src/Config/config');
 
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');

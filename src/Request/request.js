@@ -1,12 +1,13 @@
 /**
  * Request
  */
+const Parameters = girequire('src/Request/parameters');
+const Expects = girequire('src/Request/expects');
+const Dialog = girequire('src/Response/dialog');
+
 const _ = require('underscore');
 const extend = require('extend');
 const Promise = require('promise');
-
-const Parameters  = require('./parameters.js');
-const Expects     = require('./expects.js');
 
 
 module.exports = class Request {
@@ -184,12 +185,20 @@ module.exports = class Request {
 /**
  * Result of request
  *
- * @param hash result
+ * @param mixed result
+ * @param hash options
  * @access public
  * @return boolean
  */
-	result(result) {
-    //
+  result(result, options = {}) {
+    //Default
+    let _options = {
+      type: 'message'
+    };
+    options = extend(_options, options);
+
+    //No result returned
+    //Intent could have replied false to handle the response manually
     if(!result) {
       this.end();
       return;
@@ -201,16 +210,63 @@ module.exports = class Request {
       return;
     }
 
-    //Result is array 
+    //Result is a hash
+    //An intent can return an object/hash instead of just a text result
+    //{ "result": "hello", "options":{} }
+    if(result instanceof Object) {
+      var _temp = result;
+      result = _temp.result;
+
+      //If options have been passed
+      if(_temp.options) {
+        options = extend(options, _temp.options);
+      }
+    }
+
     //Listen for the sent event
     this.response.on('sent', () => {
       this.end();
     });
-		
-		this.response.send(result, {
-			type: 'message'
-		});
+    
+    //Send it back to the user
+		this.response.send(result, options);
 	}
+
+
+/**
+ * Dialog
+ * 
+ * @param string name
+ * @param hash options
+ * @access public
+ * @return Object
+ */
+  dialog(name, options = {}) {
+    //Set options for dialog to work
+    options.request = this;
+    options.skill = this.intent.skill;
+
+    //Setup new dialog and process it
+    let dialog = new Dialog();
+
+    try {
+      var result = dialog.process(name, options);
+    }
+    catch(ex) {
+      this.app.Error.warning(ex.toString());
+      return false;
+    }
+
+    //False could be returned if there was an error
+    if(!result) {
+      return false;
+    }
+
+    return {
+      result: result,
+      options: {}
+    };
+  }
 
 
 /**

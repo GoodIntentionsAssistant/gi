@@ -191,6 +191,9 @@ module.exports = class ObjectRegistry {
     //This identifier is also used for intent training
     object.identifier = identifier;
 
+    //Get the skill name
+    object.skill = Identifier.skill(identifier);
+
     //Cache
     if(options.cache) {
       this.objects[identifier] = object;

@@ -276,7 +276,7 @@ module.exports = class Expects {
 		}
 
 		//Load from data
-		let entity = this.app.EntityRegistry.get('App.Common.Entity.Dummy', {
+		let entity = this.app.EntityRegistry.get('App.Basics.Entity.Dummy', {
 			cache: false
 		});
 		entity.set_data(this.expecting.data);

@@ -488,13 +488,13 @@ module.exports = class Parameters {
  * @return hash parsed data and success
  */
 	create_dummy_entity(parameter) {
-		let entity = this.app.EntityRegistry.get('App.Common.Entity.Dummy', {
+		let entity = this.app.EntityRegistry.get('App.Basics.Entity.Dummy', {
 			cache: false
 		});
 
 		//Check the dummy was found
 		if(!entity) {
-			this.app.Log.error('Common/Dummy Entity for Parameters could not be found');
+			this.app.Log.error('Basics/Dummy Entity for Parameters could not be found');
 			return false;
 		}
 

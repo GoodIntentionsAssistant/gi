@@ -63,6 +63,9 @@
   "packages": {
     "url": "https://raw.githubusercontent.com/GoodIntentionsAssistant/gi-packages/master/gi-packages.json"
   },
+  "locale": {
+    "default_language": "en"
+  },
   "server": {
     "enabled": true,
     "port": 3000

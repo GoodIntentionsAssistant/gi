@@ -1,8 +1,8 @@
 /**
  * Utterance
  */
-const Scrubber = require('../Utility/scrubber');
-const Labeler = require('./labeler');
+const Scrubber = girequire('src/Utility/scrubber');
+const Labeler = girequire('src/Utterance/labeler');
 
 const _ = require('underscore');
 
