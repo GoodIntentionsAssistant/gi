@@ -13,7 +13,8 @@ module.exports = class StrictClassifier extends Classifier {
  * @return mixed
  */
 	find(utterance) {
-		let str = utterance.scrubbed();
+		let str = utterance.original();
+		str = str.toLowerCase();
 
 		for(var ii=0; ii<this.data.length; ii++) {
 			//Vars

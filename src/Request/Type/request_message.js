@@ -47,11 +47,12 @@ module.exports = class RequestMessage extends Request {
     this.utterance = new Utterance(this.input.text);
 
     //Text
+    let original = this.utterance.original();
     let text = this.utterance.text();
 
     //Logs
     this.log('');
-    this.log('Analyzing... "'+text+'"');
+    this.log('Analyzing... "' + original+'"');
     this.log('Scrubbed: "'+this.utterance.scrubbed('stopwords')+'"');
 
     //Setup history
