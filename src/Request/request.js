@@ -210,10 +210,10 @@ module.exports = class Request {
       return;
     }
 
-    //Result is a hash
+    //Result is an object
     //An intent can return an object/hash instead of just a text result
     //{ "result": "hello", "options":{} }
-    if(result instanceof Object) {
+    if(result instanceof Object && !(result instanceof Array)) {
       var _temp = result;
       result = _temp.result;
 
