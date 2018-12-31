@@ -5,6 +5,7 @@ const Config = require('../Config/config.js');
 const fetch = require('node-fetch');
 const fs = require('fs-extra');
 
+
 module.exports = class PackageManager {
 
 /**
@@ -165,7 +166,6 @@ module.exports = class PackageManager {
       fs.symlink(pathFrom, pathTo, () => {});
     });
 
-    //console.log(paths);
     return;
   }
 
@@ -230,6 +230,7 @@ module.exports = class PackageManager {
 
     paths.forEach((result) => {
       this._link(result.type, result.name, result.path);
+      Config.put(result.type, 'App.'+result.name);
     });
   }
 
@@ -253,6 +254,7 @@ module.exports = class PackageManager {
 
     paths.forEach((result) => {
       this._unlink(result.type, result.name);
+      Config.remove(result.type + '.App.' + result.name);
     });
   }
 
@@ -321,7 +323,6 @@ module.exports = class PackageManager {
     child = exec('unlink ' + path);
     return true;
   }
-
 
 
 }

@@ -65,3 +65,61 @@ exports.path = function(path) {
 }
 
 
+/**
+ * Put
+ * 
+ * @param string key
+ * @return mixed
+ */
+exports.put = function(key, value) {
+	let app_filename = './app/Config/config.json';
+	let app_data = fs.readFileSync(app_filename, { encoding: 'utf-8' });
+	let app_json = JSON.parse(app_data);
+
+	var _data = dotty.get(app_json, key);
+	_data.push(value);
+
+	dotty.put(app_json, key, _data);
+
+	this._writeConfig(app_json);
+}
+
+
+/**
+ * Remove
+ * 
+ * @param string key
+ * @return mixed
+ */
+exports.remove = function(key) {
+	let app_filename = './app/Config/config.json';
+	let app_data = fs.readFileSync(app_filename, { encoding: 'utf-8' });
+	let app_json = JSON.parse(app_data);
+
+	//Break the kets up
+	let path = key.split(".");
+	let root = path[0];
+	let value = path[1];
+
+	var path_value = app_json[root]
+	path_value = path_value.filter(e => e !== value)
+
+	//
+	dotty.put(app_json, root, path_value);
+
+	this._writeConfig(app_json);
+}
+
+
+/**
+ * Write config
+ * 
+ * @return mixed
+ */
+exports._writeConfig = function(json) {
+	let data = JSON.stringify(json, null, 2);
+	let app_filename = './app/Config/config.json';
+	fs.writeFileSync(app_filename, data);  
+}
+
+
