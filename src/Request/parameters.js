@@ -1,8 +1,9 @@
 /**
  * Parameters
  */
+const Scrubber = girequire('src/Utterance/scrubber');
+
 const Promise = require('promise');
-const Scrubber = require('../../src/Utility/scrubber');
 const dotty = require("dotty");
 const extend = require('extend');
 
