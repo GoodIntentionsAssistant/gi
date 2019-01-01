@@ -9,6 +9,9 @@
     "an": {
       "match": "all"
     },
+    "am": {
+      "match": "all"
+    },
     "in": {
       "match": "all"
     },

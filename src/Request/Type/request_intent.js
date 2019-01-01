@@ -24,6 +24,11 @@ module.exports = class RequestIntent extends Request {
  * @return boolean
  */
   process() {
+    //Check the intent exists
+    if(!this.app.IntentRegistry.exists(this.input.intent)) {
+      throw new Error(`Intent ${this.input.intent} does not exist`);
+    }
+
     let intent = this.app.IntentRegistry.get(this.input.intent);
 
     this.intent     = intent;

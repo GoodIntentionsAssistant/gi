@@ -68,7 +68,15 @@ module.exports = class Dispatcher {
     request.response.load();
 
     //Load request
-    let result = request.process();
+    try {
+      var result = request.process();
+    }
+    catch(error) {
+      this.app.Error.warning([
+        error.message,
+        error.stack
+      ]);
+    }
 
     if(!result) {
       request.resolve();
