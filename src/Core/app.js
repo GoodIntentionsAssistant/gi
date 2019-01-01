@@ -60,6 +60,15 @@ module.exports = class App extends EventEmitter {
 
 		this.Error = new Error();
 
+		//Make sure config exists
+		let configFile = './app/Config/config.json';
+		if (!fs.existsSync(configFile)) {
+			this.Error.fatal([
+				`Cannot start GI, your config file was not found`,
+				`Make sure ${configFile} exists`
+			]);
+		}
+
 		this.File = new File();
 		this.Folder = new Folder();
 
