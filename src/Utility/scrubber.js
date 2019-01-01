@@ -143,8 +143,8 @@ exports.single_letter = function(str) {
  */
 exports.grammar = function(str) {
 	var stopwords = [
-		',',
-		'\\.',
+		'[^0-9],[^0-9]',					//"a,b" is removed, but "123,456" remains
+		'[^0-9]\\.[^0-9]',				//"a.b" is removed, but "123.456" remains
 		'\\!',
 		'\\?'
 	];
