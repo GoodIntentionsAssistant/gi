@@ -1,0 +1,43 @@
+{
+  "entries": {
+    "what's": {
+      "replace": "what is"
+    },
+    "i'm": {
+      "replace": "i am"
+    },
+    "you're": {
+      "replace": "you are"
+    },
+    "it's": {
+      "replace": "it is"
+    },
+    "we're": {
+      "replace": "we are"
+    },
+    "they're": {
+      "replace": "they are"
+    },
+    "that's": {
+      "replace": "that is"
+    },
+    "who's": {
+      "replace": "who is"
+    },
+    "what's": {
+      "replace": "what is"
+    },
+    "where's": {
+      "replace": "where is"
+    },
+    "when's": {
+      "replace": "when is"
+    },
+    "why's": {
+      "replace": "why is"
+    },
+    "how's": {
+      "replace": "how is"
+    }
+  }
+}

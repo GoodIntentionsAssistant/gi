@@ -61,7 +61,8 @@ module.exports = class Utterance {
     //Make the text lower, contractions and grammar standardising
     let normal = text;
     normal = Scrubber.lower(normal);
-    normal = Scrubber.contractions(normal);
+    normal = Scrubber.substitutes(normal);
+    normal = Scrubber.spelling(normal);
     normal = Scrubber.grammar(normal);
     normal = Scrubber.octal(normal);
 

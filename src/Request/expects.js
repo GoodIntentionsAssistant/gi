@@ -251,8 +251,6 @@ module.exports = class Expects {
 				this.expecting.action = 'response';
 			}
 
-			console.log(this.expecting);
-
 			this.redirect = true;
 			this.finish = false;
 		}
