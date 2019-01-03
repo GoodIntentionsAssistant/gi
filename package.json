@@ -46,6 +46,7 @@
     "gi-skill-helloworld": "0.0.3",
     "gi-skill-randomnumber": "0.0.1",
     "gi-skill-rockpaperscissors": "0.0.1",
+    "handlebars": "^4.0.12",
     "jfs": "^0.3.0",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.13",

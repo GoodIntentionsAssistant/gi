@@ -25,7 +25,7 @@ module.exports = class Response extends EventEmitter {
 
 		//
 		this.request = request;
-		this.app = request.app;
+    this.app = request.app;
 
 		//
 		this.namespace = 'response';
@@ -145,7 +145,14 @@ module.exports = class Response extends EventEmitter {
   _send(data) {
     //Add each message to the queue
     for(let ii=0; ii<data.messages.length; ii++) {
-      this.queue.push([ data, data.messages[ii] ]);
+      //Message text
+      let _message = data.messages[ii];
+
+      //Template it
+      _message = this.request.template.compile(_message);
+      
+      //Push the message to the queue
+      this.queue.push([ data, _message ]);
     }
 
     //Check if loop is already active

@@ -1,9 +1,8 @@
 /**
  * Request
  */
-const Parameters = girequire('src/Request/parameters');
-const Expects = girequire('src/Request/expects');
-const Dialog = girequire('src/Response/dialog');
+const Parameters  = girequire('src/Request/parameters');
+const Expects     = girequire('src/Request/expects');
 
 const _ = require('underscore');
 const extend = require('extend');
@@ -32,7 +31,7 @@ module.exports = class Request {
 		this.expects = new Expects(this);
 
 		//Parameters
-		this.parameters = new Parameters(this);
+    this.parameters = new Parameters(this);
 
 		//Update last activity
 		//Used for the queue to time out requests. Response will keep this date up to date
@@ -231,42 +230,6 @@ module.exports = class Request {
     //Send it back to the user
 		this.response.send(result, options);
 	}
-
-
-/**
- * Dialog
- * 
- * @param string name
- * @param hash options
- * @access public
- * @return Object
- */
-  dialog(name, options = {}) {
-    //Set options for dialog to work
-    options.request = this;
-    options.skill = this.intent.skill;
-
-    //Setup new dialog and process it
-    let dialog = new Dialog();
-
-    try {
-      var result = dialog.process(name, options);
-    }
-    catch(ex) {
-      this.app.Error.warning(ex.toString());
-      return false;
-    }
-
-    //False could be returned if there was an error
-    if(!result) {
-      return false;
-    }
-
-    return {
-      result: result,
-      options: {}
-    };
-  }
 
 
 /**

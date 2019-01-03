@@ -1,6 +1,9 @@
 /**
  * Request Message
  */
+const Template    = girequire('src/Response/template');
+const Dialog      = girequire('src/Response/dialog');
+
 const Request     = require('../request.js');
 const Prompt      = require('../prompt.js');
 const Router      = require('./../router.js');
@@ -31,6 +34,9 @@ module.exports = class RequestMessage extends Request {
 
     //Router
     this.router = new Router(this);
+
+    //Template
+    this.template = new Template(this);
   }
 
 
@@ -126,6 +132,56 @@ module.exports = class RequestMessage extends Request {
 
     //Fire the result
     return this.call();
+  }
+
+
+/**
+ * Dialog
+ * 
+ * @param string name
+ * @param hash options
+ * @access public
+ * @return Object
+ */
+  dialog(name, options = {}) {
+    //Set options for dialog to work
+    options.request = this;
+    options.skill = this.intent.skill;
+
+    //Setup new dialog and process it
+    let dialog = new Dialog();
+
+    try {
+      var result = dialog.process(name, options);
+    }
+    catch (ex) {
+      this.app.Error.warning(ex.toString());
+      return false;
+    }
+
+    //False could be returned if there was an error
+    if (!result) {
+      return false;
+    }
+
+    return {
+      result: result,
+      options: {}
+    };
+  }
+
+
+/**
+ * Set something for templating
+ * 
+ * @param mixed key 
+ * @param string value optional
+ * @access public
+ * @return bool
+ */
+  set(key, value = {}) {
+    this.template.set(key, value);
+    return true;
   }
 
 
