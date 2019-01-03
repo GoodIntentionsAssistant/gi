@@ -18,10 +18,6 @@ const EventEmitter = require('events').EventEmitter;
 
 const Error = require('./../Error/error.js');
 
-const File = require('./../Filesystem/file.js');
-const Folder = require('./../Filesystem/folder.js');
-const Path = require('./../Filesystem/path.js');
-
 const Config = require('../Config/config.js');
 const Log = require('./log.js');
 const Event = require('./event.js');
@@ -69,11 +65,7 @@ module.exports = class App extends EventEmitter {
 			]);
 		}
 
-		this.File = new File();
-		this.Folder = new Folder();
-
 		this.Event = new Event(this);
-		this.Path = new Path(this);
 		this.Log = new Log(this);
 		
 		this.Train = new Train(this);

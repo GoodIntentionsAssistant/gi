@@ -1,10 +1,7 @@
 /**
  * Train
  */
-const Scrubber = girequire('src/Utterance/scrubber');
 const Config = girequire('src/Config/config');
-
-const extend = require('extend');
 
 module.exports = class Train {
 

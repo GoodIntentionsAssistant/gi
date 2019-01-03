@@ -551,10 +551,10 @@ favourable favorable
 favourably favorably
 favoured favored
 favouring favoring
-#favourite favorite
+favourite favorite
 favourites favorites
 favouritism favoritism
-#favours favors
+favours favors
 feminise feminize
 feminised feminized
 feminises feminizes
