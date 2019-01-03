@@ -63,14 +63,17 @@ module.exports = class Labeler {
 
     //
     for(let ii=0; ii<words.length; ii++) {
+      //Word
+      let _word = words[ii].toLowerCase();
+
       //Not found in keywords
-      if(!keywords[words[ii]]) {
+      if(!keywords[_word]) {
         continue;
       }
 
       //Add each label
-      for(let tt=0; tt<keywords[words[ii]].labels.length; tt++) {
-        this.add(keywords[words[ii]].labels[tt]);
+      for(let tt=0; tt<keywords[_word].labels.length; tt++) {
+        this.add(keywords[_word].labels[tt]);
       }
     }
 
@@ -156,6 +159,7 @@ module.exports = class Labeler {
     }
 
     this.labels.push(keyword);
+
     return true;
   }
 
