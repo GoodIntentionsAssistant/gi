@@ -414,7 +414,7 @@ module.exports = class Parameters {
 
 		for (var field in parameters) {
 			//If required and no value
-			if (output[field].required && !output[field].value) {
+			if(parameters[field].required && !parameters[field].value) {
 				//Required field has no value
 				this.validates = false;
 			}
@@ -434,9 +434,9 @@ module.exports = class Parameters {
 	_check_prompt(parameters) {
 		for(var field in parameters) {
 			//If required and no value
-			if(output[field].required && !output[field].value && output[field].prompt && !this.prompt) {
+			if(parameters[field].required && !parameters[field].value && parameters[field].prompt && !this.prompt) {
 				console.log('set prompt for ', field);
-				this.prompt = output[field].prompt;
+				this.prompt = parameters[field].prompt;
 			}
 		}
 
