@@ -387,29 +387,57 @@ module.exports = class Parameters {
 			}
 		}
 
+		//Validate
+		this._validate(output);
+
 		//Prompt
-		let _prompt = null;
-
-		//Success based on required
-		this.validates = true;
-		for(var field in output) {
-			//If required and no value
-			if(output[field].required && !output[field].value) {
-				//Required field has no value
-				this.validates = false;
-
-				//Check if has a prompt
-				//The field is required and it has no value
-				if(output[field].prompt && !this.prompt) {
-					console.log('set prompt for ', field);
-					this.prompt = output[field].prompt;
-				}
-			}
-		}
+		this._check_prompt(output);
 
 		//Set data
 		for(var field in output) {
 			this.set(field, output[field]);
+		}
+
+		return true;
+	}
+
+
+/**
+ * Check for a prompt
+ *
+ * @param Object result
+ * @access private
+ * @return bool
+ */
+	_validate(parameters) {
+		this.validates = true;
+
+		for (var field in parameters) {
+			//If required and no value
+			if (output[field].required && !output[field].value) {
+				//Required field has no value
+				this.validates = false;
+			}
+		}
+
+		return true;
+	}
+
+
+/**
+ * Check for a prompt
+ *
+ * @param Object result
+ * @access private
+ * @return bool
+ */
+	_check_prompt(parameters) {
+		for(var field in parameters) {
+			//If required and no value
+			if(output[field].required && !output[field].value && output[field].prompt && !this.prompt) {
+				console.log('set prompt for ', field);
+				this.prompt = output[field].prompt;
+			}
 		}
 
 		return true;
