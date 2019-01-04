@@ -64,13 +64,15 @@ module.exports = class ClassifyClassifier extends Classifier {
 		//Rank the results
 		let result = this.Classify.rank(str, true);
 
+		console.log(result);
+
 		if(result.groups.length == 0) {
 			return false;
 		}
 
-		if(result.certainty <= 0.2) {
-			return false;
-		}
+		//if(result.certainty <= 0.2) {
+		//	return false;
+		//}
 
 		//Build up standardised result
 		let output = [];
