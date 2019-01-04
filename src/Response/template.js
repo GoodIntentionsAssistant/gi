@@ -46,11 +46,16 @@ module.exports = class Template {
  * @return void
  */
   data() {
-    //Add parameters to both the parameter key and root
+    //Add parameters
     let parameters = this.Request.parameters.get();
     for(var key in parameters) {
-      this._data.parameters[key] = parameters[key].string;
       this._data[key] = parameters[key].string;
+    }
+
+    //User data
+    let user = this.Request.user.get();
+    for(var key in user) {
+      this._data[key] = user[key];
     }
 
     return this._data;

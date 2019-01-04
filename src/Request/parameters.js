@@ -1,8 +1,6 @@
 /**
  * Parameters
  */
-const Scrubber = girequire('src/Utterance/scrubber');
-
 const Promise = require('promise');
 const dotty = require("dotty");
 const extend = require('extend');
@@ -217,11 +215,12 @@ module.exports = class Parameters {
 		var output = {};
 
 		//Clean string
-		string = Scrubber.lower(string);
+		string = string.toLowerCase();
 
 		//this.request.user.set('dob_year', 'yes');
 		//this.request.user.set('dob_month', 'yes');
 		//this.request.user.set('dob_day', 'yes');
+		//this.request.user.set('favorite_city', 'Asia/Bangkok');
 
 
 		//As we parse string we need to cut it down so we don't detect the same string again
@@ -314,6 +313,9 @@ module.exports = class Parameters {
 					result.value = _value;
 					remove_remaining = false;
 					output[field].slotfilled = true;
+
+					//Dont try to keep the data, don't need slotfilling to slotfill again
+					data[field].keep = false;
 				}
 			}
 
@@ -354,8 +356,7 @@ module.exports = class Parameters {
 
 				//Keep / save result value to session user data
 				if(data[field].keep && this.request) {
-					console.log('keep', field, result.value);
-					this.request.user.set(field, result.value);
+					this._keep(field, result);
 				}
 
 				//Pass all matched entity meta data
@@ -411,6 +412,28 @@ module.exports = class Parameters {
 			this.set(field, output[field]);
 		}
 
+		return true;
+	}
+
+
+/**
+ * Keep slot filled parameter
+ * 
+ * @param string field
+ * @param Object result
+ * @access private
+ * @return bool
+ */
+	_keep(field, result) {
+		//Try to keep a good value
+		var value = result.value;
+
+		//if(result.data.label) {
+			//value = result.data.label;
+		//}
+
+		this.request.user.set(field, value);
+		
 		return true;
 	}
 

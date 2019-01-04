@@ -6,6 +6,7 @@ const Config = girequire('src/Config/config');
 
 const _ = require('underscore');
 const extend = require('extend');
+const dotty = require("dotty");
 
 module.exports = class Dialog {
 
@@ -36,11 +37,24 @@ module.exports = class Dialog {
       throw new ReferenceError(`Skill for dialog ${name} was not defined`);
     }
 
+    //If the dialog name has a dot-notation it needs to be broken up
+    //request.dialog('favorite_city.question');
+    //File is favorite_city
+    //The json contains an object, question: [], key needs to be extracted
+    let file = name;
+    let json_path = null;
+
+    if(name.indexOf('.') > -1) {
+      let parts = name.split('.');
+      file = parts[0];
+      json_path = parts[1];
+    }
+
     //Default language
     let default_lang = Config.read('locale.default_language');
 
     //Build identifier to the dialog file
-    let identifier = 'App.Skill.'+options.skill+'.Dialog.'+options.lang+'.'+name;
+    let identifier = 'App.Skill.' + options.skill + '.Dialog.' + options.lang + '.' + file;
 
     //If chosen language is not the default then soft load
     //This means if it fails to fetch the language file it won't throw an error but it will return false
@@ -55,13 +69,22 @@ module.exports = class Dialog {
     //If no data was returned and the chosen language was not their default language
     //Then try for the system default language, this can be changed in your config.json file
     if(!contents && options.lang != default_lang) {
-      identifier = 'App.Skill.' + options.skill + '.Dialog.' + default_lang + '.' + name;
+      identifier = 'App.Skill.' + options.skill + '.Dialog.' + default_lang + '.' + file;
       contents = this._load(identifier);
     }
 
     //If no contents then error
     if(!contents) {
       throw new Error(`Dialog file for ${identifier} was empty`);
+    }
+
+    //If json_path was defined then we need to tract it from the contents
+    if(json_path) {
+      contents = dotty.get(contents, json_path);
+
+      if(!contents) {
+        throw new Error(`Object key ${json_path} for ${identifier} dialog could not be found`);
+      }
     }
 
     //Pick a random array key
