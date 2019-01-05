@@ -33,6 +33,9 @@ module.exports = class Parameters {
 		//App
 		this.app = request.app;
 
+		//User
+		this.user = request.user;
+
 		//Request might be needed when loading in entities
 		//Entities requiring live data will need API access / session
 		this.request = request;
@@ -217,11 +220,12 @@ module.exports = class Parameters {
 		//Clean string
 		string = string.toLowerCase();
 
-		//this.request.user.set('dob_year', 'yes');
-		//this.request.user.set('dob_month', 'yes');
-		//this.request.user.set('dob_day', 'yes');
-		//this.request.user.set('favorite_city', 'Asia/Bangkok');
-
+		//Debugging vars
+		//Set these if you want the user to have some slot filled data already
+		//this.user.set('dob_year', 'yes');
+		//this.user.set('dob_month', 'yes');
+		//this.user.set('dob_day', 'yes');
+		//this.user.set('favorite_city', 'Asia/Bangkok');
 
 		//As we parse string we need to cut it down so we don't detect the same string again
 		//If the input is "GBP to BAHT" and the entity finds GBP then the remaining will be
@@ -460,7 +464,7 @@ module.exports = class Parameters {
 			//value = result.data.label;
 		//}
 
-		this.request.user.set(field, value);
+		this.user.set(field, value);
 		
 		return true;
 	}
@@ -494,8 +498,8 @@ module.exports = class Parameters {
 
 		//Check each key
 		for(let kk=0; kk<_keys.length; kk++) {
-			if(this.request.user.has(_keys[kk])) {
-				return this.request.user.get(_keys[kk]);
+			if(this.user.has(_keys[kk])) {
+				return this.user.get(_keys[kk]);
 			}
 		}
 
