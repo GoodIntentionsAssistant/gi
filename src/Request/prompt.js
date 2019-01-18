@@ -22,12 +22,9 @@ module.exports = class Prompt {
  * @access public
  * @return bool
  */
-  load(data) {
+  load(prompt_key) {
     //
-    this.request.log('Setting prompt');
-
-    //Set the message for the intent to pick up
-    this.request.parameters.set('prompt', data);
+    this.request.log(`Prompt set for "${prompt_key}"`);
 
     //Set the action
     //This will call a method in intent.js

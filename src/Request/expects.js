@@ -221,6 +221,8 @@ module.exports = class Expects {
 			this.finish = true;
 			this.request.parameters.set(this.expecting.key, parsed.value);
 
+			this.request.log(`Expects value found, "${parsed.value}", stored as "${this.expecting.key}"`);
+
 			//Reset last_expecting
 			this.request.session.remove('last_expecting');
 		}

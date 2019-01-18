@@ -412,13 +412,17 @@ module.exports = class Intent {
  * @return void
  */
 	prompt(request) {
-		let prompt = request.parameters.value('prompt');
+		let prompt_key = request.parameters.prompt;
+		let prompt = this.parameters[prompt_key];
 
 		request.expect({
-      force: true
+			key: prompt_key,
+			force: true,
+			entity: prompt.entity,
+			save_answer: true
     });
 
-		return prompt;
+		return prompt.prompt;
 	}
 
 

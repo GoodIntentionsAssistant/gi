@@ -64,8 +64,6 @@ module.exports = class ClassifyClassifier extends Classifier {
 		//Rank the results
 		let result = this.Classify.rank(str, true);
 
-		console.log(result);
-
 		if(result.groups.length == 0) {
 			return false;
 		}

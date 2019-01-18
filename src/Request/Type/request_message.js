@@ -91,47 +91,58 @@ module.exports = class RequestMessage extends Request {
     }
 
     //Check parameters
-    //Parse out the parameters out of the input if the intent has them
-    //We need to catch the parameter errors quickly before firing, the intent
-    //needs clean data to work. But not all parameters are required.
-    //Parameter checking might require entities to fetch live remote data so we
-    //need to create a promise and wait or the parsing to finish first.
-    //@todo Move this to Router
     if(this.intent.has_parameters()) {
-      //Check parameters for intent
-      this.log('Checking parameters for intent '+this.intent.identifier);
-
-      //Create a new parameter object
-      this.parameters.parse_from_intent(text, this.intent);
-
-      this.parameters.promise.then(() => {
-
-        if(this.parameters.prompt) {
-          //Parameter requires a prompt
-          let prompt = new Prompt(this);
-          prompt.load(this.parameters.prompt);
-        }
-        else if(!this.parameters.validates) {
-          //Parameters did not validate
-          //Throw an error
-          this._failed_intent = this.intent;
-
-          let err = this.router.error('ParametersFailed');
-          this.intent     = err.intent;
-          this.collection = err.collection;
-          this.confidence = err.confidence;
-        }
-
-        return this.call();
-      });
-
-      //Keep the process running
-      //Returning true here is returned to the dispatcher which won't finish the queue request
+      this._check_parameter_input(text);
       return true;
     }
 
     //Fire the result
     return this.call();
+  }
+
+
+/**
+ * Check parameters from input
+ * 
+ * Parse out the parameters out of the input if the intent has them
+ * We need to catch the parameter errors quickly before firing, the intent
+ * needs clean data to work. But not all parameters are required.
+ * Parameter checking might require entities to fetch live remote data so we
+ * need to create a promise and wait or the parsing to finish first.
+ * 
+ * @param string text
+ * @access private
+ * @return mixed
+ */
+  _check_parameter_input(text) {
+    //Check parameters for intent
+    this.log('Checking parameters for intent ' + this.intent.identifier);
+
+    //Create a new parameter object
+    this.parameters.parse_from_intent(text, this.intent);
+
+    this.parameters.promise.then(() => {
+
+      if (this.parameters.prompt) {
+        //Parameter requires a prompt
+        let prompt = new Prompt(this);
+        prompt.load(this.parameters.prompt);
+      }
+      else if (!this.parameters.validates) {
+        //Parameters did not validate
+        //Throw an error
+        this._failed_intent = this.intent;
+
+        let err = this.router.error('ParametersFailed');
+        this.intent = err.intent;
+        this.collection = err.collection;
+        this.confidence = err.confidence;
+      }
+
+      return this.call();
+    });
+
+    return true;
   }
 
 

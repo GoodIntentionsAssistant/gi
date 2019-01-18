@@ -33,12 +33,12 @@ module.exports = class Parameters {
 		//App
 		this.app = request.app;
 
-		//User
-		this.user = request.user;
-
 		//Request might be needed when loading in entities
 		//Entities requiring live data will need API access / session
 		this.request = request;
+
+		//User
+		this.user = this.request.user;
 	}
 
 
@@ -142,16 +142,15 @@ module.exports = class Parameters {
  * @return void
  */
 	parse(string, data) {
-		var that = this;
-
-		this.promise = new Promise(function(resolve, reject) {
+		
+		this.promise = new Promise((resolve, reject) => {
 			//Load entities first
 			var promises = [];
 			for(var field in data) {
 				//Dummy?
 				if(data[field].data) {
-					var entity = that.create_dummy_entity(data[field]);
-					that.entities[field] = entity;
+					var entity = this.create_dummy_entity(data[field]);
+					this.entities[field] = entity;
 					data[field].entity = [field];
 					continue;
 				}
@@ -165,22 +164,22 @@ module.exports = class Parameters {
 				//Loop each entity and make sure it's loaded
 				for(var ii=0; ii<entities.length; ii++) {
 					//Check if already loaded
-					if(that.entities[entities[ii]]) {
+					if(this.entities[entities[ii]]) {
 						continue;
 					}
 
 					//Get entity
-					var entity = that.app.EntityRegistry.get(entities[ii], that.request);
+					var entity = this.app.EntityRegistry.get(entities[ii], this.request);
 
 					if(entity) {
 						//Add entity to this object so it can be used in _parse
 						//Push promise from entity to check when it's fully loaded
-						that.entities[entities[ii]] = entity;
-						promises.push(that.entities[entities[ii]].promise);
+						this.entities[entities[ii]] = entity;
+						promises.push(this.entities[entities[ii]].promise);
 					}
 					else {
 						//Entity defined not found so fatal error
-						that.app.Log.error('Entity "'+data[field]['entity']+'" not found');
+						this.app.Log.error('Entity "'+data[field]['entity']+'" not found');
 						reject();
 					}
 				}
@@ -190,13 +189,13 @@ module.exports = class Parameters {
 			//Parse
 			if(promises.length == 0) {
 				//Entities loaded already, no need to wait
-				that._parse(string, data);
+				this._parse(string, data);
 				resolve();
 			}
 			else {
 				//Wait for all entities to load then parse
-				Promise.all(promises).then(function(){
-					that._parse(string, data);
+				Promise.all(promises).then(() => {
+					this._parse(string, data);
 					resolve();
 				});
 			}
@@ -222,7 +221,8 @@ module.exports = class Parameters {
 
 		//Debugging vars
 		//Set these if you want the user to have some slot filled data already
-		//this.user.set('dob_year', 'yes');
+		//this.request.user.set('height', '190 cm');
+		//this.request.user.set('weight', '79 kg');
 		//this.user.set('dob_month', 'yes');
 		//this.user.set('dob_day', 'yes');
 		//this.user.set('favorite_city', 'Asia/Bangkok');
@@ -239,6 +239,9 @@ module.exports = class Parameters {
 				slotfill: false
 			};
 			data[field] = extend(_default, data[field]);
+			data[field].field = field;
+
+			this.request.log(`Parameter checking "${field}"`);
 
 			//Prompt always uses slotfill so the answers can be remembered and it'll
 			//go to the next prompt question or next action to call
@@ -274,7 +277,7 @@ module.exports = class Parameters {
 			//Try to parse the input with entities
 			for(var ii=0; ii<entities.length; ii++) {
 				var entity = this.entities[entities[ii]];
-				result = entity.parse(_string);
+				result = entity.parse(_string, data[field]);
 				if(result.value) {
 					break;
 				}
@@ -307,19 +310,27 @@ module.exports = class Parameters {
 				valid: 			valid,
 				slotfilled: false,
 				data: 			{}
-			}
+			};
 
 			//No result found in incoming text
 			//Check for slotfilling if slotfilling is enabled on the parameter
+			//The resultof the slotfill will be the entire parameter data, not just the value
 			if(!result.value && data[field].slotfill) {
-				let _value = this._slotfill(field, data[field].slotfill);
-				if(_value) {
-					result.value = _value;
+				let slotfill_result = this._slotfill(field, data[field].slotfill);
+
+				if(slotfill_result) {
+					result = slotfill_result;
+
+					//Value was slot filled so no need to try and remove it from the incoming string
 					remove_remaining = false;
+					
+					//So we know at output the value was slotfilled
 					output[field].slotfilled = true;
 
-					//Dont try to keep the data, don't need slotfilling to slotfill again
+					//Dont try to keep the data, don't need slotfill again
 					data[field].keep = false;
+
+					this.request.log(`Slotfilled, ${field} with "${slotfill_result.value}"`);
 				}
 			}
 
@@ -391,11 +402,15 @@ module.exports = class Parameters {
 			}
 		}
 
-		//Validate
-		this._validate(output);
-
 		//Prompt
-		this._check_prompt(output);
+		let has_prompt = this._check_prompt(output);
+
+		//Validate
+		//Only validate if there is no prompt action
+		this.validates = true;
+		if(!has_prompt) {
+			this._validate(output);
+		}
 
 		//Set data
 		for(var field in output) {
@@ -414,12 +429,10 @@ module.exports = class Parameters {
  * @return bool
  */
 	_validate(parameters) {
-		this.validates = true;
 
+		//If the parameter was required and it has no value then fail validation
 		for (var field in parameters) {
-			//If required and no value
 			if(parameters[field].required && !parameters[field].value) {
-				//Required field has no value
 				this.validates = false;
 			}
 		}
@@ -430,21 +443,24 @@ module.exports = class Parameters {
 
 /**
  * Check for a prompt
+ * 
+ * Set prompt to the key of the parameter so the intent can load it back in and generate an expects
  *
  * @param Object result
  * @access private
  * @return bool
  */
 	_check_prompt(parameters) {
-		for(var field in parameters) {
+		for(let field in parameters) {
 			//If required and no value
 			if(parameters[field].required && !parameters[field].value && parameters[field].prompt && !this.prompt) {
-				console.log('set prompt for ', field);
-				this.prompt = parameters[field].prompt;
+				this.prompt = field;
+				return true;
 			}
 		}
 
-		return true;
+		//No required prompt
+		return false;
 	}
 
 
@@ -457,15 +473,7 @@ module.exports = class Parameters {
  * @return bool
  */
 	_keep(field, result) {
-		//Try to keep a good value
-		var value = result.value;
-
-		//if(result.data.label) {
-			//value = result.data.label;
-		//}
-
-		this.user.set(field, value);
-		
+		this.request.user.set('parameter.'+field, result);
 		return true;
 	}
 
@@ -498,8 +506,8 @@ module.exports = class Parameters {
 
 		//Check each key
 		for(let kk=0; kk<_keys.length; kk++) {
-			if(this.user.has(_keys[kk])) {
-				return this.user.get(_keys[kk]);
+			if(this.request.user.has('parameter.'+_keys[kk])) {
+				return this.request.user.get('parameter.'+_keys[kk]);
 			}
 		}
 
