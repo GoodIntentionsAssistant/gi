@@ -88,6 +88,8 @@ module.exports = class Queue {
 			input: input
 		});
 
+		this.check();
+
 		return true;
 	}
 
