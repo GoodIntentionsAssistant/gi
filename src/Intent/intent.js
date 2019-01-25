@@ -419,7 +419,7 @@ module.exports = class Intent {
 			key: prompt_key,
 			force: true,
 			entity: prompt.entity,
-			save_answer: true
+			keep: true
     });
 
 		return prompt.prompt;

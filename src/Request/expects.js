@@ -176,8 +176,8 @@ module.exports = class Expects {
 			}
 
 			//Save their response
-			if(this.expecting.save_answer) {
-				this._save_answer(this.expecting.key, this.text);
+			if(this.expecting.keep) {
+				this._keep(this.expecting.key, this.text);
 			}
 
 			//Change the intent
@@ -240,7 +240,7 @@ module.exports = class Expects {
 
 			//Make sure the answer is not saved
 			if(this.expecting) {
-				this.expecting.save_answer = false;
+				this.expecting.keep = false;
 			}
 
 			//When expects fails check if the action should be changed
@@ -288,13 +288,13 @@ module.exports = class Expects {
 
 
 /**
- * Save session data
+ * Keep the value on the user session
  *
  * @param object request
  * @access public
  * @return void
  */
-	_save_answer(key, value) {
+	_keep(key, value) {
 		this.request.user.set(key, value);
 	}
 
