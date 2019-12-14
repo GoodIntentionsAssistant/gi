@@ -182,9 +182,10 @@ Classifier.prototype.rank = function(input, remove_unranked = false)
 	});
 
   var words = input.split(" ");
+
 	for(var j = 0; j < words.length; j++)
   {
-    var cleanWord = scrubWord(words[j])
+    var cleanWord = scrubWord(words[j]);
 
 		for(var i = 0; i < groupLikelihood.length; i++)
 		{

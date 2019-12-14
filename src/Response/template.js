@@ -13,8 +13,8 @@ module.exports = class Template {
  */
   constructor(Response) {
     this.Response = Response;
-    this.Request = Response.request;
-    this.App = Response.app;
+    this.Request = Response.Request;
+    this.App = Response.App;
 
     this._data = {
       parameters: {}

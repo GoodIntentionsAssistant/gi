@@ -22,28 +22,22 @@ module.exports = class Response extends EventEmitter {
  * @access public
  * @return void
  */
-	constructor(request) {
+	constructor(Request) {
 		super();
 
 		//
-		this.request = request;
-    this.app = request.app;
+		this.Request = Request;
+    this.App = Request.app;
 
 		//
 		this.namespace = 'response';
 		this.sequence_count = 0;
 
     //Attachments for the message
-    this.attachments = {};
+    this._attachments = {};
 
     //If GI is currently typing
     this.typing = false;
-
-    //Queue for sending messages back to user
-    this.queue = [];
-
-    //Timer for the queue
-    this.timer = null;
 
     //Template
     this.Template = new Template(this);
@@ -87,12 +81,28 @@ module.exports = class Response extends EventEmitter {
     let data = extend(_options, options);
 
     //If there are no attachments do not try to flush the buffer yet
-    if(this.attachments.length == 0) {
+    if(this._attachments.length == 0) {
       return true;
     }
 
-    //Flush the buffer
-    this._send();
+    //Check client still exists
+    if(!this.valid_client()) {
+      return false;
+    } 
+
+    //
+    if(!this.typing) {
+      this.start_typing();
+    }
+
+    //Get current attachments
+    let attachments = this.attachments();
+
+    //Clear the attachments because we'll be sending them
+    this.clearAttachments();
+
+    //Send the attachments
+    this._send(attachments);
 
     return true;
   }
@@ -104,16 +114,16 @@ module.exports = class Response extends EventEmitter {
  * @access public
  * @return void
  */
-  _send() {
+  _send(attachments) {
     //Build message
-    var data = this.build();
+    var data = this.build(attachments);
 
     //Log output
-    for(let key in this.attachments) {
-      for(let ii=0; ii<this.attachments[key].length; ii++) {
+    for(let key in attachments) {
+      for(let ii=0; ii<attachments[key].length; ii++) {
         //If it has text
-        let output = JSON.stringify(this.attachments[key][ii]);
-        this.request.log(`Reply ${key}: ${output}`);
+        let output = JSON.stringify(attachments[key][ii]);
+        this.Request.log(`Reply ${key}: ${output}`);
       }
     }
 
@@ -127,7 +137,7 @@ module.exports = class Response extends EventEmitter {
 
     //Update the request last activity
     //This stops the queue timing out the request if it's still doing something
-    this.request.last_activity = Date.now();
+    this.Request.last_activity = Date.now();
   }
 
 
@@ -144,21 +154,21 @@ module.exports = class Response extends EventEmitter {
     let identifier = type;
 
     //Get attachment object and build
-    let obj = this.app.AttachmentRegistry.get(identifier);
+    let obj = this.App.AttachmentRegistry.get(identifier);
     let result = obj.build(data, this.Template);
 
     //Multiple attachments or just one
     if(obj.multiple) {
       //Check if the attachment key has been added already
-      if(!this.attachments[type]) {
-        this.attachments[type] = [];
+      if(!this._attachments[type]) {
+        this._attachments[type] = [];
       }
 
-      this.attachments[type].push(result);
+      this._attachments[type].push(result);
     }
     else {
       //Single attachment
-      this.attachments[type] = result;
+      this._attachments[type] = result;
     }
 
     return true;
@@ -166,34 +176,49 @@ module.exports = class Response extends EventEmitter {
 
 
 /**
+ * Return a list of attachments
+ * 
+ * @access public
+ * @return object
+ */
+  attachments() {
+    return this._attachments;
+  }
+
+
+/**
+ * Clear all attachments
+ * 
+ * @access public
+ * @return void
+ */
+  clearAttachments() {
+    this._attachments = {};
+  }
+
+
+/**
  * Build message
  *
- * @param hash data
- * @param string message
+ * @param object attachments
  * @access public
- * @return hash
+ * @return object
  */
-  build(data, message) {
-    //Add attachments
-    var attachments = {};
-    if(this.attachments) {
-      attachments = this.attachments;
-    }
-
+  build(attachments) {
     //Result
     let result = {
       type: 'message',
       attachments:  attachments,
-      ident:        this.request.ident,
-      user:         this.request.input.user
+      ident:        this.Request.ident,
+      user:         this.Request.input.user
     };
 
     //Intent information
-    if(this.request.intent) {
-      result.collection   = this.request.collection;
-      result.intent       = this.request.intent.identifier;
-      result.action       = this.request.action;
-      result.confidence   = this.request.confidence;
+    if(this.Request.intent) {
+      result.collection   = this.Request.collection;
+      result.intent       = this.Request.intent.identifier;
+      result.action       = this.Request.action;
+      result.confidence   = this.Request.confidence;
     }
 
     return result;
@@ -233,25 +258,46 @@ module.exports = class Response extends EventEmitter {
 
 
 /**
+ * Check client
+ * 
+ * @access public
+ * @return boolean
+ */
+  valid_client() {
+    if(!this.Request.client) {
+      this.Request.log(`Client was not found, it may have disconnected`);
+      this.Request.cancel();
+      return false;
+    }
+    return true;
+  }
+
+
+/**
  * Emit message
  *
  * @param hash data
  * @access public
- * @return void
+ * @return boolean
  */
 	send_to_client(data) {
+    //Check client still exists
+    if(!this.valid_client()) {
+      return false;
+    } 
+
 		//Name space
 		let namespace = this.namespace;
-		if(this.request.input.namespace) {
-			namespace += '::' + this.request.input.namespace;
+		if(this.Request.input.namespace) {
+			namespace += '::' + this.Request.input.namespace;
 		}
 
 		//Request identifier
 		//Each request to the app has a unique identifier
-		data.ident      = this.request.ident;
+		data.ident      = this.Request.ident;
 
 		//User session data
-		data.session_id = this.request.session.session_id;
+		data.session_id = this.Request.session.session_id;
 
 		//Name space used
 		data.namespace 	= namespace;
@@ -264,7 +310,9 @@ module.exports = class Response extends EventEmitter {
 		
 		//Send data to the client connected
 		//The client will send it back to the user
-		this.request.client.emit(this.namespace, data);
+    this.Request.client.emit(this.namespace, data);
+    
+    return true;
 	}
 
 

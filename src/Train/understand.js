@@ -50,7 +50,7 @@ module.exports = class Understand {
     };
 
     //Match
-    let matches = this.match(utterance, collections)
+    let matches = this.match(utterance, collections);
 
     if(matches) {
       result.success  = true;

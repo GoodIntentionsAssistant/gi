@@ -36,6 +36,9 @@ module.exports = class Request {
 		//Update last activity
 		//Used for the queue to time out requests. Response will keep this date up to date
     this.last_activity = Date.now();
+
+    //Request has been cancelled
+    this._cancelled = false;
     
     //Total number of attachments on response
     this.attachment_count = 0;
@@ -231,12 +234,17 @@ module.exports = class Request {
  * Send
  * 
  * @param string text
- * @param object options
  * @access public
  * @return boolean
  */
-	send(text, options = {}) {
-		this.response.send(text, options);
+	send(text) {
+    //Cancelled request
+    if(this.cancelled()) {
+      return false;
+    }
+
+    this.attachment('message', text);
+		this.response.send();
 	}
 
 
@@ -264,6 +272,30 @@ module.exports = class Request {
     this.attachment_count++;
 		return this.response.attachment(type, data);
 	}
+	
+
+/**
+ * Canceled
+ *
+ * @access public
+ * @return boolean
+ */
+  cancelled() {
+    return this._cancelled;
+  }
+	
+
+/**
+ * Cancel request
+ *
+ * @access public
+ * @return void
+ */
+  cancel() {
+    this._cancelled = true;
+    this.end();
+    this.log('Request cancelled');
+  }
 	
 
 /**
