@@ -49,9 +49,6 @@
     "enabled": true
   },
   "response": {
-    "min_reply_time": 500,
-    "letter_speed": 20,
-    "max_response": 2000
   },
   "queue": {
     "max_consecutive": 1,

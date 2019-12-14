@@ -1,5 +1,5 @@
 /**
- * Request Intent
+ * Request Event
  */
 const Request = require('../request.js');
 

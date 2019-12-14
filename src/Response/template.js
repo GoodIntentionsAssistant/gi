@@ -11,9 +11,10 @@ module.exports = class Template {
  * @access public
  * @return void
  */
-  constructor(Request) {
-    this.Request = Request;
-    this.App = Request.app;
+  constructor(Response) {
+    this.Response = Response;
+    this.Request = Response.request;
+    this.App = Response.app;
 
     this._data = {
       parameters: {}

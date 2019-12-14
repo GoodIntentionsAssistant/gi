@@ -35,7 +35,10 @@ module.exports = class Request {
 
 		//Update last activity
 		//Used for the queue to time out requests. Response will keep this date up to date
-		this.last_activity = Date.now();
+    this.last_activity = Date.now();
+    
+    //Total number of attachments on response
+    this.attachment_count = 0;
 
 		//Promise to call back to Queue to say we are done so request can be taken out
 		//of the queue. But I'm not sure if this is correctly done. I couldn't figure out how to
@@ -138,6 +141,7 @@ module.exports = class Request {
 /**
  * Call the intent
  * 
+ * @todo Replace reply message with a config message
  * @access public
  * @return bool
  */
@@ -171,7 +175,7 @@ module.exports = class Request {
 /**
  * Time out
  *
- * @todo Move to dispatcher
+ * @todo Move to dispatcher and replace with config message
  * @access public
  * @return bool
  */
@@ -196,39 +200,30 @@ module.exports = class Request {
     };
     options = extend(_options, options);
 
-    //No result returned
-    //Intent could have replied false to handle the response manually
-    if(!result) {
-      this.end();
-      return;
-    }
-
-    //Empty array returned
-    if(result instanceof Array && result.length == 0) {
-      this.end();
-      return;
-    }
-
-    //Result is an object
-    //An intent can return an object/hash instead of just a text result
-    //{ "result": "hello", "options":{} }
-    if(result instanceof Object && !(result instanceof Array)) {
-      var _temp = result;
-      result = _temp.result;
-
-      //If options have been passed
-      if(_temp.options) {
-        options = extend(options, _temp.options);
+    //Array returned
+    if(result instanceof Array && result.length > 0) {
+      for(let ii=0; ii<result.length; ii++) {
+        this.attachment('message', result[ii]);
       }
+    }
+    else if(result && result instanceof String) {
+      //Returned a string
+      this.attachment('message', result);
+    }
+
+    //Count attachments, if no attachments then end
+    if(this.attachment_count == 0) {
+      this.end();
+      return;
     }
 
     //Listen for the sent event
     this.response.on('sent', () => {
       this.end();
     });
-    
-    //Send it back to the user
-		this.response.send(result, options);
+
+    //Send response
+		this.response.send();
 	}
 
 
@@ -266,6 +261,7 @@ module.exports = class Request {
  * @return boolean
  */
 	attachment(type, data) {
+    this.attachment_count++;
 		return this.response.attachment(type, data);
 	}
 	

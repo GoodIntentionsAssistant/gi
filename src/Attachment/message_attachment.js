@@ -1,9 +1,9 @@
 /**
- * Voice Attachment
+ * Message Attachment
  */
 const Attachment = require('./attachment.js');
 
-module.exports = class VoiceAttachment extends Attachment {
+module.exports = class MessageAttachment extends Attachment {
 
   build(text, Template) {
     return {

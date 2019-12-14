@@ -27,14 +27,14 @@ module.exports = class Error {
       messages = [messages];
     }
 
-    console.log('Warning'.magenta.underline);
+    console.log('Warning'.yellow.underline);
 
     for(let ii=0; ii<messages.length; ii++) {
       if(typeof messages[ii] == 'object') {
         messages[ii] = messages[ii].toString();
       }
 
-      console.log(messages[ii].magenta);
+      console.log(messages[ii].yellow);
     }
   }
 

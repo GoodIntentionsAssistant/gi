@@ -87,7 +87,7 @@ module.exports = class Client {
 
 		if(!this.validate_client_secret(input.secret)) {
 			this.identified = false;
-			this.app.Log.error('Client '+this.name+' failed secret');
+			this.app.Error.warning('Client "'+this.name+'" secret key does not match in config file');
 			this.emit('event', {
 				type: 'identify',
 				success: false,

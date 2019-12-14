@@ -4,6 +4,7 @@
   "skills": [],
 
   "attachments": [
+    "Sys.Attachment.Message",
     "Sys.Attachment.Image",
     "Sys.Attachment.Action",
     "Sys.Attachment.Field",

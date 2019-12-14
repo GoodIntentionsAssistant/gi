@@ -1,7 +1,6 @@
 /**
  * Request Message
  */
-const Template    = girequire('src/Response/template');
 const Dialog      = girequire('src/Response/dialog');
 
 const Request     = require('../request.js');
@@ -34,9 +33,6 @@ module.exports = class RequestMessage extends Request {
 
     //Router
     this.router = new Router(this);
-
-    //Template
-    this.template = new Template(this);
   }
 
 
@@ -183,7 +179,7 @@ module.exports = class RequestMessage extends Request {
 
 
 /**
- * Set something for templating
+ * Set for templating
  * 
  * @param mixed key 
  * @param string value optional
@@ -191,8 +187,7 @@ module.exports = class RequestMessage extends Request {
  * @return bool
  */
   set(key, value = {}) {
-    this.template.set(key, value);
-    return true;
+    return this.response.set(key, value);
   }
 
 
