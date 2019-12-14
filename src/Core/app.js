@@ -61,7 +61,8 @@ module.exports = class App extends EventEmitter {
 		if (!fs.existsSync(configFile)) {
 			this.Error.fatal([
 				`Cannot start GI, your config file was not found`,
-				`Make sure ${configFile} exists`
+				`Make sure ${configFile} exists`,
+				`Copy the existing config.example.json to config.json and make changes before running again`
 			]);
 		}
 
