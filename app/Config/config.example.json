@@ -13,7 +13,7 @@
 
   "clients": {
     "test": {
-      "secret": "NrCgyKqvyB"
+      "secret": "changeme"
     }
   },
   

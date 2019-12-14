@@ -27,9 +27,15 @@ module.exports = class PackageManager {
  * @return void
  */
   load() {
-    var filename = Config.path('package') + '/packages.json';
+    var packagesFile = Config.path('package') + '/packages.json';
 
-    var data = fs.readFileSync(filename, { encoding: 'utf-8' });
+    //Packages file does not exist
+    //No need to error, the user might be trying to fetch packages
+		if(!fs.existsSync(packagesFile)) {
+      return;
+    }
+
+    var data = fs.readFileSync(packagesFile, { encoding: 'utf-8' });
     var json = JSON.parse(data);
 
     if (!json || !json.packages) {
@@ -119,6 +125,7 @@ module.exports = class PackageManager {
       }
       else {
         console.log('There was an error installing '+name);
+        console.log(error);
       }
     });
   }

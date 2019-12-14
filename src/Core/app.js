@@ -56,15 +56,8 @@ module.exports = class App extends EventEmitter {
 
 		this.Error = new Error();
 
-		//Make sure config exists
-		let configFile = './app/Config/config.json';
-		if (!fs.existsSync(configFile)) {
-			this.Error.fatal([
-				`Cannot start GI, your config file was not found`,
-				`Make sure ${configFile} exists`,
-				`Copy the existing config.example.json to config.json and make changes before running again`
-			]);
-		}
+		//Checks to make sure the system is configured correctly
+		this.initChecks();
 
 		this.Event = new Event(this);
 		this.Log = new Log(this);
@@ -85,6 +78,43 @@ module.exports = class App extends EventEmitter {
 		this.EntityRegistry 		= new EntityRegistry(this);
 		this.IntentRegistry 		= new IntentRegistry(this);
 		this.AttachmentRegistry = new AttachmentRegistry(this);
+	}
+
+
+/**
+ * Initalizing server checks
+ * 
+ * @access public
+ * @return void
+ */
+	initChecks() {
+		//Make sure config exists
+		let configFile = './app/Config/config.json';
+		if (!fs.existsSync(configFile)) {
+			this.Error.fatal([
+				`Cannot start GI, your config file was not found`,
+				`Make sure ${configFile} exists`,
+				`Copy the existing config.example.json to config.json and make changes before running again`
+			]);
+		}
+
+		//Make sure test secret has been changed
+		if(Config.read('clients.test.secret') == 'changeme') {
+			this.Error.fatal([
+				`Change the test secret in your ${configFile} file before continuing`
+			]);
+		}
+
+		//Make sure test secret has been changed
+		if(Config.read('skills').length == 0) {
+			this.Error.fatal([
+				`You need to add at least one skill before loading the server`,
+				`Otherwise the bot won't do anything!`,
+				`First run, node gi fetch`,
+				`Then install a basic package, node gi install gi-skill-basics`,
+				`Then install some example packages, node gi install gi-skill-examples`
+			]);
+		}
 	}
 
 
