@@ -79,14 +79,22 @@ module.exports = class Response extends EventEmitter {
  *
  * @param Object options
  * @access public
- * @return void
+ * @return Boolean
  */
   send(options) {
     let _options = {
     };
     let data = extend(_options, options);
 
+    //If there are no attachments do not try to flush the buffer yet
+    if(this.attachments.length == 0) {
+      return true;
+    }
+
+    //Flush the buffer
     this._send();
+
+    return true;
   }
 
 
@@ -97,12 +105,6 @@ module.exports = class Response extends EventEmitter {
  * @return void
  */
   _send() {
-
-    //Log the outputted message
-    //if(message) {
-    //  this.request.log('Reply: '+message);
-    //}
-
     //Build message
     var data = this.build();
 
@@ -115,7 +117,7 @@ module.exports = class Response extends EventEmitter {
       }
     }
 
-    console.log(util.inspect(data, {showHidden: false, depth: null}))
+    //console.log(util.inspect(data, {showHidden: false, depth: null}))
 
     //Send to client
     this.send_to_client(data);

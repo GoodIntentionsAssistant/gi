@@ -60,7 +60,6 @@ module.exports = class Request {
   set_input(input) {
     //Default
     let _input = {
-      fast: false,
       namespace: null
     };
 
@@ -206,13 +205,14 @@ module.exports = class Request {
         this.attachment('message', result[ii]);
       }
     }
-    else if(result && result instanceof String) {
+    else if(result && typeof result == 'string') {
       //Returned a string
       this.attachment('message', result);
     }
 
     //Count attachments, if no attachments then end
-    if(this.attachment_count == 0) {
+    //If the intent returned true keep the request and response active, it might have async methods
+    if(this.attachment_count == 0 && result !== true) {
       this.end();
       return;
     }
