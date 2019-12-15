@@ -10,6 +10,18 @@ To run the server `node gi serve`
 Find the work in progress documentation at http://goodintentions.firecreekweb.com
 
 
+
+## Updating dependancies
+
+https://www.npmjs.com/package/npm-check-updates
+
+```
+npm i -g npm-check-updates
+ncu -u
+npm install
+```
+
+
 ## License
 
 This library is licensed under the MIT [license](LICENSE)

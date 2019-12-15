@@ -11,6 +11,7 @@ module.exports = class Client {
  *
  * @param object app
  * @param object server
+ * @param object client
  * @access public
  * @return void
  */
@@ -40,24 +41,22 @@ module.exports = class Client {
  * @return void
  */
 	load() {
-		this.app.Log.add('Client Connected');
+		this.app.Log.add('New client connected');
 
-		var that = this;
-
-		this.client.on('request', function(input) {
-			that.request(input);
+		this.client.on('request', (input) => {
+			this.request(input);
 		});
 
-		this.client.on('identify', function(input) {
-			that.identify(input);
+		this.client.on('identify', (input) => {
+			this.identify(input);
 		});
 
-		this.client.on('handshake', function(input) {
-			that.handshake(input);
+		this.client.on('handshake', (input) => {
+			this.handshake(input);
 		});
 
-		this.client.on('disconnect', function(){
-			that.disconnect();
+		this.client.on('disconnect', () => {
+			this.disconnect();
 		});
 	}
 
