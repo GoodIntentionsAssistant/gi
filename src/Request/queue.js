@@ -72,6 +72,8 @@ module.exports = class Queue {
 		let ident = Randtoken.generate(16);
 
 		//Check if skipping the queue
+		//This should only be used for time critical requests such as a scheduled call
+		//that we don't want to get stuck in the queue causing a delay
 		if(input.skip_queue) {
 			this.app.Log.add('Request skipping queue', ident);
 			this.request({

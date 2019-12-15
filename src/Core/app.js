@@ -258,22 +258,30 @@ module.exports = class App extends EventEmitter {
  * Take input and add it to the queue.
  * All requests go through this method.
  *
- * @todo Change errors so they aren't fatal
- * @param string input
- * @access public
- * @return boolean
+ * @param {object} input
+ * @returns {boolean}
  */
 	request(input) {
-
-		//Validate
-		if(!input.session_id) {
-			this.Error.warning('Input had no session_id specified');
-			return;
+		//Scheduler request
+		//When the scheduler is emitted an intent will have a listener
+		//This listener will typically generate a request to an intent
+		if(input.scheduler) {
+			input.client_id 		= input.scheduler.client_id;
+			input.session_id 		= input.scheduler.session_id;
+			input.schedule_data = input.scheduler;
+			input.skip_queue 		= true;
 		}
 
+		//Validate session_id exists
+		if(!input.session_id) {
+			this.Error.warning('Input had no session_id specified');
+			return false;
+		}
+
+		//Validate client_id exists
 		if(!input.client_id) {
 			this.Error.warning('Input had no client_id specified');
-			return;
+			return false;
 		}
 
 		//Default type will be message
@@ -282,12 +290,14 @@ module.exports = class App extends EventEmitter {
 		}
 
 		//Intent has been defined, no text will be passed
-		//The user wants to go directly to an intent
+		//The request wants to go directly to an intent
 		if(input.intent) {
 			input.type = 'intent';
 		}
 
 		this.Queue.add(input);
+
+		return true;
 	}
 
 }

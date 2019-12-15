@@ -52,6 +52,9 @@ module.exports = class Scheduler {
     let schedule = this.find(scheduler_id);
 
     if(!schedule) {
+      this.app.Error.warning([
+        `Scheduler id "${scheduler_id}" was triggered but could not found`
+      ]);
       return false;
     }
 
