@@ -128,11 +128,15 @@ module.exports = class Request {
  *
  * Method must return a false otherwise the request will send "true"
  *
+ * @todo Centralise this call with request_intent.js
  * @param string intent identifier, e.g. App.Example.Intent.Ping
- * @access public
  * @return bool
  */
 	redirect(identifier) {
+    if(!this.app.IntentRegistry.exists(identifier)) {
+      throw new Error(`Intent ${identifier} does not exist`);
+    }
+
     this.intent = this.app.IntentRegistry.get(identifier);
     this.action = 'response';
     this.call();
