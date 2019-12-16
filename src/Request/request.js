@@ -275,6 +275,25 @@ module.exports = class Request {
 	
 
 /**
+ * Make another request
+ *
+ * @param {object} data
+ * @return {boolean}
+ */
+	request(data) {
+    if(!data.client_id && this.client.client_id) {
+      data.client_id = this.client.client_id;
+    }
+
+    if(!data.session_id && this.session.session_id) {
+      data.session_id = this.session.session_id;
+    }
+
+    return this.app.request(data);
+	}
+	
+
+/**
  * Canceled
  *
  * @access public
