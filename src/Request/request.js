@@ -212,8 +212,9 @@ module.exports = class Request {
         this.attachment('message', result[ii]);
       }
     }
-    else if(result && typeof result == 'string') {
+    else if(result && (typeof result == 'string' || typeof result == 'number')) {
       //Returned a string
+      result = result.toString();
       this.attachment('message', result);
     }
 
