@@ -71,6 +71,12 @@ module.exports = class ObjectRegistry {
             return;
           }
 
+          //If the file has an underscore at the start then ignore it
+          //This is useful when disabiling intents, entities, etc.. quickly
+          if(file.substring(0,1) == '_') {
+            return;
+          }
+
           //Build up the object identifier and load it
           //Turning /Skill/Dice/Intent/dice_intent.js to App.Dice.Intent.Dice
           let name = file;
