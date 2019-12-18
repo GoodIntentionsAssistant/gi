@@ -177,10 +177,10 @@ module.exports = class ObjectRegistry {
       var Module = require(file);
     }
     catch(e) {
-      console.log(e);
       this.app.Error.fatal([
         `Failed to load ${identifier}`,
-        `Make sure you have created ${file}`
+        `Make sure you have created '${file}'`,
+        e
       ]);
     }
 

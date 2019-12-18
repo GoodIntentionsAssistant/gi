@@ -54,7 +54,16 @@ module.exports = class Error {
     console.log('Fatal Error'.red.underline);
 
     for(let ii=0; ii<messages.length; ii++) {
-      console.log(messages[ii].red);
+      let line = messages[ii];
+
+      if(typeof line == 'object' && line.stack) {
+        line = line.message + "\n" + line.stack;
+      }
+      else if(typeof line == 'object') {
+        line = line.toString();
+      }
+
+      console.log(line.red);
     }
 
     process.exit(1);
