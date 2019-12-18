@@ -6,14 +6,17 @@
 //https://gist.github.com/branneman/8048520
 global.girequire = name => {
 	let path = __dirname + '/../..';
+
+	//Standard module
+	if(name.indexOf('/') === -1) {
+	  path = __dirname + '/../../node_modules';
+	}
+
 	return require(`${path}/${name}`);
 };
 
 const Promise = require('promise');
 const fs = require('fs');
-const moment = require('moment');
-const extend = require('extend');
-const util = require("util");
 const EventEmitter = require('events').EventEmitter;
 
 const Error = require('./../Error/error.js');

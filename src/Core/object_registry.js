@@ -179,8 +179,8 @@ module.exports = class ObjectRegistry {
     catch(e) {
       console.log(e);
       this.app.Error.fatal([
-        'Failed to load '+identifier,
-        'Make sure you have created '+file
+        `Failed to load ${identifier}`,
+        `Make sure you have created ${file}`
       ]);
     }
 
