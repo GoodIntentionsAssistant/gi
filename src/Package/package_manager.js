@@ -166,6 +166,10 @@ module.exports = class PackageManager {
         });
       })
     }
+    else {
+      console.log('No skill paths ' + path);
+      return false;
+    }
 
     paths.forEach((result) => {
       var pathFrom = result.path;
