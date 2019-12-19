@@ -70,7 +70,7 @@ Classifier.prototype.train = function(group, input)
     {
       self.numWords += 1;
 
-  		incrementOrCreate(self.wordFrequencyCount, cleanWord);
+      incrementOrCreate(self.wordFrequencyCount, cleanWord);
       incrementOrCreate(self.groupWordTotal, group);
       incrementOrCreateGroup(self.groupWordFrequencyCount, group, cleanWord);
 

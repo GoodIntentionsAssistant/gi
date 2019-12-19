@@ -212,7 +212,7 @@ module.exports = class Client {
  * @return object
  */
   user_auth(input) {
-  	return this.app.Auth.identify(input.session_id);
+		return this.app.Auth.identify(input.session_id);
   }
 
 

@@ -97,7 +97,7 @@ module.exports = class Intent {
  * @return bool
  */
 	must(data, options = {}) {
-  	return this.add_explicit('must', data, options);
+		return this.add_explicit('must', data, options);
 	}
 
 
@@ -109,7 +109,7 @@ module.exports = class Intent {
  * @return bool
  */
   reject(data, options = {}) {
-  	return this.add_explicit('reject', data, options);
+		return this.add_explicit('reject', data, options);
   }
 
 
@@ -125,8 +125,8 @@ module.exports = class Intent {
  * @return bool
  */
   add_explicit(type, data, options = {}) {
-  	if(typeof data == 'object') {
-  		//Passed as an array
+		if(typeof data == 'object') {
+			//Passed as an array
 			for(var ii=0; ii < data.length; ii++) {
 	  		this._explicits.push({
 	  			type: type,
@@ -136,15 +136,15 @@ module.exports = class Intent {
 	  		});
 			}
   	}
-  	else {
-  		//Passed as a single string, e.g. .reject('add')
-  		this._explicits.push({
-	  		type: type,
-	  		identifier: this.identifier,
+		else {
+			//Passed as a single string, e.g. .reject('add')
+			this._explicits.push({
+				type: type,
+				identifier: this.identifier,
 				keyword: data,
 				options: options
-  		});
-  	}
+			});
+		}
 
 		return true;
   }

@@ -84,7 +84,7 @@ module.exports = class Train {
     }
     else {
       //Load the classifier from config file
-		  classifier = Config.read('collections.'+collection+'.classifier');
+			classifier = Config.read('collections.'+collection+'.classifier');
     }
 
 		//If no classifier defined for the collection then fatal error

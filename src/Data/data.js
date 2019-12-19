@@ -97,11 +97,11 @@ module.exports = class Data {
 					]);
 				}
 
-			  resolve(json);
+				resolve(json);
 			});
 		});
 
-	  return promise;
+		return promise;
 	}
 
 

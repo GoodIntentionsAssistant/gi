@@ -41,8 +41,8 @@ module.exports = class Queue {
 
 		//Listen to the main app loop
     app.on('app.loop', (data) => {
-    	if(this.active) {
-      	this.check();
+			if(this.active) {
+				this.check();
       }
     });
 	}

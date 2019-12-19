@@ -9,7 +9,7 @@ global.girequire = (name) => {
 
 	//Standard module
 	if(name.indexOf('/') === -1) {
-	  path = __dirname + '/../../node_modules';
+		path = __dirname + '/../../node_modules';
 	}
 
 	return require(`${path}/${name}`);
