@@ -123,9 +123,9 @@ module.exports = class Understand {
 
     //
     this.App.Event.emit('app.understand.match',{
-      utterance: utterance,
-      collection: collection,
-      matches: matches
+      utterance,
+      collection,
+      matches
     });
 
     if(matches.length > 0) {

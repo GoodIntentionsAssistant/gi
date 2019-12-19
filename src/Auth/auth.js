@@ -80,8 +80,8 @@ module.exports = class Auth {
 
 			//Event
 			this.app.Event.emit('auth.new', {
-				session: session,
-				client: client
+				session,
+				client
 			});
 		}
 		
@@ -122,8 +122,8 @@ module.exports = class Auth {
 		user.load(user_data.user_id, user_data);
 		
 		return {
-			user: user,
-			session: session
+			user,
+			session
 		};
 	}
 

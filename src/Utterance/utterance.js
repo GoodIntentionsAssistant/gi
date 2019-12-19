@@ -72,8 +72,8 @@ module.exports = class Utterance {
     stopwords = Scrubber.stop_words(stopwords);
 
     this.data.scrubbed = {
-      'normal': normal,
-      'stopwords': stopwords
+      normal,
+      stopwords
     };
 
     return true;

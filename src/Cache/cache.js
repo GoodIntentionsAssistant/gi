@@ -58,8 +58,8 @@ module.exports = class Cache {
     }
 
     this.data[key] = {
-      expire: expire,
-      value: value
+      expire,
+      value
     };
     return true;
   }

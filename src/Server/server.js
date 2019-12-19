@@ -102,8 +102,8 @@ module.exports = class Server extends EventEmitter {
 		client.client_id = client_id;
 
 		this.clients.push({
-			client_id: client_id,
-			client: client
+			client_id,
+			client
 		});
 
 		return client_id;

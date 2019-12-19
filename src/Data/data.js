@@ -144,7 +144,7 @@ module.exports = class Data {
 
 					//Add to data
 					output[key] = {
-						synonyms: synonyms
+						synonyms
 					}
 				}
 

@@ -168,8 +168,8 @@ module.exports = class Queue {
 		//This will be checked on the loop to make sure it's not timed out
 		this.requests[data.ident] = {
 			started: Date.now(),
-			request: request,
-			active: true
+			active: true,
+			request
 		};
 
 		//Check when the result has finished

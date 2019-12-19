@@ -89,9 +89,9 @@ module.exports = class GiClassifier extends Classifier {
     labeler.label(keyword);
 
     this.data.push({
-      intent: intent,
-      keyword: keyword,
-      pos: labeler.pos
+      pos: labeler.pos,
+      intent,
+      keyword
     });
 
     return true;

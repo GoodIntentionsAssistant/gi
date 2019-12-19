@@ -59,8 +59,8 @@ module.exports = class Explicit {
 
     //Train with the defined collection and keyword
     this.app.Train.train(intent, keyword, {
-      collection: collection,
-      classifier: classifier
+      collection,
+      classifier
     });
 
     return true;

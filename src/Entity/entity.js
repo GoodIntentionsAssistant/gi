@@ -267,10 +267,10 @@ module.exports = class Entity {
 		let matched = this.find_data_by_key(value);
 
 		return {
-			original: original,
-			value: value,
-			matched: matched,
-			position: position
+			original,
+			value,
+			matched,
+			position
 		}
 	}
 
