@@ -132,7 +132,9 @@ Classifier.prototype.classify = function(input)
 
 	var topRanked = rank.groups[0]; // just take the top ranked group
 
-	if(topRanked && rank.certainty > 0.2) return topRanked.group;
+	if(topRanked && rank.certainty > 0.2) {
+    return topRanked.group;
+  }
 
 	return false;
 }
@@ -285,8 +287,12 @@ Classifier.prototype.getNumGroups = function()
  */
 function incrementOrCreate(object, value)
 {
-	if(object[value]) object[value] += 1;
-	else 		         object[value] = 1;
+	if(object[value]) {
+    object[value] += 1;
+  }
+	else {
+    object[value] = 1;
+  }
 }
 
 /**
@@ -294,12 +300,18 @@ function incrementOrCreate(object, value)
  */
 function incrementOrCreateGroup(object, group, value)
 {
-  if(!object[group]) object[group] = new Object();
+  if(!object[group]) {
+    object[group] = new Object();
+  }
 
   var myGroup = object[group];
 
-  if(myGroup[value]) myGroup[value] += 1;
-  else 		          myGroup[value] = 1;
+  if(myGroup[value]) {
+    myGroup[value] += 1;
+  }
+  else {
+    myGroup[value] = 1;
+  }
 }
 
 function scrubWord(word)
