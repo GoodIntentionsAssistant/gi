@@ -54,7 +54,7 @@ module.exports = class ClassifyClassifier extends Classifier {
 		let str = utterance.scrubbed();
 		let result = this.Classify.rank(str);
 
-		if(result.groups.length == 0) {
+		if(result.groups.length === 0) {
 			return false;
 		}
 

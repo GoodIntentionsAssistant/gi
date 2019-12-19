@@ -71,7 +71,7 @@ module.exports = class Entity {
 		if(settings.type == 'custom') {
 			//Load custom
 			result = this.load_data(resolve, options);
-			is_promise = (Promise.resolve(result) == result);
+			is_promise = (Promise.resolve(result) === result);
 		}
 		else if(settings.type == 'json') {
 			//Load from local json file
@@ -124,7 +124,7 @@ module.exports = class Entity {
 		//If the data is being passed in the second format then change it to the first format with hash key values
 		//1. { "pizza":{}, "burger": {}, "fries": {} }
 		//2. ["pizza", "burger", "fries"]
-		if(data.constructor == Array) {
+		if(data.constructor === Array) {
 			let _data = {};
 
 			data.forEach((key) => {
@@ -240,7 +240,7 @@ module.exports = class Entity {
 		}
 
 		//Score each
-		if(matches.length == 1) {
+		if(matches.length === 1) {
 			//Just one match so no reason to score
 			original 	= matches[0].string;
 			value 		= matches[0].value;

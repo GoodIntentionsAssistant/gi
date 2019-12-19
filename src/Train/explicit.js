@@ -38,14 +38,14 @@ module.exports = class Explicit {
     //If keyword starts with tilde, ~ then it's a utterance label match
     //Make sure the keyword is a string, it could be passed as a regular expression
     let label_search = false;
-    if(typeof keyword === 'string' && keyword.substring(0,1) == '#') {
+    if(typeof keyword === 'string' && keyword.substring(0,1) === '#') {
       label_search = true;
       classifier = 'label';
     }
 
     //Build the collection name
     let collection;
-    if(type == 'reject') {
+    if(type === 'reject') {
       collection = '_reject_'+intent;
     }
     else {

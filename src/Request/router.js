@@ -86,7 +86,7 @@ module.exports = class Router {
       this.app.Error.fatal('Error intent not found, '+identifier);
     }
 
-    if(type == 'NotFound') {
+    if(type === 'NotFound') {
       this.app.Event.emit('request.unknown',{
         ident: this.request.ident,
         input: this.request.input

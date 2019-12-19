@@ -135,7 +135,8 @@ module.exports = class Scheduler {
     for(let key in this.scheduled) {
       //Get the session id for this
       let _session_id = dotty.get(this.scheduled[key], 'data.session_id');
-      if(_session_id != session_id) {
+      
+      if(_session_id !== session_id) {
         continue;
       }
 

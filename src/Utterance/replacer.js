@@ -29,10 +29,10 @@ module.exports = class Replacer {
     let results = this.data(type, options);
 
     results.forEach((result) => {
-      if(result.type == 'json') {
+      if(result.type === 'json') {
         str = this._replaceJson(str, result.data.entries);
       }
-      else if(result.type == 'txt') {
+      else if(result.type === 'txt') {
         str = this._replaceTxt(str, result.data);
       }
     });
@@ -113,10 +113,10 @@ module.exports = class Replacer {
     for(let word in entries) {
       let regex = null;
 
-      if(entries[word].match == 'start') {
+      if(entries[word].match === 'start') {
         regex = new RegExp('^'+word, 'gi');
       }
-      else if(entries[word].match == 'end') {
+      else if(entries[word].match === 'end') {
         regex = new RegExp(word+'$', 'gi');
       }
       else {

@@ -41,10 +41,10 @@ exports.to_directory = function (identifier, options = {}) {
 
   //Main directory, either Sys or App
   let area = parts[0];
-  if(area == 'Sys') {
+  if(area === 'Sys') {
     path += '/src';
   }
-  else if(area == 'App') {
+  else if(area === 'App') {
     path += '/app'
   }
 
@@ -93,12 +93,12 @@ exports.to_filename = function(identifier, options = {}) {
   let type  = parts[1];                 //Error.
 
   //Shortcut, App.Example -> App.Skill.Example, change type to skill
-  if(parts.length == 2) {
+  if(parts.length === 2) {
     type = 'skill';
   }
 
   //App.Example.Entity.Colour -> Set the type to be Entity
-  if(parts.length == 4) {
+  if(parts.length === 4) {
     type = parts[2];
   }
 

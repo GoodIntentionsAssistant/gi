@@ -384,7 +384,7 @@ module.exports = class Intent {
 
 		return new Promise((resolve, reject) => {
 			var promise = this[request.action](request);
-			var is_promise = (Promise.resolve(promise) == promise);
+			var is_promise = (Promise.resolve(promise) === promise);
 			
 			if(is_promise) {
 				promise.then((result) => {

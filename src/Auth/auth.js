@@ -204,7 +204,7 @@ module.exports = class Auth {
  */
 	find_user(user_id) {
 		for(var ii=0; ii < this.users.length; ii++) {
-			if(this.users[ii].user_id == user_id) {
+			if(this.users[ii].user_id === user_id) {
 				return this.users[ii];
 			}
 		}

@@ -68,7 +68,7 @@ module.exports = class Dialog {
 
     //If no data was returned and the chosen language was not their default language
     //Then try for the system default language, this can be changed in your config.json file
-    if(!contents && options.lang != default_lang) {
+    if(!contents && options.lang !== default_lang) {
       identifier = 'App.Skill.' + options.skill + '.Dialog.' + default_lang + '.' + file;
       contents = this._load(identifier);
     }

@@ -54,7 +54,7 @@ module.exports = class History {
   last() {
     let history = this.get();
 
-    if(history.length == 0) {
+    if(history.length === 0) {
       return false;
     }
 

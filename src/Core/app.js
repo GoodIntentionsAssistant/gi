@@ -102,14 +102,14 @@ module.exports = class App extends EventEmitter {
 		}
 
 		//Make sure test secret has been changed
-		if(Config.read('clients.test.secret') == 'changeme') {
+		if(Config.read('clients.test.secret') === 'changeme') {
 			this.Error.fatal([
 				`Change the test secret in your ${configFile} file before continuing`
 			]);
 		}
 
 		//Make sure test secret has been changed
-		if(Config.read('skills').length == 0) {
+		if(Config.read('skills').length === 0) {
 			this.Error.fatal([
 				`You need to add at least one skill before loading the server`,
 				`Otherwise the bot won't do anything!`,
