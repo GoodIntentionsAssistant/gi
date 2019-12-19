@@ -150,7 +150,7 @@ module.exports = class PackageManager {
     }
 
     if(!fs.existsSync(path)) {
-      console.log('Package directory does not exist ' + pathFrom);
+      console.log('Package directory does not exist ' + path);
       return false;
     }
 
