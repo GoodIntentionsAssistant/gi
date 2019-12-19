@@ -56,9 +56,9 @@ module.exports = class PackageManager {
     var package_url = Config.read('packages.url');
 
     fetch(package_url)
-      .catch(err => console.error(err))
-      .then(res => res.text())
-      .then(text => {
+      .catch((err) => console.error(err))
+      .then((res) => res.text())
+      .then((text) => {
         this._writeToPackages(text);
       });
   }

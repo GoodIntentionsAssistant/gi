@@ -4,7 +4,7 @@
 
 //Require hack setup
 //https://gist.github.com/branneman/8048520
-global.girequire = name => {
+global.girequire = (name) => {
 	let path = __dirname + '/../..';
 
 	//Standard module
