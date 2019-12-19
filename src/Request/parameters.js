@@ -274,6 +274,12 @@ module.exports = class Parameters {
 				remove_remaining = false;
 			}
 
+			//If this value was previously slotfilled
+			let slotfill_result = false;
+			if(data[field].slotfill) {
+				slotfill_result = this._slotfill(field, data[field].slotfill);
+			}
+
 			//Try to parse the input with entities
 			for(var ii=0; ii<entities.length; ii++) {
 				var entity = this.entities[entities[ii]];
@@ -309,29 +315,26 @@ module.exports = class Parameters {
 				required: 	required,
 				valid: 			valid,
 				slotfilled: false,
+				slotfilled_previous: slotfill_result,
 				data: 			{}
 			};
 
 			//No result found in incoming text
 			//Check for slotfilling if slotfilling is enabled on the parameter
 			//The resultof the slotfill will be the entire parameter data, not just the value
-			if(!result.value && data[field].slotfill) {
-				let slotfill_result = this._slotfill(field, data[field].slotfill);
+			if(!result.value && slotfill_result) {
+				result = slotfill_result;
 
-				if(slotfill_result) {
-					result = slotfill_result;
+				//Value was slot filled so no need to try and remove it from the incoming string
+				remove_remaining = false;
+				
+				//So we know at output the value was slotfilled
+				output[field].slotfilled = true;
 
-					//Value was slot filled so no need to try and remove it from the incoming string
-					remove_remaining = false;
-					
-					//So we know at output the value was slotfilled
-					output[field].slotfilled = true;
+				//Dont try to keep the data, don't need slotfill again
+				data[field].keep = false;
 
-					//Dont try to keep the data, don't need slotfill again
-					data[field].keep = false;
-
-					this.request.log(`Slotfilled, ${field} with "${slotfill_result.value}"`);
-				}
+				this.request.log(`Slotfilled, ${field} with "${slotfill_result.value}"`);
 			}
 
 			//Default value used if no value found
@@ -371,7 +374,7 @@ module.exports = class Parameters {
 
 				//Keep / save result value to session user data
 				if(data[field].keep && this.request) {
-					this._keep(field, result);
+					this.keep(field, result);
 				}
 
 				//Pass all matched entity meta data
@@ -469,10 +472,9 @@ module.exports = class Parameters {
  * 
  * @param string field
  * @param Object result
- * @access private
  * @return bool
  */
-	_keep(field, result) {
+	keep(field, result) {
 		this.request.user.set('parameter.'+field, result);
 		return true;
 	}
