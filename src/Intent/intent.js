@@ -128,14 +128,14 @@ module.exports = class Intent {
 		if(typeof data == 'object') {
 			//Passed as an array
 			for(var ii=0; ii < data.length; ii++) {
-	  		this._explicits.push({
-	  			type: type,
-	  			identifier: this.identifier,
+				this._explicits.push({
+					type: type,
+					identifier: this.identifier,
 					keyword: data[ii],
 					options: options
-	  		});
+				});
 			}
-  	}
+		}
 		else {
 			//Passed as a single string, e.g. .reject('add')
 			this._explicits.push({
