@@ -58,13 +58,13 @@ exports.to_directory = function (identifier, options = {}) {
 
     //App.Example.Intent
     //If there is no ending then trying to scan the Intent directory
-    if(parts.length == 3) {
+    if(parts.length === 3) {
       subdir_depth++;
     }
   }
 
   //App.Example -> App.Skill.Example
-  if(parts.length == 2) {
+  if(parts.length === 2) {
     path += '/Skill';
     subdir_depth++;
   }

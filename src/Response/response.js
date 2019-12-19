@@ -81,7 +81,7 @@ module.exports = class Response extends EventEmitter {
     let data = extend(_options, options);
 
     //If there are no attachments do not try to flush the buffer yet
-    if(this._attachments.length == 0) {
+    if(this._attachments.length === 0) {
       return true;
     }
 

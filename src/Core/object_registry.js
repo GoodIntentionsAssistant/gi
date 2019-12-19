@@ -271,7 +271,7 @@ module.exports = class ObjectRegistry {
     let identifier = null;
     let split = name.split('.');
 
-    if(split.length == 1) {
+    if(split.length === 1) {
       //Passed as just the name and not full identifier
       for(let key in this.objects) {
         //App.Example.Attachment.Navigation => navigation

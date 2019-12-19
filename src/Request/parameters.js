@@ -187,7 +187,7 @@ module.exports = class Parameters {
 			}
 
 			//Parse
-			if(promises.length == 0) {
+			if(promises.length === 0) {
 				//Entities loaded already, no need to wait
 				this._parse(string, data);
 				resolve();

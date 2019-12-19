@@ -220,7 +220,7 @@ module.exports = class Request {
 
     //Count attachments, if no attachments then end
     //If the intent returned true keep the request and response active, it might have async methods
-    if(this.attachment_count == 0 && result !== true) {
+    if(this.attachment_count === 0 && result !== true) {
       this.end();
       return;
     }

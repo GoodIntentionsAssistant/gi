@@ -35,7 +35,7 @@ module.exports = class Scheduler {
  * @return bool
  */
   check() {
-    if(this.upcoming.length == 0) {
+    if(this.upcoming.length === 0) {
       return;
     }
   }

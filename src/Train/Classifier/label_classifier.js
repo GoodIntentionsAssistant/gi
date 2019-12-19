@@ -29,7 +29,7 @@ module.exports = class LabelClassifier extends Classifier {
 
 		//No matches then no match was found
 		//The users utterance / inputted text did not match the required label
-		if(matches.length == 0) {
+		if(matches.length === 0) {
 			return false;
 		}
 
