@@ -83,7 +83,9 @@ module.exports = class Data {
 
 		let promise = new Promise((resolve, reject) => {
 			fs.readFile(filename, 'utf8', (err, data) => {
-				if (err) throw err;
+				if(err) {
+					throw err;
+				}
 
 				let json = JSON.parse(data);
 
