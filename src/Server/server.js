@@ -119,7 +119,7 @@ module.exports = class Server extends EventEmitter {
  */
 	remove_client(client_id) {
 		for(var ii=0; ii<this.clients.length; ii++) {
-			if(this.clients[ii].client_id == client_id) {
+			if(this.clients[ii].client_id === client_id) {
 				this.app.Log.add('Client removed');
 				this.clients.splice(ii, 1);
 				return true;

@@ -187,7 +187,7 @@ module.exports = class Auth {
  */
 	find_session(session_id) {
 		for(var ii=0; ii < this.sessions.length; ii++) {
-			if(this.sessions[ii].session_id == session_id) {
+			if(this.sessions[ii].session_id === session_id) {
 				return this.sessions[ii];
 			}
 		}

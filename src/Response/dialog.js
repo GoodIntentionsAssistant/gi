@@ -59,7 +59,7 @@ module.exports = class Dialog {
     //If chosen language is not the default then soft load
     //This means if it fails to fetch the language file it won't throw an error but it will return false
     var options_load = {};
-    if(options.lang != default_lang) {
+    if(options.lang !== default_lang) {
       options_load.soft = true;
     }
 

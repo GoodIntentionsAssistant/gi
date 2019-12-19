@@ -36,15 +36,15 @@ module.exports = class Dispatcher {
     //Check auth
     let auth = this.auth(data);
 
-    if(data.input.type == 'message') {
+    if(data.input.type === 'message') {
       //User input text
       request = new RequestMessage(this.app, data.ident);
     }
-    else if(data.input.type == 'intent') {
+    else if(data.input.type === 'intent') {
       //Direct call to an intent, no need to do NLP
       request = new RequestIntent(this.app, data.ident);
     }
-    else if(data.input.type == 'event') {
+    else if(data.input.type === 'event') {
       //Custom client event
       request = new RequestEvent(this.app, data.ident);
     }

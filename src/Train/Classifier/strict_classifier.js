@@ -30,7 +30,7 @@ module.exports = class StrictClassifier extends Classifier {
 					}];
 				}
 			}
-			else if(this.data[ii][0] == str) {
+			else if(this.data[ii][0] === str) {
 				//String to string
 				return [{
 					confidence: 1,

@@ -68,18 +68,18 @@ module.exports = class Entity {
 		let entity_key = false;					//If the data result has a `entries`. key, used for json importing
 
 		//Load data in depending on the type
-		if(settings.type == 'custom') {
+		if(settings.type === 'custom') {
 			//Load custom
 			result = this.load_data(resolve, options);
 			is_promise = (Promise.resolve(result) === result);
 		}
-		else if(settings.type == 'json') {
+		else if(settings.type === 'json') {
 			//Load from local json file
 			result = this.app.Data.load(settings.file, 'json');
 			entity_key = true;
 			is_promise = true;
 		}
-		else if(settings.type == 'csv') {
+		else if(settings.type === 'csv') {
 			//Load from local CSV file
 			result = this.app.Data.load(settings.file, 'csv');
 			is_promise = true;
@@ -361,7 +361,7 @@ module.exports = class Entity {
 			var pass = true;
 			if(conditions) {
 				for(var field in conditions) {
-					if(data[key][field] != conditions[field]) {
+					if(data[key][field] !== conditions[field]) {
 						pass = false;
 					}
 				}

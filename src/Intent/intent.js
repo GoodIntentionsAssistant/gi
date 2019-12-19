@@ -75,7 +75,7 @@ module.exports = class Intent {
 
 		//Loop through data array
 		for(var ii=0; ii < data.length; ii++) {
-			if(typeof data[ii] == 'string' && data[ii].substr(0,1) == '@') {
+			if(typeof data[ii] === 'string' && data[ii].substr(0,1) === '@') {
 				//Train with entity data
 				this.add_entity(data[ii].substr(1), options);
 			}

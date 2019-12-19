@@ -68,13 +68,13 @@ module.exports = class Replacer {
         return;
       }
 
-      if(file.type == 'json') {
+      if(file.type === 'json') {
         results.push({
           type: 'json',
           data: JSON.parse(data)
         });
       }
-      else if(file.type == 'txt') {
+      else if(file.type === 'txt') {
         results.push({
           type: 'txt',
           data: data.split("\n")

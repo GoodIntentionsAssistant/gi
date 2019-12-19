@@ -96,7 +96,7 @@ Classifier.prototype.untrain = function(group) {
     let _input = _storage[ii][1];
 
     //Remove the group requested
-    if(group == _group) {
+    if(group === _group) {
       continue;
     }
 

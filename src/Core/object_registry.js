@@ -73,7 +73,7 @@ module.exports = class ObjectRegistry {
 
           //If the file has an underscore at the start then ignore it
           //This is useful when disabiling intents, entities, etc.. quickly
-          if(file.substring(0,1) == '_') {
+          if(file.substring(0,1) === '_') {
             return;
           }
 
@@ -276,7 +276,7 @@ module.exports = class ObjectRegistry {
       for(let key in this.objects) {
         //App.Example.Attachment.Navigation => navigation
         let _name = key.split('.').splice(-1,1)[0].toLowerCase();
-        if(_name == name) {
+        if(_name === name) {
           identifier = key;
           continue;
         }

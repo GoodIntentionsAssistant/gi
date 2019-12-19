@@ -39,7 +39,7 @@ module.exports = class Classifier {
       var _keyword = this.data[ii][0];
       var _intent = this.data[ii][1];
 
-      if(intent == _intent) {
+      if(intent === _intent) {
         delete this.data[ii];
       }
     }

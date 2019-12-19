@@ -238,18 +238,18 @@ module.exports = class Client {
 		}
 
 		//Client defined
-		if(typeof input.client === 'undefined' || input.client == '') {
+		if(typeof input.client === 'undefined' || input.client === '') {
 			this.validation_errors.push('Client not defined');
 		}
 
 		//Session id defined
-		if(typeof input.session_id === 'undefined' || input.session_id == '') {
+		if(typeof input.session_id === 'undefined' || input.session_id === '') {
 			this.validation_errors.push('User session id not defined');
 		}
 
 		//Text defined
 		//If the type is message
-		if(type == 'message' && (typeof input.text === 'undefined' || input.text == '')) {
+		if(type === 'message' && (typeof input.text === 'undefined' || input.text === '')) {
 			this.validation_errors.push('Text not defined');
 		}
 

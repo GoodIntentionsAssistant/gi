@@ -82,7 +82,7 @@ module.exports = class Labeler {
     //If the input is "the cat is in the hat" it'll ignore it - but this is not solid!
     //@todo Find an improvement, maying using POS
     for(let ii=0; ii<2; ii++) {
-      if(words[ii] && words[ii] == 'is') {
+      if(words[ii] && words[ii] === 'is') {
         this.add('question');
       }
     }

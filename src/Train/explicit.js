@@ -53,7 +53,7 @@ module.exports = class Explicit {
     }
 
     //Keyword force to a regular expression if it's not already
-    if(classifier == 'strict' && typeof keyword === 'string') {
+    if(classifier === 'strict' && typeof keyword === 'string') {
       keyword = new RegExp(keyword,'g');
     }
 
