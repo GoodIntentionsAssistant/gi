@@ -154,8 +154,8 @@ module.exports = class Scheduler {
  * @return bool
  */
   cancel(scheduler_id) {
-    this.scheduled[schedule_id].cancel();
-    this.remove(schedule_id);
+    this.scheduled[scheduler_id].cancel();
+    this.remove(scheduler_id);
   }
 
 

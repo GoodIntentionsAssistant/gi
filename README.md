@@ -4,23 +4,19 @@ GI is a rule based chatbot assistant framework for Node.js using simple design p
 
 To run the server `node gi serve`
 
-
 ## Documentation
 
-Find the work in progress documentation at http://goodintentions.firecreekweb.com
-
-
+Find the work in progress documentation at [http://goodintentions.firecreekweb.com](http://goodintentions.firecreekweb.com)
 
 ## Updating dependancies
 
-https://www.npmjs.com/package/npm-check-updates
+[https://www.npmjs.com/package/npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
 
-```
+```bash
 npm i -g npm-check-updates
 ncu -u
 npm install
 ```
-
 
 ## License
 
