@@ -46,10 +46,8 @@ module.exports = class Data {
 		switch(format) {
 			case 'json':
 				return this._load_json(filename);
-				break;
 			case 'csv':
 				return this._load_csv(filename);
-				break;
 		}
 		
 		return false;

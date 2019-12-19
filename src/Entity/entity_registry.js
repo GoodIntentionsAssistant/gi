@@ -111,7 +111,7 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 			});
 		}*/
 
-		return entity;
+		//return entity;
 	}
 
 }
