@@ -7,12 +7,8 @@ module.exports = class Cache {
 
 /**
  * Constructor
- *
- * @param object response
- * @access public
- * @return void
  */
-	constructor(config = false) {
+	constructor() {
     this.data = {};
 	}
 
@@ -20,9 +16,8 @@ module.exports = class Cache {
 /**
  * Read
  *
- * @param string key
- * @access public
- * @return mixed
+ * @param {string} key
+ * @returns {*}
  */
 	read(key) {
     if(!(key in this.data)) {
@@ -46,11 +41,10 @@ module.exports = class Cache {
 /**
  * Write
  *
- * @param string key
- * @param string value
- * @param int expire Milliseconds for the cache to expire
- * @access public
- * @return boolean
+ * @param {string} key
+ * @param {string} value
+ * @param {number} expire Milliseconds for the cache to expire
+ * @returns {*}
  */
   write(key, value, expire = null) {
     if(expire) {
@@ -68,20 +62,19 @@ module.exports = class Cache {
 /**
  * Remove
  *
- * @param string key
- * @access public
- * @return void
+ * @param {string} key
+ * @return {boolean}
  */
   remove(key) {
     delete this.data[key];
+    return true;
   }
   
 
 /**
  * Size of data
  *
- * @access public
- * @return int
+ * @returns {int}
  */
   size() {
     return Object.keys(this.data).length;
@@ -91,8 +84,7 @@ module.exports = class Cache {
 /**
  * Clear data
  *
- * @access public
- * @return int
+ * @returns {int}
  */
   clear() {
     this.data = {};
