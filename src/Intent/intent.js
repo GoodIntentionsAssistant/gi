@@ -312,8 +312,8 @@ module.exports = class Intent {
 		}
 
 		this._keywords.push({
-			keyword: keyword,
-			options: options
+			keyword,
+			options
 		});
 
 		return true;

@@ -10,9 +10,7 @@ module.exports = class Queue {
 /**
  * Initialize
  *
- * @param object app
- * @access public
- * @return void
+ * @param {object} app App object
  */
 	constructor(app) {
 		this.app = app;
@@ -49,23 +47,22 @@ module.exports = class Queue {
 
 
 /**
- * Start the queue
- *
- * @access public
- * @return void
+ * Make the queue active
+ * 
+ * @return {boolean}
  */
 	start() {
 		this.app.Log.add('Queue started');
 		this.active = true;
+		return true;
 	}
 
 
 /**
- * Add to queue
+ * Add request to queue
  *
- * @param hash input
- * @access public
- * @return bool
+ * @param {object} input Input from request
+ * @return {boolean}
  */
 	add(input) {
 		//Create a unique ident for this queue
@@ -77,8 +74,8 @@ module.exports = class Queue {
 		if(input.skip_queue) {
 			this.app.Log.add('Request skipping queue', ident);
 			this.request({
-				ident: ident,
-				input: input
+				ident,
+				input
 			});
 			return true;
 		}
@@ -86,8 +83,8 @@ module.exports = class Queue {
 		//Add to queue
 		//The app loop listener will process this in ::check
 		this.queue.push({
-			ident: ident,
-			input: input
+			ident,
+			input
 		});
 
 		this.check();
@@ -105,8 +102,7 @@ module.exports = class Queue {
  * active. If the brain starts to use up too much memory then increase the speed and
  * optimise this code later.
  *
- * @access public
- * @return void
+ * @return {boolean}
  */
 	check() {
 		//Find item in queue and do the request
@@ -120,14 +116,15 @@ module.exports = class Queue {
 		if(Object.keys(this.requests).length > 0) {
 			this.check_timed_out();
 		}
+
+		return true;
 	}
 
 
 /**
  * Check timed out
  *
- * @access public
- * @return object
+ * @return {boolean}
  */
 	check_timed_out() {
 		for(var key in this.requests) {
@@ -145,15 +142,16 @@ module.exports = class Queue {
 				this.requests[key].request.timeout();
 			}
 		}
+
+		return true;
 	}
 
 
 /**
  * Request
  *
- * @param hash data
- * @access public
- * @return object
+ * @param {object} data Original request object
+ * @return {object} Request object
  */
 	request(data) {
 		//Dispatch the queue request
@@ -184,15 +182,15 @@ module.exports = class Queue {
 /**
  * Destroy request
  *
- * @param string ident
- * @access public
- * @return boolean
+ * @param {string} ident Identifier for the request
+ * @return {boolean}
  */
 	destroy_request(ident) {
 		if(!this.requests[ident]) {
 			this.app.Log.error('Request '+ident+' not found to destroy');
 			return false;
 		}
+
 		this.app.Log.add('Request finished', ident);
 		delete this.requests[ident];
 		return true;
