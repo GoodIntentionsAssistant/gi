@@ -311,12 +311,12 @@ module.exports = class Parameters {
 				string: 		null,
 				label: 			null,
 				position:   null,
-				entity: 		entity,
-				required: 	required,
-				valid: 			valid,
 				slotfilled: false,
 				slotfilled_previous: slotfill_result,
-				data: 			{}
+				data: 			{},
+				entity,
+				required,
+				valid
 			};
 
 			//No result found in incoming text

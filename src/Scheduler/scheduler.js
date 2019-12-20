@@ -98,9 +98,9 @@ module.exports = class Scheduler {
 
     //Add to hash
     this.scheduled[schedule_id] = {
-      job: job,
-      type: type,
-      data: data
+      job,
+      type,
+      data
     };
 
     return true;

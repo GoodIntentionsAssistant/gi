@@ -94,9 +94,9 @@ module.exports = class Router {
     }
 
     return {
-      intent: intent,
       collection: null,
-      confidence: 0
+      confidence: 0,
+      intent
     };
   }
 

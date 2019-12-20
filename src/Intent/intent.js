@@ -124,25 +124,25 @@ module.exports = class Intent {
  * @param hash options
  * @return bool
  */
-  add_explicit(type, data, options = {}) {
-		if(typeof data == 'object') {
+  add_explicit(type, keyword, options = {}) {
+		if(typeof keyword == 'object') {
 			//Passed as an array
-			for(var ii=0; ii < data.length; ii++) {
+			for(var ii=0; ii < keyword.length; ii++) {
 				this._explicits.push({
-					type: type,
 					identifier: this.identifier,
-					keyword: data[ii],
-					options: options
+					keyword: keyword[ii],
+					type,
+					options
 				});
 			}
 		}
 		else {
 			//Passed as a single string, e.g. .reject('add')
 			this._explicits.push({
-				type: type,
 				identifier: this.identifier,
-				keyword: data,
-				options: options
+				keyword,
+				type,
+				options
 			});
 		}
 

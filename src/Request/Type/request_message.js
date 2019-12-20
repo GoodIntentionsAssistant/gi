@@ -172,8 +172,8 @@ module.exports = class RequestMessage extends Request {
     }
 
     return {
-      result: result,
-      options: {}
+      options: {},
+      result
     };
   }
 

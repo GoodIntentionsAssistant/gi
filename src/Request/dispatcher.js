@@ -102,9 +102,9 @@ module.exports = class Dispatcher {
     let auth = this.app.Auth.identify(data.input.session_id)
 
     return {
-      client: client,
       session: auth.session,
-      user: auth.user
+      user: auth.user,
+      client
     }
   }
 

@@ -298,7 +298,7 @@ module.exports = class Entity {
 		}
 
 		return {
-			position: position
+			position
 		};
   }
 

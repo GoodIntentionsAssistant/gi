@@ -244,8 +244,8 @@ Classifier.prototype.rank = function(input, remove_unranked = false)
   }
 
 	return {
-    certainty: certainty,
-    groups: groupLikelihood
+    groups: groupLikelihood,
+    certainty
   };
 }
 

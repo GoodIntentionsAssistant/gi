@@ -144,9 +144,9 @@ module.exports = class Understand {
         let intent = this.App.IntentRegistry.get(match.result);
 
         return {
-          intent: intent,
           confidence: match.confidence,
-          collection: collection
+          intent,
+          collection
         }
       }
     }

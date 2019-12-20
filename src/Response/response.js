@@ -208,9 +208,9 @@ module.exports = class Response extends EventEmitter {
     //Result
     let result = {
       type: 'message',
-      attachments:  attachments,
       ident:        this.Request.ident,
-      user:         this.Request.input.user
+      user:         this.Request.input.user,
+      attachments
     };
 
     //Intent information
