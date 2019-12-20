@@ -158,8 +158,11 @@ module.exports = class RequestMessage extends Request {
     //Setup new dialog and process it
     let dialog = new Dialog();
 
+    //Try to process the dialog
+    let result = '';
+
     try {
-      var result = dialog.process(name, options);
+      result = dialog.process(name, options);
     }
     catch (ex) {
       this.app.Error.warning(ex.toString());
@@ -167,7 +170,7 @@ module.exports = class RequestMessage extends Request {
     }
 
     //False could be returned if there was an error
-    if (!result) {
+    if(!result) {
       return false;
     }
 

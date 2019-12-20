@@ -281,8 +281,9 @@ module.exports = class Parameters {
 			}
 
 			//Try to parse the input with entities
+			var entity = false;
 			for(var ii=0; ii<entities.length; ii++) {
-				var entity = this.entities[entities[ii]];
+				entity = this.entities[entities[ii]];
 				result = entity.parse(_string, data[field]);
 				if(result.value) {
 					break;
