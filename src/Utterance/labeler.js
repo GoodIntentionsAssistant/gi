@@ -54,7 +54,7 @@ module.exports = class Labeler {
       'where': { labels: ['question', 'where'] },
       'why': { labels: ['question', 'why'] },
       'are': { labels: ['question', 'are'] },
-      '?': { labels: ['question'] },
+      '?': { labels: ['question'] }
     };
 
     //Get original text and tokenize

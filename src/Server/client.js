@@ -144,7 +144,7 @@ module.exports = class Client {
 		this.app.Event.emit('client.handshake', {
 			client: this,
 			token: input.token,
-			session_id: session.session_id,
+			session_id: session.session_id
 		});
 
 		//Send data back to client for the user

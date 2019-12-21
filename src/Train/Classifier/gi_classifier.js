@@ -70,7 +70,7 @@ module.exports = class GiClassifier extends Classifier {
       'WDT',     // Wh-determiner           which,that
       'WP',     // Wh pronoun               who,what
       'WP$',     // Possessive-Wh           whose
-      'WRB',     // Wh-adverb               how,where
+      'WRB'      // Wh-adverb               how,where
     ];
 
   }
