@@ -10,9 +10,6 @@ module.exports = class Labeler {
 
 /**
  * Constructor
- *
- * @access public
- * @return void
  */
   constructor() {
     this.text = null;
@@ -24,9 +21,7 @@ module.exports = class Labeler {
 /**
  * Label
  *
- * @param string text
- * @access public
- * @return bool
+ * @param {string} text Text to start labeling
  */
   label(text) {
     this.text = text;
@@ -40,8 +35,7 @@ module.exports = class Labeler {
 /**
  * Keywords
  *
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   _keywords() {
     //Keywords
@@ -86,6 +80,8 @@ module.exports = class Labeler {
         this.add('question');
       }
     }
+
+    return true;
   }
 
 
@@ -94,8 +90,7 @@ module.exports = class Labeler {
  *
  * A feeling of emotion, view of an attitude towards a situation, even or opinion.
  *
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   _sentiment() {
     let sentiment = new Sentiment();
@@ -110,6 +105,8 @@ module.exports = class Labeler {
     else {
       this.add('neutral');
     }
+
+    return true;
   }
 
 
@@ -118,8 +115,7 @@ module.exports = class Labeler {
  *
  * https://github.com/Ulflander/compendium-js
  *
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   _pos() {
     let output = Compendium.analyse(this.text);
@@ -128,14 +124,40 @@ module.exports = class Labeler {
       return false;
     }
 
-    for(let ii=0; ii<output[0].tags.length; ii++) {
-      let label = output[0].tags[ii];
+    //
+    const tag_to_type = {
+      'IN': 'preposition',
+      'JJ': 'adjective',
+      'JJR': 'adjective',
+      'JJS': 'adjective',
+      'NN': 'noun',
+      'PP': 'pronoun',
+      'PRP$': 'pronoun',
+      'WP': 'pronoun',
+      'RB': 'adverb',
+      'RBR': 'adverb',
+      'RBS': 'adverb',
+      'RP': 'particle',
+      'VB': 'verb',
+      'VBD': 'verb',
+      'VBG': 'verb',
+      'VBN': 'verb',
+      'VBP': 'verb',
+      'VBZ': 'verb'
+    };
 
+    //Get each tag and match it with tag_to_type object
+    for(let ii=0; ii<output[0].tags.length; ii++) {
+      //Get the tag, e.g. JJ
+      let label = output[0].tags[ii];
       if(!label) { continue; }
 
-      this.add(label);
+      //See if we can match it up with a type
+      let type = tag_to_type[label];
+      if(!type) { continue; }
 
-      this.pos.push(label);
+      this.add(type);
+      this.pos.push(type);
     }
 
     return true;
@@ -145,9 +167,8 @@ module.exports = class Labeler {
 /**
  * Add label
  *
- * @param string keyword
- * @access public
- * @return bool
+ * @param {string} keyword Word to add to labels
+ * @returns {boolean}
  */
   add(keyword) {
     //Push to lower
@@ -167,9 +188,8 @@ module.exports = class Labeler {
 /**
  * Is
  *
- * @param string label
- * @access public
- * @return bool
+ * @param {string} label Label to check
+ * @returns {boolean}
  */
   is(label) {
     if(_.indexOf(this.labels, label) !== -1) {

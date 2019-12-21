@@ -38,8 +38,8 @@ exports._init = function() {
 /**
  * Read
  * 
- * @param string key
- * @return mixed
+ * @param {string} key Dot notated key
+ * @returns {*}
  */
 exports.read = function(key) {
 	this._init();
@@ -50,15 +50,14 @@ exports.read = function(key) {
 /**
  * Get path
  * 
- * @param string key
- * @return mixed
+ * @param {string} key Dot notated key
+ * @returns {*}
  */
 exports.path = function(path) {
 	this._init();
 	path = 'paths.' + path;
 
 	var result = dotty.get(global.gi_config, path);
-
 	result = __dirname+result;
 
 	return result;
@@ -68,8 +67,8 @@ exports.path = function(path) {
 /**
  * Put
  * 
- * @param string key
- * @return mixed
+ * @param {string} key Dot notated key
+ * @returns {boolean}
  */
 exports.put = function(key, value) {
 	let app_filename = './app/Config/config.json';
@@ -82,14 +81,16 @@ exports.put = function(key, value) {
 	dotty.put(app_json, key, _data);
 
 	this._writeConfig(app_json);
+
+	return true;
 }
 
 
 /**
  * Remove
  * 
- * @param string key
- * @return mixed
+ * @param {string} key Dot notated key
+ * @returns {boolean}
  */
 exports.remove = function(key) {
 	let app_filename = './app/Config/config.json';
@@ -101,20 +102,22 @@ exports.remove = function(key) {
 	let root = path[0];
 	let value = path[1];
 
-	var path_value = app_json[root]
-	path_value = path_value.filter(e => e !== value)
+	var path_value = app_json[root];
+	path_value = path_value.filter((e) => { e !== value });
 
 	//
 	dotty.put(app_json, root, path_value);
 
 	this._writeConfig(app_json);
+
+	return true;
 }
 
 
 /**
  * Write config
  * 
- * @return mixed
+ * @returns {*}
  */
 exports._writeConfig = function(json) {
 	let data = JSON.stringify(json, null, 2);

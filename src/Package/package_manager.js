@@ -289,8 +289,7 @@ module.exports = class PackageManager {
 
     //Check for skill directory
     if (fs.existsSync(path + '/Skill')) {
-      fs.readdirSync(path + '/Skill').forEach(dir_name => {
-
+      fs.readdirSync(path + '/Skill').forEach((dir_name) => {
         paths.push({
           type: 'skills',
           name: dir_name,
