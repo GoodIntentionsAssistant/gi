@@ -170,7 +170,7 @@ module.exports = class Client {
 
 		//Invalid request
 		if(!this.validate_request(input)) {
-			for(var ii = 0; ii < this.validation_errors.length; ii++) {
+			for(let ii = 0; ii < this.validation_errors.length; ii++) {
 				this.app.Log.error('Request validation error: '+this.validation_errors[ii]);
 			}
 			this.emit('event', {
@@ -266,7 +266,7 @@ module.exports = class Client {
  */
 	validate_client_secret(secret) {
 		var expecting = Config.read('clients.'+this.name+'.secret');
-		if(secret != expecting) {
+		if(secret !== expecting) {
 			return false;
 		}
 		return true;
@@ -281,7 +281,7 @@ module.exports = class Client {
  * @return void
  */
 	validate_auth_token(token) {
-		if(token != this.auth_token) {
+		if(token !== this.auth_token) {
 			return false;
 		}
 		return true;

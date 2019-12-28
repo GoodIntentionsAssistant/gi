@@ -178,7 +178,7 @@ module.exports = class Replacer {
     let files = [];
     
     fs.readdirSync(path).forEach((file) => {
-      if((file.indexOf('.json') > -1 || file.indexOf('.txt') > -1) && file.indexOf('__') == -1) {
+      if((file.indexOf('.json') > -1 || file.indexOf('.txt') > -1) && file.indexOf('__') === -1) {
 
         files.push({
           file: path+'/'+file,

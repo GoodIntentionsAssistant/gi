@@ -195,7 +195,7 @@ module.exports = class PackageManager {
 
     let exec = require('child_process').exec, child;
     child = exec('npm uninstall ' + name, (error, stdout, stderr) => {
-      if (error == null) {
+      if (error === null) {
         console.log('Successfully removed ' + name);
       }
       else {

@@ -80,7 +80,7 @@ module.exports = class Server extends EventEmitter {
  */
 	find_client(client_id) {
 		for(let ii=0; ii<this.clients.length; ii++) {
-			if(this.clients[ii].client_id == client_id) {
+			if(this.clients[ii].client_id === client_id) {
 				return this.clients[ii].client;
 			}
 		}
@@ -118,7 +118,7 @@ module.exports = class Server extends EventEmitter {
  * @return void
  */
 	remove_client(client_id) {
-		for(var ii=0; ii<this.clients.length; ii++) {
+		for(let ii=0; ii<this.clients.length; ii++) {
 			if(this.clients[ii].client_id === client_id) {
 				this.app.Log.add('Client removed');
 				this.clients.splice(ii, 1);

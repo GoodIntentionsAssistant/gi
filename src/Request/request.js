@@ -14,11 +14,8 @@ module.exports = class Request {
 /**
  * Constructor
  *
- * @param object app
- * @param string ident
- * @param hash data
- * @access public
- * @return void
+ * @param {object} app App instance
+ * @param {string} ident Unique identifier for request
  */
 	constructor(app, ident) {
 		//
@@ -57,8 +54,8 @@ module.exports = class Request {
 /**
  * Set input
  *
- * @access public
- * @return void
+ * @param {object} input Input of the request
+ * @returns {boolean}
  */
   set_input(input) {
     //Default
@@ -69,14 +66,15 @@ module.exports = class Request {
     this.input = extend(_input, input);
 
     this._check_data_parameters();
+
+    return true;
   }
 
 
 /**
  * Check data
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
   _check_data_parameters() {
     if(!this.input.data) {
@@ -86,6 +84,8 @@ module.exports = class Request {
     for(let key in this.input.data) {
       this.parameters.set(key, this.input.data[key]);
     }
+    
+    return true;
   }
 
 
@@ -94,16 +94,15 @@ module.exports = class Request {
  *
  * Alias for App::log which passes the request ident
  *
- * @param string str
- * @access public
- * @return void
+ * @param {string} str String to log
+ * @return {boolean}
  */
 	log(str) {
 		if(!str) {
-			this.app.Log.add('');
-			return;
+      //Blank line
+			return this.app.Log.add('');
 		}
-		this.app.Log.add(str, this.ident);
+		return this.app.Log.add(str, this.ident);
 	}
 
 
@@ -112,12 +111,11 @@ module.exports = class Request {
  *
  * Alias for App::error which passes the request ident
  *
- * @param string str
- * @access public
- * @return void
+ * @param {string} str String to log
+ * @return {boolean}
  */
 	error(str) {
-		this.app.Log.error(str, {
+		return this.app.Log.error(str, {
 			ident: this.ident
 		});
 	}
@@ -129,8 +127,8 @@ module.exports = class Request {
  * Method must return a false otherwise the request will send "true"
  *
  * @todo Centralise this call with request_intent.js
- * @param string intent identifier, e.g. App.Example.Intent.Ping
- * @return bool
+ * @param {string} identifier identifier, e.g. App.Example.Intent.Ping
+ * @returns {boolean}
  */
 	redirect(identifier) {
     if(!this.app.IntentRegistry.exists(identifier)) {
@@ -148,8 +146,7 @@ module.exports = class Request {
  * Call the intent
  * 
  * @todo Replace reply message with a config message
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   call() {
     //
@@ -179,8 +176,6 @@ module.exports = class Request {
  * Time out
  *
  * @todo Move to dispatcher and replace with config message
- * @access public
- * @return bool
  */
 	timeout() {
 		this.error('Request timed out');
@@ -191,24 +186,17 @@ module.exports = class Request {
 /**
  * Result of request
  *
- * @param {*} result
- * @param {object} options
+ * @param {*} result Result of the intent, can be a string or boolean
  * @returns {*}
  */
-  result(result, options = {}) {
-    //Default
-    let _options = {
-      type: 'message'
-    };
-    options = extend(_options, options);
-
+  result(result) {
     //Array returned
     if(result instanceof Array && result.length > 0) {
       for(let ii=0; ii<result.length; ii++) {
         this.attachment('message', result[ii]);
       }
     }
-    else if(result && (typeof result == 'string' || typeof result == 'number')) {
+    else if(result && (typeof result === 'string' || typeof result === 'number')) {
       //Returned a string
       result = result.toString();
       this.attachment('message', result);
@@ -239,9 +227,8 @@ module.exports = class Request {
 /**
  * Send
  * 
- * @param string text
- * @access public
- * @return boolean
+ * @param {string} text String of text to return
+ * @returns {boolean}
  */
 	send(text) {
     //Cancelled request
@@ -250,16 +237,15 @@ module.exports = class Request {
     }
 
     this.attachment('message', text);
-		this.response.send();
+		return this.response.send();
 	}
 
 
 /**
  * Expect
  *
- * @param mixed data
- * @access public
- * @return boolean
+ * @param {*} data Expected data for next call from same user
+ * @returns {boolean}
  */
 	expect(data) {
 		return this.expects.set(data);
@@ -269,10 +255,9 @@ module.exports = class Request {
 /**
  * Attachment
  *
- * @param type Type of attachment, e.g. image, action, link
- * @param mixed data
- * @access public
- * @return boolean
+ * @param {string} type Type of attachment, e.g. image, action, link
+ * @param {*} data Data to be passed to attachment
+ * @returns {boolean}
  */
 	attachment(type, data) {
     this.attachment_count++;
@@ -283,8 +268,9 @@ module.exports = class Request {
 /**
  * Make another request
  *
- * @param {object} data
- * @return {boolean}
+ * @todo Requires basic validation
+ * @param {object} data Request information
+ * @returns {boolean}
  */
 	request(data) {
     if(!data.client_id && this.client.client_id) {
@@ -300,10 +286,11 @@ module.exports = class Request {
 	
 
 /**
- * Canceled
+ * If intent call has been cancelled
+ * 
+ * The intent could be still running and it's possible to stop the intent from continuing.
  *
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
   cancelled() {
     return this._cancelled;
@@ -313,24 +300,24 @@ module.exports = class Request {
 /**
  * Cancel request
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
   cancel() {
     this._cancelled = true;
     this.end();
     this.log('Request cancelled');
+    return true;
   }
 	
 
 /**
  * End request
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
 	end() {
-		this.resolve();
+    this.resolve();
+    return true;
 	}
 
 }
