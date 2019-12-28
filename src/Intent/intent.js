@@ -22,8 +22,6 @@ module.exports = class Intent {
 		this._keywords 	= [];			//Trained keywords
 		this._entities  = [];			//Entities required
 		this._explicits = [];			//Matches that are a must or reject
-
-		this._tests 		= [];
 		
 		this.parameters = {};
 
@@ -69,7 +67,7 @@ module.exports = class Intent {
  */
 	train(data, options = {}) {
 		//Data could be a string, change it to an array
-		if(typeof data == 'string') {
+		if(typeof data === 'string') {
 			data = [data];
 		}
 
@@ -125,9 +123,9 @@ module.exports = class Intent {
  * @return bool
  */
   add_explicit(type, keyword, options = {}) {
-		if(typeof keyword == 'object') {
+		if(typeof keyword === 'object') {
 			//Passed as an array
-			for(var ii=0; ii < keyword.length; ii++) {
+			for(let ii=0; ii < keyword.length; ii++) {
 				this._explicits.push({
 					identifier: this.identifier,
 					keyword: keyword[ii],
@@ -148,21 +146,6 @@ module.exports = class Intent {
 
 		return true;
   }
-
-
-/**
- * Add Tests
- * 
- * @param hash data
- * @access public
- * @return bool
- */
-	tests(data, options = {}) {
-		for(let ii=0; ii < data.length; ii++) {
-			this._tests.push(data);
-		}
-		return true;
-	}
 
 
 /**

@@ -30,7 +30,7 @@ module.exports = class Error {
     console.log('Warning'.yellow.underline);
 
     for(let ii=0; ii<messages.length; ii++) {
-      if(typeof messages[ii] == 'object') {
+      if(typeof messages[ii] === 'object') {
         messages[ii] = messages[ii].toString();
       }
 
@@ -56,10 +56,10 @@ module.exports = class Error {
     for(let ii=0; ii<messages.length; ii++) {
       let line = messages[ii];
 
-      if(typeof line == 'object' && line.stack) {
+      if(typeof line === 'object' && line.stack) {
         line = line.message + "\n" + line.stack;
       }
-      else if(typeof line == 'object') {
+      else if(typeof line === 'object') {
         line = line.toString();
       }
 
