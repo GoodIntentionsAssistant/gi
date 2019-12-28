@@ -155,12 +155,9 @@ module.exports = class Request {
     //
     this.log('Calling ' + this.intent.identifier+'::' + this.action);
 
-    //Emit event
+    //Emit request.call
     this.app.Event.emit('request.call',{
-      ident: this.ident,
-      identifier: this.intent.identifier,
-      action: this.action,
-      input: this.input
+      request: this
     });
 
     let promise = this.intent.fire(this);
@@ -194,10 +191,9 @@ module.exports = class Request {
 /**
  * Result of request
  *
- * @param mixed result
- * @param hash options
- * @access public
- * @return boolean
+ * @param {*} result
+ * @param {object} options
+ * @returns {*}
  */
   result(result, options = {}) {
     //Default
@@ -224,6 +220,11 @@ module.exports = class Request {
       this.end();
       return;
     }
+
+    //Emit request.result
+    this.app.Event.emit('request.result',{
+      request: this
+    });
 
     //Listen for the sent event
     this.response.on('sent', () => {

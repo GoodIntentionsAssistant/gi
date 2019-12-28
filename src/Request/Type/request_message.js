@@ -63,8 +63,7 @@ module.exports = class RequestMessage extends Request {
 
     //Event
     this.app.Event.emit('request.incoming',{
-      ident: this.ident,
-      input: this.input
+      request: this
     });
 
     //Expects

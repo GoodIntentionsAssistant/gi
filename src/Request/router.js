@@ -88,8 +88,7 @@ module.exports = class Router {
 
     if(type === 'NotFound') {
       this.app.Event.emit('request.unknown',{
-        ident: this.request.ident,
-        input: this.request.input
+        request: this.request
       });
     }
 
