@@ -16,9 +16,7 @@ module.exports = class Auth {
 /**
  * Constructor
  *
- * @param object app
- * @access public
- * @return void
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		this.app = app;
@@ -60,9 +58,9 @@ module.exports = class Auth {
  * object. The session object is always returned but the
  * user might not be identified.
  *
- * @param string token Token generated from the user
- * @param object client object
- * @return string session_id
+ * @param {string} token Token generated from the user
+ * @param {Object} client Client object
+ * @returns {Object} Session data
  */
 	authenticate(token, client) {
 		let session_data = this.find_token(token);
@@ -92,8 +90,8 @@ module.exports = class Auth {
 /**
  * Identify the user by their session_id
  *
- * @param string session_id
- * @return hash user and session objects
+ * @param {string} session_id Session id passed from request
+ * @returns {Object} User and session objects
  */
 	identify(session_id) {
 		let session_data = this.find_session(session_id);
@@ -134,9 +132,8 @@ module.exports = class Auth {
  * Creates auth session data
  * This does not create an object
  *
- * @param string session_id Optional
- * @access public
- * @return session_id
+ * @param {string} session_id Session id passed
+ * @returns {Object} Session object
  */
 	create(session_id = null) {
 		//Generate random session id
@@ -164,9 +161,8 @@ module.exports = class Auth {
 /**
  * Find user by token
  *
- * @param string token
- * @access public
- * @return mixed hash or boolean
+ * @param {string} token User token
+ * @returns {*} Session object or false if failed to find the session
  */
 	find_token(token) {
 		for(var ii=0; ii < this.sessions.length; ii++) {
@@ -181,9 +177,8 @@ module.exports = class Auth {
 /**
  * Find session by session id
  *
- * @param string session_id
- * @access public
- * @return mixed hash or boolean
+ * @param {string} session_id Session id from request
+ * @returns {*} Session object or false if failed to find session by id
  */
 	find_session(session_id) {
 		for(var ii=0; ii < this.sessions.length; ii++) {
@@ -198,9 +193,8 @@ module.exports = class Auth {
 /**
  * Find user by user id
  *
- * @param string user_id
- * @access public
- * @return mixed hash or boolean
+ * @param {string} user_id User id
+ * @returns {*} User object or false if failed to find the user by the id
  */
 	find_user(user_id) {
 		for(var ii=0; ii < this.users.length; ii++) {

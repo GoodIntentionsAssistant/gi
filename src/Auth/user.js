@@ -9,8 +9,6 @@ module.exports = class User {
 /**
  * Constructor
  *
- * @access public
- * @return void
  */
 	constructor() {
     this._data = {};
@@ -20,10 +18,9 @@ module.exports = class User {
 /**
  * Load
  *
- * @param string user_id
- * @param hash user_data
- * @access public
- * @return void
+ * @param {string} user_id User id
+ * @param {Object} user_data User data
+ * @returns {boolean}
  */
   load(user_id, user_data) {
     //User id
@@ -31,6 +28,8 @@ module.exports = class User {
 
     //Hold auth user data
     this._data = user_data;
+
+    return true;
   }
 
 
@@ -39,9 +38,8 @@ module.exports = class User {
  *
  * Return data based on the key
  *
- * @param string key
- * @access public
- * @return mixed
+ * @param {string} key Get data by key
+ * @returns {*}
  */
   get(key) {
     if(!key) {
@@ -56,9 +54,8 @@ module.exports = class User {
  *
  * Checks to see if a key for the user data exists
  *
- * @param string key
- * @access public
- * @return bool
+ * @param {string} key Key to check if it exists
+ * @returns {*}
  */
   has(key) {
     return dotty.get(this._data, key) ? true : false;
@@ -68,24 +65,22 @@ module.exports = class User {
 /**
  * Set
  *
- * @param string key
- * @access public
- * @return void
+ * @param {string} key Key to set
+ * @returns {boolean}
  */
   set(key, value) {
-    dotty.put(this._data, key, value);
+    return dotty.put(this._data, key, value);
   }
 
 
 /**
  * Remove key
  *
- * @param string key
- * @access public
- * @return void
+ * @param {string} key Key to remove
+ * @returns {boolean}
  */
   remove(key) {
-    dotty.remove(this._data, key);
+    return dotty.remove(this._data, key);
   }
   
 }

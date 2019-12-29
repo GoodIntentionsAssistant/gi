@@ -8,8 +8,6 @@ module.exports = class Error {
 /**
  * Constructor
  * 
- * @access public
- * @return void
  */
   constructor() {
   }
@@ -18,9 +16,7 @@ module.exports = class Error {
 /**
  * Warning error
  * 
- * @param string message
- * @access public
- * @return void
+ * @param {string} message Message to show
  */
   warning(messages) {
     if(typeof messages !== "object") {
@@ -42,9 +38,7 @@ module.exports = class Error {
 /**
  * Fatal error
  * 
- * @param string message
- * @access public
- * @return void
+ * @param {string} message Message to show
  */
   fatal(messages) {
     if(typeof messages !== "object") {

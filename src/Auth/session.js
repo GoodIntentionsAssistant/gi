@@ -9,12 +9,10 @@ module.exports = class Session {
 /**
  * Constructor
  *
- * @access public
- * @return void
+ * @param {Object} auth Auth object
  */
 	constructor(auth) {
 		this.auth = auth;
-
 		this._data = {};
 	}
 
@@ -22,10 +20,9 @@ module.exports = class Session {
 /**
  * Load
  *
- * @param string session_id
- * @param hash session_data
- * @access public
- * @return void
+ * @param {string} session_id Session id
+ * @param {Object} session_data Session data
+ * @returns {boolean}
  */
 	load(session_id, session_data) {
 		//Session id
@@ -33,6 +30,8 @@ module.exports = class Session {
 
 		//Hold auth session data
 		this._data = session_data;
+
+		return true;
 	}
 
 
@@ -42,12 +41,12 @@ module.exports = class Session {
  * If the user has been successfully identified then we
  * set the private variable to true so we can check later.
  *
- * @param boolean value
- * @access public
- * @return void
+ * @param {boolean} value Token to add to session
+ * @returns {boolean}
  */
 	add_token(token) {
 		this._data.tokens[token] = {};
+		return true;
 	}
 
 
@@ -56,9 +55,8 @@ module.exports = class Session {
  *
  * Return data based on the key
  *
- * @param string key
- * @access public
- * @return mixed
+ * @param {string} key Get data by key
+ * @returns {*}
  */
 	get(key) {
 		if(!key) {
@@ -72,9 +70,8 @@ module.exports = class Session {
  * Data
  *
  * @todo Remove this and change to get::
- * @param string key
- * @access public
- * @return mixed
+ * @param {string} key Get data by key
+ * @returns {*}
  */
 	data(key) {
 		return this.get(key);
@@ -86,9 +83,8 @@ module.exports = class Session {
  *
  * Checks to see if a key for the user data exists
  *
- * @param string key
- * @access public
- * @return bool
+ * @param {string} key Key to check if it exists
+ * @returns {*}
  */
 	has(key) {
 		return dotty.get(this._data, key) ? true : false;
@@ -98,24 +94,22 @@ module.exports = class Session {
 /**
  * Set
  *
- * @param string key
- * @access public
- * @return void
+ * @param {string} key Key to set
+ * @returns {boolean}
  */
 	set(key, value) {
-		dotty.put(this._data, key, value);
+		return dotty.put(this._data, key, value);
 	}
 
 
 /**
  * Remove key
  *
- * @param string key
- * @access public
- * @return void
+ * @param {string} key Key to remove
+ * @returns {boolean}
  */
 	remove(key) {
-		dotty.remove(this._data, key);
+		return dotty.remove(this._data, key);
 	}
 
 }

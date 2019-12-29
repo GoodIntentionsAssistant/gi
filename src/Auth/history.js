@@ -6,9 +6,7 @@ module.exports = class History {
 /**
  * Constructor
  *
- * @param object response
- * @access public
- * @return void
+ * @param {Object} request Current request
  */
   constructor(request) {
     this.request = request;
@@ -18,9 +16,8 @@ module.exports = class History {
 /**
  * Add utterance to users history
  *
- * @param hash utterance
- * @access public
- * @return bool
+ * @param {Object} utterance Add to users history
+ * @returns {boolean}
  */
   add(utterance) {
     let history = this.get();
@@ -33,8 +30,7 @@ module.exports = class History {
 /**
  * Get history
  *
- * @access public
- * @return hash
+ * @returns {Object} Get full history for user
  */
   get() {
     let history = this.request.session.get('history');
@@ -48,8 +44,7 @@ module.exports = class History {
 /**
  * Get last history
  *
- * @access public
- * @return hash
+ * @returns {Object} Previous historic request
  */
   last() {
     let history = this.get();
