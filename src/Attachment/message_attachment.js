@@ -10,7 +10,7 @@ module.exports = class MessageAttachment extends Attachment {
  * 
  * @param {*} data Data for attachment
  * @param {Template} Template Templating instance for compiling
- * @returns {Object}
+ * @returns {Object} Attachment data
  */
   build(text, Template) {
     return {

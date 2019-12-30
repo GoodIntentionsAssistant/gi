@@ -66,8 +66,9 @@ module.exports = class Dispatcher {
     request.response.load();
 
     //Load request
+    var result;
     try {
-      var result = request.process();
+      result = request.process();
     }
     catch(error) {
       this.app.Error.warning([

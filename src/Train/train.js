@@ -28,8 +28,10 @@ module.exports = class Train {
     let file = type+'_classifier.js';
 		let filename = Config.path('system')+'/Train/Classifier/'+file;
 
+		var Classifier;
+
     try {
-      var Classifier = require(filename);
+      Classifier = require(filename);
     }
     catch(error) {
       this.app.Error.fatal([
