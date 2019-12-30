@@ -23,7 +23,6 @@ module.exports = class GiClassifier extends Classifier {
 /**
  * Populate POS
  *
- * @access private
  * @return void
  */
   _populatePos() {

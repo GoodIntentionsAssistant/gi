@@ -6,7 +6,6 @@ module.exports = class Classifier {
 /**
  * Constructor
  *
- * @access public
  * @return void
  */
   constructor() {
@@ -19,7 +18,6 @@ module.exports = class Classifier {
  *
  * @param string intent
  * @param string keyword
- * @access public
  * @return void
  */
   train(intent, keyword) {
@@ -31,7 +29,6 @@ module.exports = class Classifier {
  * Untrain
  *
  * @param stirng intent
- * @access public
  * @return bool
  */
   untrain(intent) {

@@ -15,7 +15,6 @@ module.exports = class IntentRegistry extends ObjectRegistry {
  * Constructor
  *
  * @param object app
- * @access public
  * @return void
  */
 	constructor(app) {
@@ -29,7 +28,6 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 /**
  * After load
  *
- * @access public
  * @return void
  */
   after_load(intent) {
@@ -57,7 +55,6 @@ module.exports = class IntentRegistry extends ObjectRegistry {
  * Train
  *
  * @param object intent
- * @access public
  * @return void
  */
 	_train(intent) {
@@ -73,7 +70,6 @@ module.exports = class IntentRegistry extends ObjectRegistry {
  * Explicits
  *
  * @param object intent
- * @access public
  * @return void
  */
 	_explicits(intent) {
@@ -89,7 +85,6 @@ module.exports = class IntentRegistry extends ObjectRegistry {
  * Unload Intent
  *
  * @param string intent
- * @access public
  * @return bool
  */
 	unload(identifier) {

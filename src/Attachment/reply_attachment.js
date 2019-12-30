@@ -5,7 +5,13 @@ const Attachment = require('./attachment.js');
 
 module.exports = class ReplyAttachment extends Attachment {
 
-  build(data) {
+/**
+ * Build
+ * 
+ * @param {*} data Data for attachment
+ * @returns {Object}
+ */
+  build(data = {}) {
     return true;
   }
 

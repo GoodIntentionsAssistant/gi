@@ -12,7 +12,7 @@ module.exports = class Expects {
  * Constructor
  *
  * @constructor
- * @param {Object} response Response object
+ * @param {Object} request Request instance
  */
 	constructor(request) {
 		this.request 		= request;
@@ -286,21 +286,24 @@ module.exports = class Expects {
 /**
  * Keep the value on the user session
  *
- * @param {Object} request Request object
- * @return void
+ * @param {string} key Key
+ * @param {string} value Value of the key
+ * @returns {boolean}
  */
 	_keep(key, value) {
-		this.request.user.set(key, value);
+		return this.request.user.set(key, value);
 	}
 
 
 /**
  * Action
  *
- * @param {Object} request Request object
+ * @todo Check if request param is needed
+ * @param {*} expecting Expecting
+ * @param {string} result Text result
  * @returns {boolean}
  */
-	_action(expecting, result) {
+	_action(expecting, result = '') {
 		//String
 		if(typeof expecting === 'string') {
 			this.request.action = expecting;

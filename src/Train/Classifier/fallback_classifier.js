@@ -9,7 +9,6 @@ module.exports = class ClassifyClassifier extends Classifier {
 /**
  * Constructor
  *
- * @access public
  * @return void
  */
 	constructor() {
@@ -23,7 +22,6 @@ module.exports = class ClassifyClassifier extends Classifier {
  *
  * @param string intent
  * @param string keyword
- * @access public
  * @return void
  */
 	train(intent, keyword) {	
@@ -35,7 +33,6 @@ module.exports = class ClassifyClassifier extends Classifier {
  * Untrain
  *
  * @param stirng intent
- * @access public
  * @return bool
  */
 	untrain(intent) {
@@ -47,7 +44,6 @@ module.exports = class ClassifyClassifier extends Classifier {
  * Find
  *
  * @param object utterance
- * @access public
  * @return mixed
  */
 	find(utterance) {

@@ -11,9 +11,8 @@ module.exports = class Utterance {
 /**
  * Constructor
  *
+ * @constructor
  * @param text string
- * @access public
- * @return void
  */
   constructor(text) {
     this.data = {
@@ -35,7 +34,6 @@ module.exports = class Utterance {
 /**
  * Text
  *
- * @access public
  * @return void
  */
   _text() {
@@ -51,7 +49,6 @@ module.exports = class Utterance {
  * Different versions of the inputted string for the classifiers to use.
  * Centralised in this Utterance so the strings don't need to be scrubbed multiple times
  *
- * @access public
  * @return bool
  */
   _scrub() {
@@ -83,7 +80,6 @@ module.exports = class Utterance {
 /**
  * Labels
  *
- * @access public
  * @return bool
  */
   _labels() {
@@ -96,7 +92,6 @@ module.exports = class Utterance {
  * Is
  *
  * @param string label
- * @access public
  * @return bool
  */
   is(label) {
@@ -107,7 +102,6 @@ module.exports = class Utterance {
 /**
  * Labels
  *
- * @access public
  * @return string
  */
   labels() {
@@ -118,7 +112,6 @@ module.exports = class Utterance {
 /**
  * Original
  *
- * @access public
  * @return string
  */
   original() {
@@ -129,7 +122,6 @@ module.exports = class Utterance {
 /**
  * Text
  *
- * @access public
  * @return string
  */
   text() {
@@ -141,7 +133,6 @@ module.exports = class Utterance {
  * Scrubbed text
  *
  * @param type string
- * @access public
  * @return string
  */
   scrubbed(type = 'normal') {
@@ -155,7 +146,6 @@ module.exports = class Utterance {
  * Used to get all the data from the utterance so it can be loaded back in
  * This is used for session history.
  *
- * @access public
  * @return hash
  */
   get() {

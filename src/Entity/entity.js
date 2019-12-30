@@ -31,7 +31,6 @@ module.exports = class Entity {
  * the promise can be resolved straight away.
  *
  * @param hash options
- * @access public
  * @return bool
  */
 	load(options) {
@@ -59,7 +58,6 @@ module.exports = class Entity {
  * Import
  *
  * @todo Recode this method
- * @access public
  * @return void
  */
 	_import(settings, resolve, options) {
@@ -116,7 +114,6 @@ module.exports = class Entity {
  * Set data
  *
  * @param hash data
- * @access public
  * @return array
  */
 	set_data(data) {
@@ -141,7 +138,6 @@ module.exports = class Entity {
 /**
  * Get data
  *
- * @access public
  * @return array
  */
 	get_data() {
@@ -152,7 +148,6 @@ module.exports = class Entity {
 /**
  * Get data by key
  *
- * @access public
  * @return array
  */
 	find_data_by_key(key) {
@@ -164,7 +159,6 @@ module.exports = class Entity {
  * Parse the string
  *
  * @param string string
- * @access public
  * @return array
  */
   parse(string) {
@@ -280,7 +274,6 @@ module.exports = class Entity {
  *
  * @param string word Word from the entity
  * @param string input User input
- * @access public
  * @return hash
  */
   find_word(word, input, options = {}) {
@@ -309,7 +302,6 @@ module.exports = class Entity {
  * @param string string Original string
  * @param string keyword Keyword matched
  * @param int position Position in the string
- * @access public
  * @return int
  */
 	score(string, keyword, position) {

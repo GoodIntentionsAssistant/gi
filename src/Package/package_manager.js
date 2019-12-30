@@ -11,7 +11,6 @@ module.exports = class PackageManager {
 /**
  * Constructor
  *
- * @access public
  * @return void
  */
   constructor() {
@@ -23,7 +22,6 @@ module.exports = class PackageManager {
 /**
  * Load module
  *
- * @access public
  * @return void
  */
   load() {
@@ -49,7 +47,6 @@ module.exports = class PackageManager {
 /**
  * Fetch latest packages file
  *
- * @access public
  * @return void
  */
   fetch() {
@@ -67,7 +64,6 @@ module.exports = class PackageManager {
 /**
  * Write packages file to temp directory
  *
- * @access public
  * @return void
  */
   _writeToPackages(data) {
@@ -87,7 +83,6 @@ module.exports = class PackageManager {
  * Reinstall a packages
  *
  * @param string name
- * @access public
  * @return void
  */
   reinstall(name) {
@@ -100,7 +95,6 @@ module.exports = class PackageManager {
  * Install a package
  *
  * @param string name
- * @access public
  * @return void
  */
   install(name, options = {}) {
@@ -135,7 +129,6 @@ module.exports = class PackageManager {
  * Install a package from dev
  *
  * @param string name
- * @access public
  * @return void
  */
   _install_from_dev(name) {
@@ -185,7 +178,6 @@ module.exports = class PackageManager {
  * Remove a module
  *
  * @param string name
- * @access public
  * @return void
  */
   remove(name) {
@@ -208,7 +200,6 @@ module.exports = class PackageManager {
 /**
  * List available packages
  *
- * @access public
  * @return void
  */
   list() {    
@@ -226,7 +217,6 @@ module.exports = class PackageManager {
  * Enable a package
  *
  * @param string name
- * @access public
  * @return void
  */
   enable(name) {
@@ -250,7 +240,6 @@ module.exports = class PackageManager {
  * Disable a package
  *
  * @param string name
- * @access public
  * @return void
  */
   disable(name) {

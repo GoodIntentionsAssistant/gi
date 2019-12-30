@@ -12,7 +12,6 @@ module.exports = class Client {
  * @param object app
  * @param object server
  * @param object client
- * @access public
  * @return void
  */
   constructor(app, server, client) {
@@ -37,7 +36,6 @@ module.exports = class Client {
 /**
  * Load
  *
- * @access public
  * @return void
  */
 	load() {
@@ -64,7 +62,6 @@ module.exports = class Client {
 /**
  * Emit data back to client
  *
- * @access public
  * @return void
  */
 	emit(namespace, data) {
@@ -78,7 +75,6 @@ module.exports = class Client {
  * Identify
  *
  * @param hash input
- * @access public
  * @return void
  */
 	identify(input) {
@@ -117,7 +113,6 @@ module.exports = class Client {
 /**
  * Create auth token
  *
- * @access public
  * @return void
  */
 	create_auth_token() {
@@ -129,7 +124,6 @@ module.exports = class Client {
  * Handshake from user
  *
  * @param hash input
- * @access public
  * @return void
  */
 	handshake(input) {
@@ -162,7 +156,6 @@ module.exports = class Client {
  * Request
  *
  * @param hash input
- * @access public
  * @return void
  */
 	request(input) {
@@ -208,7 +201,6 @@ module.exports = class Client {
  * User session
  *
  * @param hash input
- * @access public
  * @return object
  */
   user_auth(input) {
@@ -220,7 +212,6 @@ module.exports = class Client {
  * Validate request
  * 
  * @param hash data
- * @access public
  * @return boolean
  */
 	validate_request(input) {
@@ -261,7 +252,6 @@ module.exports = class Client {
  * Validate client secret
  *
  * @param hash input
- * @access public
  * @return void
  */
 	validate_client_secret(secret) {
@@ -277,7 +267,6 @@ module.exports = class Client {
  * Validate session token
  *
  * @param hash input
- * @access public
  * @return void
  */
 	validate_auth_token(token) {
@@ -291,7 +280,6 @@ module.exports = class Client {
 /**
  * Disconnect
  *
- * @access public
  * @return void
  */
 	disconnect() {

@@ -16,7 +16,6 @@ module.exports = class Replacer {
  * @param string type 
  * @param string str 
  * @param Object options 
- * @access public
  * @return string
  */
   process(type, str, options = {}) {
@@ -44,7 +43,6 @@ module.exports = class Replacer {
 /**
  * Return the data
  * 
- * @access private
  * @return mixed
  */
   data(type, options) {
@@ -92,7 +90,6 @@ module.exports = class Replacer {
  * Read json file
  * 
  * @param string filename 
- * @access private
  * @return string
  */
   _readFile(filename) {
@@ -105,7 +102,6 @@ module.exports = class Replacer {
  * 
  * @param string str 
  * @param Object entries 
- * @access public
  * @return string
  */
   _replaceJson(str, entries) {
@@ -145,7 +141,6 @@ module.exports = class Replacer {
  * 
  * @param string str 
  * @param string context
- * @access public
  * @return string
  */
   _replaceTxt(str, entries) {
@@ -169,7 +164,6 @@ module.exports = class Replacer {
  * @todo Throw and error if the file does not exist
  * @param string type 
  * @param Object options 
- * @access private
  * @return array
  */
   _files(type, options = {}) {

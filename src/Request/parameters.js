@@ -411,8 +411,8 @@ module.exports = class Parameters {
 		}
 
 		//Set data
-		for(var field in output) {
-			this.set(field, output[field]);
+		for(let _field in output) {
+			this.set(_field, output[_field]);
 		}
 
 		return true;

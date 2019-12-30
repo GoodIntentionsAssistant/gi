@@ -10,7 +10,6 @@ module.exports = class SkillRegistry extends ObjectRegistry {
  * Constructor
  *
  * @param object app
- * @access public
  * @return void
  */
 	constructor(app) {
@@ -22,7 +21,6 @@ module.exports = class SkillRegistry extends ObjectRegistry {
 /**
  * After load
  *
- * @access public
  * @return void
  */
   after_load(skill) {

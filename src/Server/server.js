@@ -12,7 +12,6 @@ module.exports = class Server extends EventEmitter {
 /**
  * Constructor
  *
- * @access public
  * @return void
  */
 	constructor(app) {
@@ -27,7 +26,6 @@ module.exports = class Server extends EventEmitter {
 /**
  * Start
  *
- * @access public
  * @return void
  */
 	start() {
@@ -59,7 +57,6 @@ module.exports = class Server extends EventEmitter {
 /**
  * Stop
  *
- * @access public
  * @return void
  */
 	stop() {
@@ -75,7 +72,6 @@ module.exports = class Server extends EventEmitter {
  * Find client
  *
  * @param client_id
- * @access public
  * @return object
  */
 	find_client(client_id) {
@@ -92,7 +88,6 @@ module.exports = class Server extends EventEmitter {
  * Add client
  *
  * @param object client
- * @access public
  * @return void
  */
 	add_client(client) {
@@ -114,7 +109,6 @@ module.exports = class Server extends EventEmitter {
  * Remove client
  *
  * @param string ident
- * @access public
  * @return void
  */
 	remove_client(client_id) {

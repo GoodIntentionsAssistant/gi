@@ -15,7 +15,6 @@ module.exports = class EntityRegistry extends ObjectRegistry {
  * Constructor
  *
  * @param object app
- * @access public
  * @return void
  */
 	constructor(app) {
@@ -27,7 +26,6 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 /**
  * After load
  *
- * @access public
  * @return void
  */
   after_load(entity) {
@@ -43,7 +41,6 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 /**
  * Get entity
  * 
- * @access public
  * @param string identifier
  * @param object options optional
  * @return object

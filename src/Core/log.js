@@ -8,7 +8,6 @@ module.exports = class Log {
 /**
  * Constructor
  *
- * @access public
  * @return void
  */
   constructor(app) {
@@ -19,7 +18,6 @@ module.exports = class Log {
  * Log
  * 
  * @param string msg
- * @access public
  * @return void
  */
   add(msg, ident) {

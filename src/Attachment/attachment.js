@@ -7,9 +7,8 @@ module.exports = class Attachment {
 /**
  * Constructor
  *
- * @param object app
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
   constructor(app) {
     this.app = app;
@@ -20,8 +19,7 @@ module.exports = class Attachment {
 /**
  * Load
  *
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   load() {
     return true;

@@ -9,7 +9,6 @@ module.exports = class StrictClassifier extends Classifier {
  * Find
  *
  * @param object utterance
- * @access public
  * @return mixed
  */
 	find(utterance) {

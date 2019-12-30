@@ -9,9 +9,8 @@ module.exports = class AttachmentRegistry extends ObjectRegistry {
 /**
  * Constructor
  *
- * @param object app
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
   constructor(app) {
     super(app);

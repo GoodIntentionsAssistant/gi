@@ -14,7 +14,6 @@ module.exports = class ObjectRegistry {
 /**
  * Constructor
  *
- * @access public
  * @return void
  */
   constructor(app) {
@@ -38,7 +37,6 @@ module.exports = class ObjectRegistry {
  * Load all
  *
  * @param string skill
- * @access public
  * @return object Promise
  */
   load_all(skill, options = {}) {
@@ -117,7 +115,6 @@ module.exports = class ObjectRegistry {
  * Load
  *
  * @param string name
- * @access public
  * @return void
  */
   load(name, options = {}) {
@@ -154,7 +151,6 @@ module.exports = class ObjectRegistry {
  * Load object from file
  *
  * @param string file
- * @access public
  * @return void
  */
   _load(identifier, file, options) {
@@ -216,7 +212,6 @@ module.exports = class ObjectRegistry {
  * Remove
  *
  * @param string identifier
- * @access public
  * @return bool
  */
   remove(identifier) {
@@ -242,7 +237,6 @@ module.exports = class ObjectRegistry {
  * Get object
  *
  * @param string name
- * @access public
  * @return object
  */
   get(name) {
@@ -264,7 +258,6 @@ module.exports = class ObjectRegistry {
  * Such as App.Example.Attachment.Navigation or just navigation
  *
  * @param string name
- * @access public
  * @return string
  */
   find(name) {
@@ -294,7 +287,6 @@ module.exports = class ObjectRegistry {
  * Exists object
  *
  * @param string identifier
- * @access public
  * @return bool
  */
   exists(identifier) {
@@ -308,7 +300,6 @@ module.exports = class ObjectRegistry {
 /**
  * After load
  *
- * @access public
  * @return void
  */
   after_load() {
@@ -318,7 +309,6 @@ module.exports = class ObjectRegistry {
 /**
  * Before load
  *
- * @access public
  * @return void
  */
   before_load() {

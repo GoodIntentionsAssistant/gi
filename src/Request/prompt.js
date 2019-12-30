@@ -7,8 +7,6 @@ module.exports = class Prompt {
  * Constructor
  *
  * @param object request
- * @access public
- * @return void
  */
   constructor(request) {
     this.request = request;
@@ -19,7 +17,6 @@ module.exports = class Prompt {
  * Load and handle the prompt
  *
  * @param mixed data
- * @access public
  * @return bool
  */
   load(prompt_key) {

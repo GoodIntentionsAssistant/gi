@@ -7,7 +7,6 @@ module.exports = class Router {
  * Constructor
  *
  * @param object response
- * @access public
  * @return void
  */
   constructor(request) {
@@ -20,7 +19,6 @@ module.exports = class Router {
  * Route
  * 
  * @param object utterance
- * @access public
  * @return hash
  */
   route(utterance) {
@@ -75,7 +73,6 @@ module.exports = class Router {
  *
  * Sets the routing information to an app error intent 
  *
- * @access public
  * @return hash
  */
   error(type) {

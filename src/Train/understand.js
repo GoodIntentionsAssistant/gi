@@ -7,9 +7,8 @@ module.exports = class Understand {
 /**
  * Constructor
  *
- * @param object App
- * @access public
- * @return void
+ * @constructor
+ * @param {Object}} App App instance
  */
   constructor(App) {
     this.App = App;
@@ -20,8 +19,7 @@ module.exports = class Understand {
 /**
  * Load collections
  *
- * @access public
- * @return void
+ * @todo Rename to something else? This doesn't look right here.
  */
   collections() {
     this._collections = [
@@ -40,7 +38,6 @@ module.exports = class Understand {
  *
  * @param object utterance
  * @param array collections
- * @access public
  * @return mixed False or hash of the result
  */
   process(utterance, collections = []) {
@@ -69,7 +66,6 @@ module.exports = class Understand {
  *
  * @param object utterance
  * @param array collections
- * @access public
  * @return mixed False or hash of the result
  */
   match(utterance, collections = []) {
@@ -114,7 +110,6 @@ module.exports = class Understand {
  *
  * @param object utterance
  * @param string collection
- * @access public
  * @return mixed False or hash of the result
  */
   _match(utterance, collection) {
@@ -159,8 +154,7 @@ module.exports = class Understand {
  * Check matched
  *
  * @param hash match
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   _check(match, utterance) {
     let result = this.App.Explicit.check(match, utterance);

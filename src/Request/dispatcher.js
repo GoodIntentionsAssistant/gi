@@ -14,7 +14,6 @@ module.exports = class Dispatcher {
  * Constructor
  *
  * @param text string
- * @access public
  * @return void
  */
   constructor(queue) {
@@ -27,7 +26,6 @@ module.exports = class Dispatcher {
  * Dispatch
  * 
  * @param hash data
- * @access public
  * @return object Request object
  */
   dispatch(data) {
@@ -90,7 +88,6 @@ module.exports = class Dispatcher {
  * Set auth details
  * 
  * @param string type
- * @access public
  * @return boolean
  */
   auth(data) {

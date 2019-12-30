@@ -29,7 +29,6 @@ exports.to_file = function (identifier, options = {}) {
  *
  * @param string identifier
  * @param hash options
- * @access public
  * @return string
  */
 exports.to_directory = function (identifier, options = {}) {
@@ -83,7 +82,6 @@ exports.to_directory = function (identifier, options = {}) {
  * 
  * @param string identifier
  * @param hash options
- * @access public
  * @return string
  */
 exports.to_filename = function(identifier, options = {}) {
@@ -126,7 +124,6 @@ exports.to_filename = function(identifier, options = {}) {
  * 
  * @todo Recode this, it might not be reliable
  * @param string identifier
- * @access public
  * @return string
  */
 exports.skill = function (identifier) {

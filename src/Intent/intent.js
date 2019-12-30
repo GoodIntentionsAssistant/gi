@@ -10,7 +10,6 @@ module.exports = class Intent {
  * Constructor
  *
  * @param object app
- * @access public
  * @return void
  */
 	constructor(app) {
@@ -34,7 +33,6 @@ module.exports = class Intent {
  *
  * Initaliser has to call method this to setup the intent
  *
- * @access public
  * @return bool
  */
 	load() {
@@ -156,7 +154,6 @@ module.exports = class Intent {
  * 
  * @param string name
  * @param hash options
- * @access public
  * @return bool
  */
 	add_entity(name, options = {}) {
@@ -170,7 +167,6 @@ module.exports = class Intent {
  * 
  * @param string name
  * @param hash data
- * @access public
  * @return bool
  */
 	parameter(name, data) {
@@ -182,7 +178,6 @@ module.exports = class Intent {
 /**
  * Has parameters
  * 
- * @access public
  * @return bool
  */
 	has_parameters() {
@@ -242,7 +237,6 @@ module.exports = class Intent {
 /**
  * Train from entities
  *
- * @access public
  * @return void
  */
 	_train_from_entities() {
@@ -276,7 +270,6 @@ module.exports = class Intent {
  *
  * @param string keywords
  * @param hash options
- * @access public
  * @return bool
  */
 	add_keyword(keyword, options) {
@@ -306,7 +299,6 @@ module.exports = class Intent {
 /**
  * Get auth
  *
- * @access public
  * @return string
  */
 	get_auth() {
@@ -322,7 +314,6 @@ module.exports = class Intent {
  * Return keywords for intent
  *
  * @todo Is the loop required? Could that not be moved to add_keyword?
- * @access public
  * @return array
  */
 	keywords() {
@@ -344,7 +335,6 @@ module.exports = class Intent {
  *
  * Loaded in from intent registry
  *
- * @access public
  * @return array
  */
 	explicits() {
@@ -359,7 +349,6 @@ module.exports = class Intent {
  * 
  * 
  * @param hash request
- * @access public
  * @return Promise
  */
 	fire(request) {
@@ -391,7 +380,6 @@ module.exports = class Intent {
  * Prompt
  * 
  * @param object request
- * @access public
  * @return void
  */
 	prompt(request) {
@@ -413,7 +401,6 @@ module.exports = class Intent {
  * Before request
  * 
  * @param object request
- * @access public
  * @return void
  */
 	before_request(request) {
@@ -424,7 +411,6 @@ module.exports = class Intent {
  * After request
  * 
  * @param object request
- * @access public
  * @return void
  */
 	after_request(request) {
@@ -434,7 +420,6 @@ module.exports = class Intent {
 /**
  * Shutdown callback
  *
- * @access public
  * @return void
  */
   shutdown() {
@@ -445,7 +430,6 @@ module.exports = class Intent {
  * Before load callback
  * 
  * @param object request
- * @access public
  * @return void
  */
 	before_load() {
@@ -456,7 +440,6 @@ module.exports = class Intent {
  * After load callback
  * 
  * @param object request
- * @access public
  * @return void
  */
 	after_load() {

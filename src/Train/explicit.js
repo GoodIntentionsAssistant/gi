@@ -8,9 +8,8 @@ module.exports = class Explicit {
 /**
  * Constructor
  *
+ * @constructor
  * @param object app
- * @access public
- * @return void
  */
   constructor(app) {
     this.app = app;
@@ -24,7 +23,7 @@ module.exports = class Explicit {
  * @param string intent
  * @param string keyword
  * @param hash options
- * @return boolean
+ * @returns {boolean}
  */
   train(type, intent, keyword, options = {}) {
     //Default classifier is strict
@@ -72,8 +71,7 @@ module.exports = class Explicit {
  *
  * @param hash match
  * @param object utterance
- * @access public
- * @return bool
+ * @returns {boolean}
  */
   check(match, utterance) {
     //match.result is the intent identifier
@@ -103,7 +101,7 @@ module.exports = class Explicit {
  *
  * @param string intent
  * @param object utterance
- * @return bool
+ * @returns {boolean}
  */
   _findReject(intent, utterance) {
     //Collection does not exist
@@ -129,7 +127,7 @@ module.exports = class Explicit {
  *
  * @param string intent
  * @param object utterance
- * @return bool
+ * @returns {boolean}
  */
   _findMust(intent, utterance) {
     //Collection does not exist

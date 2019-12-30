@@ -11,7 +11,6 @@ module.exports = class Data {
  * Constructor
  *
  * @param object response
- * @access public
  * @return void
  */
 	constructor(App) {
@@ -58,7 +57,6 @@ module.exports = class Data {
  * Check the file before trying to load it
  *
  * @param string filename
- * @access public
  * @return bool
  */
 	_check_file(filename) {
@@ -75,7 +73,6 @@ module.exports = class Data {
  * Load JSON
  *
  * @param string filename
- * @access public
  * @return Promise
  */
 	_load_json(filename) {
@@ -109,7 +106,6 @@ module.exports = class Data {
  * Load CSV data
  *
  * @param string filename
- * @access public
  * @return Promise
  */
 	_load_csv(filename) {

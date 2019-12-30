@@ -64,7 +64,6 @@ exports.sentence_case = function(str) {
  * stopwords.json is used to define what should be removed.
  * 
  * @param string str
- * @access public
  * @return string
  */
 exports.stop_words = function(str) {
