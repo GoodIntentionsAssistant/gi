@@ -8,8 +8,8 @@ module.exports = class Skill {
 /**
  * Constructor
  *
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		this.app = app;
@@ -19,8 +19,6 @@ module.exports = class Skill {
 /**
  * Setup skill
  *
- * @access public
- * @return void
  */
 	setup() {
 	}
@@ -29,8 +27,8 @@ module.exports = class Skill {
 /**
  * Load skill
  *
- * @access public
- * @return void
+ * @todo Clean this method up and remove console logs
+ * @returns {boolean}
  */
 	load() {
 		//Load
@@ -52,24 +50,26 @@ module.exports = class Skill {
 			//@todo Catch error
 			console.log(err);
 		});
+
+		return true;
 	}
 
 
 /**
  * Load skill intents
  *
- * @access public
- * @return void
+ * @returns {*}
  */
 	load_intents() {
 		let options = {};
 
 		//
-		if(typeof this.intents != 'undefined' && this.intents.length > 0) {
+		if(typeof this.intents !== 'undefined' && this.intents.length > 0) {
 			options['only'] = this.intents;
 		}
 
 		this.app.Log.add('Loading Intents for '+this.identifier);
+
 		return this.app.IntentRegistry.load_all(this.identifier, options);
 	}
 
@@ -77,8 +77,7 @@ module.exports = class Skill {
 /**
  * Load skill entities
  *
- * @access public
- * @return void
+ * @returns {*}
  */
 	load_entities() {
 		this.app.Log.add('Loading Entities for '+this.identifier);

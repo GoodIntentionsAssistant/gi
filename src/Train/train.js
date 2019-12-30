@@ -8,9 +8,8 @@ module.exports = class Train {
 /**
  * Constructor
  *
- * @param object app
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		this.collections = {};
@@ -21,10 +20,9 @@ module.exports = class Train {
 /**
  * Add classifier to collection
  *
- * @param string name
- * @param string type
- * @access public
- * @return boolean
+ * @param {string} name Collection name
+ * @param {string} type Collection type
+ * @returns {boolean}
  */
 	add_collection(name, type) {
     let file = type+'_classifier.js';
@@ -52,9 +50,8 @@ module.exports = class Train {
 /**
  * Has collection
  *
- * @param string name
- * @access public
- * @return boolean
+ * @param {string} name Collection name
+ * @returns {boolean}
  */
 	has_collection(name) {
 		return this.collections[name] ? true : false;
@@ -64,10 +61,10 @@ module.exports = class Train {
 /**
  * Train
  *
- * @param string intent
- * @param string keyword
- * @param hash options
- * @return boolean
+ * @param {string} intent Intent where the training is from
+ * @param {string} keyword Keywords and expressions
+ * @param {Object} options Options for training
+ * @returns {boolean}
  */
 	train(intent, keyword, options) {
 		//Collection
@@ -96,19 +93,13 @@ module.exports = class Train {
       ]);
 		}
 
-		//Priority
-		let priority = 1;
-		if(options && options.priority > 0) {
-			priority = options.priority;
-		}
-
 		//Check collection exists
 		if(!this.has_collection(collection)) {
 			this.add_collection(collection, classifier);
 		}
 
 		//Clean up
-		if(typeof keyword == 'string') {
+		if(typeof keyword === 'string') {
 			keyword = keyword.toLowerCase();
 		}
 
@@ -122,10 +113,9 @@ module.exports = class Train {
 /**
  * Find
  *
- * @param object utterance
- * @param string collection
- * @access public
- * @return object
+ * @param {Object} utterance Utterance object from user including the text
+ * @param {string} collection Collection to check
+ * @returns {*}
  */
 	find(utterance, collection) {
 		//Default collection if not set
@@ -152,9 +142,8 @@ module.exports = class Train {
  *
  * Goes through all loaded classifiers and removes trained data for the identifier
  *
- * @param string identifier
- * @access public
- * @return bool
+ * @param {string} identifier Identifier/intent to remove
+ * @returns {boolean}
  */
   untrain(identifier) {
     //Go through each collection loaded and untrain for the identifier

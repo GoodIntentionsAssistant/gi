@@ -11,9 +11,8 @@ module.exports = class Expects {
 /**
  * Constructor
  *
- * @param object response
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} response Response object
  */
 	constructor(request) {
 		this.request 		= request;
@@ -29,8 +28,7 @@ module.exports = class Expects {
 /**
  * Get expecting data
  *
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
 	get() {
 		this.check_expiry();
@@ -44,8 +42,7 @@ module.exports = class Expects {
  *
  * Check if the previous call had something expected.
  *
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
 	has() {
 		this.check_expiry();
@@ -56,8 +53,7 @@ module.exports = class Expects {
 /**
  * Reset expecting
  *
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
 	reset() {
 		return this.request.session.remove('expecting');
@@ -67,8 +63,7 @@ module.exports = class Expects {
 /**
  * Check if expecting has expired
  *
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
 	check_expiry() {
 		//Check if the expects has expired
@@ -90,9 +85,8 @@ module.exports = class Expects {
 /**
  * Set expecting
  *
- * @param hash expecting
- * @access public
- * @return void
+ * @param {Object} data Expecting settings
+ * @returns {boolean}
  */
 	set(data) {
 		//Default
@@ -104,7 +98,7 @@ module.exports = class Expects {
 		//If the data is a string convert it to a string
 		if(typeof data === 'string' && data === 'reply') {
 			this.request.attachment('reply');
-			return;
+			return true;
 		}
 
 		//Set expiry
@@ -122,6 +116,8 @@ module.exports = class Expects {
 
 		//Expect a reply attachment
 		this.request.attachment('reply');
+
+		return true;
 	}
 
 
@@ -129,9 +125,8 @@ module.exports = class Expects {
  * Load
  *
  * @todo Clean this code up, return bool
- * @param object request
- * @access public
- * @return bool
+ * @param {Object} request Request object
+ * @returns {boolean}
  */
 	check(request) {
     request.log('Checking expects');
@@ -189,14 +184,15 @@ module.exports = class Expects {
 		if(this.finish) {
 			this.reset();
 		}
+
+		return true;
 	}
 
 
 /**
  * Check entity input
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
 	_check_entity_input() {
 		//Fetch the entity so the input can be parsed
@@ -257,14 +253,14 @@ module.exports = class Expects {
 			this.finish = false;
 		}
 
+		return true;
 	}
 
 
 /**
  * Get entity
  *
- * @access public
- * @return object
+ * @returns {Object}
  */
 	get_entity() {
 		//No entity or data
@@ -290,8 +286,7 @@ module.exports = class Expects {
 /**
  * Keep the value on the user session
  *
- * @param object request
- * @access public
+ * @param {Object} request Request object
  * @return void
  */
 	_keep(key, value) {
@@ -302,13 +297,12 @@ module.exports = class Expects {
 /**
  * Action
  *
- * @param object request
- * @access public
- * @return void
+ * @param {Object} request Request object
+ * @returns {boolean}
  */
 	_action(expecting, result) {
 		//String
-		if(typeof expecting == 'string') {
+		if(typeof expecting === 'string') {
 			this.request.action = expecting;
 			return true;
 		}

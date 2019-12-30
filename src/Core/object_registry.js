@@ -84,7 +84,7 @@ module.exports = class ObjectRegistry {
           name = _.camelize(name);
 
           //Check if this should be loaded from options
-          if(typeof options['only'] != 'undefined') {
+          if(typeof options['only'] !== 'undefined') {
             //The current file is not in the options for which files to only load in
             //So loading this object will be skipped
             if(options['only'].indexOf(name) === -1) {

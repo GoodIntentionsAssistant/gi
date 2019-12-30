@@ -10,9 +10,8 @@ module.exports = class Parameters {
 /**
  * Constructor
  *
- * @param object app
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} request Request instance
  */
 	constructor(request) {
 		//Promise is used because loading some entities might require live data
@@ -45,9 +44,8 @@ module.exports = class Parameters {
 /**
  * Value of a parameter
  * 
- * @param string key
- * @access public
- * @return mixed
+ * @param {string} key Parameter key
+ * @returns {*}
  */
 	value(key) {
 		if(!this.data[key]) {
@@ -62,9 +60,8 @@ module.exports = class Parameters {
  *
  * The key might be set but it might not have a value
  * 
- * @param string key
- * @access public
- * @return bool
+ * @param {string} key Parameter key
+ * @returns {boolean}
  */
 	has(key) {
 		let val = this.value(key);
@@ -78,9 +75,8 @@ module.exports = class Parameters {
 /**
  * Get the data matched of a key
  * 
- * @param string key
- * @access public
- * @return mixed
+ * @param {string} key Parameter key
+ * @returns {*}
  */
 	get(key) {
 		if(!key) {
@@ -94,10 +90,9 @@ module.exports = class Parameters {
 /**
  * Set parameter
  * 
- * @param string key
+ * @param {string} key Parameter key
  * @param hash value
- * @access public
- * @return mixed
+ * @returns {*}
  */
 	set(key, value) {
 		let _default = {
@@ -105,7 +100,7 @@ module.exports = class Parameters {
 		};
 		let _data = [];
 
-		if(typeof value == 'string') {
+		if(typeof value === 'string') {
 			_data['value'] = value;
 			_data['string'] = value;
 		}
@@ -209,8 +204,7 @@ module.exports = class Parameters {
  *
  * @param string intent
  * @param object intent
- * @access private
- * @return boolean
+ * @returns {boolean}
  */
 	_parse(string, data) {
 		//Output will be a hash of useful information which is sent to the intent
@@ -429,8 +423,7 @@ module.exports = class Parameters {
  * Check for a prompt
  *
  * @param Object result
- * @access private
- * @return bool
+ * @returns {boolean}
  */
 	_validate(parameters) {
 
@@ -451,8 +444,7 @@ module.exports = class Parameters {
  * Set prompt to the key of the parameter so the intent can load it back in and generate an expects
  *
  * @param Object result
- * @access private
- * @return bool
+ * @returns {boolean}
  */
 	_check_prompt(parameters) {
 		for(let field in parameters) {
@@ -473,7 +465,7 @@ module.exports = class Parameters {
  * 
  * @param string field
  * @param Object result
- * @return bool
+ * @returns {boolean}
  */
 	keep(field, result) {
 		this.request.user.set('parameter.'+field, result);
@@ -491,8 +483,7 @@ module.exports = class Parameters {
  *
  * @param field
  * @param mixed options
- * @access private
- * @return mixed False for no match or string for the matched session result
+ * @returns {*} False for no match or string for the matched session result
  */
 	_slotfill(field, options) {
 		let _keys = [];
@@ -527,8 +518,7 @@ module.exports = class Parameters {
  *
  * @param hash data
  * @param hash result
- * @access private
- * @return boolean
+ * @returns {boolean}
  */
 	_action(data, result) {
 		//String

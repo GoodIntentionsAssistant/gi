@@ -119,7 +119,7 @@ module.exports = class PackageManager {
 
     let exec = require('child_process').exec, child;
     child = exec('npm install '+name, (error, stdout, stderr) => {
-      if(error == null) {
+      if(error === null) {
         console.log('Successfully installed '+name);
         this.enable(name);
       }
