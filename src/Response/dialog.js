@@ -13,8 +13,7 @@ module.exports = class Dialog {
 /**
  * Constructor
  *
- * @access public
- * @return void
+ * @constructor
  */
   constructor() {
   }
@@ -23,8 +22,9 @@ module.exports = class Dialog {
 /**
  * Process the dialog text
  *
- * @access public
- * @return bool
+ * @param {string} name Name of the dialog to use
+ * @param {Object} options Options for dialog, e.g. language
+ * @returns {*}
  */
   process(name, options = {}) {
     //Default
@@ -45,13 +45,13 @@ module.exports = class Dialog {
     let json_path = null;
 
     if(name.indexOf('.') > -1) {
-      let parts = name.split('.');
+      const parts = name.split('.');
       file = parts[0];
       json_path = parts[1];
     }
 
     //Default language
-    let default_lang = Config.read('locale.default_language');
+    const default_lang = Config.read('locale.default_language');
 
     //Build identifier to the dialog file
     let identifier = 'App.Skill.' + options.skill + '.Dialog.' + options.lang + '.' + file;
@@ -97,9 +97,9 @@ module.exports = class Dialog {
 /**
  * Load
  * 
- * @param string identifier 
- * @access private
- * @return string
+ * @param {string} identifier Identifier for loading the dialog
+ * @param {Object} 
+ * @returns {Object}
  */
   _load(identifier, options = {}) {
     let filename = Identifier.to_file(identifier, {

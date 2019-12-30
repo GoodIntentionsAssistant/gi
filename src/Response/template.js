@@ -8,8 +8,7 @@ module.exports = class Template {
 /**
  * Constructor
  *
- * @access public
- * @return void
+ * @constructor
  */
   constructor(Response) {
     this.Response = Response;
@@ -25,8 +24,9 @@ module.exports = class Template {
 /**
  * Set data
  * 
- * @param mixed key 
- * @param string value optional
+ * @param {string} key Key string 
+ * @param {*} value Value for the key
+ * @returns {boolean}
  */
   set(key, value = '') {
     if(key instanceof Object) {
@@ -37,14 +37,15 @@ module.exports = class Template {
     }
 
     this._data[key] = value;
+
+    return true;
   }
 
 
 /**
  * Build data for compiler
  * 
- * @access public
- * @return void
+ * @returns {Object}
  */
   data() {
     //Add parameters
@@ -65,9 +66,8 @@ module.exports = class Template {
 /**
  * Compile text
  * 
- * @param string text 
- * @access public
- * @return string
+ * @param {string} text Text to compile with templating engine
+ * @returns {string}
  */
   compile(text) {
     let data = this.data();

@@ -41,7 +41,7 @@ module.exports = class Session {
  * If the user has been successfully identified then we
  * set the private variable to true so we can check later.
  *
- * @param {boolean} value Token to add to session
+ * @param {boolean} token Token to add to session
  * @returns {boolean}
  */
 	add_token(token) {

@@ -18,9 +18,8 @@ module.exports = class Response extends EventEmitter {
 /**
  * Constructor
  *
- * @param object response
- * @access public
- * @return void
+ * @param {Request} Request Initial request
+ * @constructor
  */
 	constructor(Request) {
 		super();
@@ -47,33 +46,31 @@ module.exports = class Response extends EventEmitter {
 /**
  * Load
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
   load() {
     this.start_typing();
+    return true;
   }
 
 
 /**
  * Set for templating
  *
- * @param mixed key 
- * @param string value optional
- * @access public
- * @return bool
+ * @param {*} key Key for templating 
+ * @param {string} value Value for templating
+ * @returns {boolean}
  */
   set(key, value = '') {
-    this.Template.set(key, value);
+    return this.Template.set(key, value);
   }
 
 
 /**
  * Send
  *
- * @param Object options
- * @access public
- * @return Boolean
+ * @param {Object} options Options for setting a response
+ * @returns {boolean}
  */
   send(options) {
     let _options = {
@@ -111,8 +108,8 @@ module.exports = class Response extends EventEmitter {
 /**
  * Send
  *
- * @access public
- * @return void
+ * @param {Object} attachments Attachments to send
+ * @returns {boolean}
  */
   _send(attachments) {
     //Build message
@@ -138,16 +135,17 @@ module.exports = class Response extends EventEmitter {
     //Update the request last activity
     //This stops the queue timing out the request if it's still doing something
     this.Request.last_activity = Date.now();
+
+    return true;
   }
 
 
 /**
  * Attachments
  *
- * @param type Type of attachment, e.g. image, action, link
- * @param mixed data
- * @access public
- * @return boolean
+ * @param {string} type Type of attachment, e.g. image, action, link
+ * @param {*} data Data for attachment
+ * @returns {boolean}
  */
   attachment(type, data) {
     //Identifier
@@ -178,8 +176,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Return a list of attachments
  * 
- * @access public
- * @return object
+ * @returns {Object}
  */
   attachments() {
     return this._attachments;
@@ -189,20 +186,19 @@ module.exports = class Response extends EventEmitter {
 /**
  * Clear all attachments
  * 
- * @access public
- * @return void
+ * @returns {boolean}
  */
   clearAttachments() {
     this._attachments = {};
+    return true;
   }
 
 
 /**
  * Build message
  *
- * @param object attachments
- * @access public
- * @return object
+ * @param {Object} attachments Attachments
+ * @returns {Object}
  */
   build(attachments) {
     //Result
@@ -228,40 +224,40 @@ module.exports = class Response extends EventEmitter {
 /**
  * Start typing
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
   start_typing() {
     if(this.typing) {
-      return;
+      return false;
     }
 
     this.typing = true;
     this.send_to_client({
       type: 'start'
     });
+
+    return true;
   }
 
 
 /**
  * End typing
  *
- * @access public
- * @return void
+ * @returns {boolean}
  */
   end_typing() {
     this.typing = false;
     this.send_to_client({
       type: 'end'
     });
+    return true;
   }
 
 
 /**
  * Check client
  * 
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
   valid_client() {
     if(!this.Request.client) {
@@ -276,9 +272,8 @@ module.exports = class Response extends EventEmitter {
 /**
  * Emit message
  *
- * @param hash data
- * @access public
- * @return boolean
+ * @param {Object} data Data to send to client
+ * @returns {boolean}
  */
 	send_to_client(data) {
     //Check client still exists

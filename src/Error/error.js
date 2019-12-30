@@ -16,7 +16,7 @@ module.exports = class Error {
 /**
  * Warning error
  * 
- * @param {string} message Message to show
+ * @param {*} messages Message to show
  */
   warning(messages) {
     if(typeof messages !== "object") {
