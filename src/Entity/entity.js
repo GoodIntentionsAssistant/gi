@@ -220,13 +220,13 @@ module.exports = class Entity {
 
 			//Add synonyms to list
 			if(this.data[key].synonyms) {
-				for(var ss=0; ss<this.data[key].synonyms.length; ss++) {
+				for(let ss=0; ss<this.data[key].synonyms.length; ss++) {
 					_list.push(this.data[key].synonyms[ss].toLowerCase());
 				}
 			}
 
 			//Loop through the list and try to find the array list in the string
-			for(var ii = 0; ii < _list.length; ii++) {
+			for(let ii = 0; ii < _list.length; ii++) {
 				let result = this.find_word(_list[ii], string);
 
 				if(result) {
@@ -249,7 +249,7 @@ module.exports = class Entity {
 		else if(matches.length > 1) {
 			//Score each match based on position and a few regular expressions
 			var scores = [];
-			for(var ii=0; ii<matches.length; ii++) {
+			for(let ii=0; ii<matches.length; ii++) {
 				var _score = this.score(string, matches[ii].string, matches[ii].position);
 				matches[ii].score = _score;
 			}
@@ -356,7 +356,7 @@ module.exports = class Entity {
 
 		//Loop each data in the entity
 		var words = [];
-		for(var key in data) {
+		for(let key in data) {
 			//Conditions
 			var pass = true;
 			if(conditions) {

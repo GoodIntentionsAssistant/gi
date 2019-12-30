@@ -11,42 +11,20 @@ module.exports = class Scheduler {
 /**
  * Constructor
  *
- * @param object app
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
   constructor(app) {
     this.scheduled = {};
-    this.upcoming = [];
-
     this.app = app;
-
-    app.on('app.loop', (data) => {
-      this.check();
-    });
-  }
-
-
-/**
- * Check
- *
- * @todo Optimise scheduler with another array that stores upcoming in the next hour
- * @access public
- * @return bool
- */
-  check() {
-    if(this.upcoming.length === 0) {
-      return;
-    }
   }
 
 
 /**
  * Trigger a scheduled event
  *
- * @param int scheduler_id
- * @access public
- * @return bool
+ * @param {string} scheduler_id Scheduler id
+ * @returns {boolean}
  */
   trigger(scheduler_id) {
     let schedule = this.find(scheduler_id);
@@ -71,10 +49,9 @@ module.exports = class Scheduler {
 /**
  * Add
  *
- * @param string type
- * @param hash data
- * @access public
- * @return bool
+ * @param {string} type Type of schedule
+ * @param {Object} data Settings for data
+ * @returns {boolean}
  */
   add(type, data) {
     let schedule_id = Randtoken.generate(16);
@@ -110,9 +87,8 @@ module.exports = class Scheduler {
 /**
  * Check
  *
- * @param int schedule_id
- * @access public
- * @return mixed
+ * @param {string} scheduler_id Scheduler id
+ * @returns {*}
  */
   find(schedule_id) {
     if(!this.scheduled[schedule_id]) {
@@ -125,9 +101,8 @@ module.exports = class Scheduler {
 /**
  * Find by session_id
  *
- * @param int session_id
- * @access public
- * @return array
+ * @param {string} scheduler_id Scheduler id
+ * @returns {string[]}
  */
   find_by_session_id(session_id) {
     let output = [];
@@ -151,23 +126,24 @@ module.exports = class Scheduler {
 /**
  * Cancel
  *
- * @access public
- * @return bool
+ * @param {string} scheduler_id Scheduler id
+ * @returns {boolean}
  */
   cancel(scheduler_id) {
     this.scheduled[scheduler_id].cancel();
-    this.remove(scheduler_id);
+    return this.remove(scheduler_id);
   }
 
 
 /**
  * Remove
  *
- * @access public
- * @return bool
+ * @param {string} scheduler_id Scheduler id
+ * @returns {boolean}
  */
   remove(scheduler_id) {
     delete this.scheduled[scheduler_id];
+    return true;
   }
 
 }

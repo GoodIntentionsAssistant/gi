@@ -98,7 +98,7 @@ module.exports = class Dialog {
  * Load
  * 
  * @param {string} identifier Identifier for loading the dialog
- * @param {Object} 
+ * @param {Object} options Options for loading dialog file
  * @returns {Object}
  */
   _load(identifier, options = {}) {

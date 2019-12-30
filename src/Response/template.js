@@ -50,13 +50,13 @@ module.exports = class Template {
   data() {
     //Add parameters
     let parameters = this.Request.parameters.get();
-    for(var key in parameters) {
+    for(let key in parameters) {
       this._data[key] = parameters[key].string;
     }
 
     //User data
     let user = this.Request.user.get();
-    for(var key in user) {
+    for(let key in user) {
       this._data[key] = user[key];
     }
 
