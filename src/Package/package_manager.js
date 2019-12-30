@@ -284,7 +284,7 @@ module.exports = class PackageManager {
           name: dir_name,
           path: path + '/Skill/' + dir_name
         });
-      })
+      });
     }
 
     return paths;

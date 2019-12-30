@@ -88,7 +88,7 @@ module.exports = class Dialog {
     }
 
     //Pick a random array key
-    let result = _.sample(contents)
+    let result = _.sample(contents);
 
     return result;
   }

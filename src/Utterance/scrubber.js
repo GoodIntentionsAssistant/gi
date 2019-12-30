@@ -31,7 +31,7 @@ exports.brackets = function(str) {
 exports.token_length = function(str, length) {
 	if(!length) { length = 2; }
 	var tokens = str.split(/\s+/);
-	return tokens.filter(function(token){ return token.length > length}).join(' ');
+	return tokens.filter(function(token){ return token.length > length; }).join(' ');
 }
 
 

@@ -96,7 +96,7 @@ module.exports = class Dispatcher {
     let client = this.app.Server.find_client(data.input.client_id);
 
     //Identify
-    let auth = this.app.Auth.identify(data.input.session_id)
+    let auth = this.app.Auth.identify(data.input.session_id);
 
     return {
       session: auth.session,

@@ -6,6 +6,10 @@ const extend = require('extend');
 
 /**
  * To file
+ * 
+ * @param {string} identifier Identifer to convert to file name
+ * @param {Object} options Options for converting
+ * @returns {string}
  */
 exports.to_file = function (identifier, options = {}) {
   //Options
@@ -27,9 +31,9 @@ exports.to_file = function (identifier, options = {}) {
 /**
  * To directory
  *
- * @param string identifier
- * @param hash options
- * @return string
+ * @param {string} identifier Identifier name
+ * @param {Object} options Options
+ * @returns {string}
  */
 exports.to_directory = function (identifier, options = {}) {
   let parts = identifier.split('.');
@@ -44,7 +48,7 @@ exports.to_directory = function (identifier, options = {}) {
     path += '/src';
   }
   else if(area === 'App') {
-    path += '/app'
+    path += '/app';
   }
 
   //Sub directory depth
@@ -80,9 +84,9 @@ exports.to_directory = function (identifier, options = {}) {
 /**
  * To filename
  * 
- * @param string identifier
- * @param hash options
- * @return string
+ * @param {string} identifier Identifier name
+ * @param {Object} options Options
+ * @returns {string}
  */
 exports.to_filename = function(identifier, options = {}) {
   let parts = identifier.split('.');
@@ -102,7 +106,7 @@ exports.to_filename = function(identifier, options = {}) {
 
   //Build filename based on final part of the array
   let filename  = parts.slice(-1)[0];   //NoAuth
-  filename = filename.replace(/([A-Z])/g, function(x){return "_"+x }).replace(/^_/, "");
+  filename = filename.replace(/([A-Z])/g, function(x){ return "_"+x; }).replace(/^_/, "");
   filename = filename.toLowerCase();
 
   //Append the type
@@ -123,8 +127,8 @@ exports.to_filename = function(identifier, options = {}) {
  * Extract skill name from identifier
  * 
  * @todo Recode this, it might not be reliable
- * @param string identifier
- * @return string
+ * @param {string} identifier Identifier name
+ * @returns {string}
  */
 exports.skill = function (identifier) {
   let parts = identifier.split('.');

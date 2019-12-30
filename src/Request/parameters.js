@@ -505,7 +505,7 @@ module.exports = class Parameters {
 			}
 		}
 
-		return false
+		return false;
 	}
 
 

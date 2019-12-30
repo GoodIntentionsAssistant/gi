@@ -10,8 +10,8 @@ module.exports = class Data {
 /**
  * Constructor
  *
- * @param object response
- * @return void
+ * @constructor
+ * @param {Object} App App instance
  */
 	constructor(App) {
 		this.App = App;
@@ -21,9 +21,9 @@ module.exports = class Data {
 /**
  * Load data
  *
- * @param string identifier
- * @param string format
- * @return mixed Promise or false
+ * @param {string} identifier Identifier of where the data is, which will convert to a file name
+ * @param {string} format Format to load the data in as, e.g. json, csv
+ * @returns {*} Promise or false
  */
 	load(identifier, format) {
 		//Build data file name
@@ -56,8 +56,8 @@ module.exports = class Data {
 /**
  * Check the file before trying to load it
  *
- * @param string filename
- * @return bool
+ * @param {string} filename File name to check if exists
+ * @returns {boolean}
  */
 	_check_file(filename) {
 		let fs = require('fs');
@@ -72,8 +72,8 @@ module.exports = class Data {
 /**
  * Load JSON
  *
- * @param string filename
- * @return Promise
+ * @param {string} filename File name to load JSON
+ * @returns {Promise}
  */
 	_load_json(filename) {
 		let fs = require('fs');
@@ -105,8 +105,8 @@ module.exports = class Data {
 /**
  * Load CSV data
  *
- * @param string filename
- * @return Promise
+ * @param {string} filename File name to load in CSV data
+ * @returns {Promise}
  */
 	_load_csv(filename) {
 		let fs = require('fs');

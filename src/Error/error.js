@@ -17,6 +17,7 @@ module.exports = class Error {
  * Warning error
  * 
  * @param {*} messages Message to show
+ * @returns {boolean}
  */
   warning(messages) {
     if(typeof messages !== "object") {
@@ -32,6 +33,8 @@ module.exports = class Error {
 
       console.log(messages[ii].yellow);
     }
+
+    return true;
   }
 
 

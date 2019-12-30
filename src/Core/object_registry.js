@@ -14,7 +14,8 @@ module.exports = class ObjectRegistry {
 /**
  * Constructor
  *
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
   constructor(app) {
     this.app = app;
@@ -36,8 +37,9 @@ module.exports = class ObjectRegistry {
 /**
  * Load all
  *
- * @param string skill
- * @return object Promise
+ * @param {string} skill Skill name which will get converted to a directory name
+ * @param {Object} options Options for loading
+ * @return {*} Promise or nothing
  */
   load_all(skill, options = {}) {
     //Path to find entity and intents
@@ -114,8 +116,9 @@ module.exports = class ObjectRegistry {
 /**
  * Load
  *
- * @param string name
- * @return void
+ * @param {string} name Name of the object to load
+ * @param {Object} options Options for loading
+ * @returns {*}
  */
   load(name, options = {}) {
 		//Options
@@ -150,8 +153,10 @@ module.exports = class ObjectRegistry {
 /**
  * Load object from file
  *
- * @param string file
- * @return void
+ * @param {string} identifier Identifier to build file name
+ * @param {string} file File name to load
+ * @param {Object} options Options for loading
+ * @return {Object}
  */
   _load(identifier, file, options) {
     //Options for loading entities
@@ -211,8 +216,8 @@ module.exports = class ObjectRegistry {
 /**
  * Remove
  *
- * @param string identifier
- * @return bool
+ * @param {string} identifier Remove the object by identifier name
+ * @returns {boolean}
  */
   remove(identifier) {
     let object = this.get(identifier);
@@ -236,8 +241,8 @@ module.exports = class ObjectRegistry {
 /**
  * Get object
  *
- * @param string name
- * @return object
+ * @param {string} name Name of object
+ * @returns {*}
  */
   get(name) {
     let identifier = this.find(name);
@@ -257,8 +262,8 @@ module.exports = class ObjectRegistry {
  * The name could come through as the full identifier path or just the name
  * Such as App.Example.Attachment.Navigation or just navigation
  *
- * @param string name
- * @return string
+ * @param {string} name Name of object to find
+ * @returns {string}
  */
   find(name) {
     let identifier = null;
@@ -286,8 +291,8 @@ module.exports = class ObjectRegistry {
 /**
  * Exists object
  *
- * @param string identifier
- * @return bool
+ * @param {string} identifier Identifier name to check if it exists
+ * @returns {boolean}
  */
   exists(identifier) {
     if(!this.objects[identifier]) {
@@ -300,7 +305,6 @@ module.exports = class ObjectRegistry {
 /**
  * After load
  *
- * @return void
  */
   after_load() {
   }
@@ -309,7 +313,6 @@ module.exports = class ObjectRegistry {
 /**
  * Before load
  *
- * @return void
  */
   before_load() {
   }

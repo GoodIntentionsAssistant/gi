@@ -188,7 +188,7 @@ module.exports = class Client {
 		}
 
 		//Session id to input
-		input.session_id = _auth.session.session_id
+		input.session_id = _auth.session.session_id;
 
 		//Client identifier
 		input.client_id = this.ident;
