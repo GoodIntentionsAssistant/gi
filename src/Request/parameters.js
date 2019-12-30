@@ -144,7 +144,7 @@ module.exports = class Parameters {
 			for(var field in data) {
 				//Dummy?
 				if(data[field].data) {
-					var entity = this.create_dummy_entity(data[field]);
+					let entity = this.create_dummy_entity(data[field]);
 					this.entities[field] = entity;
 					data[field].entity = [field];
 					continue;
@@ -164,7 +164,7 @@ module.exports = class Parameters {
 					}
 
 					//Get entity
-					var entity = this.app.EntityRegistry.get(entities[ii], this.request);
+					let entity = this.app.EntityRegistry.get(entities[ii], this.request);
 
 					if(entity) {
 						//Add entity to this object so it can be used in _parse
