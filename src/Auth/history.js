@@ -49,11 +49,14 @@ module.exports = class History {
   last() {
     let history = this.get();
 
-    if(history.length === 0) {
+    //If has one history then that'll be the current utterance incoming, this can be ignored
+    if(history.length <= 1) {
       return false;
     }
 
+    //Pop the array because we don't want the current request utterance history
     history.pop();
+
     return history[history.length-1];
   }
 

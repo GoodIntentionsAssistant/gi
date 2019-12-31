@@ -9,7 +9,7 @@ const VoiceAttachment = girequire('src/Attachment/voice_attachment.js');
 
 const Template = girequire('src/Response/template');
 
-describe.only('Attachments', function() {
+describe('Attachments', function() {
 
   it('can handle voice with templating', () => {
     let attachment = new VoiceAttachment();

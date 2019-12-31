@@ -19,8 +19,8 @@ module.exports = class Auth {
  * @constructor
  * @param {Object} app App instance
  */
-	constructor(app) {
-		this.app = app;
+	constructor(App) {
+		this.App = App;
 
 		//Session template
 		this._session = {
@@ -59,11 +59,17 @@ module.exports = class Auth {
  * object. The session object is always returned but the
  * user might not be identified.
  *
- * @param {string} token Token generated from the user
- * @param {Object} client Client object
+ * @param {string} token Token generated from the client input
+ * @param {Object} Client Client instance, this directly interfaces with socket.io
  * @returns {Object} Session data
  */
-	authenticate(token, client) {
+	authenticate(token, client = null) {
+		//Validate incoming token
+		if(!this.validate_token(token)) {
+			return false;
+		}
+
+		//Find an existing session with the incoming token
 		let session_data = this.find_token(token);
 
 		//If no user session record found then create one
@@ -73,15 +79,18 @@ module.exports = class Auth {
 
 			//Build session object and add the token
 			//Session object is required so event handler can use it
-			let session = new Session(this);
+			let session = new Session();
 			session.load(session_data.session_id, session_data);
 			session.add_token(token);
 
 			//Event
-			this.app.Event.emit('auth.new', {
-				session,
-				client
-			});
+			//@todo Move this to emit on the Auth object so no need to pass client into this object
+			if(client) {
+				this.App.Event.emit('auth.new', {
+					session,
+					client
+				});
+			}
 		}
 		
 		return session_data;
@@ -92,25 +101,34 @@ module.exports = class Auth {
  * Identify the user by their session_id
  *
  * @param {string} session_id Session id passed from request
- * @returns {Object} User and session objects
+ * @returns {Object} User and session objects including if the session was created adhoc
  */
 	identify(session_id) {
+		//Validate incoming token
+		if(!this.validate_session_id(session_id)) {
+			return false;
+		}
+
+		//
 		let session_data = this.find_session(session_id);
+		let created = false;
 
 		//User cannot be identified
 		//The session_id is invalid or the user didn't do a handshake
 		if(!session_data) {
 			//Strict mode is on so don't let them continue
+			//This means they must authenticate first to generate a session
 			if(this.strict) {
 				return false;
 			}
 
 			//Create a session for them
 			session_data = this.create(session_id);
+			created = true;
 		}
 
 		//Session object
-		let session = new Session(this);
+		let session = new Session();
 		session.load(session_id, session_data);
 
 		//User data
@@ -122,8 +140,41 @@ module.exports = class Auth {
 		
 		return {
 			user,
-			session
+			session,
+			created
 		};
+	}
+
+
+/**
+ * Validate token
+ * 
+ * @todo Add more validation here and document it
+ * @param {string} token Token to validate
+ * @returns {boolean}
+ */
+	validate_token(token) {
+		if(!token) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+/**
+ * Validate session id
+ * 
+ * @todo Add more validation here and document it
+ * @param {string} session_id Session id to validate
+ * @returns {boolean}
+ */
+	validate_session_id(session_id) {
+		if(!session_id) {
+			return false;
+		}
+
+		return true;
 	}
 
 
@@ -133,7 +184,7 @@ module.exports = class Auth {
  * Creates auth session data
  * This does not create an object
  *
- * @param {string} session_id Session id passed
+ * @param {string} session_id If a session_id is passed use that variable
  * @returns {Object} Session object
  */
 	create(session_id = null) {

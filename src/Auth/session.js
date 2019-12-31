@@ -1,7 +1,6 @@
 /**
  * Session
  */
-const User = require('./user.js');
 const dotty = require("dotty");
 
 module.exports = class Session {
@@ -9,10 +8,9 @@ module.exports = class Session {
 /**
  * Constructor
  *
- * @param {Object} auth Auth object
+ * @constructor
  */
-	constructor(auth) {
-		this.auth = auth;
+	constructor() {
 		this._data = {};
 	}
 
@@ -22,7 +20,7 @@ module.exports = class Session {
  *
  * @param {string} session_id Session id
  * @param {Object} session_data Session data
- * @returns {boolean}
+ * @returns {boolean} If loading was successful
  */
 	load(session_id, session_data) {
 		//Session id
@@ -30,6 +28,7 @@ module.exports = class Session {
 
 		//Hold auth session data
 		this._data = session_data;
+		this._data.tokens = {};
 
 		return true;
 	}
@@ -42,7 +41,7 @@ module.exports = class Session {
  * set the private variable to true so we can check later.
  *
  * @param {boolean} token Token to add to session
- * @returns {boolean}
+ * @returns {boolean} Success of adding the token
  */
 	add_token(token) {
 		this._data.tokens[token] = {};
@@ -56,25 +55,13 @@ module.exports = class Session {
  * Return data based on the key
  *
  * @param {string} key Get data by key
- * @returns {*}
+ * @returns {*} Value of the key
  */
 	get(key) {
 		if(!key) {
 			return this._data;
 		}
 		return dotty.get(this._data, key);
-	}
-
-
-/**
- * Data
- *
- * @todo Remove this and change to get::
- * @param {string} key Get data by key
- * @returns {*}
- */
-	data(key) {
-		return this.get(key);
 	}
 	
 
@@ -84,7 +71,7 @@ module.exports = class Session {
  * Checks to see if a key for the user data exists
  *
  * @param {string} key Key to check if it exists
- * @returns {*}
+ * @returns {boolean} If the key exists
  */
 	has(key) {
 		return dotty.get(this._data, key) ? true : false;
@@ -95,7 +82,7 @@ module.exports = class Session {
  * Set
  *
  * @param {string} key Key to set
- * @returns {boolean}
+ * @returns {boolean} If setting was successful
  */
 	set(key, value) {
 		return dotty.put(this._data, key, value);
@@ -106,7 +93,7 @@ module.exports = class Session {
  * Remove key
  *
  * @param {string} key Key to remove
- * @returns {boolean}
+ * @returns {boolean} If removing was successful
  */
 	remove(key) {
 		return dotty.remove(this._data, key);

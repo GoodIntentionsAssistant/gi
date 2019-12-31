@@ -32,7 +32,7 @@ module.exports = class Expects {
  */
 	get() {
 		this.check_expiry();
-		let result = this.request.session.data('expecting');
+		let result = this.request.session.get('expecting');
 		return result ? result : false;
 	}
 
@@ -67,7 +67,7 @@ module.exports = class Expects {
  */
 	check_expiry() {
 		//Check if the expects has expired
-		let result = this.request.session.data('expecting');
+		let result = this.request.session.get('expecting');
 
 		if(!result) {
 			return false;
