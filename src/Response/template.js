@@ -10,14 +10,8 @@ module.exports = class Template {
  *
  * @constructor
  */
-  constructor(Response) {
-    this.Response = Response;
-    this.Request = Response.Request;
-    this.App = Response.App;
-
-    this._data = {
-      parameters: {}
-    };
+  constructor() {
+    this._data = {};
   }
 
 
@@ -26,7 +20,7 @@ module.exports = class Template {
  * 
  * @param {string} key Key string 
  * @param {*} value Value for the key
- * @returns {boolean}
+ * @returns {boolean} Success of adding data
  */
   set(key, value = '') {
     if(key instanceof Object) {
@@ -43,24 +37,30 @@ module.exports = class Template {
 
 
 /**
- * Build data for compiler
+ * Load data from parameters
  * 
- * @returns {Object}
+ * @param {Object} data Parameter data
+ * @returns {boolean}
  */
-  data() {
-    //Add parameters
-    let parameters = this.Request.parameters.get();
-    for(let key in parameters) {
-      this._data[key] = parameters[key].string;
+  data_from_parameters(data) {
+    for(let key in data) {
+      this._data[key] = data[key].string;
     }
+    return true;
+  }
 
-    //User data
-    let user = this.Request.user.get();
-    for(let key in user) {
-      this._data[key] = user[key];
+
+/**
+ * Load data from user
+ * 
+ * @param {Object} data User data
+ * @returns {boolean}
+ */
+  data_from_user(data) {
+    for(let key in data) {
+      this._data[key] = data[key];
     }
-
-    return this._data;
+    return true;
   }
 
 /**
@@ -70,7 +70,7 @@ module.exports = class Template {
  * @returns {string}
  */
   compile(text) {
-    let data = this.data();
+    let data = this._data;
     let template = Handlebars.compile(text);
     let result = template(data);
 

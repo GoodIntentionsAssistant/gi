@@ -11,7 +11,7 @@ module.exports = class ImageAttachment extends Attachment {
  * @param {*} data Data for attachment
  * @returns {Object} Attachment data
  */
-  build(data) {
+  _build(data) {
     return {
       url: data
     };

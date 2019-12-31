@@ -12,7 +12,14 @@ module.exports = class MessageAttachment extends Attachment {
  * @param {Template} Template Templating instance for compiling
  * @returns {Object} Attachment data
  */
-  build(text, Template) {
+  _build(text, Template = null) {
+    //If no template instance passed
+    if(Template === null) {
+      return {
+        text: text
+      };
+    }
+
     return {
       text: Template.compile(text)
     };

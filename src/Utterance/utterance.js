@@ -136,7 +136,7 @@ module.exports = class Utterance {
  * @returns {string[]} Array of labels from text
  */
   labels() {
-    return this.Labeler.labels;
+    return this.Labeler.labels();
   }
 
 

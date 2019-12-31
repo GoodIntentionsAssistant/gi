@@ -14,9 +14,9 @@ module.exports = class Labeler {
  * @constructor
  */
   constructor() {
-    this.text = null;
-    this.labels = [];
-    this.pos = [];
+    this._text = null;
+    this._labels = [];
+    this._pos = [];
   }
 
 
@@ -27,13 +27,27 @@ module.exports = class Labeler {
  * @returns {boolean} If able to label the text
  */
   label(text) {
-    this.text = text;
+    if(!text) {
+      return false;
+    }
+
+    this._text = text;
 
     this._keywords();
     this._sentiment();
-    this._pos();
+    this._parts_of_speech();
 
     return true;
+  }
+
+
+/**
+ * Labels
+ * 
+ * @returns {string[]} Array of labels
+ */
+  labels() {
+    return this._labels;
   }
 
 
@@ -57,7 +71,7 @@ module.exports = class Labeler {
     };
 
     //Get original text and tokenize
-    let text = this.text;
+    let text = this._text;
     let words = new Pos.Lexer().lex(text);
 
     //
@@ -76,16 +90,6 @@ module.exports = class Labeler {
       }
     }
 
-    //Check if the first or second words in the string "is"
-    //If the input is "is the light on" without a question mark it'll detect it
-    //If the input is "the cat is in the hat" it'll ignore it - but this is not solid!
-    //@todo Find an improvement, maying using POS
-    for(let ii=0; ii<2; ii++) {
-      if(words[ii] && words[ii] === 'is') {
-        this.add('question');
-      }
-    }
-
     return true;
   }
 
@@ -99,7 +103,7 @@ module.exports = class Labeler {
  */
   _sentiment() {
     let sentiment = new Sentiment();
-    let result = sentiment.analyze(this.text);
+    let result = sentiment.analyze(this._text);
 
     if(result.score > 0) {
       this.add('positive');
@@ -116,18 +120,14 @@ module.exports = class Labeler {
 
 
 /**
- * POS
+ * Parts of speech
  *
  * https://github.com/Ulflander/compendium-js
  *
  * @returns {boolean} If able to analyse text
  */
-  _pos() {
-    let output = Compendium.analyse(this.text);
-    
-    if(!output) {
-      return false;
-    }
+  _parts_of_speech() {
+    let output = Compendium.analyse(this._text);
 
     //
     const tag_to_type = {
@@ -155,14 +155,13 @@ module.exports = class Labeler {
     for(let ii=0; ii<output[0].tags.length; ii++) {
       //Get the tag, e.g. JJ
       let label = output[0].tags[ii];
-      if(!label) { continue; }
 
       //See if we can match it up with a type
       let type = tag_to_type[label];
       if(!type) { continue; }
 
       this.add(type);
-      this.pos.push(type);
+      this._pos.push(type);
     }
 
     return true;
@@ -180,11 +179,11 @@ module.exports = class Labeler {
     keyword = keyword.toLowerCase();
 
     //Already exists
-    if(_.indexOf(this.labels, keyword) !== -1) {
+    if(_.indexOf(this._labels, keyword) !== -1) {
       return false;
     }
 
-    this.labels.push(keyword);
+    this._labels.push(keyword);
 
     return true;
   }
@@ -197,7 +196,7 @@ module.exports = class Labeler {
  * @returns {boolean} If the label exists
  */
   is(label) {
-    if(_.indexOf(this.labels, label) !== -1) {
+    if(_.indexOf(this._labels, label) !== -1) {
       return true;
     }
 

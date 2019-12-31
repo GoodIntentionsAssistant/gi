@@ -28,7 +28,7 @@
   },
   "scripts": {
     "test": "mocha -w --recursive test/**/*.spec.js",
-    "test-with-coverage": "nyc --reporter=html mocha --recursive test/**/*.spec.js"
+    "test-with-coverage": "nyc --reporter=html mocha -w --recursive test/**/*.spec.js"
   },
   "dependencies": {
     "array-to-sentence": "^2.0.0",

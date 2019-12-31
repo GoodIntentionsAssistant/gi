@@ -40,6 +40,8 @@ module.exports = class Response extends EventEmitter {
 
     //Template
     this.Template = new Template(this);
+    this.Template.data_from_parameters(this.Request.parameters.get());
+    this.Template.data_from_user(this.Request.user.get());
 	}
 
 
@@ -155,19 +157,12 @@ module.exports = class Response extends EventEmitter {
     let obj = this.App.AttachmentRegistry.get(identifier);
     let result = obj.build(data, this.Template);
 
-    //Multiple attachments or just one
-    if(obj.multiple) {
-      //Check if the attachment key has been added already
-      if(!this._attachments[type]) {
-        this._attachments[type] = [];
-      }
+    //Check if the attachment key has been added already
+    if(!this._attachments[type]) {
+      this._attachments[type] = [];
+    }
 
-      this._attachments[type].push(result);
-    }
-    else {
-      //Single attachment
-      this._attachments[type] = result;
-    }
+    this._attachments[type].push(result);
 
     return true;
   }
