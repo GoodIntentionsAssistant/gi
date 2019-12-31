@@ -16,7 +16,7 @@ module.exports = class VoiceAttachment extends Attachment {
     //If no template instance passed
     if(Template === null) {
       return {
-        text: text
+        text
       };
     }
 

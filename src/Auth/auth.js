@@ -16,6 +16,7 @@ module.exports = class Auth {
 /**
  * Constructor
  *
+ * @constructor
  * @param {Object} app App instance
  */
 	constructor(app) {

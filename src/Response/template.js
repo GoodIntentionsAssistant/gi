@@ -19,7 +19,7 @@ module.exports = class Template {
  * Set data
  * 
  * @param {string} key Key string 
- * @param {*} value Value for the key
+ * @param {*} value Value for the key, if passed as object then expand
  * @returns {boolean} Success of adding data
  */
   set(key, value = '') {
@@ -44,7 +44,7 @@ module.exports = class Template {
  */
   data_from_parameters(data) {
     for(let key in data) {
-      this._data[key] = data[key].string;
+      this.set(key, data[key].string);
     }
     return true;
   }
@@ -58,7 +58,7 @@ module.exports = class Template {
  */
   data_from_user(data) {
     for(let key in data) {
-      this._data[key] = data[key];
+      this.set(key, data[key]);
     }
     return true;
   }
