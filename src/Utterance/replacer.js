@@ -176,7 +176,7 @@ constructor() {
       let parts = entries[ii].split(" ");
 
       //If 'bar' does not exist do nothing
-      if(parts.length == 1) {
+      if(parts.length === 1) {
         continue;
       }
 
@@ -213,7 +213,7 @@ constructor() {
  * @returns {boolean} If directory exists
  */
   directoryExists(type, lang) {
-    let path = this.pathName(type, lang);
+    const path = this.pathName(type, lang);
     if(!fs.existsSync(path)) {
       return false;
     }
@@ -229,7 +229,7 @@ constructor() {
  * @returns {string[]} Array of files found in the data directory
  */
   _files(type, options = {}) {
-    let path = this.pathName(type, options.lang);
+    const path = this.pathName(type, options.lang);
 
     let files = [];
     
