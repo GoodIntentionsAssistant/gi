@@ -10,6 +10,8 @@ module.exports = class Labeler {
 
 /**
  * Constructor
+ * 
+ * @constructor
  */
   constructor() {
     this.text = null;
@@ -22,6 +24,7 @@ module.exports = class Labeler {
  * Label
  *
  * @param {string} text Text to start labeling
+ * @returns {boolean} If able to label the text
  */
   label(text) {
     this.text = text;
@@ -29,13 +32,15 @@ module.exports = class Labeler {
     this._keywords();
     this._sentiment();
     this._pos();
+
+    return true;
   }
 
 
 /**
  * Keywords
  *
- * @returns {boolean}
+ * @returns {boolean} If able to analyse text
  */
   _keywords() {
     //Keywords
@@ -90,7 +95,7 @@ module.exports = class Labeler {
  *
  * A feeling of emotion, view of an attitude towards a situation, even or opinion.
  *
- * @returns {boolean}
+ * @returns {boolean} If able to analyse text
  */
   _sentiment() {
     let sentiment = new Sentiment();
@@ -115,7 +120,7 @@ module.exports = class Labeler {
  *
  * https://github.com/Ulflander/compendium-js
  *
- * @returns {boolean}
+ * @returns {boolean} If able to analyse text
  */
   _pos() {
     let output = Compendium.analyse(this.text);
@@ -168,7 +173,7 @@ module.exports = class Labeler {
  * Add label
  *
  * @param {string} keyword Word to add to labels
- * @returns {boolean}
+ * @returns {boolean} Success of adding the label
  */
   add(keyword) {
     //Push to lower
@@ -189,7 +194,7 @@ module.exports = class Labeler {
  * Is
  *
  * @param {string} label Label to check
- * @returns {boolean}
+ * @returns {boolean} If the label exists
  */
   is(label) {
     if(_.indexOf(this.labels, label) !== -1) {

@@ -22,7 +22,7 @@ module.exports = class Train {
  *
  * @param {string} name Collection name
  * @param {string} type Collection type
- * @returns {boolean}
+ * @returns {boolean} If adding the collection was successful
  */
 	add_collection(name, type) {
     let file = type+'_classifier.js';
@@ -53,7 +53,7 @@ module.exports = class Train {
  * Has collection
  *
  * @param {string} name Collection name
- * @returns {boolean}
+ * @returns {boolean} If the collection exists
  */
 	has_collection(name) {
 		return this.collections[name] ? true : false;
@@ -66,7 +66,7 @@ module.exports = class Train {
  * @param {string} intent Intent where the training is from
  * @param {string} keyword Keywords and expressions
  * @param {Object} options Options for training
- * @returns {boolean}
+ * @returns {boolean} If the collection was successfully trained
  */
 	train(intent, keyword, options) {
 		//Collection
@@ -115,9 +115,10 @@ module.exports = class Train {
 /**
  * Find
  *
+ * @todo Fatal error throwing, no need to return false
  * @param {Object} utterance Utterance object from user including the text
  * @param {string} collection Collection to check
- * @returns {*}
+ * @returns {*} Either false if it failed to fetch the collection or the find result
  */
 	find(utterance, collection) {
 		//Default collection if not set

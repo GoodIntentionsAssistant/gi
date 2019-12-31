@@ -21,12 +21,14 @@
     "grunt": ">=1.0.4",
     "jasmin": "0.0.2",
     "jasmine": "^3.5.0",
+    "mocha": "^6.2.2",
     "nodemon": "^2.0.2",
-    "npm-check": "^5.9.0"
+    "npm-check": "^5.9.0",
+    "nyc": "^15.0.0"
   },
   "scripts": {
-    "test": "jasmine",
-    "test_auto": "jasmine --filter=\"app\""
+    "test": "mocha -w --recursive test/**/*.spec.js",
+    "test-with-coverage": "nyc --reporter=html mocha --recursive test/**/*.spec.js"
   },
   "dependencies": {
     "array-to-sentence": "^2.0.0",

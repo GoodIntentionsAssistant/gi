@@ -8,7 +8,7 @@ module.exports = class Understand {
  * Constructor
  *
  * @constructor
- * @param {Object}} App App instance
+ * @param {Object} App App instance
  */
   constructor(App) {
     this.App = App;
@@ -36,9 +36,9 @@ module.exports = class Understand {
  * Check each training collection in order then call trainer to
  * find the intent.
  *
- * @param object utterance
- * @param array collections
- * @return mixed False or hash of the result
+ * @param {Object} utterance Utterance instance from user input
+ * @param {string[]} collections Collection string array
+ * @returns {*} False or hash of the result
  */
   process(utterance, collections = []) {
     let result = {
@@ -64,9 +64,9 @@ module.exports = class Understand {
  * Check each training collection in order then call trainer to
  * find the intent.
  *
- * @param object utterance
- * @param array collections
- * @return mixed False or hash of the result
+ * @param {Object} utterance Utterance instance from user input
+ * @param {string[]} collections Collection string array
+ * @returns {*} False or hash of the result
  */
   match(utterance, collections = []) {
     let result = null;
@@ -108,9 +108,9 @@ module.exports = class Understand {
 /**
  * Match utterance on individual collection
  *
- * @param object utterance
- * @param string collection
- * @return mixed False or hash of the result
+ * @param {Object} utterance Utterance instance from user input
+ * @param {string[]} collections Collection string array
+ * @returns {*} False or hash of the result
  */
   _match(utterance, collection) {
     //Matches returns more than one result from Train / classifier
@@ -151,10 +151,11 @@ module.exports = class Understand {
 
 
 /**
- * Check matched
+ * Check matched instance with explicits
  *
- * @param hash match
- * @returns {boolean}
+ * @param {Object} match Matched result from classifiers
+ * @param {Object} utterance Utterance instance
+ * @returns {boolean} If false then the match will be rejected
  */
   _check(match, utterance) {
     let result = this.App.Explicit.check(match, utterance);

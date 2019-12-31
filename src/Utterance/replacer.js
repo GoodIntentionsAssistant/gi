@@ -13,10 +13,10 @@ module.exports = class Replacer {
 /**
  * Process text
  * 
- * @param string type 
- * @param string str 
- * @param Object options 
- * @return string
+ * @param {string} type 
+ * @param {string} str 
+ * @param {Object} options 
+ * @returns {string} Final string that has been replaced
  */
   process(type, str, options = {}) {
     //Options
@@ -96,6 +96,7 @@ module.exports = class Replacer {
     let contents = fs.readFileSync(filename).toString();
     return contents;
   }
+  
 
 /**
  * Replace text

@@ -9,7 +9,7 @@ module.exports = class Explicit {
  * Constructor
  *
  * @constructor
- * @param object app
+ * @param {Object} app App instance
  */
   constructor(app) {
     this.app = app;
