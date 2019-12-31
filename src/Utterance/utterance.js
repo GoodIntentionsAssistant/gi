@@ -90,6 +90,7 @@ module.exports = class Utterance {
     normal = Scrubber.spelling(normal);
     normal = Scrubber.grammar(normal);
     normal = Scrubber.octal(normal);
+    normal = Scrubber.stop_words(normal);
 
     //Remove stop words
     //Use normal and additionally remove all stop words, like and, it, is, a...

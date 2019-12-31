@@ -13,11 +13,20 @@ describe('Utterance', function() {
     expect(utterance.is('negative')).to.not.equal(true);
   });
 
-  it('scrubbed basic text', () => {
+
+  it('can scrub text', () => {
     let utterance = new Utterance();
-    utterance.set('LOWER!? a b c one two');
+    utterance.set('LOWER what\'s agian i am in the thirty?');
     let result = utterance.scrubbed();
-    expect(result).to.equal('lower a b c 1 2');
+    expect(result).to.equal('lower what again 30');
+  });
+
+
+  it('can scrubbed basic text', () => {
+    let utterance = new Utterance();
+    utterance.set('LOWER!? b c one two');
+    let result = utterance.scrubbed();
+    expect(result).to.equal('lower b c 1 2');
   });
 
 

@@ -2,6 +2,7 @@
  * Template
  */
 const Handlebars = require('handlebars');
+const dotty = require("dotty");
 
 module.exports = class Template {
 
@@ -23,15 +24,7 @@ module.exports = class Template {
  * @returns {boolean} Success of adding data
  */
   set(key, value = '') {
-    if(key instanceof Object) {
-      for(var _item in key) {
-        this._data[_item] = key[_item];
-      }
-      return true;
-    }
-
-    this._data[key] = value;
-
+    dotty.put(this._data, key, value);
     return true;
   }
 

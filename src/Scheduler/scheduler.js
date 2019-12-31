@@ -3,7 +3,6 @@
  */
 const Randtoken = require('rand-token');
 const schedule = require('node-schedule');
-const moment = require('moment');
 const dotty = require("dotty");
 
 module.exports = class Scheduler {

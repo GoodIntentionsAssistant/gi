@@ -3,7 +3,6 @@
  */
 const Replacer = girequire('src/Utterance/replacer');
 
-const fs = require('fs');
 const wordsToNumbers = require('words-to-numbers');
 
 
@@ -13,8 +12,8 @@ const wordsToNumbers = require('words-to-numbers');
  * Removes brackets, ( and )
  *
  * @todo Move to frivolous
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
 exports.brackets = function(str) {
 	return str.replace('(','').replace(')','');
@@ -24,22 +23,23 @@ exports.brackets = function(str) {
 /**
  * Token length
  * 
- * @param string str
- * @param int length
- * @return string
+ * Removes any tokens in a string which are more than the specified length
+ * 
+ * @param {string} str Incoming string
+ * @param {number} length Maximum length of string
+ * @returns {string} Result
  */
-exports.token_length = function(str, length) {
-	if(!length) { length = 2; }
-	var tokens = str.split(/\s+/);
-	return tokens.filter(function(token){ return token.length > length; }).join(' ');
+exports.token_length = function(str, length = 2) {
+	let tokens = str.split(/\s+/);
+	return tokens.filter((token) => { return token.length > length; }).join(' ');
 }
 
 
 /**
  * Lowercase
  * 
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
 exports.lower = function(str) {
 	return str.toLowerCase();
@@ -49,8 +49,9 @@ exports.lower = function(str) {
 /**
  * To sentence case
  * 
- * @param string str
- * @return string
+ * @todo Make this better and replace it with a module
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
 exports.sentence_case = function(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
@@ -63,12 +64,13 @@ exports.sentence_case = function(str) {
  * Similar to mysql stop words. In most cases these are useless words which should be removed
  * stopwords.json is used to define what should be removed.
  * 
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
 exports.stop_words = function(str) {
 	let replacer = new Replacer();
 	let result = replacer.process('Remove', str);
+	result = result.replace(/ +(?= )/g,'');
 	return result;
 }
 
@@ -76,8 +78,8 @@ exports.stop_words = function(str) {
 /**
  * Word numbers to numbers
  * 
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
 exports.octal = function(str) {
 	//The word "a" gets replaced by the library so need to hack it a bit
@@ -97,35 +99,17 @@ exports.octal = function(str) {
 
 
 /**
- * Single letter
- * 
- * Might need tweaking but these have been found to be pretty useless
- * 
- * Starting with "t "
- * Ending with " t"
- * Middle with " t "
- * 
- * @todo Move to frivolous
- * @param string str
- * @return string
- */
-exports.single_letter = function(str) {
-	var regex = new RegExp(/^[a-z] |[a-z] $| [a-z] |^[a-z]$/, "gi");
-	str = str.replace(regex,' ');
-	return str;
-}
-
-
-/**
  * Remove grammar
  * 
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
 exports.grammar = function(str) {
 	var stopwords = [
-		',',						
-		'[^0-9]\\.[^0-9]',				//"a.b" is removed, but "123.456" remains
+		',',
+		'\\.',
+		'-',					
+		//'[^0-9]\\.[^0-9]',				//"a.b" is removed, but "123.456" remains
 		'\\!',
 		'\\?'
 	];
@@ -133,6 +117,7 @@ exports.grammar = function(str) {
 		var regex = new RegExp(stopwords[ii], "gi");
 		str = str.replace(regex,'');
 	}
+	str = str.replace(/ +(?= )/g,'');
 	return str;
 }
 
@@ -140,10 +125,10 @@ exports.grammar = function(str) {
 /**
  * Substitutes
  * 
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
-exports.substitutes = function (str) {
+exports.substitutes = function(str) {
 	let replacer = new Replacer();
 	let result = replacer.process('Substitutes', str);
 	return result;
@@ -153,10 +138,10 @@ exports.substitutes = function (str) {
 /**
  * Spelling
  * 
- * @param string str
- * @return string
+ * @param {string} str Incoming string
+ * @returns {string} Result
  */
-exports.spelling = function (str) {
+exports.spelling = function(str) {
 	let replacer = new Replacer();
 	let result = replacer.process('Spelling', str);
 	return result;
