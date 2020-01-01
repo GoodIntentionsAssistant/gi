@@ -2,21 +2,64 @@
 const expect = require('chai').expect;
 const Replacer = girequire('src/Utterance/replacer');
 
+let dataPath = 'test/data/Language';
+
 describe('Replacer', function() {
+
+
+  it('can replace text from json and txt files', () => {
+    let replacer = new Replacer();
+    let result = replacer.process('Test', 'apple banana orange kiwi lime peach mango honeydew watermelon honeydew', { dataPath });
+    expect(result).to.equal('kiwi monkey kiwi lemon peach mango honeydew watermelon end');
+  });
+
+
+  it('does no replacements if the data files are empty', () => {
+    let replacer = new Replacer();
+    let result = replacer.process('Empty', 'my text', { dataPath });
+    expect(result).to.equal('my text');
+  });
+
+
+  it('can replace text from a json file', () => {
+    let replacer = new Replacer();
+
+    let entries = {
+      "this": {
+        "replace": "that"
+      },
+      "one": {
+        "match": "end",
+        "replace": "two"
+      },
+      "foobar": {
+        "match": "start"
+      },
+      "word": {
+        "replace": "bird"
+      }
+    };
+
+    let result = replacer._replace('foobar this one word foobar and that one', entries);
+
+    expect(result).to.equal('that one bird foobar and that two');
+  });
+
 
   it('can replace text from a space separated .txt file', () => {
     let replacer = new Replacer();
 
-    let entries = [
-      'this that',
-      'word +bird',
-      'that',
-      'one one //ignore me'
-    ];
+    let text = `
+this that
+word +bird
+and 
+one one //ignore me
+    `;
+    let json = replacer._convertTxtToJson(text);
 
-    let result = replacer._replaceTxt('replace this word and that one', entries);
+    let result = replacer._replace('replace this word and that one', json.entries);
 
-    expect(result).to.equal('replace that bird and that one');
+    expect(result).to.equal('replace that bird that one');
   });
 
 
@@ -24,7 +67,7 @@ describe('Replacer', function() {
     let replacer = new Replacer();
     replacer.dataPath = 'test/data/Language';
 
-    let result = replacer._files('Test', { lang:'en' });
+    let result = replacer._files('Empty', { lang:'en' });
 
     expect(result).to.be.lengthOf(2);
     expect(result[0].type).to.equal('txt');
@@ -36,9 +79,9 @@ describe('Replacer', function() {
     let replacer = new Replacer();
     replacer.dataPath = 'test/data/Language';
 
-    expect(replacer.directoryExists('Test', 'en')).to.equal(true);
-    expect(replacer.directoryExists('Test', 'fr')).to.equal(true);
-    expect(replacer.directoryExists('Test', 'xx')).to.equal(false);
+    expect(replacer.directoryExists('Empty', 'en')).to.equal(true);
+    expect(replacer.directoryExists('Empty', 'fr')).to.equal(true);
+    expect(replacer.directoryExists('Empty', 'xx')).to.equal(false);
   });
 
 

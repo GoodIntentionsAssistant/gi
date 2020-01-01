@@ -1,0 +1,14 @@
+{
+  "entries": {
+    "apple": {
+      "match": "all"
+    },
+    "banana": {
+      "replace": "kiwi"
+    },
+    "honeydew": {
+      "replace": "end",
+      "match": "end"
+    }
+  }
+}

@@ -7,17 +7,9 @@ const Config = girequire('src/Config/config');
 const _ = require('underscore');
 const extend = require('extend');
 const dotty = require("dotty");
+const fs = require('fs');
 
 module.exports = class Dialog {
-
-/**
- * Constructor
- *
- * @constructor
- */
-  constructor() {
-  }
-
 
 /**
  * Process the dialog text
@@ -74,21 +66,25 @@ module.exports = class Dialog {
     }
 
     //If no contents then error
-    if(!contents) {
+    if(!contents || Object.keys(contents).length === 0) {
       throw new Error(`Dialog file for ${identifier} was empty`);
     }
 
     //If json_path was defined then we need to tract it from the contents
     if(json_path) {
       contents = dotty.get(contents, json_path);
-
       if(!contents) {
         throw new Error(`Object key ${json_path} for ${identifier} dialog could not be found`);
       }
     }
 
+    //
+    let result = contents;
+
     //Pick a random array key
-    let result = _.sample(contents);
+    if(contents instanceof Array) {
+      result = _.sample(contents);
+    }
 
     return result;
   }
@@ -99,15 +95,13 @@ module.exports = class Dialog {
  * 
  * @param {string} identifier Identifier for loading the dialog
  * @param {Object} options Options for loading dialog file
- * @returns {Object}
+ * @returns {Object} Data from the dialog file
  */
   _load(identifier, options = {}) {
     let filename = Identifier.to_file(identifier, {
       append_type: false,
       extension: 'json'
     });
-
-    let fs = require('fs');
 
     //Check file exists
     if(!fs.existsSync(filename)) {
@@ -120,7 +114,12 @@ module.exports = class Dialog {
     //Load contents of the file
     let contents = fs.readFileSync(filename, 'utf8');
 
-    //Try to parse the json
+    //Empty file, just return a blank json
+    if(!contents) {
+      return {};
+    }
+
+    //Parse the text into json
     let json = JSON.parse(contents);
 
     return json;

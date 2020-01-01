@@ -51,12 +51,7 @@ constructor() {
 
     //
     results.forEach((result) => {
-      if(result.type === 'json') {
-        str = this._replaceJson(str, result.data.entries);
-      }
-      else if(result.type === 'txt') {
-        str = this._replaceTxt(str, result.data);
-      }
+      str = this._replace(str, result.data.entries);
     });
 
     return str;
@@ -92,15 +87,13 @@ constructor() {
 
       if(file.type === 'json') {
         results.push({
-          type: 'json',
           data: JSON.parse(data)
         });
       }
       else if(file.type === 'txt') {
         results.push({
-          type: 'txt',
-          data: data.split("\n")
-        });
+          data: this._convertTxtToJson(data)
+        })
       }
     });
 
@@ -109,9 +102,46 @@ constructor() {
     return results;
   }
 
+ 
+/**
+ * Convert txt to json format
+ * 
+ * @param {string} data File data
+ * @returns {Object} Converted output
+ */
+  _convertTxtToJson(data) {
+    let output = {
+      entries: {}
+    };
+
+    let entries = data.split("\n");
+
+    for(let ii=0; ii<entries.length; ii++) {
+      //Break the text file into two parts, "foo bar"
+      //'foo' will be replaced with 'bar'
+      let seperator = ' ';
+
+      let parts = entries[ii].split(seperator);
+
+      //If 'bar' does not exist or the key is empty
+      if(parts.length === 1 || !parts[0]) {
+        continue;
+      }
+
+      let _key = parts[0];
+      let _replace = parts[1].replace('+',' ');
+      
+      output.entries[_key] = {
+        replace: _replace
+      };
+    }
+
+    return output;
+  }
+
 
 /**
- * Read json file
+ * Read data file
  * 
  * @param {string} filename File name to read
  * @returns {string} File data
@@ -129,7 +159,7 @@ constructor() {
  * @param {Object} entries Object data from json file
  * @returns {string} Outputted string after processed
  */
-  _replaceJson(str, entries) {
+  _replace(str, entries) {
 
     for(let word in entries) {
       let regex = null;
@@ -146,7 +176,7 @@ constructor() {
       }
 
       //Replace with?
-      var replace_with = ' ';
+      let replace_with = ' ';
 
       if(entries[word].replace) {
         replace_with = entries[word].replace;
@@ -156,37 +186,6 @@ constructor() {
     }
 
     str = str.trim();
-
-    return str;
-  }
-
-
-/**
- * Replace text
- * 
- * @param {string} str Incoming string
- * @param {Object} entries Object data from json file
- * @returns {string} Outputted string after processed
- */
-  _replaceTxt(str, entries) {
-
-    for(let ii=0; ii<entries.length; ii++) {
-      //Break the text file into two parts, "foo bar"
-      //'foo' will be replaced with 'bar'
-      let parts = entries[ii].split(" ");
-
-      //If 'bar' does not exist do nothing
-      if(parts.length === 1) {
-        continue;
-      }
-
-      let _match = parts[0];
-      let _replace = parts[1].replace('+',' ');
-
-      let regex = new RegExp('\\b(' + _match + ')\\b', 'gi');
-      str = str.replace(regex, _replace);
-    }
-
     str = str.replace(/ +(?= )/g,'');
 
     return str;

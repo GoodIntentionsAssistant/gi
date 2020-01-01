@@ -18,8 +18,8 @@ module.exports = class Response extends EventEmitter {
 /**
  * Constructor
  *
- * @param {Request} Request Initial request
  * @constructor
+ * @param {Request} Request Initial request
  */
 	constructor(Request) {
 		super();
@@ -48,7 +48,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Load
  *
- * @returns {boolean}
+ * @returns {boolean} Success
  */
   load() {
     this.start_typing();
@@ -61,7 +61,7 @@ module.exports = class Response extends EventEmitter {
  *
  * @param {*} key Key for templating 
  * @param {string} value Value for templating
- * @returns {boolean}
+ * @returns {boolean} Success of setting key to template
  */
   set(key, value = '') {
     return this.Template.set(key, value);
@@ -72,12 +72,12 @@ module.exports = class Response extends EventEmitter {
  * Send
  *
  * @param {Object} options Options for setting a response
- * @returns {boolean}
+ * @returns {boolean} Success of sending the message
  */
   send(options) {
     let _options = {
     };
-    let data = extend(_options, options);
+    let options = extend(_options, options);
 
     //If there are no attachments do not try to flush the buffer yet
     if(this._attachments.length === 0) {
@@ -89,7 +89,8 @@ module.exports = class Response extends EventEmitter {
       return false;
     } 
 
-    //
+    //If not typing already then start
+    //This can happen if sending multiple messages
     if(!this.typing) {
       this.start_typing();
     }
@@ -111,16 +112,15 @@ module.exports = class Response extends EventEmitter {
  * Send
  *
  * @param {Object} attachments Attachments to send
- * @returns {boolean}
+ * @returns {boolean} Success of sending the message
  */
   _send(attachments) {
-    //Build message
+    //Build response
     var data = this.build(attachments);
 
-    //Log output
+    //Verbose log output
     for(let key in attachments) {
       for(let ii=0; ii<attachments[key].length; ii++) {
-        //If it has text
         let output = JSON.stringify(attachments[key][ii]);
         this.Request.log(`Reply ${key}: ${output}`);
       }
@@ -143,11 +143,14 @@ module.exports = class Response extends EventEmitter {
 
 
 /**
- * Attachments
+ * Attachment
+ * 
+ * Creates the attachment object and returns the attachment for
+ * sending to the client.
  *
  * @param {string} type Type of attachment, e.g. image, action, link
  * @param {*} data Data for attachment
- * @returns {boolean}
+ * @returns {boolean} Success of adding the attachment
  */
   attachment(type, data) {
     //Identifier
@@ -171,7 +174,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Return a list of attachments
  * 
- * @returns {Object}
+ * @returns {Object} Array of attachments in the buffer
  */
   attachments() {
     return this._attachments;
@@ -181,7 +184,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Clear all attachments
  * 
- * @returns {boolean}
+ * @returns {boolean} Success of clearing the attachments
  */
   clearAttachments() {
     this._attachments = {};
@@ -193,14 +196,14 @@ module.exports = class Response extends EventEmitter {
  * Build message
  *
  * @param {Object} attachments Attachments
- * @returns {Object}
+ * @returns {Object} Final output to send to client
  */
   build(attachments) {
     //Result
     let result = {
-      type: 'message',
-      ident:        this.Request.ident,
-      user:         this.Request.input.user,
+      type:   'message',
+      ident:  this.Request.ident,
+      user:   this.Request.input.user,
       attachments
     };
 
@@ -219,7 +222,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Start typing
  *
- * @returns {boolean}
+ * @returns {boolean} Success of sending typing to client
  */
   start_typing() {
     if(this.typing) {
@@ -252,7 +255,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Check client
  * 
- * @returns {boolean}
+ * @returns {boolean} If the client is still valid and data can be sent to it
  */
   valid_client() {
     if(!this.Request.client) {
@@ -265,10 +268,10 @@ module.exports = class Response extends EventEmitter {
 
 
 /**
- * Emit message
+ * Send message to client
  *
  * @param {Object} data Data to send to client
- * @returns {boolean}
+ * @returns {boolean} Success of sending the message to the client
  */
 	send_to_client(data) {
     //Check client still exists
