@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const Dialog = girequire('src/Response/dialog');
 const Config = girequire('src/Config/config');
 
-describe.only('Dialog', function() {
+describe('Dialog', function() {
 
   beforeEach(() => {
     Config._init();

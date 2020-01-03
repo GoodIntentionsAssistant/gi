@@ -33,7 +33,7 @@ module.exports = class Template {
  * Load data from parameters
  * 
  * @param {Object} data Parameter data
- * @returns {boolean}
+ * @returns {boolean} Success of setting data
  */
   data_from_parameters(data) {
     for(let key in data) {
@@ -47,7 +47,7 @@ module.exports = class Template {
  * Load data from user
  * 
  * @param {Object} data User data
- * @returns {boolean}
+ * @returns {boolean} Success of setting data
  */
   data_from_user(data) {
     for(let key in data) {
@@ -56,11 +56,12 @@ module.exports = class Template {
     return true;
   }
 
+
 /**
  * Compile text
  * 
  * @param {string} text Text to compile with templating engine
- * @returns {string}
+ * @returns {string} Compiled text output
  */
   compile(text) {
     let data = this._data;

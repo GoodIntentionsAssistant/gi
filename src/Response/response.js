@@ -3,10 +3,7 @@
  */
 const Template = girequire('src/Response/template');
 
-const Config = girequire('src/Config/config');
-
 const EventEmitter = require('events').EventEmitter;
-const util = require('util');
 const extend = require('extend');
 const moment = require('moment');
 
@@ -21,16 +18,15 @@ module.exports = class Response extends EventEmitter {
  * @constructor
  * @param {Request} Request Initial request
  */
-	constructor(Request) {
-		super();
+  constructor(Request) {
+    super();
 
-		//
-		this.Request = Request;
+    //
+    this.Request = Request;
     this.App = Request.app;
 
-		//
-		this.namespace = 'response';
-		this.sequence_count = 0;
+    //
+    this.sequence_count = 0;
 
     //Attachments for the message
     this._attachments = {};
@@ -40,9 +36,10 @@ module.exports = class Response extends EventEmitter {
 
     //Template
     this.Template = new Template(this);
-    this.Template.data_from_parameters(this.Request.parameters.get());
-    this.Template.data_from_user(this.Request.user.get());
-	}
+
+    //Build headers
+    this.headers();
+  }
 
 
 /**
@@ -51,7 +48,42 @@ module.exports = class Response extends EventEmitter {
  * @returns {boolean} Success
  */
   load() {
+    //Fetch data from parameters and user
+    this.Template.data_from_parameters(this.Request.parameters.get());
+    this.Template.data_from_user(this.Request.user.get());
+
+    //Start typing send to client
     this.start_typing();
+
+    return true;
+  }
+
+
+/**
+ * Headers
+ * 
+ * @returns {boolean} Success of creating headers
+ */
+  headers() {
+    //Default headers
+    this._headers = {
+      namespace: 'response',
+      ident: null,
+      session_id: null
+    };
+
+    //Name space
+    if(this.Request.input.namespace) {
+      this._headers.namespace = 'response::' + this.Request.input.namespace;
+    }
+
+    //Request identifier
+    //Each request to the app has a unique identifier
+    this._headers.ident = this.Request.ident;
+
+    //User session data
+    this._headers.session_id = this.Request.session.session_id;
+
     return true;
   }
 
@@ -77,11 +109,11 @@ module.exports = class Response extends EventEmitter {
   send(options) {
     let _options = {
     };
-    let options = extend(_options, options);
+    options = extend(_options, options);
 
-    //If there are no attachments do not try to flush the buffer yet
-    if(this._attachments.length === 0) {
-      return true;
+    //If there are no attachments
+    if(Object.keys(this._attachments).length === 0) {
+      return false;
     }
 
     //Check client still exists
@@ -148,7 +180,7 @@ module.exports = class Response extends EventEmitter {
  * Creates the attachment object and returns the attachment for
  * sending to the client.
  *
- * @param {string} type Type of attachment, e.g. image, action, link
+ * @param {string} type Type of attachment, e.g. image, action, link, message
  * @param {*} data Data for attachment
  * @returns {boolean} Success of adding the attachment
  */
@@ -156,11 +188,22 @@ module.exports = class Response extends EventEmitter {
     //Identifier
     let identifier = type;
 
-    //Get attachment object and build
+    //Get attachment object and check got the object
+    //The object must be loaded in at execution time, if a new attachment is added the server must be restarted
     let obj = this.App.AttachmentRegistry.get(identifier);
+
+    //If failing check the config and make sure the attachment has been added
+    //Also check the incoming `type` argument is lowercase, it should be "message" not "Message"
+    if(!obj) {
+      throw new Error(`Attachment for "${identifier}" could not be found and has not been loaded`);
+    }
+
+    //Build an object with the attachment object
+    //This is not the same as this.build() !
     let result = obj.build(data, this.Template);
 
-    //Check if the attachment key has been added already
+    //Check if the attachment key has been added already, if not create a key
+    //This will keep all attachments grouped together
     if(!this._attachments[type]) {
       this._attachments[type] = [];
     }
@@ -222,7 +265,7 @@ module.exports = class Response extends EventEmitter {
 /**
  * Start typing
  *
- * @returns {boolean} Success of sending typing to client
+ * @returns {boolean} If sent to client
  */
   start_typing() {
     if(this.typing) {
@@ -230,31 +273,29 @@ module.exports = class Response extends EventEmitter {
     }
 
     this.typing = true;
-    this.send_to_client({
+    return this.send_to_client({
       type: 'start'
     });
-
-    return true;
   }
 
 
 /**
  * End typing
  *
- * @returns {boolean}
+ * @returns {boolean} If sent to client
  */
   end_typing() {
     this.typing = false;
-    this.send_to_client({
+    return this.send_to_client({
       type: 'end'
     });
-    return true;
   }
 
 
 /**
  * Check client
  * 
+ * @todo Abstract checking if the client is valid
  * @returns {boolean} If the client is still valid and data can be sent to it
  */
   valid_client() {
@@ -273,40 +314,26 @@ module.exports = class Response extends EventEmitter {
  * @param {Object} data Data to send to client
  * @returns {boolean} Success of sending the message to the client
  */
-	send_to_client(data) {
+  send_to_client(data) {
     //Check client still exists
     if(!this.valid_client()) {
       return false;
     } 
 
-		//Name space
-		let namespace = this.namespace;
-		if(this.Request.input.namespace) {
-			namespace += '::' + this.Request.input.namespace;
-		}
+    this.sequence_count++;
 
-		//Request identifier
-		//Each request to the app has a unique identifier
-		data.ident      = this.Request.ident;
+    //Default headers
+    let _default = {
+      sequence: this.sequence_count,
+      microtime: moment().valueOf()
+    };
 
-		//User session data
-		data.session_id = this.Request.session.session_id;
+    //Merge default headers, response headers and incoming data
+    data = extend(_default, this._headers, data);
 
-		//Name space used
-		data.namespace 	= namespace;
-
-		//Increasing number
-		data.sequence 	= this.sequence_count++;
-
-		//Time the message has been sent
-		data.microtime 	= moment().valueOf();
-		
-		//Send data to the client connected
-		//The client will send it back to the user
-    this.Request.client.emit(this.namespace, data);
-    
-    return true;
-	}
+    //Send data to the client connected
+    return this.Request.client.emit(data.namespace, data);
+  }
 
 
 }

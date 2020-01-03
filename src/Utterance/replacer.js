@@ -93,7 +93,7 @@ constructor() {
       else if(file.type === 'txt') {
         results.push({
           data: this._convertTxtToJson(data)
-        })
+        });
       }
     });
 
@@ -114,22 +114,22 @@ constructor() {
       entries: {}
     };
 
-    let entries = data.split("\n");
+    const entries = data.split("\n");
 
     for(let ii=0; ii<entries.length; ii++) {
       //Break the text file into two parts, "foo bar"
       //'foo' will be replaced with 'bar'
-      let seperator = ' ';
+      const seperator = ' ';
 
-      let parts = entries[ii].split(seperator);
+      const parts = entries[ii].split(seperator);
 
       //If 'bar' does not exist or the key is empty
       if(parts.length === 1 || !parts[0]) {
         continue;
       }
 
-      let _key = parts[0];
-      let _replace = parts[1].replace('+',' ');
+      const _key = parts[0];
+      const _replace = parts[1].replace('+',' ');
       
       output.entries[_key] = {
         replace: _replace

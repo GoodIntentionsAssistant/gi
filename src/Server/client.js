@@ -62,12 +62,13 @@ module.exports = class Client {
 /**
  * Emit data back to client
  *
- * @return void
+ * @param {string} namespace Socket namespace
+ * @param {data} data Json data to send
+ * @returns {boolean}
  */
 	emit(namespace, data) {
 		data.ident = this.ident;
-
-		this.client.emit(namespace, data);
+		return this.client.emit(namespace, data);
 	}
 
 

@@ -83,6 +83,7 @@ describe('Template', function() {
     let template = new Template();
     expect(template.set('foo', 'bar')).to.equal(true);
     expect(template.set('bar', '')).to.equal(true);
+    expect(template.set('test')).to.equal(true);
   });
 
 
