@@ -9,10 +9,10 @@ module.exports = class Client {
 /**
  * Constructor
  *
- * @param object app
- * @param object server
- * @param object client
- * @return void
+ * @constructor
+ * @param {Object} app App instance
+ * @param {Object} server Server instance, where the client connection came from
+ * @param {Object} client Socket client instance
  */
   constructor(app, server, client) {
 		this.app = app;
@@ -36,7 +36,7 @@ module.exports = class Client {
 /**
  * Load
  *
- * @return void
+ * @returns {boolean} Success of loading object
  */
 	load() {
 		this.app.Log.add('New client connected');
@@ -56,6 +56,8 @@ module.exports = class Client {
 		this.client.on('disconnect', () => {
 			this.disconnect();
 		});
+
+		return true;
 	}
 
 
@@ -64,7 +66,7 @@ module.exports = class Client {
  *
  * @param {string} namespace Socket namespace
  * @param {data} data Json data to send
- * @returns {boolean}
+ * @returns {boolean} Success of sending the data
  */
 	emit(namespace, data) {
 		data.ident = this.ident;
@@ -75,8 +77,8 @@ module.exports = class Client {
 /**
  * Identify
  *
- * @param hash input
- * @return void
+ * @param {Object} input Input from the client
+ * @returns {boolean} Success of identifying the client
  */
 	identify(input) {
 		this.name = input.client;
@@ -89,11 +91,11 @@ module.exports = class Client {
 				success: false,
 				message: 'Client secret is not correct'
 			});
-			return;
+			return false;
 		}
 
 		//Create auth token
-		this.create_auth_token();
+		this.auth_token = Randtoken.generate(16);
 
 		this.app.Log.add('Client identified '+this.name+' secret ('+this.ident+')');
 		this.identified = true;
@@ -108,24 +110,16 @@ module.exports = class Client {
 		this.app.Event.emit('client.identified', {
 			client: this
 		});
-	}
 
-
-/**
- * Create auth token
- *
- * @return void
- */
-	create_auth_token() {
-		this.auth_token = Randtoken.generate(16);
+		return true;
 	}
 
 
 /**
  * Handshake from user
  *
- * @param hash input
- * @return void
+ * @param {Object} input Input from the client
+ * @returns {boolean} Success of handshake the client
  */
 	handshake(input) {
 		this.app.Log.add('Handshake from '+input.token+' ('+this.ident+')');
@@ -143,7 +137,7 @@ module.exports = class Client {
 		});
 
 		//Send data back to client for the user
-		this.emit('event', {
+		return this.emit('event', {
 			type: 'handshake',
 			success: true,
 			message: 'Successfully handshaked',
@@ -156,8 +150,8 @@ module.exports = class Client {
 /**
  * Request
  *
- * @param hash input
- * @return void
+ * @param {Object} input Input from the client
+ * @returns {boolean} Success of handling the request
  */
 	request(input) {
 		this.request_count++;
@@ -194,15 +188,15 @@ module.exports = class Client {
 		//Client identifier
 		input.client_id = this.ident;
 
-		this.app.request(input);
+		return this.app.request(input);
 	}
 
 
 /**
  * User session
  *
- * @param hash input
- * @return object
+ * @param {Object} input Input from the client
+ * @returns {Object} Auth object, user and session
  */
   user_auth(input) {
 		return this.app.Auth.identify(input.session_id);
@@ -212,8 +206,8 @@ module.exports = class Client {
 /**
  * Validate request
  * 
- * @param hash data
- * @return boolean
+ * @param {Object} input Input from the client
+ * @returns {boolean} If the incoming is valid
  */
 	validate_request(input) {
 		let type = input.type;
@@ -252,8 +246,8 @@ module.exports = class Client {
 /**
  * Validate client secret
  *
- * @param hash input
- * @return void
+ * @param {string} secret Secret to check
+ * @returns {boolean} If the secret is correct and matches in the config file
  */
 	validate_client_secret(secret) {
 		var expecting = Config.read('clients.'+this.name+'.secret');
@@ -267,8 +261,8 @@ module.exports = class Client {
 /**
  * Validate session token
  *
- * @param hash input
- * @return void
+ * @param {string} token Token to validate
+ * @returns {boolean}
  */
 	validate_auth_token(token) {
 		if(token !== this.auth_token) {
@@ -281,11 +275,11 @@ module.exports = class Client {
 /**
  * Disconnect
  *
- * @return void
+ * @returns {boolean} If disconnected
  */
 	disconnect() {
 		this.app.Log.add('Client '+this.name+' ('+this.ident+') Disconnected');
-		this.server.remove_client(this.ident);
+		return this.server.remove_client(this.ident);
 	}
 
 }

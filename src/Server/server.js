@@ -12,7 +12,7 @@ module.exports = class Server extends EventEmitter {
 /**
  * Constructor
  *
- * @return void
+ * @constructor
  */
 	constructor(app) {
 		super();
@@ -26,11 +26,12 @@ module.exports = class Server extends EventEmitter {
 /**
  * Start
  *
- * @return void
+ * @returns {boolean}
  */
 	start() {
 		this.object = require('http').createServer();
-		let io = require('socket.io')(this.object);
+
+		const io = require('socket.io')(this.object);
 	
 		io.on('connection', (_client) => {
 			var client = new Client(this.app, this, _client);
@@ -39,7 +40,7 @@ module.exports = class Server extends EventEmitter {
 		});
 	
 		//Listen
-		let port = Config.read('server.port');
+		const port = Config.read('server.port');
 	
 		try {
 			this.object.listen(port, () => {
@@ -50,14 +51,17 @@ module.exports = class Server extends EventEmitter {
 		}
 		catch(err) {
 			this.app.Log.error('Server Error: '+err);
+			return false;
 		}
+
+		return true;
 	}
 	
 
 /**
  * Stop
  *
- * @return void
+ * @returns {boolean} Success of stopping the server
  */
 	stop() {
 		if(!this.object) {
@@ -71,8 +75,8 @@ module.exports = class Server extends EventEmitter {
 /**
  * Find client
  *
- * @param client_id
- * @return object
+ * @param {string} client_id Client id to find
+ * @returns {*} Either the client object or false
  */
 	find_client(client_id) {
 		for(let ii=0; ii<this.clients.length; ii++) {
@@ -87,8 +91,8 @@ module.exports = class Server extends EventEmitter {
 /**
  * Add client
  *
- * @param object client
- * @return void
+ * @param {Object} client Client object to store
+ * @returns {string} Client id
  */
 	add_client(client) {
 		let client_id = Randtoken.generate(16);
@@ -108,8 +112,8 @@ module.exports = class Server extends EventEmitter {
 /**
  * Remove client
  *
- * @param string ident
- * @return void
+ * @param {string} client_id Client id to find and remove
+ * @returns {boolean}
  */
 	remove_client(client_id) {
 		for(let ii=0; ii<this.clients.length; ii++) {
