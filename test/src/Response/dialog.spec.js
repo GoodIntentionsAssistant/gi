@@ -3,11 +3,18 @@ const expect = require('chai').expect;
 const Dialog = girequire('src/Response/dialog');
 const Config = girequire('src/Config/config');
 
+
 describe('Dialog', function() {
 
-  beforeEach(() => {
+  before(() => {
     Config._init();
+
+    this.original_root = global.gi_config.paths.root;
     global.gi_config.paths.root = '/../../test';
+  });
+
+  after(() => {
+    global.gi_config.paths.root = this.original_root;
   });
 
 

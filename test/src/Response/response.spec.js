@@ -4,7 +4,7 @@ const Response = girequire('src/Response/response');
 const AttachmentRegistry = girequire('src/Attachment/attachment_registry.js');
 const Log = girequire('src/Core/log.js');
 
-describe.only('Response', function() {
+describe('Response', function() {
 
   beforeEach(() => {
     //Create a fake instances
