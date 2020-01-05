@@ -22,11 +22,11 @@ module.exports = class Queue {
 		this.dispatcher = new Dispatcher(this);
 
 		//Queued requests waiting for dispatching
-		this.queue = [];
+		this._queue = [];
 
 		//Active requests
 		//If max_consecutive is one there will only be one request at a time
-		this.requests = [];
+		this._requests = [];
 
 		//Queue needs to be started before it can start processing requests
 		this.active = false;
@@ -85,7 +85,7 @@ module.exports = class Queue {
 
 		//Add to queue
 		//The app loop listener will process this in ::check
-		this.queue.push({
+		this._queue.push({
 			ident,
 			input
 		});
@@ -107,13 +107,13 @@ module.exports = class Queue {
 	check() {
 		//Find item in queue and do the request
 		//Only run if items in the queue and max number of running requests is not exceeded
-		if(this.queue.length > 0 && Object.keys(this.requests).length < this.max_consecutive) {
-			let request = this.queue.shift();
+		if(this._queue.length > 0 && Object.keys(this._requests).length < this.max_consecutive) {
+			let request = this._queue.shift();
 			this.request(request);
 		}
 
 		//Check requests timed out
-		if(Object.keys(this.requests).length > 0) {
+		if(Object.keys(this._requests).length > 0) {
 			this.check_timed_out();
 		}
 
@@ -127,19 +127,19 @@ module.exports = class Queue {
  * @returns {boolean}
  */
 	check_timed_out() {
-		for(var key in this.requests) {
+		for(var key in this._requests) {
 			//Make sure it's still active
-			if(!this.requests[key].active) {
+			if(!this._requests[key].active) {
 				continue;
 			}
 
 			//Check request last activity and work out the difference
-			var diff = parseInt(Date.now() - this.requests[key].request.last_activity);
+			var diff = parseInt(Date.now() - this._requests[key].request.last_activity);
 			
 			//Over time out
 			if(diff >= this.queue_timeout) {
-				this.requests[key].active = false;
-				this.requests[key].request.timeout();
+				this._requests[key].active = false;
+				this._requests[key].request.timeout();
 			}
 		}
 
@@ -169,7 +169,7 @@ module.exports = class Queue {
 
 		//Push the request to local array
 		//This will be checked on the loop to make sure it's not timed out
-		this.requests[data.ident] = {
+		this._requests[data.ident] = {
 			started: Date.now(),
 			active: true,
 			request
@@ -193,7 +193,7 @@ module.exports = class Queue {
  * @returns {boolean}
  */
 	has_request(ident) {
-		if(!this.requests[ident]) {
+		if(!this._requests[ident]) {
 			return false;
 		}
 		return true;
@@ -207,13 +207,13 @@ module.exports = class Queue {
  * @returns {boolean}
  */
 	destroy_request(ident) {
-		if(!this.requests[ident]) {
+		if(!this._requests[ident]) {
 			Logger.error(`Request ${ident} not found to destroy`);
 			return false;
 		}
 
 		Logger.info(`${ident} Request finished`);
-		delete this.requests[ident];
+		delete this._requests[ident];
 		return true;
 	}
 

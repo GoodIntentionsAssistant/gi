@@ -6,9 +6,7 @@ const Promise = require('promise');
 const moment = require('moment');
 const EventEmitter = require('events').EventEmitter;
 
-
-
-describe.only('Queue', function() {
+describe('Queue', function() {
 
   before(() => {
     this.FakeApp = new Object();
@@ -36,7 +34,7 @@ describe.only('Queue', function() {
 
     queue.app.emit('app.loop');
 
-    expect(queue.queue.length).is.equal(1);
+    expect(queue._queue.length).is.equal(1);
   });
 
 
@@ -50,11 +48,11 @@ describe.only('Queue', function() {
     queue.active = true;
     queue.add({ foo: 'bar' }, false);
 
-    let before_length = queue.queue.length;
+    let before_length = queue._queue.length;
 
     queue.app.emit('app.loop');
 
-    let after_length = queue.queue.length;
+    let after_length = queue._queue.length;
 
     expect(before_length).is.equal(1);
     expect(after_length).is.equal(0);
@@ -65,7 +63,7 @@ describe.only('Queue', function() {
     let queue = new Queue(this.FakeApp);
     queue.queue_timeout = 1000;
 
-    queue.requests = {
+    queue._requests = {
       foo: {
         active: true,
         request: {
@@ -89,9 +87,9 @@ describe.only('Queue', function() {
 
     expect(result).to.equal(true);
 
-    expect(queue.requests.foo.active).to.equal(true);
-    expect(queue.requests.bar.active).to.equal(false);
-    expect(queue.requests.timedout.active).to.equal(false);
+    expect(queue._requests.foo.active).to.equal(true);
+    expect(queue._requests.bar.active).to.equal(false);
+    expect(queue._requests.timedout.active).to.equal(false);
   });
 
 
@@ -120,9 +118,9 @@ describe.only('Queue', function() {
     });
 
     expect(result).to.equal(true);
-    expect(queue.requests.foobar).to.not.equal(null);
-    expect(queue.requests.foobar.active).to.equal(true);
-    expect(queue.requests.foobar.request).to.not.equal(null);
+    expect(queue._requests.foobar).to.not.equal(null);
+    expect(queue._requests.foobar.active).to.equal(true);
+    expect(queue._requests.foobar.request).to.not.equal(null);
   });
 
 
@@ -137,7 +135,7 @@ describe.only('Queue', function() {
 
   it('can destroy a request', () => {
     let queue = new Queue(this.FakeApp);
-    queue.requests.foobar = 'test';
+    queue._requests.foobar = 'test';
 
     let result = queue.destroy_request('foobar');
     expect(result).to.equal(true);
@@ -156,8 +154,8 @@ describe.only('Queue', function() {
     let result = queue.add({ foo: 'bar', skip_queue: true });
 
     expect(result).to.equal(false, 'It will fail at dispatch');
-    expect(queue.queue).to.have.lengthOf(0);
-    expect(queue.requests).to.have.lengthOf(0);
+    expect(queue._queue).to.have.lengthOf(0);
+    expect(queue._requests).to.have.lengthOf(0);
   });
 
 
@@ -166,7 +164,7 @@ describe.only('Queue', function() {
     let result = queue.add({ foo: 'bar' });
 
     expect(result).is.equal(true);
-    expect(queue.queue).to.have.lengthOf(0);
+    expect(queue._queue).to.have.lengthOf(0);
   });
 
 
@@ -175,10 +173,10 @@ describe.only('Queue', function() {
     let result = queue.add({ foo: 'bar' }, false);
 
     expect(result).is.equal(true);
-    expect(queue.queue).to.have.lengthOf(1);
+    expect(queue._queue).to.have.lengthOf(1);
 
-    expect(queue.queue[0].ident).is.not.equal(null);
-    expect(queue.queue[0].input.foo).is.equal('bar');
+    expect(queue._queue[0].ident).is.not.equal(null);
+    expect(queue._queue[0].input.foo).is.equal('bar');
   });
 
 
@@ -192,8 +190,8 @@ describe.only('Queue', function() {
   it('construct queue with variables reset', () => {
     let queue = new Queue(this.FakeApp);
 
-    expect(queue.queue).is.eql([]);
-    expect(queue.requests).is.eql([]);
+    expect(queue._queue).is.eql([]);
+    expect(queue._requests).is.eql([]);
     expect(queue.active).is.equal(false);
   });
 
