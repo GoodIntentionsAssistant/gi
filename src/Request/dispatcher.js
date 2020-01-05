@@ -4,17 +4,21 @@
 const RequestMessage = require('./Type/request_message.js');
 const RequestIntent = require('./Type/request_intent.js');
 const RequestEvent = require('./Type/request_event.js');
+const RequestPing = require('./Type/request_ping.js');
 
 const Response = require('./../Response/response.js');
 
+const Logger = girequire('/src/Helpers/logger.js');
+
+const _ = require('underscore');
 
 module.exports = class Dispatcher {
 
 /**
  * Constructor
  *
- * @param text string
- * @return void
+ * @constructor
+ * @param {Object} queue Queue instance
  */
   constructor(queue) {
     this.queue = queue;
@@ -25,14 +29,27 @@ module.exports = class Dispatcher {
 /**
  * Dispatch
  * 
- * @param hash data
- * @return object Request object
+ * @param {Object} data Incoming request from queue
+ * @return {*} Either the request object or false if failed to dispatch
  */
   dispatch(data) {
-    let request = null;
+    //Validate input
+    if(!this.validate_input(data.input)) {
+      Logger.warn(`Invalid input sent to dispatcher`);
+      return false;
+    }
 
-    //Check auth
+    //Unrecognised type
+    if(!this.validate_type(data.input.type)) {
+      Logger.warn(`Unrecognised input type "${data.input.type}" from client so it cannot be dispatched`);
+      return false;
+    }
+
+    //Load and set auth
     let auth = this.auth(data);
+
+    //Request instance
+    let request = null;
 
     if(data.input.type === 'message') {
       //User input text
@@ -46,11 +63,9 @@ module.exports = class Dispatcher {
       //Custom client event
       request = new RequestEvent(this.app, data.ident);
     }
-
-    //Unrecongised
-    if(!request) {
-      this.app.Error.warning('Unrecongised input type "'+data.input.type+'" from client');
-      return false;
+    else if(data.input.type === 'ping') {
+      //Ping, keep alive
+      request = new RequestPing(this.app, data.ident);
     }
 
     //Set request auth
@@ -82,6 +97,35 @@ module.exports = class Dispatcher {
     }
 
     return request;
+  }
+
+
+/**
+ * Validate input
+ * 
+ * @param {Object} input Input from client
+ * @returns boolean
+ */
+  validate_input(input) {
+    if(!input) {
+      return false;
+    }
+    return true;
+  }
+
+
+/**
+ * Validate type
+ * 
+ * @param {string} type Type of request, e.g. message
+ * @returns boolean
+ */
+  validate_type(type) {
+    let result = _.indexOf(['message', 'intent', 'event', 'ping'], type);
+    if(result === -1) {
+      return false;
+    }
+    return true;
   }
 
 

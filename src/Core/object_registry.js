@@ -175,7 +175,6 @@ module.exports = class ObjectRegistry {
 
     //App and file
     try {
-      console.log(file);
       var Module = require(file);
     }
     catch(e) {

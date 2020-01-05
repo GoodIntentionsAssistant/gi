@@ -51,8 +51,12 @@ describe('Response', function() {
 
 
   it('fails to send if client is invalid', () => {
+    this.FakeApp.AttachmentRegistry.load('Sys.Attachment.Message');
+
     delete(this.FakeRequest.client);
     let response = new Response(this.FakeRequest);
+    response.attachment('message', 'foo');
+
     let result = response.send({});
     expect(result).to.equal(false);
   });

@@ -1,16 +1,19 @@
 /**
  * Queue
  */
-const Dispatcher = require('./dispatcher.js');
+const Dispatcher = girequire('/src/Request/dispatcher.js');
+const Config = girequire('/src/Config/config.js');
+const Logger = girequire('/src/Helpers/logger.js');
+
 const Randtoken = require('rand-token');
-const Config = require('../Config/config.js');
 
 module.exports = class Queue {
 
 /**
- * Initialize
+ * Constructor
  *
- * @param {object} app App object
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		this.app = app;
@@ -38,7 +41,7 @@ module.exports = class Queue {
 		this.queue_timeout = Config.read('queue.timeout');
 
 		//Listen to the main app loop
-    app.on('app.loop', (data) => {
+    app.on('app.loop', () => {
 			if(this.active) {
 				this.check();
       }
@@ -49,10 +52,10 @@ module.exports = class Queue {
 /**
  * Make the queue active
  * 
- * @return {boolean}
+ * @returns {boolean}
  */
 	start() {
-		this.app.Log.add('Queue started');
+		Logger.info(`Queue started with ${this.max_consecutive} maximum consecutive requests`);
 		this.active = true;
 		return true;
 	}
@@ -61,10 +64,11 @@ module.exports = class Queue {
 /**
  * Add request to queue
  *
- * @param {object} input Input from request
- * @return {boolean}
+ * @param {Object} input Input from request
+ * @param {boolean} check If the queue should be checked immediately after adding to the queue
+ * @returns {boolean} If added to queue, of if queue skipped then if the request was dispatched successfully
  */
-	add(input) {
+	add(input, check = true) {
 		//Create a unique ident for this queue
 		let ident = Randtoken.generate(16);
 
@@ -72,12 +76,11 @@ module.exports = class Queue {
 		//This should only be used for time critical requests such as a scheduled call
 		//that we don't want to get stuck in the queue causing a delay
 		if(input.skip_queue) {
-			this.app.Log.add('Request skipping queue', ident);
-			this.request({
+			Logger.info(`${ident} Request is skipping queue`);
+			return this.request({
 				ident,
 				input
 			});
-			return true;
 		}
 
 		//Add to queue
@@ -87,7 +90,10 @@ module.exports = class Queue {
 			input
 		});
 
-		this.check();
+		//Check the queue to see if it's empty and if we should process this request immediately
+		if(check) {
+			this.check();
+		}
 
 		return true;
 	}
@@ -96,19 +102,13 @@ module.exports = class Queue {
 /**
  * Check
  *
- * Loop through the request queue with a speed. This will hopefully control
- * any basic flood and memory issues. We can extend on this functionality another time with
- * a new module for queuing jobs, checking the memory and how many loaded requests are still
- * active. If the brain starts to use up too much memory then increase the speed and
- * optimise this code later.
- *
- * @return {boolean}
+ * @returns {boolean}
  */
 	check() {
 		//Find item in queue and do the request
 		//Only run if items in the queue and max number of running requests is not exceeded
 		if(this.queue.length > 0 && Object.keys(this.requests).length < this.max_consecutive) {
-			var request = this.queue.shift();
+			let request = this.queue.shift();
 			this.request(request);
 		}
 
@@ -124,7 +124,7 @@ module.exports = class Queue {
 /**
  * Check timed out
  *
- * @return {boolean}
+ * @returns {boolean}
  */
 	check_timed_out() {
 		for(var key in this.requests) {
@@ -150,10 +150,15 @@ module.exports = class Queue {
 /**
  * Request
  *
- * @param {object} data Original request object
- * @return {object} Request object
+ * @param {Object} data Original request object from queue
+ * @returns {boolean} If successfully dispatched
  */
 	request(data) {
+		//Check if this request by the ident is already being processed
+		if(this.has_request(data.ident)) {
+			return false;
+		}
+
 		//Dispatch the queue request
 		let request = this.dispatcher.dispatch(data);
 
@@ -170,12 +175,28 @@ module.exports = class Queue {
 			request
 		};
 
-		//Check when the result has finished
-		request.promise.then((result) => {
+		//Check when the request has finished
+		//It doesn't matter if it failed or was successful
+		//Once the request has finished then destroy the request
+		request.promise.then(() => {
 			this.destroy_request(data.ident);
 		});
 
-		return request;
+		return true;
+	}
+
+
+/**
+ * Has request
+ * 
+ * @param {string} ident Ident for request
+ * @returns {boolean}
+ */
+	has_request(ident) {
+		if(!this.requests[ident]) {
+			return false;
+		}
+		return true;
 	}
 
 
@@ -183,15 +204,15 @@ module.exports = class Queue {
  * Destroy request
  *
  * @param {string} ident Identifier for the request
- * @return {boolean}
+ * @returns {boolean}
  */
 	destroy_request(ident) {
 		if(!this.requests[ident]) {
-			this.app.Log.error('Request '+ident+' not found to destroy');
+			Logger.error(`Request ${ident} not found to destroy`);
 			return false;
 		}
 
-		this.app.Log.add('Request finished', ident);
+		Logger.info(`${ident} Request finished`);
 		delete this.requests[ident];
 		return true;
 	}
