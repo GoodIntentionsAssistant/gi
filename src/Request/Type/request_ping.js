@@ -6,25 +6,13 @@ const Request = require('../request.js');
 module.exports = class RequestPing extends Request {
 
 /**
- * Constructor
- *
- * @param object app
- * @param string ident
- * @access public
- * @return void
- */
-  constructor(app, ident) {
-    super(app, ident);
-  }
-
-/**
  * Process
  * 
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
   process() {
-    this.result('pong');
+    this.attachment('ping');
+    this.result();
     return true;
   }
 

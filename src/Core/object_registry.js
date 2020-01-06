@@ -2,6 +2,7 @@
  * Object Registry
  */
 const Identifier = require('../Core/identifier');
+const Logger = girequire('/src/Helpers/logger.js');
 
 const extend = require('extend');
 const Promise = require('promise');
@@ -129,13 +130,13 @@ module.exports = class ObjectRegistry {
 
     //Name not specified
     if(!name) {
-      this.app.Log.error('Name not specified for '+this.type);
+      Logger.error('Name not specified for '+this.type);
       return false;
     }
 
     //Skill not specified
     if(name.indexOf('.') === -1) {
-      this.app.Log.error('Namespace identifier not specified for '+name);
+      Logger.error('Namespace identifier not specified for '+name);
       return false;
     }
 
@@ -167,7 +168,7 @@ module.exports = class ObjectRegistry {
     options = extend(_options, options);
 
     //
-    this.app.Log.add(this.type + ' ' + identifier + ' Loading');
+    Logger.info(this.type + ' ' + identifier + ' Loading');
 
     //Try to find the real path
     //file = fs.realpathSync(file + '.js');
@@ -178,7 +179,7 @@ module.exports = class ObjectRegistry {
       var Module = require(file);
     }
     catch(e) {
-      this.app.Error.fatal([
+      throw new Error([
         `Failed to load ${identifier}`,
         `Make sure you have created '${file}'`,
         e
@@ -191,7 +192,7 @@ module.exports = class ObjectRegistry {
       var object = new Module(this.app);
     }
     catch(error) {
-      this.app.Error.fatal(['Failed to load', this.type, error.message, error.stack]);
+      throw new Error(['Failed to load', this.type, error.message, error.stack]);
     }
 
     //Set the identifier to the object which is used for caching the object
@@ -248,7 +249,7 @@ module.exports = class ObjectRegistry {
     let identifier = this.find(name);
 
     if(!identifier) {
-      this.app.Log.error(this.type+' '+identifier+' not found in objects');
+      Logger.error(this.type+' '+identifier+' not found in objects');
       return false;
     }
     

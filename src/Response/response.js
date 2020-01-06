@@ -2,6 +2,7 @@
  * Response
  */
 const Template = girequire('src/Response/template');
+const Logger = girequire('/src/Helpers/logger.js');
 
 const EventEmitter = require('events').EventEmitter;
 const extend = require('extend');
@@ -154,7 +155,9 @@ module.exports = class Response extends EventEmitter {
     for(let key in attachments) {
       for(let ii=0; ii<attachments[key].length; ii++) {
         let output = JSON.stringify(attachments[key][ii]);
-        this.Request.log(`Reply ${key}: ${output}`);
+        Logger.info(`Reply ${key}: ${output}`, {
+          prefix: this.Request.ident
+        });
       }
     }
 

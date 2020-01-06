@@ -9,8 +9,18 @@ const colors = require('colors');
  * @param {string} options Options
  * @returns {boolean}
  */
-exports.verbose = function(msg, options) {
+exports.verbose = function(msg, options = {}) {
+  if(options.prefix) {
+    msg = options.prefix+': '+msg;
+  }
+
   console.log(msg);
+
+  if(options && options.error) {
+    console.log(options.error.message);
+    console.log(options.error.stack);
+  }
+
   return true;
 }
 

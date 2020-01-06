@@ -19,7 +19,7 @@ module.exports = class Queue {
 		this.app = app;
 
 		//Dispatcher
-		this.dispatcher = new Dispatcher(this);
+		this.dispatcher = new Dispatcher(this.app);
 
 		//Queued requests waiting for dispatching
 		this._queue = [];

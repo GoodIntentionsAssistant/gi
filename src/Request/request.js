@@ -14,7 +14,8 @@ module.exports = class Request {
 /**
  * Constructor
  *
- * @param {object} app App instance
+ * @constructor
+ * @param {Object} app App instance
  * @param {string} ident Unique identifier for request
  */
 	constructor(app, ident) {
@@ -54,7 +55,7 @@ module.exports = class Request {
 /**
  * Set input
  *
- * @param {object} input Input of the request
+ * @param {Object} input Input of the request
  * @returns {boolean}
  */
   set_input(input) {
@@ -95,7 +96,7 @@ module.exports = class Request {
  * Alias for App::log which passes the request ident
  *
  * @param {string} str String to log
- * @return {boolean}
+ * @returns {boolean}
  */
 	log(str) {
 		if(!str) {
@@ -311,7 +312,9 @@ module.exports = class Request {
 	
 
 /**
- * End request
+ * End request manually
+ * 
+ * This will trigger back to the queue freeing up a consecutive call
  *
  * @returns {boolean}
  */
