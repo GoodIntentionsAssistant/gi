@@ -24,8 +24,6 @@ const Server = require('./../Server/server.js');
 
 const Scheduler = require('./../Scheduler/scheduler.js');
 
-const Data = require('./../Data/data.js');
-
 const SkillRegistry = require('./../Skill/skill_registry.js');
 const EntityRegistry = require('./../Entity/entity_registry.js');
 const IntentRegistry = require('./../Intent/intent_registry.js');
@@ -61,8 +59,6 @@ module.exports = class App extends EventEmitter {
 		this.Server = new Server(this);
 
 		this.Scheduler = new Scheduler(this);
-
-		this.Data = new Data(this);
 
 		this.SkillRegistry 			= new SkillRegistry(this);
 		this.EntityRegistry 		= new EntityRegistry(this);

@@ -6,6 +6,7 @@ const Promise = require('promise');
 const _ = require('underscore');
 
 const Logger = girequire('/src/Helpers/logger');
+const Data = girequire('/src/Helpers/data');
 
 module.exports = class Entity {
 
@@ -79,13 +80,13 @@ module.exports = class Entity {
 		}
 		else if(settings.type === 'json') {
 			//Load from local json file
-			result = this.app.Data.load(settings.file, 'json');
+			result = Data.load(settings.file, 'json');
 			entity_key = true;
 			is_promise = true;
 		}
 		else if(settings.type === 'csv') {
 			//Load from local CSV file
-			result = this.app.Data.load(settings.file, 'csv');
+			result = Data.load(settings.file, 'csv');
 			is_promise = true;
 		}
 		else {
