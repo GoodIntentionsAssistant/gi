@@ -7,7 +7,7 @@ const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
-const Identifier = require('../Core/identifier');
+const Identifier = girequire('/src/Helpers/identifier');
 const Logger = girequire('/src/Helpers/logger');
 
 module.exports = class ObjectRegistry {
@@ -311,16 +311,20 @@ module.exports = class ObjectRegistry {
 /**
  * After load
  *
+ * @returns {boolean}
  */
   after_load() {
+    return true;
   }
 
 
 /**
  * Before load
  *
+ * @returns {boolean}
  */
   before_load() {
+    return true;
   }
 
 }

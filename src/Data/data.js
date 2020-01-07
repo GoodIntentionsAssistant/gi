@@ -5,7 +5,7 @@
  */
 const _ = require('underscore');
 
-const Identifier = girequire('/src/Core/identifier');
+const Identifier = girequire('/src/Helpers/identifier');
 
 module.exports = class Data {
 

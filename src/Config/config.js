@@ -50,7 +50,7 @@ exports.read = function(key) {
 /**
  * Get path
  * 
- * @param {string} key Dot notated key
+ * @param {string} path Dot notated key
  * @returns {*}
  */
 exports.path = function(path) {

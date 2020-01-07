@@ -12,8 +12,8 @@ module.exports = class Entity {
 /**
  * Constructor
  *
- * @param object app
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		this.app = app;
@@ -32,8 +32,9 @@ module.exports = class Entity {
  * Data can be loaded in async or hardcoded into the entity so
  * the promise can be resolved straight away.
  *
- * @param hash options
- * @return bool
+ * @todo Handle reject method
+ * @param {Object} options Options for import
+ * @returns {boolean} Success of loading
  */
 	load(options) {
 		this.before_load();
@@ -60,7 +61,10 @@ module.exports = class Entity {
  * Import
  *
  * @todo Recode this method
- * @return void
+ * @param {Object} settings Settings for import
+ * @param {Object} resolve Promise resolve method after data has been imported
+ * @param {Object} options Options for import
+ * @returns {boolean}
  */
 	_import(settings, resolve, options) {
 		let is_promise = false;					//Check if loading the data is using a promise
@@ -109,14 +113,15 @@ module.exports = class Entity {
 			return true;
 		}
 
+		return true;
 	}
 
 
 /**
  * Set data
  *
- * @param hash data
- * @return array
+ * @param {Object} data Data to set into entity
+ * @returns {boolean} Success
  */
 	set_data(data) {
 		//Check how the data is being passed
@@ -134,13 +139,15 @@ module.exports = class Entity {
 		}
 
 		this.data = data;
+
+		return true;
 	}
 
 
 /**
  * Get data
  *
- * @return array
+ * @returns {Object} Data
  */
 	get_data() {
 		return this.data;
@@ -150,7 +157,9 @@ module.exports = class Entity {
 /**
  * Get data by key
  *
- * @return array
+ * @todo Clarify what this is and check if the key exists
+ * @param {string} key Key for data
+ * @returns {string[]} List od data
  */
 	find_data_by_key(key) {
 		return this.data[key];
@@ -160,8 +169,8 @@ module.exports = class Entity {
 /**
  * Parse the string
  *
- * @param string string
- * @return array
+ * @param {string} string String to parse
+ * @returns {Object} Results
  */
   parse(string) {
     let result = this.find(string);
@@ -176,10 +185,11 @@ module.exports = class Entity {
  * that was inputted. If the string is found it'll return the first
  * instance, this is why position is used.
  *
- * @param string string
- * @return array
+ * @param {string} string String to find in data
+ * @param {Object} options Options for find
+ * @returns {Object} Results
  */
-	find(string, options) {
+	find(string, options = {}) {
 		//Options
 		var _options = {
 			use_key: true
@@ -274,9 +284,10 @@ module.exports = class Entity {
 /**
  * Find word in input
  *
- * @param string word Word from the entity
- * @param string input User input
- * @return hash
+ * @param {string} word Word from the entity
+ * @param {string} input User input
+ * @param {Object} options Options for finding word
+ * @returns {Object}
  */
   find_word(word, input, options = {}) {
 		//Options
@@ -301,10 +312,10 @@ module.exports = class Entity {
 /**
  * Score words
  *
- * @param string string Original string
- * @param string keyword Keyword matched
- * @param int position Position in the string
- * @return int
+ * @param {string} string Original string
+ * @param {string} keyword Keyword matched
+ * @param {number} position Position in the string
+ * @returns {number} Score value
  */
 	score(string, keyword, position) {
 		var score = 0;
@@ -342,6 +353,9 @@ module.exports = class Entity {
 /**
  * Build list of words from data
  *
+ * @param {Object} data Data from entity
+ * @param {Object} conditions Conditions for build words???
+ * @returns {string[]} List of words
  */
 	build_words(data, conditions) {
 		if(!data) {
@@ -384,15 +398,21 @@ module.exports = class Entity {
 
 /**
  * Before load call back
+ * 
+ * @returns boolean
  */
   before_load() {
+		return true;
   }
 
 
 /**
  * After load call back
+ * 
+ * @returns boolean
  */
   after_load() {
+		return true;
   }
 
 

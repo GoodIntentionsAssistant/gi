@@ -1,8 +1,7 @@
 
 const expect = require('chai').expect;
 const Response = girequire('src/Response/response');
-const AttachmentRegistry = girequire('src/Attachment/attachment_registry.js');
-const Log = girequire('src/Core/log.js');
+const AttachmentRegistry = girequire('src/Attachment/attachment_registry');
 
 describe('Response', function() {
 
@@ -10,10 +9,8 @@ describe('Response', function() {
     //Create a fake instances
     this.FakeApp = new Object();
     this.FakeApp.AttachmentRegistry = new AttachmentRegistry(this.FakeApp);
-    this.FakeApp.Log = new Log(this.FakeApp);
 
     this.FakeRequest = new Object();
-    this.FakeRequest.log = function() {};
     this.FakeRequest.cancel = function() {};
     this.FakeRequest.app = this.FakeApp;
     this.FakeRequest.input = { user:'darren' }

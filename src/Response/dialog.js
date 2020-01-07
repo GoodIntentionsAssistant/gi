@@ -1,8 +1,8 @@
 /**
  * Response
  */
-const Identifier = girequire('src/Core/identifier');
-const Config = girequire('src/Config/config');
+const Identifier = girequire('/src/Helpers/identifier');
+const Config = girequire('/src/Config/config');
 
 const _ = require('underscore');
 const extend = require('extend');
