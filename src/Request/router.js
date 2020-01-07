@@ -1,13 +1,15 @@
 /**
  * Router
  */
+const Logger = girequire('/src/Helpers/logger.js');
+
 module.exports = class Router {
 
 /**
  * Constructor
  *
- * @param object response
- * @return void
+ * @constructor
+ * @param {Object} response Response instance
  */
   constructor(request) {
     this.request    = request;
@@ -18,53 +20,27 @@ module.exports = class Router {
 /**
  * Route
  * 
- * @param object utterance
- * @return hash
+ * @param {Object} utterance Utterance instance
+ * @returns {Object} Object containing routing information such as intent to call
  */
   route(utterance) {
     let result = this.app.Understand.process(utterance);
 
-    //Couldn't understand the utterance
+    //Could not understand the utterance
     if(result.success === false) {
       return this.error('NotFound');
+    }
+
+    //Bad data returned from Understand
+    if(!result || !result.matches || result.matches.length === 0) {
+      throw new Error(`Understand returned no matches`);
     }
 
     //Get top match
     let output = result.matches[0];
     output.success = true;
 
-    //Check the user has the correct auth for the intent
-    //Intent might have no auth requirements
-    if(!this.check_auth(output.intent)) {
-      return this._error('NoAuth');
-    }
-
     return output;
-  }
-
-
-/**
- * Check auth
- *
- * @param object intent
- * @access private
- * @return bool
- */
-  check_auth(intent) {
-    //Intent requires no authorization
-    if(!intent.auth) {
-      return true;
-    }
-
-    //Get auth
-    let auth = intent.get_auth();
-
-    //Check auth
-    if(!this.app.session.authorized(auth)) {
-      return false;
-    }
-
-    return true;
   }
 
 
@@ -73,25 +49,29 @@ module.exports = class Router {
  *
  * Sets the routing information to an app error intent 
  *
- * @return hash
+ * @param {string} type Type of error, e.g. NotFound
+ * @returns {*} Routing information object or false if the error failed
  */
   error(type) {
-    let identifier = 'App.Basics.Intent.'+type;
-    let intent = this.app.IntentRegistry.get(identifier);
-
-    if(!intent) {
-      this.app.Error.fatal('Error intent not found, '+identifier);
-    }
-
+    //Emit system event
     if(type === 'NotFound') {
       this.app.Event.emit('request.unknown',{
         request: this.request
       });
     }
 
+    //Fetch error intent object
+    let identifier = 'App.Basics.Intent.'+type;
+    let intent = this.app.IntentRegistry.get(identifier);
+
+    if(!intent) {
+      Logger.error(`Router could not find an intent to call and the error intent "${identifier}" could not be loaded`);
+      return false;
+    }
+
     return {
       collection: null,
-      confidence: 0,
+      confidence: -1,
       intent
     };
   }

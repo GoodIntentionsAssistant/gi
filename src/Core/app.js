@@ -2,22 +2,15 @@
  * App
  */
 
-//Require hack setup
-//https://gist.github.com/branneman/8048520
-global.girequire = (name) => {
-	let path = __dirname + '/../..';
-
-	//Standard module
-	if(name.indexOf('/') === -1) {
-		path = __dirname + '/../../node_modules';
-	}
-
-	return require(`${path}/${name}`);
-};
-
 const Promise = require('promise');
 const fs = require('fs');
 const EventEmitter = require('events').EventEmitter;
+
+//
+require('../Helpers/gi_require');
+
+//
+const Logger = girequire('/src/Helpers/logger.js');
 
 const Error = require('./../Error/error.js');
 
@@ -189,7 +182,7 @@ module.exports = class App extends EventEmitter {
 
 		//Health check the skills
 		if(!skills.length) {
-			this.Error.warning('No skills loaded. Check your config file and GI docs to get started');
+			Logger.warn(`No skills loaded. Check your config file and GI docs to get started`);
 		}
 
 		//Promises
@@ -216,7 +209,7 @@ module.exports = class App extends EventEmitter {
  * @return void
  */
 	load_queue() {
-		this.Log.add('Starting Queue');
+		Logger.info(`Starting Queue`);
 		this.Queue.start();
 		this.load_server();
 	}
@@ -230,10 +223,11 @@ module.exports = class App extends EventEmitter {
  */
 	load_server() {
 		if(!Config.read("server.enabled")) {
-			this.Error.warning('Your server is not enabled. Check your config file');
+			Logger.warn(`Your server is not enabled. Check your config file`);
 			return;
 		}
-		this.Log.add('Starting Server');
+
+		Logger.info('Starting Server');
 		this.Server.start();
 
 		this.Server.on('listening', () => {
@@ -249,7 +243,7 @@ module.exports = class App extends EventEmitter {
  * @return boolean
  */
 	shutdown() {
-		this.Log.add('Shutting down');
+		Logger.info('Shutting down');
 		this.skills = [];
 		this.Server.stop();
 	}
@@ -277,13 +271,13 @@ module.exports = class App extends EventEmitter {
 
 		//Validate session_id exists
 		if(!input.session_id) {
-			this.Error.warning('Input had no session_id specified');
+			Logger.warn('Input had no session_id specified');
 			return false;
 		}
 
 		//Validate client_id exists
 		if(!input.client_id) {
-			this.Error.warning('Input had no client_id specified');
+			Logger.warn('Input had no client_id specified');
 			return false;
 		}
 

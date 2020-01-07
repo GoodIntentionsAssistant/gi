@@ -1,23 +1,22 @@
 /**
  * Request Message
  */
-const Dialog      = girequire('src/Response/dialog');
-
-const Request     = require('../request.js');
-const Prompt      = require('../prompt.js');
-const Router      = require('./../router.js');
-const History     = require('./../../Auth/history.js');
-const Utterance   = require('./../../Utterance/utterance.js');
+const Request     = girequire('/src/Request/request.js');
+const Logger      = girequire('/src/Helpers/logger.js');
+const Prompt      = girequire('/src/Request/prompt.js');
+const Dialog      = girequire('/src/Response/dialog');
+const Router      = girequire('/src/Request/router.js');
+const History     = girequire('/src/Auth/history.js');
+const Utterance   = girequire('/src/Utterance/utterance.js');
 
 module.exports = class RequestMessage extends Request {
 
 /**
  * Constructor
  *
- * @param object app
- * @param string ident
- * @access public
- * @return void
+ * @constructor
+ * @param {Object} app App instance
+ * @param {string} ident Request identifier
  */
   constructor(app, ident) {
     super(app, ident);
@@ -39,9 +38,7 @@ module.exports = class RequestMessage extends Request {
 /**
  * Process Message
  * 
- * @param string text
- * @access public
- * @return boolean
+ * @returns {boolean} Able to process the message
  */
   process() {
     //Utterance
@@ -53,9 +50,7 @@ module.exports = class RequestMessage extends Request {
     let text = this.utterance.text();
 
     //Logs
-    this.log('');
-    this.log('Analyzing... "' + original+'"');
-    this.log('Scrubbed: "'+this.utterance.scrubbed('stopwords')+'"');
+    Logger.info(`Analyzing... ${original}`, { prefix:this.ident, new_line: true });
 
     //Setup history
     this.history = new History(this);
@@ -78,6 +73,7 @@ module.exports = class RequestMessage extends Request {
     if(!this.intent) {
       let result = this.router.route(this.utterance);
 
+      //@todo Handle when no routing result found
       if(result) {
         this.intent     = result.intent;
         this.collection = result.collection;
@@ -105,13 +101,12 @@ module.exports = class RequestMessage extends Request {
  * Parameter checking might require entities to fetch live remote data so we
  * need to create a promise and wait or the parsing to finish first.
  * 
- * @param string text
- * @access private
- * @return mixed
+ * @param {string} text Text input to extract parameters from
+ * @returns {*} Either the object or boolean
  */
   _check_parameter_input(text) {
     //Check parameters for intent
-    this.log('Checking parameters for intent ' + this.intent.identifier);
+    Logger.info(`Checking parameters for intent ${this.intent.identifier}`, { prefix:this.ident });
 
     //Create a new parameter object
     this.parameters.parse_from_intent(text, this.intent);
@@ -144,10 +139,10 @@ module.exports = class RequestMessage extends Request {
 /**
  * Dialog
  * 
- * @param string name
- * @param hash options
- * @access public
- * @return Object
+ * @todo Document this method more and clean up error
+ * @param {string} name Name
+ * @param {Object} options Options for dialog
+ * @return {*} Either false if it failed or the object with result
  */
   dialog(name, options = {}) {
     //Set options for dialog to work
@@ -164,7 +159,7 @@ module.exports = class RequestMessage extends Request {
       result = dialog.process(name, options);
     }
     catch (ex) {
-      this.app.Error.warning(ex.toString());
+      Logger.warn(ex.toString(), { prefix:this.ident });
       return false;
     }
 
@@ -183,10 +178,9 @@ module.exports = class RequestMessage extends Request {
 /**
  * Set for templating
  * 
- * @param mixed key 
- * @param string value optional
- * @access public
- * @return bool
+ * @param {string} key Key for setting
+ * @param {*} value Values for key
+ * @returns {boolean}
  */
   set(key, value = {}) {
     return this.response.set(key, value);

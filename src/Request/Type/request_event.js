@@ -1,38 +1,26 @@
 /**
  * Request Event
  */
-const Request = require('../request.js');
+const Request = girequire('/src/Request/request.js');
+const Logger = girequire('/src/Helpers/logger.js');
 
 module.exports = class RequestEvent extends Request {
 
 /**
- * Constructor
- *
- * @param object app
- * @param string ident
- * @access public
- * @return void
- */
-  constructor(app, ident) {
-    super(app, ident);
-  }
-
-/**
  * Process
  * 
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
   process() {
     //Make sure an event was defined
     if(!this.input.data) {
-      this.app.Error.warning('Invalid input for event request. Data was not defined.');
+      Logger.warn('Invalid input for event request. Data was not defined.', { prefix:this.ident });
       return;
     }
 
     //Make sure an event was defined
     if(!this.input.data.event) {
-      this.app.Error.warning('Custom event name not specified');
+      Logger.warn('Custom event name not specified', { prefix:this.ident });
       return;
     }
 

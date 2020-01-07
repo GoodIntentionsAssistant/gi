@@ -1,10 +1,11 @@
 /**
  * Expects
  */
-const Config = require('../Config/config.js');
-
 const extend = require('extend');
 const moment = require('moment');
+
+const Config = girequire('/src/Config/config.js');
+const Logger = girequire('/src/Helpers/logger.js');
 
 module.exports = class Expects {
 
@@ -17,6 +18,7 @@ module.exports = class Expects {
 	constructor(request) {
 		this.request 		= request;
 		this.app       	= request.app;
+
 		this.redirect 	= false;
 		this.finish     = false;
 		this.expecting 	= null;
@@ -112,7 +114,7 @@ module.exports = class Expects {
 		this.request.session.set('expecting', data);
 
 		//Expecting response log
-		this.request.log('Expecting a response to "'+data.intent+'"');
+		Logger.info(`Expecting a response to "${data.intent}"`, { prefix: this.request.ident });
 
 		//Expect a reply attachment
 		this.request.attachment('reply');
@@ -122,14 +124,14 @@ module.exports = class Expects {
 
 
 /**
- * Load
+ * Check the request
  *
  * @todo Clean this code up, return bool
  * @param {Object} request Request object
  * @returns {boolean}
  */
 	check(request) {
-    request.log('Checking expects');
+    Logger.info('Checking expects', { prefix:this.request.ident });
 
 		//Get the expecting settings for this request
 		this.expecting = this.get();
@@ -217,7 +219,7 @@ module.exports = class Expects {
 			this.finish = true;
 			this.request.parameters.set(this.expecting.key, parsed.value);
 
-			this.request.log(`Expects value found, "${parsed.value}", stored as "${this.expecting.key}"`);
+			Logger.info(`Expects value found, "${parsed.value}", stored parameter key "${this.expecting.key}"`, { prefix:this.request.ident });
 
 			//Reset last_expecting
 			this.request.session.remove('last_expecting');
@@ -260,6 +262,7 @@ module.exports = class Expects {
 /**
  * Get entity
  *
+ * @todo Check registry get and move to config
  * @returns {Object}
  */
 	get_entity() {
@@ -298,7 +301,7 @@ module.exports = class Expects {
 /**
  * Action
  *
- * @todo Check if request param is needed
+ * @todo Check if result param is needed
  * @param {*} expecting Expecting
  * @param {string} result Text result
  * @returns {boolean}
@@ -310,7 +313,7 @@ module.exports = class Expects {
 			return true;
 		}
 
-		//Otherwise it'll be a hash of result key and action
+		//Otherwise it'll be a object of result key and action
 		if(!expecting[this.text]) {
 			return false;
 		}

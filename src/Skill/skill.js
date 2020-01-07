@@ -3,6 +3,8 @@
  */
 const Promise = require('promise');
 
+const Logger = girequire('/src/Helpers/logger.js');
+
 module.exports = class Skill {
 
 /**
@@ -68,7 +70,7 @@ module.exports = class Skill {
 			options['only'] = this.intents;
 		}
 
-		this.app.Log.add('Loading Intents for '+this.identifier);
+		Logger.info(`Loading Intents for ${this.identifier}`);
 
 		return this.app.IntentRegistry.load_all(this.identifier, options);
 	}
@@ -80,7 +82,7 @@ module.exports = class Skill {
  * @returns {*}
  */
 	load_entities() {
-		this.app.Log.add('Loading Entities for '+this.identifier);
+		Logger.info(`Loading Entities for ${this.identifier}`);
 		return this.app.EntityRegistry.load_all(this.identifier);
 	}
 

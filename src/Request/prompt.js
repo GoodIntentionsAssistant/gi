@@ -6,7 +6,8 @@ module.exports = class Prompt {
 /**
  * Constructor
  *
- * @param object request
+ * @constructor
+ * @param {Object} request Request instance
  */
   constructor(request) {
     this.request = request;

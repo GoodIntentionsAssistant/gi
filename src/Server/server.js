@@ -2,31 +2,34 @@
  * Server
  */
 const EventEmitter = require('events').EventEmitter;
-const util = require('util');
-const Client = require('./client.js');
 const Randtoken = require('rand-token');
-const Config = require('../Config/config.js');
+
+const Logger = girequire('/src/Helpers/logger.js');
+const Client = girequire('/src/Server/client.js');
+const Config = girequire('src/Config/config.js');
 
 module.exports = class Server extends EventEmitter {
 
 /**
  * Constructor
  *
+ * @param {Object} app App instance
  * @constructor
  */
 	constructor(app) {
 		super();
 
+		this.app = app;
+
 		this.object = null;
 		this.clients = [];
-		this.app = app;
 	}
 
 
 /**
- * Start
+ * Start server
  *
- * @returns {boolean}
+ * @returns {boolean} If server successfully loaded
  */
 	start() {
 		this.object = require('http').createServer();
@@ -41,16 +44,19 @@ module.exports = class Server extends EventEmitter {
 	
 		//Listen
 		const port = Config.read('server.port');
+
+		//Assistant name
+		const assistant_name = Config.read('name');
 	
 		try {
 			this.object.listen(port, () => {
-				this.app.Log.add('Listening on port '+port);
-				this.app.Log.add('Your assistant is ready and named "' + Config.read('name') + '"');
+				Logger.success(`Server listening on port ${port}`);
+				Logger.success(`Your assistant is ready and named "${assistant_name}"`);
 				this.emit('listening');
 			});
 		}
 		catch(err) {
-			this.app.Log.error('Server Error: '+err);
+			Logger.error('Server Error', {error: err} );
 			return false;
 		}
 
@@ -65,9 +71,13 @@ module.exports = class Server extends EventEmitter {
  */
 	stop() {
 		if(!this.object) {
+			Logger.error('Failed to stop server, maybe it has not started?');
 			return false;
 		}
+
 		this.object.close();
+		Logger.success('Server has been stopped');
+
 		return true;
 	}
 
@@ -105,6 +115,8 @@ module.exports = class Server extends EventEmitter {
 			client
 		});
 
+		Logger.info(`Client "${client_id}" added to server`);
+
 		return client_id;
 	}
 
@@ -113,12 +125,12 @@ module.exports = class Server extends EventEmitter {
  * Remove client
  *
  * @param {string} client_id Client id to find and remove
- * @returns {boolean}
+ * @returns {boolean} Success of removing client
  */
 	remove_client(client_id) {
 		for(let ii=0; ii<this.clients.length; ii++) {
 			if(this.clients[ii].client_id === client_id) {
-				this.app.Log.add('Client removed');
+				Logger.info(`Client "${client_id}" removed from server`);
 				this.clients.splice(ii, 1);
 				return true;
 			}

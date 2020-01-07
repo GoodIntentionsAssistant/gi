@@ -5,7 +5,7 @@ const Dispatcher = girequire('src/Request/dispatcher');
 const AttachmentRegistry = girequire('src/Attachment/attachment_registry.js');
 
 
-describe.only('Dispatcher', function() {
+describe('Dispatcher', function() {
 
   before(() => {
     this.FakeApp = new Object();

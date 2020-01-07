@@ -5,6 +5,8 @@ const Promise = require('promise');
 const dotty = require("dotty");
 const extend = require('extend');
 
+const Logger = girequire('/src/Helpers/logger.js');
+
 module.exports = class Parameters {
 
 /**
@@ -90,9 +92,9 @@ module.exports = class Parameters {
 /**
  * Set parameter
  * 
- * @param {string} key Parameter key
- * @param hash value
- * @returns {*}
+ * @param {string} key Key
+ * @param {*} value Value of key
+ * @returns {boolean} Success of setting parameter
  */
 	set(key, value) {
 		let _default = {
@@ -109,15 +111,17 @@ module.exports = class Parameters {
 		}
 
 		this.data[key] = _data;
+
+		return true;
 	}
 
 
 /**
  * Parse from intent
  *
- * @param string intent
- * @param object intent
- * @return void
+ * @param {string} string Incoming string from client
+ * @param {Object} intent Intent instance
+ * @returns {boolean}
  */
 	parse_from_intent(string, intent) {
 		//Intent has no parameters so get out of here
@@ -126,15 +130,17 @@ module.exports = class Parameters {
 		}
 
 		this.parse(string, intent.parameters);
+
+		return true;
 	}
 
 
 /**
  * Parse
  *
- * @param string intent
- * @param object intent
- * @return void
+ * @param {string} string Incoming string from client
+ * @param {Object} data Parameter settings
+ * @returns {boolean} Always true
  */
 	parse(string, data) {
 		
@@ -173,8 +179,8 @@ module.exports = class Parameters {
 						promises.push(this.entities[entities[ii]].promise);
 					}
 					else {
-						//Entity defined not found so fatal error
-						this.app.Log.error('Entity "'+data[field]['entity']+'" not found');
+						//Entity defined not found so error
+						Logger.warn(`Entity "${data[field]['entity']}" not found`, { prefix:this.request.ident });
 						reject();
 					}
 				}
@@ -196,15 +202,17 @@ module.exports = class Parameters {
 			}
 
 		});
+
+		return true;
 	}
 
 
 /**
  * Parse
  *
- * @param string intent
- * @param object intent
- * @returns {boolean}
+ * @param {string} string Incoming string from client
+ * @param {Object} data Parameter settings
+ * @returns {boolean} Success of parsing the string for parameters
  */
 	_parse(string, data) {
 		//Output will be a hash of useful information which is sent to the intent
@@ -235,7 +243,7 @@ module.exports = class Parameters {
 			data[field] = extend(_default, data[field]);
 			data[field].field = field;
 
-			this.request.log(`Parameter checking "${field}"`);
+			Logger.info(`Parameter checking "${field}" for value`, { prefix:this.request.ident });
 
 			//Prompt always uses slotfill so the answers can be remembered and it'll
 			//go to the next prompt question or next action to call
@@ -329,7 +337,7 @@ module.exports = class Parameters {
 				//Dont try to keep the data, don't need slotfill again
 				data[field].keep = false;
 
-				this.request.log(`Slotfilled, ${field} with "${slotfill_result.value}"`);
+				Logger.info(`Slotfilled, ${field} with "${slotfill_result.value}"`, { prefix:this.request.ident });
 			}
 
 			//Default value used if no value found
@@ -422,11 +430,10 @@ module.exports = class Parameters {
 /**
  * Check for a prompt
  *
- * @param Object result
- * @returns {boolean}
+ * @param {Object} parameters List of intent parameters to check
+ * @returns {boolean} Validated success
  */
 	_validate(parameters) {
-
 		//If the parameter was required and it has no value then fail validation
 		for (var field in parameters) {
 			if(parameters[field].required && !parameters[field].value) {
@@ -443,8 +450,8 @@ module.exports = class Parameters {
  * 
  * Set prompt to the key of the parameter so the intent can load it back in and generate an expects
  *
- * @param Object result
- * @returns {boolean}
+ * @param {Object} parameters List of intent parameters to check
+ * @returns {boolean} If prompt is needed
  */
 	_check_prompt(parameters) {
 		for(let field in parameters) {
@@ -463,13 +470,12 @@ module.exports = class Parameters {
 /**
  * Keep slot filled parameter
  * 
- * @param string field
- * @param Object result
- * @returns {boolean}
+ * @param {string} field Field name to store as key
+ * @param {Object} result Result of slot fill, includes not just the value
+ * @returns {boolean} Success of setting
  */
 	keep(field, result) {
-		this.request.user.set('parameter.'+field, result);
-		return true;
+		return this.request.user.set('parameter.'+field, result);
 	}
 
 
@@ -481,8 +487,8 @@ module.exports = class Parameters {
  * First the field is checked
  * If options is an array (and not bool) each array key will be checked.
  *
- * @param field
- * @param mixed options
+ * @param {string} field Field to find
+ * @param {*} options Options for slot filling
  * @returns {*} False for no match or string for the matched session result
  */
 	_slotfill(field, options) {
@@ -512,13 +518,13 @@ module.exports = class Parameters {
 /**
  * Action
  *
- * If a parameter was valid and an action key was set then we need to change
- * the intent action. The action can be passed as a string or passed as a hash
- * and the hash keys match the entity key.
+ * If a parameter was valid and an `action` key is defined then change the action that will be called on the intent.
+ * The action can be passed as a string or passed as an Object
+ * and the Object keys match the entity key.
  *
- * @param hash data
- * @param hash result
- * @returns {boolean}
+ * @param {Object} data Parameter settings from intent
+ * @param {Object} data Parameter result
+ * @returns {boolean} Success of changing default method action
  */
 	_action(data, result) {
 		//String
@@ -540,22 +546,26 @@ module.exports = class Parameters {
 /**
  * Create dummy entity
  *
- * @param string intent
- * @param object intent
- * @return hash parsed data and success
+ * @todo Move dummy_identifier to config
+ * @param {Object} parameter Parameter options from intent
+ * @returns {Object} Dummy entity instance
  */
 	create_dummy_entity(parameter) {
-		let entity = this.app.EntityRegistry.get('App.Basics.Entity.Dummy', {
+		//Dummy identifier
+		let dummy_identifier = 'App.Basics.Entity.Dummy';
+
+		//Fetch the entity via registry
+		let entity = this.app.EntityRegistry.get(dummy_identifier, {
 			cache: false
 		});
 
 		//Check the dummy was found
 		if(!entity) {
-			this.app.Log.error('Basics/Dummy Entity for Parameters could not be found');
+			Logger.error(`Parameters failed to fetch dummy entity from ${dummy_identifier}`);
 			return false;
 		}
 
-		entity.set_data(parameter.data);
+		entity.set_data(parameter.data, { prefix:this.request.ident });
 		return entity;
 	}
 

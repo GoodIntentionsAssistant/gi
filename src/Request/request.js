@@ -1,12 +1,13 @@
 /**
  * Request
  */
-const Parameters  = girequire('src/Request/parameters');
-const Expects     = girequire('src/Request/expects');
-
 const _ = require('underscore');
 const extend = require('extend');
 const Promise = require('promise');
+
+const Parameters  = girequire('src/Request/parameters');
+const Expects     = girequire('src/Request/expects');
+const Logger      = girequire('/src/Helpers/logger.js');
 
 
 module.exports = class Request {
@@ -129,7 +130,7 @@ module.exports = class Request {
  *
  * @todo Centralise this call with request_intent.js
  * @param {string} identifier identifier, e.g. App.Example.Intent.Ping
- * @returns {boolean}
+ * @returns {boolean} Always false
  */
 	redirect(identifier) {
     if(!this.app.IntentRegistry.exists(identifier)) {
@@ -146,12 +147,12 @@ module.exports = class Request {
 /**
  * Call the intent
  * 
- * @todo Replace reply message with a config message
- * @returns {boolean}
+ * @todo Replace reply message with a config message or use router
+ * @returns {boolean} Able to call the intent
  */
   call() {
     //
-    this.log('Calling ' + this.intent.identifier+'::' + this.action);
+    Logger.info(`Calling ${this.intent.identifier}::${this.action}`, { prefix: this.ident });
 
     //Emit request.call
     this.app.Event.emit('request.call',{
@@ -165,7 +166,7 @@ module.exports = class Request {
     });
 
     promise.catch((error) => {
-      this.app.Error.warning(['Intent failed to call', error.message, error.stack]);
+      Logger.warn('Intent failed to call', { error:error, prefix: this.ident });
       this.result('Oops, looks like I have a problem doing that! I have reported it to my owner!');
     });
 
@@ -175,12 +176,19 @@ module.exports = class Request {
 
 /**
  * Time out
+ * 
+ * This typically gets called from the queue.
+ * The queue will check when the request was made, the last activity.
+ * If the last activity of the intent is over a threshold (defined in config)
+ * Then this method is called which will end the request and remove it from the queue
  *
  * @todo Move to dispatcher and replace with config message
+ * @returns {boolean} If was able to resolve the promise for time out
  */
 	timeout() {
-		this.error('Request timed out');
-		this.result('Sorry, it took a while to try and do that. Try again later.');
+		Logger.warn('Request timed out', { prefix:this.ident });
+    this.result('Sorry, it took a while to try and do that. Try again later.');
+    return true;
 	}
 
 
@@ -229,7 +237,7 @@ module.exports = class Request {
  * Send
  * 
  * @param {string} text String of text to return
- * @returns {boolean}
+ * @returns {boolean} Able to send the message to the client
  */
 	send(text) {
     //Cancelled request
@@ -246,7 +254,7 @@ module.exports = class Request {
  * Expect
  *
  * @param {*} data Expected data for next call from same user
- * @returns {boolean}
+ * @returns {boolean} Able to set the expects
  */
 	expect(data) {
 		return this.expects.set(data);
@@ -258,7 +266,7 @@ module.exports = class Request {
  *
  * @param {string} type Type of attachment, e.g. image, action, link
  * @param {*} data Data to be passed to attachment
- * @returns {boolean}
+ * @returns {boolean} Able to add attachment
  */
 	attachment(type, data) {
     this.attachment_count++;
@@ -271,7 +279,7 @@ module.exports = class Request {
  *
  * @todo Requires basic validation
  * @param {object} data Request information
- * @returns {boolean}
+ * @returns {boolean} If successfully created another request at app level
  */
 	request(data) {
     if(!data.client_id && this.client.client_id) {
@@ -291,7 +299,7 @@ module.exports = class Request {
  * 
  * The intent could be still running and it's possible to stop the intent from continuing.
  *
- * @returns {boolean}
+ * @returns {boolean} True or false if this request has been cancelled already
  */
   cancelled() {
     return this._cancelled;
@@ -301,12 +309,12 @@ module.exports = class Request {
 /**
  * Cancel request
  *
- * @returns {boolean}
+ * @returns {boolean} If request was cancelled
  */
   cancel() {
     this._cancelled = true;
     this.end();
-    this.log('Request cancelled');
+    Logger.info('Request cancelled', { prefix:this.ident });
     return true;
   }
 	
@@ -316,7 +324,7 @@ module.exports = class Request {
  * 
  * This will trigger back to the queue freeing up a consecutive call
  *
- * @returns {boolean}
+ * @returns {boolean} If able to resolve the promise
  */
 	end() {
     this.resolve();

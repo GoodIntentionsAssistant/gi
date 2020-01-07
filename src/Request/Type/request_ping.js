@@ -1,14 +1,14 @@
 /**
  * Request Ping
  */
-const Request = require('../request.js');
+const Request = girequire('/src/Request/request.js');
 
 module.exports = class RequestPing extends Request {
 
 /**
  * Process
  * 
- * @returns {boolean}
+ * @returns {boolean} Success
  */
   process() {
     this.attachment('ping');

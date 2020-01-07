@@ -55,7 +55,7 @@ module.exports = class Queue {
  * @returns {boolean}
  */
 	start() {
-		Logger.info(`Queue started with ${this.max_consecutive} maximum consecutive requests`);
+		Logger.success(`Queue started with ${this.max_consecutive} maximum consecutive requests`);
 		this.active = true;
 		return true;
 	}
@@ -212,7 +212,7 @@ module.exports = class Queue {
 			return false;
 		}
 
-		Logger.info(`${ident} Request finished`);
+		Logger.info('Request finished', { prefix:ident });
 		delete this._requests[ident];
 		return true;
 	}

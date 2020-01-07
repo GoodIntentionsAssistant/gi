@@ -10,8 +10,12 @@ const colors = require('colors');
  * @returns {boolean}
  */
 exports.verbose = function(msg, options = {}) {
+  if(options.new_line) {
+    this.nl();
+  }
+
   if(options.prefix) {
-    msg = options.prefix+': '+msg;
+    msg = '['+options.prefix+'] '+msg;
   }
 
   console.log(msg);
@@ -26,13 +30,48 @@ exports.verbose = function(msg, options = {}) {
 
 
 /**
- * Log
+ * New line
+ * 
+ * @returns {boolean}
+ */
+  exports.nl = function() {
+    console.log('');
+    return true;
+  }
+
+
+/**
+ * Info
  * 
  * @param {string} msg Message to log
  * @param {string} options Options
  * @returns {boolean}
  */
   exports.info = function(msg, options) {
+    return this.verbose(msg.white, options);
+  }
+
+
+/**
+ * Mute
+ * 
+ * @param {string} msg Message to log
+ * @param {string} options Options
+ * @returns {boolean}
+ */
+  exports.mute = function(msg, options) {
+    return this.verbose(msg.gray, options);
+  }
+
+
+/**
+ * Success
+ * 
+ * @param {string} msg Message to log
+ * @param {string} options Options
+ * @returns {boolean}
+ */
+  exports.success = function(msg, options) {
     return this.verbose(msg.green, options);
   }
 

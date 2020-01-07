@@ -2,7 +2,9 @@
  * Client
  */
 const Randtoken = require('rand-token');
-const Config = require('../Config/config.js');
+
+const Logger = girequire('/src/Helpers/logger.js');
+const Config = girequire('/src/Config/config.js');
 
 module.exports = class Client {
 
@@ -39,7 +41,7 @@ module.exports = class Client {
  * @returns {boolean} Success of loading object
  */
 	load() {
-		this.app.Log.add('New client connected');
+		Logger.info('New client connected');
 
 		this.client.on('request', (input) => {
 			this.request(input);
@@ -85,7 +87,7 @@ module.exports = class Client {
 
 		if(!this.validate_client_secret(input.secret)) {
 			this.identified = false;
-			this.app.Error.warning('Client "'+this.name+'" secret key does not match in config file');
+			Logger.warn(`Client "${this.name}" secret key does not match in config file`);
 			this.emit('event', {
 				type: 'identify',
 				success: false,
@@ -97,7 +99,7 @@ module.exports = class Client {
 		//Create auth token
 		this.auth_token = Randtoken.generate(16);
 
-		this.app.Log.add('Client identified '+this.name+' secret ('+this.ident+')');
+		Logger.success(`Client identified "${this.name}" secret (${this.ident})`);
 		this.identified = true;
 		
 		this.emit('event', {
@@ -122,7 +124,7 @@ module.exports = class Client {
  * @returns {boolean} Success of handshake the client
  */
 	handshake(input) {
-		this.app.Log.add('Handshake from '+input.token+' ('+this.ident+')');
+		Logger.info(`Handshake from ${input.token} (${this.ident})`);
 
 		//Identify this user
 		//This will create them a new session and trigger an onboarding
@@ -159,7 +161,7 @@ module.exports = class Client {
 		//Invalid request
 		if(!this.validate_request(input)) {
 			for(let ii = 0; ii < this.validation_errors.length; ii++) {
-				this.app.Log.error('Request validation error: '+this.validation_errors[ii]);
+				Logger.warn(`Request validation error: ${this.validation_errors[ii]}`);
 			}
 			this.emit('event', {
 				type: 'request',
@@ -173,7 +175,7 @@ module.exports = class Client {
 		let _auth = this.user_auth(input);
 
 		if(!_auth) {
-			this.app.Log.error('User session does not exist');
+			Logger.warn('User session does not exist');
 			this.emit('event', {
 				type: 'request',
 				success: false,
@@ -278,7 +280,7 @@ module.exports = class Client {
  * @returns {boolean} If disconnected
  */
 	disconnect() {
-		this.app.Log.add('Client '+this.name+' ('+this.ident+') Disconnected');
+		Logger.info(`Client ${this.name} (${this.ident}) Disconnected`);
 		return this.server.remove_client(this.ident);
 	}
 

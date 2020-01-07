@@ -117,7 +117,7 @@ module.exports = class Dispatcher {
  */
   validate_input(input) {
     //Input is empty
-    if(!input || Object.keys(input).length == 0) {
+    if(!input || Object.keys(input).length === 0) {
       return false;
     }
     return true;

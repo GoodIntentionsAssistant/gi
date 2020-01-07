@@ -243,13 +243,18 @@ module.exports = class ObjectRegistry {
  * Get object
  *
  * @param {string} name Name of object
- * @returns {*}
+ * @returns {*} Either the object instance or false if failed to find the instance
  */
   get(name) {
     let identifier = this.find(name);
 
     if(!identifier) {
-      Logger.error(this.type+' '+identifier+' not found in objects');
+      Logger.error(`An identifier name could not be generated from ${name}`);
+      return false;
+    }
+
+    if(!this.objects[identifier]) {
+      Logger.error(`${this.type} ${identifier} not found in objects`);
       return false;
     }
     

@@ -30,7 +30,7 @@ module.exports = class Event {
     if(_.indexOf(ignore, event_name) !== 0) {
       let listeners = this.app.listeners(event_name);
       if(listeners.length > 0) {
-        this.app.Log.add(`Event emit, ${event_name}`);
+        //this.app.Log.add(`Event emit, ${event_name}`);
       }
     }
 
