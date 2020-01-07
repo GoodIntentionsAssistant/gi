@@ -3,13 +3,12 @@
  *
  * A user has many sessions
  */
-const Config = require('../Config/config.js');
-
-const User = require('./user.js');
-const Session = require('./session.js');
-
 const _ = require('underscore');
 const Randtoken = require('rand-token');
+
+const Config 	= girequire('/src/Config/config.js');
+const User 		= girequire('/src/Auth/user.js');
+const Session = girequire('/src/Auth/session.js');
 
 module.exports = class Auth {
 

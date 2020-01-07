@@ -6,6 +6,7 @@ module.exports = class History {
 /**
  * Constructor
  *
+ * @constructor
  * @param {Object} request Current request
  */
   constructor(request) {
@@ -17,7 +18,7 @@ module.exports = class History {
  * Add utterance to users history
  *
  * @param {Object} utterance Add to users history
- * @returns {boolean}
+ * @returns {boolean} Success of adding history
  */
   add(utterance) {
     let history = this.get();

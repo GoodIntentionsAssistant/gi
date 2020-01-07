@@ -1,7 +1,7 @@
 /**
  * Request Intent
  */
-const Request = girequire('/src/Request/request.js');
+const Request = girequire('/src/Request/request');
 
 module.exports = class RequestIntent extends Request {
 

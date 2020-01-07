@@ -1,6 +1,8 @@
 /**
  * Scheduler
  */
+const Logger = girequire('/src/Helpers/logger');
+
 const Randtoken = require('rand-token');
 const schedule = require('node-schedule');
 const dotty = require("dotty");
@@ -29,9 +31,7 @@ module.exports = class Scheduler {
     let schedule = this.find(scheduler_id);
 
     if(!schedule) {
-      this.app.Error.warning([
-        `Scheduler id "${scheduler_id}" was triggered but could not found`
-      ]);
+      Logger.warn(`Scheduler "${scheduler_id}" was triggered but could not found`);
       return false;
     }
 
@@ -50,7 +50,7 @@ module.exports = class Scheduler {
  *
  * @param {string} type Type of schedule
  * @param {Object} data Settings for data
- * @returns {boolean}
+ * @returns {boolean} If added to scheduler
  */
   add(type, data) {
     let schedule_id = Randtoken.generate(16);
@@ -126,7 +126,7 @@ module.exports = class Scheduler {
  * Cancel
  *
  * @param {string} scheduler_id Scheduler id
- * @returns {boolean}
+ * @returns {boolean} Success of canceling scheduled job
  */
   cancel(scheduler_id) {
     this.scheduled[scheduler_id].cancel();
@@ -138,7 +138,7 @@ module.exports = class Scheduler {
  * Remove
  *
  * @param {string} scheduler_id Scheduler id
- * @returns {boolean}
+ * @returns {boolean} Success of removing scheduled job
  */
   remove(scheduler_id) {
     delete this.scheduled[scheduler_id];

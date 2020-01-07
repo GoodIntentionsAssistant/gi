@@ -6,7 +6,7 @@ module.exports = class Classifier {
 /**
  * Constructor
  *
- * @return void
+ * @constructor
  */
   constructor() {
     this.data = [];
@@ -16,25 +16,25 @@ module.exports = class Classifier {
 /**
  * Train
  *
- * @param string intent
- * @param string keyword
- * @return void
+ * @param {string} intent Intent identifier
+ * @param {string} keyword Keyword for the intent
+ * @returns {boolean} Success of adding
  */
   train(intent, keyword) {
     this.data.push([keyword, intent]);
+    return true;
   }
 
 
 /**
  * Untrain
  *
- * @param stirng intent
- * @return bool
+ * @param {string} intent Intent identifier to remove
+ * @returns {boolean} Success of removing intent
  */
   untrain(intent) {
-    for(var ii=0; ii<this.data.length; ii++) {
-      var _keyword = this.data[ii][0];
-      var _intent = this.data[ii][1];
+    for(let ii=0; ii<this.data.length; ii++) {
+      let _intent = this.data[ii][1];
 
       if(intent === _intent) {
         delete this.data[ii];

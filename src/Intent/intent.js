@@ -400,8 +400,7 @@ module.exports = class Intent {
 /**
  * Before request
  * 
- * @param object request
- * @return void
+ * @param {Object} request Request instance
  */
 	before_request(request) {
 	}
@@ -410,8 +409,7 @@ module.exports = class Intent {
 /**
  * After request
  * 
- * @param object request
- * @return void
+ * @param {Object} request Request instance
  */
 	after_request(request) {
 	}
@@ -419,8 +417,6 @@ module.exports = class Intent {
 
 /**
  * Shutdown callback
- *
- * @return void
  */
   shutdown() {
   }
@@ -428,9 +424,6 @@ module.exports = class Intent {
 
 /**
  * Before load callback
- * 
- * @param object request
- * @return void
  */
 	before_load() {
 	}
@@ -438,9 +431,6 @@ module.exports = class Intent {
 
 /**
  * After load callback
- * 
- * @param object request
- * @return void
  */
 	after_load() {
 	}

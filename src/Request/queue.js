@@ -1,9 +1,9 @@
 /**
  * Queue
  */
-const Dispatcher = girequire('/src/Request/dispatcher.js');
-const Config = girequire('/src/Config/config.js');
-const Logger = girequire('/src/Helpers/logger.js');
+const Dispatcher = girequire('/src/Request/dispatcher');
+const Config = girequire('/src/Config/config');
+const Logger = girequire('/src/Helpers/logger');
 
 const Randtoken = require('rand-token');
 
@@ -76,7 +76,7 @@ module.exports = class Queue {
 		//This should only be used for time critical requests such as a scheduled call
 		//that we don't want to get stuck in the queue causing a delay
 		if(input.skip_queue) {
-			Logger.info(`${ident} Request is skipping queue`);
+			Logger.info(`Request is skipping queue`, { prefix:ident });
 			return this.request({
 				ident,
 				input

@@ -1,13 +1,7 @@
 /**
  * Intent Registry
  */
-const extend = require('extend');
-const Promise = require('promise');
-const fs = require('fs');
-const _ = require('underscore');
-_.mixin(require('underscore.inflections'));
-
-const ObjectRegistry = require('../Core/object_registry.js');
+const ObjectRegistry = girequire('/src/Core/object_registry');
 
 module.exports = class IntentRegistry extends ObjectRegistry {
 
@@ -46,7 +40,7 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 			this._explicits(intent);
 		}).catch((error) => {
 			//Error
-      this.app.Error.fatal(['Failed to train', error.message, error.stack]);
+			throw new Error(`Failed to train from intent`, { error:error });
 		});
 	}
 

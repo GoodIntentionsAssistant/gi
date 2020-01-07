@@ -1,14 +1,14 @@
 /**
  * Object Registry
  */
-const Identifier = require('../Core/identifier');
-const Logger = girequire('/src/Helpers/logger.js');
-
 const extend = require('extend');
 const Promise = require('promise');
 const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
+
+const Identifier = require('../Core/identifier');
+const Logger = girequire('/src/Helpers/logger');
 
 module.exports = class ObjectRegistry {
 

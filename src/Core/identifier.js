@@ -1,15 +1,16 @@
 /**
  * Identifier
  */
-const Config = require('../Config/config');
 const extend = require('extend');
+
+const Config = girequire('/src/Config/config');
 
 /**
  * To file
  * 
  * @param {string} identifier Identifer to convert to file name
  * @param {Object} options Options for converting
- * @returns {string}
+ * @returns {string} Full file name
  */
 exports.to_file = function (identifier, options = {}) {
   //Options
@@ -33,7 +34,7 @@ exports.to_file = function (identifier, options = {}) {
  *
  * @param {string} identifier Identifier name
  * @param {Object} options Options
- * @returns {string}
+ * @returns {string} Path/directory name
  */
 exports.to_directory = function (identifier, options = {}) {
   let parts = identifier.split('.');
@@ -86,7 +87,7 @@ exports.to_directory = function (identifier, options = {}) {
  * 
  * @param {string} identifier Identifier name
  * @param {Object} options Options
- * @returns {string}
+ * @returns {string} File name
  */
 exports.to_filename = function(identifier, options = {}) {
   let parts = identifier.split('.');
@@ -128,7 +129,7 @@ exports.to_filename = function(identifier, options = {}) {
  * 
  * @todo Recode this, it might not be reliable
  * @param {string} identifier Identifier name
- * @returns {string}
+ * @returns {string} Skill name
  */
 exports.skill = function (identifier) {
   let parts = identifier.split('.');

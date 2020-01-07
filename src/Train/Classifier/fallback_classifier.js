@@ -9,7 +9,7 @@ module.exports = class ClassifyClassifier extends Classifier {
 /**
  * Constructor
  *
- * @return void
+ * @constructor
  */
 	constructor() {
 		super();
@@ -20,31 +20,33 @@ module.exports = class ClassifyClassifier extends Classifier {
 /**
  * Train
  *
- * @param string intent
- * @param string keyword
- * @return void
+ * @param {string} intent Intent identifier
+ * @param {string} keyword Keyword for the intent
+ * @returns {boolean} Success of adding
  */
 	train(intent, keyword) {	
 		this.Classify.train(intent, keyword);
+		return true;
 	}
 
 
 /**
  * Untrain
  *
- * @param stirng intent
- * @return bool
+ * @param {string} intent Intent identifier to remove
+ * @returns {boolean} Success of removing intent
  */
 	untrain(intent) {
 		this.Classify.untrain(intent);
+		return true;
 	}
 
 
 /**
  * Find
  *
- * @param object utterance
- * @return mixed
+ * @param {Object} utterance Utterance object
+ * @returns {*} Classifier result or false if nothing found
  */
 	find(utterance) {
 		let str = utterance.scrubbed();

@@ -5,6 +5,8 @@ const extend = require('extend');
 const Promise = require('promise');
 const _ = require('underscore');
 
+const Logger = girequire('/src/Helpers/logger');
+
 module.exports = class Entity {
 
 /**
@@ -83,8 +85,8 @@ module.exports = class Entity {
 			is_promise = true;
 		}
 		else {
-			console.error('No import type specified');
-			process.exit();
+			//@todo should this be a throw error?
+			Logger.warn('No import type specified');
 		}
 
 		//Check return type

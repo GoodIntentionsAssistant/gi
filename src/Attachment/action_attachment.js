@@ -1,7 +1,7 @@
 /**
  * Image Attachment
  */
-const Attachment = require('./attachment.js');
+const Attachment = girequire('/src/Attachment/attachment');
 
 module.exports = class ActionAttachment extends Attachment {
   

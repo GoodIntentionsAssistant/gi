@@ -9,8 +9,7 @@ module.exports = class GiClassifier extends Classifier {
 /**
  * Constructor
  *
- * @access public
- * @return void
+ * @constructor
  */
   constructor() {
     super();
@@ -78,10 +77,9 @@ module.exports = class GiClassifier extends Classifier {
 /**
  * Train
  *
- * @param string intent
- * @param string keyword
- * @access public
- * @return void
+ * @param {string} intent Intent identifier
+ * @param {string} keyword Keyword for the intent
+ * @returns {boolean} Success of adding
  */
   train(intent, keyword) {  
     let labeler = new Labeler();
@@ -100,22 +98,22 @@ module.exports = class GiClassifier extends Classifier {
 /**
  * Untrain
  *
- * @param stirng intent
- * @access public
- * @return bool
+ * @param {string} intent Intent identifier to remove
+ * @returns {boolean} Success of removing intent
  */
   untrain(intent) {
+    return false;
   }
 
 
 /**
  * Find
  *
- * @param object utterance
- * @access public
- * @return mixed
+ * @param {Object} utterance Utterance object
+ * @returns {*} Classifier result or false if nothing found
  */
   find(utterance) {
+    return false;
   }
 
 }

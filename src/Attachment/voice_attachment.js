@@ -1,7 +1,7 @@
 /**
  * Voice Attachment
  */
-const Attachment = require('./attachment.js');
+const Attachment = girequire('/src/Attachment/attachment');
 
 module.exports = class VoiceAttachment extends Attachment {
 

@@ -5,21 +5,34 @@ const colors = require('colors');
 /**
  * Verbose
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
 exports.verbose = function(msg, options = {}) {
+  //New line before outputting
   if(options.new_line) {
     this.nl();
   }
 
+  //Prefix output
   if(options.prefix) {
-    msg = '['+options.prefix+'] '+msg;
+    msg = '['+options.prefix.dim+'] '+msg;
   }
 
-  console.log(msg);
+  //Message
+  if(typeof msg !== "object") {
+    msg = [msg];
+  }
+  for(let ii=0; ii<msg.length; ii++) {
+    if(!options.color) {
+      options.color = 'white';
+    }
+    
+    console.log(colors[options.color](msg[ii]));
+  }
 
+  //Error stack and message
   if(options && options.error) {
     console.log(options.error.message);
     console.log(options.error.stack);
@@ -43,70 +56,89 @@ exports.verbose = function(msg, options = {}) {
 /**
  * Info
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
-  exports.info = function(msg, options) {
-    return this.verbose(msg.white, options);
+  exports.info = function(msg, options = {}) {
+    options.color = 'white';
+    return this.verbose(msg, options);
   }
 
 
 /**
  * Mute
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
-  exports.mute = function(msg, options) {
-    return this.verbose(msg.gray, options);
+  exports.mute = function(msg, options = {}) {
+    options.color = 'gray';
+    return this.verbose(msg, options);
   }
 
 
 /**
  * Success
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
-  exports.success = function(msg, options) {
-    return this.verbose(msg.green, options);
+  exports.success = function(msg, options = {}) {
+    options.color = 'green';
+    return this.verbose(msg, options);
   }
 
 
 /**
  * Error
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
-  exports.error = function(msg, options) {
-    return this.verbose(msg.red, options);
+  exports.error = function(msg, options = {}) {
+    options.color = 'red';
+    return this.verbose(msg, options);
+  }
+
+
+/**
+ * Fatal error
+ * 
+ * @param {*} msg Message to log
+ * @param {Object} options Options
+ */
+  exports.fatal = function(msg, options = {}) {
+    options.color = 'red';
+    this.verbose(msg, options);
+    process.exit(1);
   }
 
 
 /**
  * Warn
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
-  exports.warn = function(msg, options) {
-    return this.verbose(msg.yellow, options);
+  exports.warn = function(msg, options = {}) {
+    options.color = 'yellow';
+    return this.verbose(msg, options);
   }
 
 
 /**
  * Debug
  * 
- * @param {string} msg Message to log
- * @param {string} options Options
+ * @param {*} msg Message to log
+ * @param {Object} options Options
  * @returns {boolean}
  */
-  exports.debug = function(msg, options) {
-    return this.verbose(msg.blue, options);
+  exports.debug = function(msg, options = {}) {
+    options.color = 'blue';
+    return this.verbose(msg, options);
   }

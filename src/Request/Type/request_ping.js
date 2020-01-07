@@ -1,7 +1,7 @@
 /**
  * Request Ping
  */
-const Request = girequire('/src/Request/request.js');
+const Request = girequire('/src/Request/request');
 
 module.exports = class RequestPing extends Request {
 

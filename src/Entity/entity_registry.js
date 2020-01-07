@@ -7,7 +7,7 @@ const fs = require('fs');
 const _ = require('underscore');
 _.mixin(require('underscore.inflections'));
 
-const ObjectRegistry = require('../Core/object_registry.js');
+const ObjectRegistry = girequire('/src/Core/object_registry');
 
 module.exports = class EntityRegistry extends ObjectRegistry {
 

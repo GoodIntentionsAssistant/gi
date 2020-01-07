@@ -2,7 +2,7 @@
  * Response
  */
 const Template = girequire('src/Response/template');
-const Logger = girequire('/src/Helpers/logger.js');
+const Logger = girequire('/src/Helpers/logger');
 
 const EventEmitter = require('events').EventEmitter;
 const extend = require('extend');

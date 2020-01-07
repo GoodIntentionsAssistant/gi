@@ -4,8 +4,8 @@
 const extend = require('extend');
 const moment = require('moment');
 
-const Config = girequire('/src/Config/config.js');
-const Logger = girequire('/src/Helpers/logger.js');
+const Config = girequire('/src/Config/config');
+const Logger = girequire('/src/Helpers/logger');
 
 module.exports = class Expects {
 

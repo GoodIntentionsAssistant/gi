@@ -1,9 +1,11 @@
 /**
  * Data
+ * 
+ * @todo Move this to a helper and make it static
  */
-const Identifier = girequire('src/Core/identifier');
-
 const _ = require('underscore');
+
+const Identifier = girequire('/src/Core/identifier');
 
 module.exports = class Data {
 
@@ -34,11 +36,7 @@ module.exports = class Data {
 
 		//Check the data file exists
 		if(!this._check_file(filename)) {
-			this.App.Error.fatal([
-				'Failed to load data from ' + identifier,
-				'Make sure the data file exists in '+filename
-			]);
-			return;
+			throw new Error(`Failed to load data from "${identifier}", make sure the data file exists`);
 		}
 
 		//Depending on the file format of the data load it in
@@ -88,10 +86,7 @@ module.exports = class Data {
 
 				//Validate entries exists
 				if(!json.entries) {
-					this.App.Error.fatal([
-						'Failed to load JSON entity data from '+this.identifier,
-						'Make sure the key "entries" exists in the file'
-					]);
+					throw new Error(`Failed to load JSON entity data from "${this.identifier}". Make sure the key "entries" exists in the file`);
 				}
 
 				resolve(json);

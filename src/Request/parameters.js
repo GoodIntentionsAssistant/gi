@@ -5,7 +5,7 @@ const Promise = require('promise');
 const dotty = require("dotty");
 const extend = require('extend');
 
-const Logger = girequire('/src/Helpers/logger.js');
+const Logger = girequire('/src/Helpers/logger');
 
 module.exports = class Parameters {
 

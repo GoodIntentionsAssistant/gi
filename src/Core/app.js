@@ -12,10 +12,7 @@ require('../Helpers/gi_require');
 //
 const Logger = girequire('/src/Helpers/logger.js');
 
-const Error = require('./../Error/error.js');
-
 const Config = require('../Config/config.js');
-const Log = require('./log.js');
 const Event = require('./event.js');
 
 const Auth = require('./../Auth/auth.js');
@@ -50,13 +47,10 @@ module.exports = class App extends EventEmitter {
 		this.verbose 	= true;
 		this.timer 		= null;
 
-		this.Error = new Error();
-
 		//Checks to make sure the system is configured correctly
 		this.initChecks();
 
 		this.Event = new Event(this);
-		this.Log = new Log(this);
 		
 		this.Train = new Train(this);
 		this.Explicit = new Explicit(this);
@@ -86,8 +80,8 @@ module.exports = class App extends EventEmitter {
 	initChecks() {
 		//Make sure config exists
 		let configFile = './app/Config/config.json';
-		if (!fs.existsSync(configFile)) {
-			this.Error.fatal([
+		if(!fs.existsSync(configFile)) {
+			Logger.fatal([
 				`Cannot start GI, your config file was not found`,
 				`Make sure ${configFile} exists`,
 				`Copy the existing config.example.json to config.json and make changes before running again`
@@ -96,14 +90,14 @@ module.exports = class App extends EventEmitter {
 
 		//Make sure test secret has been changed
 		if(Config.read('clients.test.secret') === 'changeme') {
-			this.Error.fatal([
+			Logger.fatal([
 				`Change the test secret in your ${configFile} file before continuing`
 			]);
 		}
 
-		//Make sure test secret has been changed
-		if(Config.read('skills').length === 0) {
-			this.Error.fatal([
+		//Make sure there are skills added
+		if(Config.read('skills').length == 0) {
+			Logger.fatal([
 				`You need to add at least one skill before loading the server`,
 				`Otherwise the bot won't do anything!`,
 				`First run, node gi fetch`,

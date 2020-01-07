@@ -1,8 +1,8 @@
 /**
  * Request Event
  */
-const Request = girequire('/src/Request/request.js');
-const Logger = girequire('/src/Helpers/logger.js');
+const Request = girequire('/src/Request/request');
+const Logger = girequire('/src/Helpers/logger');
 
 module.exports = class RequestEvent extends Request {
 

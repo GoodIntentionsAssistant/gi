@@ -1,13 +1,13 @@
 /**
  * Request Message
  */
-const Request     = girequire('/src/Request/request.js');
-const Logger      = girequire('/src/Helpers/logger.js');
-const Prompt      = girequire('/src/Request/prompt.js');
+const Request     = girequire('/src/Request/request');
+const Logger      = girequire('/src/Helpers/logger');
+const Prompt      = girequire('/src/Request/prompt');
 const Dialog      = girequire('/src/Response/dialog');
-const Router      = girequire('/src/Request/router.js');
-const History     = girequire('/src/Auth/history.js');
-const Utterance   = girequire('/src/Utterance/utterance.js');
+const Router      = girequire('/src/Request/router');
+const History     = girequire('/src/Auth/history');
+const Utterance   = girequire('/src/Utterance/utterance');
 
 module.exports = class RequestMessage extends Request {
 

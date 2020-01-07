@@ -1,13 +1,13 @@
 /**
  * Dispatcher
  */
-const RequestMessage  = girequire('/src/Request/Type/request_message.js');
-const RequestIntent   = girequire('/src/Request/Type/request_intent.js');
-const RequestEvent    = girequire('/src/Request/Type/request_event.js');
-const RequestPing     = girequire('/src/Request/Type/request_ping.js');
+const RequestMessage  = girequire('/src/Request/Type/request_message');
+const RequestIntent   = girequire('/src/Request/Type/request_intent');
+const RequestEvent    = girequire('/src/Request/Type/request_event');
+const RequestPing     = girequire('/src/Request/Type/request_ping');
 
-const Response = girequire('/src/Response/response.js');
-const Logger = girequire('/src/Helpers/logger.js');
+const Response = girequire('/src/Response/response');
+const Logger = girequire('/src/Helpers/logger');
 
 const _ = require('underscore');
 

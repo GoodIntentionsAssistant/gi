@@ -1,7 +1,7 @@
 /**
  * Train
  */
-const Config = girequire('src/Config/config');
+const Config = girequire('/src/Config/config');
 
 module.exports = class Train {
 
@@ -34,12 +34,7 @@ module.exports = class Train {
       Classifier = require(filename);
     }
     catch(error) {
-      this.app.Error.fatal([
-        'Failed to load '+type+' classifier',
-        'Make sure you have created '+file,
-        error.message,
-        error.stack
-      ]);
+			throw new Error(`Failed to load "${type}" classifier`, { error:error });
     }
 
 		//Create collection
@@ -89,10 +84,7 @@ module.exports = class Train {
 		//If no classifier defined for the collection then fatal error
 		//Each collection must have a defined classifier
 		if(!classifier) {
-      this.app.Error.fatal([
-        'Collection "'+collection+'" has no specified classifer',
-        'Check your config file and make sure the collection has a classifier defined'
-      ]);
+			throw new Error(`Failed to load collection "${collection}" because it has no specified classifer in config`);
 		}
 
 		//Check collection exists
@@ -128,11 +120,7 @@ module.exports = class Train {
 
 		//Check collection exists
 		if(!this.collections[collection]) {
-      this.app.Error.fatal([
-        'Failed to call the collection "'+collection+'"',
-        'It does not look like it has been loaded in or there is a problem in the collection'
-      ]);
-			return false;
+			throw new Error(`Failed to load the collection "${collection}"`);
 		}
 
 		//Result

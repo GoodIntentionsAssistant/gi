@@ -8,6 +8,8 @@ module.exports = class Event {
 /**
  * Constructor
  *
+ * @constructor
+ * @param {Object} app App instance
  */
   constructor(app) {
     this.app = app;
@@ -19,7 +21,7 @@ module.exports = class Event {
  *
  * @param {string} event_name Event name to emit
  * @param {*} ...args Arguments to pass to emitter
- * @returns {*}
+ * @returns {boolean} Success of emitting
  */
   emit(event_name, args = {}) {
     args.app = this.app;
@@ -33,7 +35,6 @@ module.exports = class Event {
         //this.app.Log.add(`Event emit, ${event_name}`);
       }
     }
-
 
     return this.app.emit(event_name, args);
   }

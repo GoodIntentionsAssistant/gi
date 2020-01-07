@@ -1,8 +1,7 @@
 /**
  * Attachment Registry
  */
-
-const ObjectRegistry = require('../Core/object_registry.js');
+const ObjectRegistry = girequire('/src/Core/object_registry.js');
 
 module.exports = class AttachmentRegistry extends ObjectRegistry {
 

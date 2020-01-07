@@ -1,7 +1,7 @@
 /**
  * Prompt
  */
-const Logger = girequire('/src/Helpers/logger.js');
+const Logger = girequire('/src/Helpers/logger');
 
 module.exports = class Prompt {
 

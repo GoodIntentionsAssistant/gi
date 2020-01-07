@@ -7,7 +7,7 @@ const Promise = require('promise');
 
 const Parameters  = girequire('src/Request/parameters');
 const Expects     = girequire('src/Request/expects');
-const Logger      = girequire('/src/Helpers/logger.js');
+const Logger      = girequire('/src/Helpers/logger');
 
 
 module.exports = class Request {

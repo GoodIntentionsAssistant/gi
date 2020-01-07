@@ -8,8 +8,8 @@ module.exports = class StrictClassifier extends Classifier {
 /**
  * Find
  *
- * @param object utterance
- * @return mixed
+ * @param {Object} utterance Utterance object
+ * @returns {*} Classifier result or false if nothing found
  */
 	find(utterance) {
 		let str = utterance.original();
