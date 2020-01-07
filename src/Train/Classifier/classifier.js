@@ -34,7 +34,7 @@ module.exports = class Classifier {
  */
   untrain(intent) {
     for(let ii=0; ii<this.data.length; ii++) {
-      let _intent = this.data[ii][1];
+      const _intent = this.data[ii][1];
 
       if(intent === _intent) {
         delete this.data[ii];

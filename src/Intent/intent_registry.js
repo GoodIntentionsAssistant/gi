@@ -40,7 +40,7 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 			this._explicits(intent);
 		}).catch((error) => {
 			//Error
-			throw new Error(`Failed to train from intent`, { error:error });
+			throw new Error(`Failed to train from intent`, { error });
 		});
 	}
 

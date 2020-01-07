@@ -96,7 +96,7 @@ module.exports = class App extends EventEmitter {
 		}
 
 		//Make sure there are skills added
-		if(Config.read('skills').length == 0) {
+		if(Config.read('skills').length === 0) {
 			Logger.fatal([
 				`You need to add at least one skill before loading the server`,
 				`Otherwise the bot won't do anything!`,

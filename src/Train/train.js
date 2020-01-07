@@ -34,7 +34,7 @@ module.exports = class Train {
       Classifier = require(filename);
     }
     catch(error) {
-			throw new Error(`Failed to load "${type}" classifier`, { error:error });
+			throw new Error(`Failed to load "${type}" classifier`, { error });
     }
 
 		//Create collection
