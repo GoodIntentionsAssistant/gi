@@ -92,38 +92,6 @@ module.exports = class Request {
 
 
 /**
- * Log
- *
- * Alias for App::log which passes the request ident
- *
- * @param {string} str String to log
- * @returns {boolean}
- */
-	log(str) {
-		if(!str) {
-      //Blank line
-			return this.app.Log.add('');
-		}
-		return this.app.Log.add(str, this.ident);
-	}
-
-
-/**
- * Error
- *
- * Alias for App::error which passes the request ident
- *
- * @param {string} str String to log
- * @return {boolean}
- */
-	error(str) {
-		return this.app.Log.error(str, {
-			ident: this.ident
-		});
-	}
-
-
-/**
  * Redirect
  *
  * Method must return a false otherwise the request will send "true"

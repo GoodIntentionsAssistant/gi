@@ -96,7 +96,7 @@ exports.verbose = function(msg, options = {}) {
  * @returns {boolean}
  */
   exports.warn = function(msg, options) {
-    return this.verbose(msg.magenta, options);
+    return this.verbose(msg.yellow, options);
   }
 
 

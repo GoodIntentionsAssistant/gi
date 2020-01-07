@@ -303,7 +303,7 @@ module.exports = class Response extends EventEmitter {
  */
   valid_client() {
     if(!this.Request.client) {
-      this.Request.log(`Client was not found, it may have disconnected`);
+      Logger.warn(`Client was not found, it may have disconnected`, { prefix: this.Request.ident });
       this.Request.cancel();
       return false;
     }
