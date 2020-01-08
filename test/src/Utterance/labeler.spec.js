@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Labeler = girequire('src/Utterance/labeler.js');
+const Labeler = girequire('src/Utterance/labeler');
 
 describe('Labeler', function() {
 

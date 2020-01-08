@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const Dispatcher = girequire('src/Request/dispatcher');
 
-const AttachmentRegistry = girequire('src/Attachment/attachment_registry.js');
+const AttachmentRegistry = girequire('src/Attachment/attachment_registry');
 
 
 describe('Dispatcher', function() {

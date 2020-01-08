@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Utterance = girequire('src/Utterance/utterance.js');
+const Utterance = girequire('src/Utterance/utterance');
 
 describe('Utterance', function() {
 

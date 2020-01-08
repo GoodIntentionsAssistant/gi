@@ -1,7 +1,7 @@
 /**
  * Replacer
  */
-const Data = girequire('src/Data/data');
+const Data = girequire('src/Helpers/data');
 
 const extend = require('extend');
 const fs = require('fs');

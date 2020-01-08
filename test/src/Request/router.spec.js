@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const Router = girequire('src/Request/router');
 
-const IntentRegistry = girequire('src/Intent/intent_registry.js');
+const IntentRegistry = girequire('src/Intent/intent_registry');
 const Utterance = girequire('src/Utterance/utterance');
 
 
