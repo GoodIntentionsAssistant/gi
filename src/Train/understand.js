@@ -20,6 +20,7 @@ module.exports = class Understand {
  * Load collections
  *
  * @todo Rename to something else? This doesn't look right here.
+ * @returns {boolean} Collections set
  */
   collections() {
     this._collections = [
@@ -27,6 +28,7 @@ module.exports = class Understand {
       'default',
       'fallback'
     ];
+    return true;
   }
 
 

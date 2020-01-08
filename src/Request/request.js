@@ -76,7 +76,7 @@ module.exports = class Request {
 /**
  * Check data
  *
- * @returns {boolean}
+ * @returns {boolean} Success of adding parameters
  */
   _check_data_parameters() {
     if(!this.input.data) {

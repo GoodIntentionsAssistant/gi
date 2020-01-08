@@ -150,7 +150,7 @@ module.exports = class Auth {
  * 
  * @todo Add more validation here and document it
  * @param {string} token Token to validate
- * @returns {boolean}
+ * @returns {boolean} If token is valid
  */
 	validate_token(token) {
 		if(!token) {

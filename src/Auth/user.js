@@ -66,6 +66,7 @@ module.exports = class User {
  * Set
  *
  * @param {string} key Key to set
+ * @param {string} value Value for the key
  * @returns {boolean} If setting the key with the value was successful
  */
   set(key, value) {

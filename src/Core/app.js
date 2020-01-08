@@ -247,8 +247,8 @@ module.exports = class App extends EventEmitter {
  * Take input and add it to the queue.
  * All requests go through this method.
  *
- * @param {object} input
- * @returns {boolean}
+ * @param {object} input Input from client
+ * @returns {boolean} Success of adding request to queue
  */
 	request(input) {
 		//Scheduler request

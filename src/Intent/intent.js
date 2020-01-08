@@ -166,7 +166,7 @@ module.exports = class Intent {
  * Add Parameter
  * 
  * @param {string} name Entity name
- * @param {Object} options Options for adding parameter
+ * @param {Object} data Data for parameter
  * @returns {boolean} Success of adding
  */
 	parameter(name, data) {
@@ -272,9 +272,9 @@ module.exports = class Intent {
 /**
  * Add Keyword
  *
- * @param {*} keywords Keywords for training
+ * @param {*} keyword Keywords for training
  * @param {Object} options Options
- * @returns {boolean}
+ * @returns {boolean} Success of adding keyword
  */
 	add_keyword(keyword, options) {
 		let _options = {
@@ -353,7 +353,7 @@ module.exports = class Intent {
  * Call the method for this intent.
  * 
  * @param {Object} request Request incoming
- * @returns {boolean} Always true
+ * @returns {Promise} Promise instance
  */
 	fire(request) {
 		this.before_request(request);
@@ -377,8 +377,6 @@ module.exports = class Intent {
 			}
 
 		});
-
-		return true;
 	}
 
 

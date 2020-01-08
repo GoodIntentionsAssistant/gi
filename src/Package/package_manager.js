@@ -11,7 +11,7 @@ module.exports = class PackageManager {
 /**
  * Constructor
  *
- * @return void
+ * @constructor
  */
   constructor() {
     this.packages = {};
@@ -22,7 +22,7 @@ module.exports = class PackageManager {
 /**
  * Load module
  *
- * @return void
+ * @returns {boolean} Success of loading
  */
   load() {
     var packagesFile = Config.path('package') + '/packages.json';
@@ -30,24 +30,27 @@ module.exports = class PackageManager {
     //Packages file does not exist
     //No need to error, the user might be trying to fetch packages
 		if(!fs.existsSync(packagesFile)) {
-      return;
+      return false;
     }
 
     var data = fs.readFileSync(packagesFile, { encoding: 'utf-8' });
     var json = JSON.parse(data);
 
     if (!json || !json.packages) {
-      return console.error('Data in packages.json could not be converted to JSON');
+      console.error('Data in packages.json could not be converted to JSON');
+      return false;
     }
 
     this.packages = json.packages;
+
+    return true;
   }
 
 
 /**
  * Fetch latest packages file
  *
- * @return void
+ * @returns {boolean} Success
  */
   fetch() {
     var package_url = Config.read('packages.url');
@@ -58,13 +61,16 @@ module.exports = class PackageManager {
       .then((text) => {
         this._writeToPackages(text);
       });
+
+    return true;
   }
 
 
 /**
  * Write packages file to temp directory
  *
- * @return void
+ * @param {string} data Data to write
+ * @returns {boolean} Success of writing to file
  */
   _writeToPackages(data) {
     var filename = Config.path('package')+'/packages.json';
@@ -75,27 +81,30 @@ module.exports = class PackageManager {
       }
       console.log('Package file updated');
       this.load();
-    }); 
+    });
+
+    return true;
   }
 
 
 /**
  * Reinstall a packages
  *
- * @param string name
- * @return void
+ * @param {string} name Name of package
+ * @returns {boolean} Success of reinstalling
  */
   reinstall(name) {
     this.remove(name);
-    this.install(name);
+    return this.install(name);
   }
 
 
 /**
  * Install a package
  *
- * @param string name
- * @return void
+ * @param {string} name Name of module
+ * @param {Object} options Install options
+ * @returns {boolean} Success of installing
  */
   install(name, options = {}) {
     //Installing a package from local for development
@@ -122,14 +131,16 @@ module.exports = class PackageManager {
         console.log(error);
       }
     });
+
+    return true;
   }
 
 
 /**
  * Install a package from dev
  *
- * @param string name
- * @return void
+ * @param {string} name Name of module to install
+ * @returns {boolean} Installed successfully
  */
   _install_from_dev(name) {
     console.log('Installing dev version of ' + name);
@@ -170,15 +181,15 @@ module.exports = class PackageManager {
       fs.symlink(pathFrom, pathTo, () => {});
     });
 
-    return;
+    return true;
   }
 
 
 /**
  * Remove a module
  *
- * @param string name
- * @return void
+ * @param {string} name Name of module to remove
+ * @returns {boolean} Successfully removed the module
  */
   remove(name) {
     console.log('Removing ' + name);
@@ -189,9 +200,11 @@ module.exports = class PackageManager {
     child = exec('npm uninstall ' + name, (error, stdout, stderr) => {
       if (error === null) {
         console.log('Successfully removed ' + name);
+        return true;
       }
       else {
         console.log('There was an error removing '+name);
+        return false;
       }
     });
   }
@@ -200,7 +213,7 @@ module.exports = class PackageManager {
 /**
  * List available packages
  *
- * @return void
+ * @returns {boolean} If packages could be outputted
  */
   list() {    
     console.log('Packages:');
@@ -210,14 +223,16 @@ module.exports = class PackageManager {
       console.log(this.packages[key].description);
       console.log('');
     }
+
+    return true;
   }
 
 
 /**
  * Enable a package
  *
- * @param string name
- * @return void
+ * @param {string} name Name of package to disable
+ * @returns {boolean} Success of disabling
  */
   enable(name) {
     console.log('Enabling', name);
@@ -226,21 +241,23 @@ module.exports = class PackageManager {
     
     if(!paths) {
       console.log('Failed to fetch any paths for '+name);
-      return;
+      return false;
     }
 
     paths.forEach((result) => {
       this._link(result.type, result.name, result.path);
       Config.put(result.type, 'App.'+result.name);
     });
+
+    return true;
   }
 
 
 /**
  * Disable a package
  *
- * @param string name
- * @return void
+ * @param {string} name Name of package to disable
+ * @returns {boolean} Success of disabling
  */
   disable(name) {
     console.log('Disabling', name);
@@ -249,13 +266,15 @@ module.exports = class PackageManager {
 
     if (!paths) {
       console.log('Failed to fetch any paths for ' + name);
-      return;
+      return false;
     }
 
     paths.forEach((result) => {
       this._unlink(result.type, result.name);
       Config.remove(result.type + '.App.' + result.name);
     });
+
+    return true;
   }
 
 
@@ -296,8 +315,7 @@ module.exports = class PackageManager {
  * @param {string} type Type of package, e.g. Skill
  * @param {string} directory Directory
  * @param {string} pathFrom Where the file originally is
- * @access private
- * @return bool
+ * @returns {boolean} If linked directory successfully
  */
   _link(type, directory, pathFrom) {
     var pathTo = Config.path(type+'.app') + '/' + directory;
@@ -309,10 +327,9 @@ module.exports = class PackageManager {
 /**
  * Remove link to a package directory
  *
- * @param string type
- * @param string directory
- * @access private
- * @return bool
+ * @param {string} type Type of package, e.g. Skill
+ * @param {string} directory Directory
+ * @returns {boolean} If linked directory successfully
  */
   _unlink(type, directory) {
     var path = Config.path(type + '.app') + '/' + directory;

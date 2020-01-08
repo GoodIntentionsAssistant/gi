@@ -117,12 +117,13 @@ exports.remove = function(key) {
 /**
  * Write config
  * 
- * @returns {*}
+ * @param {Object} json Json to write to file
+ * @returns {boolean} Success
  */
 exports._writeConfig = function(json) {
 	let data = JSON.stringify(json, null, 2);
 	let app_filename = './app/Config/config.json';
-	fs.writeFileSync(app_filename, data);  
+	return fs.writeFileSync(app_filename, data);  
 }
 
 
