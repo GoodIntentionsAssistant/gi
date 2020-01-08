@@ -8,8 +8,8 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 /**
  * Constructor
  *
- * @param object app
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		super(app);
@@ -22,7 +22,8 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 /**
  * After load
  *
- * @return void
+ * @param {Object} intent Intent instance
+ * @returns {boolean} Success
  */
   after_load(intent) {
 		//Setup intent
@@ -42,14 +43,16 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 			//Error
 			throw new Error(`Failed to train from intent`, { error });
 		});
+
+		return true;
 	}
 
 
 /**
  * Train
  *
- * @param object intent
- * @return void
+ * @param {Object} intent Intent instance
+ * @returns {boolean} If trained
  */
 	_train(intent) {
 		let keywords = intent.keywords();
@@ -57,14 +60,16 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 		for(let tt=0; tt<keywords.length; tt++) {
 			this.app.Train.train(keywords[tt].identifier, keywords[tt].keyword, keywords[tt].options);
 		}
+
+		return true;
 	}
 
 
 /**
  * Explicits
  *
- * @param object intent
- * @return void
+ * @param {Object} intent Intent instance
+ * @returns {boolean} If adding explicit
  */
 	_explicits(intent) {
 		let explicits = intent.explicits();
@@ -72,14 +77,16 @@ module.exports = class IntentRegistry extends ObjectRegistry {
 		for(let tt=0; tt<explicits.length; tt++) {
 			this.app.Explicit.train(explicits[tt].type, explicits[tt].identifier, explicits[tt].keyword, explicits[tt].options);
 		}
+
+		return true;
 	}
 
 
 /**
  * Unload Intent
  *
- * @param string intent
- * @return bool
+ * @param {string} identifier Identifier
+ * @returns {boolean} If unloaded
  */
 	unload(identifier) {
 		let check = this.remove(identifier);

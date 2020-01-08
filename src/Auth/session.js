@@ -82,6 +82,7 @@ module.exports = class Session {
  * Set
  *
  * @param {string} key Key to set
+ * @param {string} value Value for key
  * @returns {boolean} If setting was successful
  */
 	set(key, value) {

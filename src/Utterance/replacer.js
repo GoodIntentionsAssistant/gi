@@ -22,9 +22,10 @@ constructor() {
 /**
  * Process text
  * 
- * @param {string} type 
- * @param {string} str 
- * @param {Object} options 
+ * @todo Document what this method does
+ * @param {string} type Type of replacer
+ * @param {string} str String to replace
+ * @param {Object} options Options for processing
  * @returns {string} Final string that has been replaced
  */
   process(type, str, options = {}) {

@@ -523,7 +523,7 @@ module.exports = class Parameters {
  * and the Object keys match the entity key.
  *
  * @param {Object} data Parameter settings from intent
- * @param {Object} data Parameter result
+ * @param {Object} result Parameter result
  * @returns {boolean} Success of changing default method action
  */
 	_action(data, result) {

@@ -35,8 +35,7 @@ module.exports = class App extends EventEmitter {
 /**
  * Constructor
  *
- * @access public
- * @return void
+ * @constructor
  */
 	constructor() {
 		super();
@@ -70,8 +69,7 @@ module.exports = class App extends EventEmitter {
 /**
  * Initalizing server checks
  * 
- * @access public
- * @return void
+ * @returns {boolean} If checks were successful
  */
 	initChecks() {
 		//Make sure config exists
@@ -101,14 +99,15 @@ module.exports = class App extends EventEmitter {
 				`Then install some example packages, node gi install gi-skill-examples`
 			]);
 		}
+
+		return true;
 	}
 
 
 /**
  * Start
  *
- * @access public
- * @return void
+ * @returns {boolean} Always true
  */
 	load() {
 		//Start the main loop
@@ -120,14 +119,15 @@ module.exports = class App extends EventEmitter {
 
 		//Require skill files
 		this.load_skills();
+
+		return true;
 	}
 	
 
 /**
  * Loop
  *
- * @access public
- * @return void
+ * @returns {boolean} Always true
  */
 	loop() {
 		//Queue
@@ -142,14 +142,15 @@ module.exports = class App extends EventEmitter {
 		this.timer = setTimeout(() => {
 			this.loop();
 		}, this.loop_speed);
+
+		return true;
 	}
 
 
 /**
  * Load attachments
  *
- * @access public
- * @return void
+ * @returns {boolean} Always true
  */
 	load_attachments() {
 		let attachments = Config.read('attachments');
@@ -157,14 +158,15 @@ module.exports = class App extends EventEmitter {
 		for(var ii=0; ii<attachments.length; ii++) {
 			this.AttachmentRegistry.load(attachments[ii]);
 		}
+
+		return true;
 	}
 
 
 /**
  * Load skills
  *
- * @access public
- * @return void
+ * @returns {boolean} Always true, async method
  */
 	load_skills() {
 		//Skills
@@ -185,31 +187,31 @@ module.exports = class App extends EventEmitter {
 
 		Promise.all(promises).then(() => {
 			this.load_queue();
+			this.load_server();
 		}).catch((err) => {
 			//@todo Catch error
 			console.log(err);
 		});
+
+		return true;
 	}
 
 
 /**
  * Load queue
  * 
- * @access public
- * @return void
+ * @returns {boolean} Success of starting queue
  */
 	load_queue() {
 		Logger.info(`Starting Queue`);
-		this.Queue.start();
-		this.load_server();
+		return this.Queue.start();
 	}
 
 
 /**
  * Load server
  * 
- * @access public
- * @return void
+ * @returns {boolean} Success of loading server
  */
 	load_server() {
 		if(!Config.read("server.enabled")) {
@@ -218,19 +220,19 @@ module.exports = class App extends EventEmitter {
 		}
 
 		Logger.info('Starting Server');
-		this.Server.start();
 
 		this.Server.on('listening', () => {
 			this.emit('ready');
 		});
+
+		return this.Server.start();
 	}
 
 
 /**
  * Shutdown
  *
- * @access public
- * @return boolean
+ * @returns {boolean}
  */
 	shutdown() {
 		Logger.info('Shutting down');

@@ -19,11 +19,11 @@ module.exports = class Explicit {
 /**
  * Train
  *
- * @param string type 'must' or 'reject'
- * @param string intent
- * @param string keyword
- * @param hash options
- * @returns {boolean}
+ * @param {string} type Type, 'must' or 'reject'
+ * @param {string} intent Intent name
+ * @param {string} keyword Keyword
+ * @param {Object} options Options for training
+ * @returns {boolean} Successfully trained
  */
   train(type, intent, keyword, options = {}) {
     //Default classifier is strict
@@ -69,9 +69,10 @@ module.exports = class Explicit {
 /**
  * Check
  *
- * @param hash match
- * @param object utterance
- * @returns {boolean}
+ * @todo Document this method
+ * @param {Object} match Match object
+ * @param {Object} utterance Utterance data
+ * @returns {boolean} If match can be accepted
  */
   check(match, utterance) {
     //match.result is the intent identifier
@@ -99,9 +100,9 @@ module.exports = class Explicit {
 /**
  * Check for REJECT words
  *
- * @param string intent
- * @param object utterance
- * @returns {boolean}
+ * @param {string} intent Intent name
+ * @param {Object} utterance Utterance object
+ * @returns {boolean} If the intent should be rejected
  */
   _findReject(intent, utterance) {
     //Collection does not exist
@@ -125,9 +126,9 @@ module.exports = class Explicit {
  *
  * The words must exist in the utterance
  *
- * @param string intent
- * @param object utterance
- * @returns {boolean}
+ * @param {string} intent Intent name
+ * @param {Object} utterance Utterance object
+ * @returns {boolean} If the intent should be used
  */
   _findMust(intent, utterance) {
     //Collection does not exist

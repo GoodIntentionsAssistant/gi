@@ -6,22 +6,9 @@ const Request = girequire('/src/Request/request');
 module.exports = class RequestIntent extends Request {
 
 /**
- * Constructor
- *
- * @param object app
- * @param string ident
- * @access public
- * @return void
- */
-  constructor(app, ident) {
-    super(app, ident);
-  }
-
-/**
  * Process
  * 
- * @access public
- * @return boolean
+ * @returns {boolean} If to process
  */
   process() {
     //Check the intent exists

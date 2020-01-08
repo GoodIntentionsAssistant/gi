@@ -20,7 +20,7 @@ module.exports = class Event {
  * Emit event
  *
  * @param {string} event_name Event name to emit
- * @param {*} ...args Arguments to pass to emitter
+ * @param {*} args Arguments to pass to emitter
  * @returns {boolean} Success of emitting
  */
   emit(event_name, args = {}) {

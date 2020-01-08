@@ -30,7 +30,7 @@ module.exports = class Expects {
 /**
  * Get expecting data
  *
- * @returns {boolean}
+ * @returns {*} False if the data does not exist or an object of the stored expected
  */
 	get() {
 		this.check_expiry();
@@ -44,7 +44,7 @@ module.exports = class Expects {
  *
  * Check if the previous call had something expected.
  *
- * @returns {boolean}
+ * @returns {boolean} If the session has expecting
  */
 	has() {
 		this.check_expiry();
@@ -55,7 +55,7 @@ module.exports = class Expects {
 /**
  * Reset expecting
  *
- * @returns {boolean}
+ * @returns {boolean} Success of removing the session data
  */
 	reset() {
 		return this.request.session.remove('expecting');
@@ -65,7 +65,7 @@ module.exports = class Expects {
 /**
  * Check if expecting has expired
  *
- * @returns {boolean}
+ * @returns {boolean} Success of checking the expiry of an active expected
  */
 	check_expiry() {
 		//Check if the expects has expired
@@ -88,7 +88,7 @@ module.exports = class Expects {
  * Set expecting
  *
  * @param {Object} data Expecting settings
- * @returns {boolean}
+ * @returns {boolean} Success of setting the expected
  */
 	set(data) {
 		//Default
@@ -128,7 +128,7 @@ module.exports = class Expects {
  *
  * @todo Clean this code up, return bool
  * @param {Object} request Request object
- * @returns {boolean}
+ * @returns {boolean} Success of checking the request
  */
 	check(request) {
     Logger.info('Checking expects', { prefix:this.request.ident });
@@ -194,7 +194,7 @@ module.exports = class Expects {
 /**
  * Check entity input
  *
- * @returns {boolean}
+ * @returns {boolean} Success of getting the entity data
  */
 	_check_entity_input() {
 		//Fetch the entity so the input can be parsed
@@ -263,7 +263,7 @@ module.exports = class Expects {
  * Get entity
  *
  * @todo Check registry get and move to config
- * @returns {Object}
+ * @returns {Object} Entity instance
  */
 	get_entity() {
 		//No entity or data
@@ -291,7 +291,7 @@ module.exports = class Expects {
  *
  * @param {string} key Key
  * @param {string} value Value of the key
- * @returns {boolean}
+ * @returns {boolean} Success of setting
  */
 	_keep(key, value) {
 		return this.request.user.set(key, value);
@@ -304,7 +304,7 @@ module.exports = class Expects {
  * @todo Check if result param is needed
  * @param {*} expecting Expecting
  * @param {string} result Text result
- * @returns {boolean}
+ * @returns {boolean} Success of setting the action
  */
 	_action(expecting, result = '') {
 		//String

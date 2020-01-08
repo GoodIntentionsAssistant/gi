@@ -203,8 +203,9 @@ module.exports = class Queue {
 /**
  * Destroy request
  *
+ * @todo Return to check if it was deleted
  * @param {string} ident Identifier for the request
- * @returns {boolean}
+ * @returns {boolean} Succss of deleting the request
  */
 	destroy_request(ident) {
 		if(!this._requests[ident]) {

@@ -119,7 +119,7 @@ module.exports = class ObjectRegistry {
  *
  * @param {string} name Name of the object to load
  * @param {Object} options Options for loading
- * @returns {*}
+ * @returns {*} Loaded in instance loaded or false if it soft failed to load it
  */
   load(name, options = {}) {
 		//Options
@@ -157,7 +157,7 @@ module.exports = class ObjectRegistry {
  * @param {string} identifier Identifier to build file name
  * @param {string} file File name to load
  * @param {Object} options Options for loading
- * @return {Object}
+ * @return {Object} Loaded in module instance
  */
   _load(identifier, file, options) {
     //Options for loading entities
@@ -218,7 +218,7 @@ module.exports = class ObjectRegistry {
  * Remove
  *
  * @param {string} identifier Remove the object by identifier name
- * @returns {boolean}
+ * @returns {boolean} Remove object from registry
  */
   remove(identifier) {
     let object = this.get(identifier);
@@ -269,7 +269,7 @@ module.exports = class ObjectRegistry {
  * Such as App.Example.Attachment.Navigation or just navigation
  *
  * @param {string} name Name of object to find
- * @returns {string}
+ * @returns {string} Identifier name
  */
   find(name) {
     let identifier = null;
@@ -298,7 +298,7 @@ module.exports = class ObjectRegistry {
  * Exists object
  *
  * @param {string} identifier Identifier name to check if it exists
- * @returns {boolean}
+ * @returns {boolean} If the identifier exists in objects
  */
   exists(identifier) {
     if(!this.objects[identifier]) {
@@ -311,7 +311,7 @@ module.exports = class ObjectRegistry {
 /**
  * After load
  *
- * @returns {boolean}
+ * @returns {boolean} Success
  */
   after_load() {
     return true;
@@ -321,7 +321,7 @@ module.exports = class ObjectRegistry {
 /**
  * Before load
  *
- * @returns {boolean}
+ * @returns {boolean} Success
  */
   before_load() {
     return true;

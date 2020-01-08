@@ -9,7 +9,7 @@ module.exports = class Router {
  * Constructor
  *
  * @constructor
- * @param {Object} response Response instance
+ * @param {Object} request Request instance
  */
   constructor(request) {
     this.request    = request;

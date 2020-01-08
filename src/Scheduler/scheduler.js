@@ -25,7 +25,7 @@ module.exports = class Scheduler {
  * Trigger a scheduled event
  *
  * @param {string} scheduler_id Scheduler id
- * @returns {boolean}
+ * @returns {boolean} If triggered
  */
   trigger(scheduler_id) {
     let schedule = this.find(scheduler_id);
@@ -87,7 +87,7 @@ module.exports = class Scheduler {
  * Check
  *
  * @param {string} scheduler_id Scheduler id
- * @returns {*}
+ * @returns {*} False if not found, otherwise the schedule object
  */
   find(schedule_id) {
     if(!this.scheduled[schedule_id]) {
@@ -100,8 +100,8 @@ module.exports = class Scheduler {
 /**
  * Find by session_id
  *
- * @param {string} scheduler_id Scheduler id
- * @returns {string[]}
+ * @param {string} session_id Session id
+ * @returns {string[]} Array of schedules
  */
   find_by_session_id(session_id) {
     let output = [];

@@ -11,7 +11,7 @@
  * https://gist.github.com/branneman/8048520
  * 
  * @param {string} name Name to includ
- * @returns {Object}
+ * @returns {Object} Module
  */
 global.girequire = (name) => {
 	let path = __dirname + '/../..';

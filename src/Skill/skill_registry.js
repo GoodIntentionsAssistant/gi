@@ -9,8 +9,8 @@ module.exports = class SkillRegistry extends ObjectRegistry {
 /**
  * Constructor
  *
- * @param object app
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		super(app);
@@ -21,13 +21,16 @@ module.exports = class SkillRegistry extends ObjectRegistry {
 /**
  * After load
  *
- * @return void
+ * @param {Object} skill Skill instance
+ * @returns {boolean} Success
  */
   after_load(skill) {
 		skill.path = '';
 
 		skill.setup();
 		skill.load();
+
+		return true;
 	}
 
 

@@ -134,7 +134,7 @@ module.exports = class Train {
  * Goes through all loaded classifiers and removes trained data for the identifier
  *
  * @param {string} identifier Identifier/intent to remove
- * @returns {boolean}
+ * @returns {boolean} If untrained
  */
   untrain(identifier) {
     //Go through each collection loaded and untrain for the identifier

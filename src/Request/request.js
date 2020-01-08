@@ -164,7 +164,7 @@ module.exports = class Request {
  * Result of request
  *
  * @param {*} result Result of the intent, can be a string or boolean
- * @returns {*}
+ * @returns {boolean} Success building and sending the result
  */
   result(result) {
     //Array returned
@@ -197,7 +197,9 @@ module.exports = class Request {
     });
 
     //Send response
-		this.response.send();
+    this.response.send();
+    
+    return true;
 	}
 
 

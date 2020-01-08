@@ -180,7 +180,7 @@ module.exports = class RequestMessage extends Request {
  * 
  * @param {string} key Key for setting
  * @param {*} value Values for key
- * @returns {boolean}
+ * @returns {boolean} Successfully set
  */
   set(key, value = {}) {
     return this.response.set(key, value);

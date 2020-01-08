@@ -165,7 +165,7 @@ module.exports = class Utterance {
  * Scrubbed text
  *
  * @param {string} type Type of scrubbed text
- * @returns {string}
+ * @returns {string} Scrubbed text
  */
   scrubbed(type = 'normal') {
     return this.data.scrubbed[type];

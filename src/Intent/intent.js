@@ -9,8 +9,8 @@ module.exports = class Intent {
 /**
  * Constructor
  *
- * @param object app
- * @return void
+ * @constructor
+ * @param {Object} app App instance
  */
 	constructor(app) {
 		this.app = app;
@@ -33,7 +33,7 @@ module.exports = class Intent {
  *
  * Initaliser has to call method this to setup the intent
  *
- * @return bool
+ * @returns {boolean} If loaded
  */
 	load() {
 		//Load
@@ -59,9 +59,9 @@ module.exports = class Intent {
 /**
  * Train
  * 
- * @param array data
- * @param hash options
- * @return bool
+ * @param {*} data String or an array of the data to train
+ * @param {Object} options Training options
+ * @returns {boolean} Successfully trained
  */
 	train(data, options = {}) {
 		//Data could be a string, change it to an array
@@ -88,9 +88,9 @@ module.exports = class Intent {
 /**
  * Must haves
  * 
- * @param mixed data
- * @param hash options
- * @return bool
+ * @param {*} data Data to add
+ * @param {Object} options Options for training explicit
+ * @returns {boolean} Success
  */
 	must(data, options = {}) {
 		return this.add_explicit('must', data, options);
@@ -100,9 +100,9 @@ module.exports = class Intent {
 /**
  * Reject
  *
- * @param mixed data
- * @param hash options
- * @return bool
+ * @param {*} data Data to add
+ * @param {Object} options Options for training explicit
+ * @returns {boolean} Success
  */
   reject(data, options = {}) {
 		return this.add_explicit('reject', data, options);
@@ -115,10 +115,10 @@ module.exports = class Intent {
  * Either the intent MUST have or REJECT
  * This will be loaded in with intent_registry
  *
- * @param string type Reject or Must
- * @param mixed data
- * @param hash options
- * @return bool
+ * @param {string} type Reject or Must
+ * @param {string} keyword Keyword to add
+ * @param {Object} options Options for adding explicit
+ * @returns {boolean} Success of adding
  */
   add_explicit(type, keyword, options = {}) {
 		if(typeof keyword === 'object') {
@@ -152,9 +152,9 @@ module.exports = class Intent {
  * Entities are added to a list and when ready each entity is loaded in
  * and then trained using the add_keyword method
  * 
- * @param string name
- * @param hash options
- * @return bool
+ * @param {string} name Entity name
+ * @param {Object} options Options for adding entity
+ * @returns {boolean} Success of adding
  */
 	add_entity(name, options = {}) {
 		this._entities[name] = options;
@@ -165,9 +165,9 @@ module.exports = class Intent {
 /**
  * Add Parameter
  * 
- * @param string name
- * @param hash data
- * @return bool
+ * @param {string} name Entity name
+ * @param {Object} options Options for adding parameter
+ * @returns {boolean} Success of adding
  */
 	parameter(name, data) {
 		this.parameters[name] = data;
@@ -178,7 +178,8 @@ module.exports = class Intent {
 /**
  * Has parameters
  * 
- * @return bool
+ * @todo This return looks wrong, should it be a boolean?
+ * @returns {number} Length of parameters
  */
 	has_parameters() {
 		return Object.keys(this.parameters).length;
@@ -194,8 +195,8 @@ module.exports = class Intent {
  * data might be loaded in from a remote source.
  *
  * @todo This needs cleaning up, it turned into a bit of a mess
- * @param string name
- * @return void
+ * @param {string} name Name of entity
+ * @returns {boolean} Success
  */
 	load_entities(name) {
 		return new Promise((resolve, reject) => {
@@ -231,13 +232,14 @@ module.exports = class Intent {
 
 		});
 
+		return true;
 	}
 
 
 /**
  * Train from entities
  *
- * @return void
+ * @returns {boolean} Success of training
  */
 	_train_from_entities() {
 
@@ -262,15 +264,17 @@ module.exports = class Intent {
 				}
 			}
 		}
+
+		return true;
 	}
 
 
 /**
  * Add Keyword
  *
- * @param string keywords
- * @param hash options
- * @return bool
+ * @param {*} keywords Keywords for training
+ * @param {Object} options Options
+ * @returns {boolean}
  */
 	add_keyword(keyword, options) {
 		let _options = {
@@ -299,7 +303,8 @@ module.exports = class Intent {
 /**
  * Get auth
  *
- * @return string
+ * @todo Is this used?
+ * @returns {boolean} If can get auth
  */
 	get_auth() {
 		if(this.auth) {
@@ -314,7 +319,7 @@ module.exports = class Intent {
  * Return keywords for intent
  *
  * @todo Is the loop required? Could that not be moved to add_keyword?
- * @return array
+ * @returns {string[]} List of keywords
  */
 	keywords() {
 		let output = [];
@@ -335,7 +340,7 @@ module.exports = class Intent {
  *
  * Loaded in from intent registry
  *
- * @return array
+ * @returns {string[]} Explicits array
  */
 	explicits() {
 		return this._explicits;
@@ -347,9 +352,8 @@ module.exports = class Intent {
  *
  * Call the method for this intent.
  * 
- * 
- * @param hash request
- * @return Promise
+ * @param {Object} request Request incoming
+ * @returns {boolean} Always true
  */
 	fire(request) {
 		this.before_request(request);
@@ -373,14 +377,17 @@ module.exports = class Intent {
 			}
 
 		});
+
+		return true;
 	}
 
 
 /**
  * Prompt
  * 
- * @param object request
- * @return void
+ * @todo Document this method, not clear where it's used
+ * @param {Object} request Request instance
+ * @returns {string} Prompt ext
  */
 	prompt(request) {
 		let prompt_key = request.parameters.prompt;
@@ -401,8 +408,10 @@ module.exports = class Intent {
  * Before request
  * 
  * @param {Object} request Request instance
+ * @returns {boolean} Success
  */
 	before_request(request) {
+		return true;
 	}
 
 
@@ -410,29 +419,40 @@ module.exports = class Intent {
  * After request
  * 
  * @param {Object} request Request instance
+ * @returns {boolean} Success
  */
 	after_request(request) {
+		return true;
 	}
 
 
 /**
  * Shutdown callback
+ * 
+ * @returns {boolean} Success
  */
   shutdown() {
+		return true;
   }
 
 
 /**
  * Before load callback
+ * 
+ * @returns {boolean} Success
  */
 	before_load() {
+		return true;
 	}
 
 
 /**
  * After load callback
+ * 
+ * @returns {boolean} Success
  */
 	after_load() {
+		return true;
 	}
 
 }

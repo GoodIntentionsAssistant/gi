@@ -65,7 +65,7 @@ module.exports = class Entity {
  * @param {Object} settings Settings for import
  * @param {Object} resolve Promise resolve method after data has been imported
  * @param {Object} options Options for import
- * @returns {boolean}
+ * @returns {boolean} If the import was successful
  */
 	_import(settings, resolve, options) {
 		let is_promise = false;					//Check if loading the data is using a promise
@@ -160,7 +160,7 @@ module.exports = class Entity {
  *
  * @todo Clarify what this is and check if the key exists
  * @param {string} key Key for data
- * @returns {string[]} List od data
+ * @returns {string[]} List of data
  */
 	find_data_by_key(key) {
 		return this.data[key];
@@ -288,7 +288,7 @@ module.exports = class Entity {
  * @param {string} word Word from the entity
  * @param {string} input User input
  * @param {Object} options Options for finding word
- * @returns {Object}
+ * @returns {Object} Position information of the word
  */
   find_word(word, input, options = {}) {
 		//Options
@@ -400,7 +400,7 @@ module.exports = class Entity {
 /**
  * Before load call back
  * 
- * @returns boolean
+ * @returns {boolean} Success
  */
   before_load() {
 		return true;
@@ -410,7 +410,7 @@ module.exports = class Entity {
 /**
  * After load call back
  * 
- * @returns boolean
+ * @returns {boolean} Success
  */
   after_load() {
 		return true;

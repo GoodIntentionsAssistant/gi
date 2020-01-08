@@ -41,7 +41,7 @@ exports.load = function(identifier, format) {
  * Check the file before trying to load it
  *
  * @param {string} filename File name to check if exists
- * @returns {boolean}
+ * @returns {boolean} If file exists
  */
 exports._check_file = function(filename) {
   if(!fs.existsSync(filename)) {
@@ -55,7 +55,7 @@ exports._check_file = function(filename) {
  * Load JSON
  *
  * @param {string} filename File name to load JSON
- * @returns {Promise}
+ * @returns {Promise} Promise for loading the file
  */
 exports._load_json = function(filename) {
 
@@ -84,7 +84,7 @@ exports._load_json = function(filename) {
  * Load CSV data
  *
  * @param {string} filename File name to load in CSV data
- * @returns {Promise}
+ * @returns {Promise} Promise for loading the file
  */
 exports._load_csv = function(filename) {
   let output = {};

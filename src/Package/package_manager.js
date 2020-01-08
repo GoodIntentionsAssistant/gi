@@ -262,9 +262,8 @@ module.exports = class PackageManager {
 /**
  * Fetch paths for a node module
  *
- * @param string name
- * @access private
- * @return array
+ * @param {string} name Name of module
+ * @returns {string[]} Path array
  */
   _getModulePaths(name) {
     var path = Config.path('root') + '/node_modules/' + name;
@@ -294,9 +293,9 @@ module.exports = class PackageManager {
 /**
  * Link a package directory
  *
- * @param string type
- * @param string directory
- * @param string pathFrom
+ * @param {string} type Type of package, e.g. Skill
+ * @param {string} directory Directory
+ * @param {string} pathFrom Where the file originally is
  * @access private
  * @return bool
  */

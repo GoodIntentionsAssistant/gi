@@ -109,7 +109,7 @@ module.exports = class Understand {
  * Match utterance on individual collection
  *
  * @param {Object} utterance Utterance instance from user input
- * @param {string[]} collections Collection string array
+ * @param {string[]} collection Collection string array
  * @returns {*} False or hash of the result
  */
   _match(utterance, collection) {

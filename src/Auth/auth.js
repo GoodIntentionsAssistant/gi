@@ -16,7 +16,7 @@ module.exports = class Auth {
  * Constructor
  *
  * @constructor
- * @param {Object} app App instance
+ * @param {Object} App App instance
  */
 	constructor(App) {
 		this.App = App;
@@ -59,7 +59,7 @@ module.exports = class Auth {
  * user might not be identified.
  *
  * @param {string} token Token generated from the client input
- * @param {Object} Client Client instance, this directly interfaces with socket.io
+ * @param {Object} client Client instance, this directly interfaces with socket.io
  * @returns {Object} Session data
  */
 	authenticate(token, client = null) {
@@ -166,7 +166,7 @@ module.exports = class Auth {
  * 
  * @todo Add more validation here and document it
  * @param {string} session_id Session id to validate
- * @returns {boolean}
+ * @returns {boolean} If session id is valid
  */
 	validate_session_id(session_id) {
 		if(!session_id) {
