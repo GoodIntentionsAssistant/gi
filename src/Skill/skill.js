@@ -79,7 +79,7 @@ module.exports = class Skill {
 /**
  * Load skill entities
  *
- * @returns {*}
+ * @returns {*} Success of promise loading entities
  */
 	load_entities() {
 		Logger.info(`Loading Entities for ${this.identifier}`);

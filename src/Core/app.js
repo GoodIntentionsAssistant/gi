@@ -232,12 +232,12 @@ module.exports = class App extends EventEmitter {
 /**
  * Shutdown
  *
- * @returns {boolean}
+ * @returns {boolean} Success of shutting down
  */
 	shutdown() {
 		Logger.info('Shutting down');
 		this.skills = [];
-		this.Server.stop();
+		return this.Server.stop();
 	}
 
 

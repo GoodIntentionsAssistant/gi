@@ -39,7 +39,7 @@ exports._init = function() {
  * Read
  * 
  * @param {string} key Dot notated key
- * @returns {*}
+ * @returns {*} Value of config
  */
 exports.read = function(key) {
 	this._init();
@@ -51,7 +51,7 @@ exports.read = function(key) {
  * Get path
  * 
  * @param {string} path Dot notated key
- * @returns {*}
+ * @returns {*} String of the path name
  */
 exports.path = function(path) {
 	this._init();
@@ -68,7 +68,7 @@ exports.path = function(path) {
  * Put
  * 
  * @param {string} key Dot notated key
- * @returns {boolean}
+ * @returns {boolean} If written to file
  */
 exports.put = function(key, value) {
 	let app_filename = './app/Config/config.json';
@@ -80,9 +80,7 @@ exports.put = function(key, value) {
 
 	dotty.put(app_json, key, _data);
 
-	this._writeConfig(app_json);
-
-	return true;
+	return this._writeConfig(app_json);
 }
 
 
@@ -90,7 +88,7 @@ exports.put = function(key, value) {
  * Remove
  * 
  * @param {string} key Dot notated key
- * @returns {boolean}
+ * @returns {boolean} If removed config from file
  */
 exports.remove = function(key) {
 	let app_filename = './app/Config/config.json';

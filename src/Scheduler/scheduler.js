@@ -86,7 +86,7 @@ module.exports = class Scheduler {
 /**
  * Check
  *
- * @param {string} scheduler_id Scheduler id
+ * @param {string} schedule_id Schedule id
  * @returns {*} False if not found, otherwise the schedule object
  */
   find(schedule_id) {

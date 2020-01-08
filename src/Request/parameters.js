@@ -121,7 +121,7 @@ module.exports = class Parameters {
  *
  * @param {string} string Incoming string from client
  * @param {Object} intent Intent instance
- * @returns {boolean}
+ * @returns {boolean} Success of parsing the parameters
  */
 	parse_from_intent(string, intent) {
 		//Intent has no parameters so get out of here

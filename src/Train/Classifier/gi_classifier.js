@@ -21,8 +21,6 @@ module.exports = class GiClassifier extends Classifier {
 
 /**
  * Populate POS
- *
- * @return void
  */
   _populatePos() {
     let keys = [

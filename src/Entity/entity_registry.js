@@ -27,6 +27,7 @@ module.exports = class EntityRegistry extends ObjectRegistry {
  * After load
  *
  * @param {Object} entity Entity instance
+ * @returns {boolean} Success
  */
   after_load(entity) {
 		//Setup entity
@@ -34,6 +35,8 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 
 		//Load the entity
 		entity.load();
+
+		return true;
 	}
 
 

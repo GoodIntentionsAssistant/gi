@@ -14,9 +14,10 @@ module.exports = class Dialog {
 /**
  * Process the dialog text
  *
+ * @todo Explain this better
  * @param {string} name Name of the dialog to use
  * @param {Object} options Options for dialog, e.g. language
- * @returns {*}
+ * @returns {*} Result of dialog
  */
   process(name, options = {}) {
     //Default

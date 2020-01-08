@@ -264,7 +264,7 @@ module.exports = class Client {
  * Validate session token
  *
  * @param {string} token Token to validate
- * @returns {boolean}
+ * @returns {boolean} If the token is valid
  */
 	validate_auth_token(token) {
 		if(token !== this.auth_token) {

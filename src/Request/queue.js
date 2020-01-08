@@ -190,7 +190,7 @@ module.exports = class Queue {
  * Has request
  * 
  * @param {string} ident Ident for request
- * @returns {boolean}
+ * @returns {boolean} If the request exists
  */
 	has_request(ident) {
 		if(!this._requests[ident]) {

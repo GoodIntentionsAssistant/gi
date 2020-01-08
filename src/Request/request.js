@@ -57,7 +57,7 @@ module.exports = class Request {
  * Set input
  *
  * @param {Object} input Input of the request
- * @returns {boolean}
+ * @returns {boolean} If set parameters
  */
   set_input(input) {
     //Default
