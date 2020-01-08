@@ -9,7 +9,8 @@ module.exports = class RequestEvent extends Request {
 /**
  * Process
  * 
- * @returns {boolean}
+ * @todo Check call back boolean
+ * @returns {boolean} Success of processing?
  */
   process() {
     //Make sure an event was defined

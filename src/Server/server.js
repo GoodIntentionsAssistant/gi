@@ -56,7 +56,7 @@ module.exports = class Server extends EventEmitter {
 			});
 		}
 		catch(err) {
-			Logger.error('Server Error', {error: err} );
+			Logger.error('Server Error', { error: err });
 			return false;
 		}
 

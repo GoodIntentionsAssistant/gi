@@ -21,6 +21,8 @@ module.exports = class GiClassifier extends Classifier {
 
 /**
  * Populate POS
+ * 
+ * @returns {boolean} If set POS keys
  */
   _populatePos() {
     let keys = [
@@ -69,6 +71,7 @@ module.exports = class GiClassifier extends Classifier {
       'WRB'      // Wh-adverb               how,where
     ];
 
+    return true;
   }
 
 

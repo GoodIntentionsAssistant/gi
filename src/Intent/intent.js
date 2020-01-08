@@ -196,7 +196,7 @@ module.exports = class Intent {
  *
  * @todo This needs cleaning up, it turned into a bit of a mess
  * @param {string} name Name of entity
- * @returns {boolean} Success
+ * @returns {Promise} Promise object
  */
 	load_entities(name) {
 		return new Promise((resolve, reject) => {
@@ -231,8 +231,6 @@ module.exports = class Intent {
 			}
 
 		});
-
-		return true;
 	}
 
 

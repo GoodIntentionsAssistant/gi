@@ -78,7 +78,7 @@ module.exports = class Parameters {
  * Get the data matched of a key
  * 
  * @param {string} key Parameter key
- * @returns {*}
+ * @returns {*} Value of key
  */
 	get(key) {
 		if(!key) {
@@ -258,7 +258,7 @@ module.exports = class Parameters {
 
 			//Entities to array
 			var entities = data[field]['entity'];
-			if(typeof entities == 'string') {
+			if(typeof entities === 'string') {
 				entities = [ entities ];
 			}
 
@@ -528,7 +528,7 @@ module.exports = class Parameters {
  */
 	_action(data, result) {
 		//String
-		if(typeof data.action == 'string') {
+		if(typeof data.action === 'string') {
 			this.request.action = data.action;
 			return true;
 		}

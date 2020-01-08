@@ -134,7 +134,7 @@ module.exports = class Request {
     });
 
     promise.catch((error) => {
-      Logger.warn('Intent failed to call', { error:error, prefix: this.ident });
+      Logger.warn('Intent failed to call', { error, prefix: this.ident });
       this.result('Oops, looks like I have a problem doing that! I have reported it to my owner!');
     });
 

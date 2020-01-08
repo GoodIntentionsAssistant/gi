@@ -124,7 +124,7 @@ module.exports = class Queue {
 /**
  * Check timed out
  *
- * @returns {boolean}
+ * @returns {boolean} Success of checking if requests have timed out
  */
 	check_timed_out() {
 		for(var key in this._requests) {

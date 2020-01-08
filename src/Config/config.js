@@ -68,6 +68,7 @@ exports.path = function(path) {
  * Put
  * 
  * @param {string} key Dot notated key
+ * @param {string} value Value for key
  * @returns {boolean} If written to file
  */
 exports.put = function(key, value) {

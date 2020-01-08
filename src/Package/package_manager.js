@@ -161,7 +161,7 @@ module.exports = class PackageManager {
     //Paths
     let paths = [];
     if (fs.existsSync(path + '/Skill')) {
-      fs.readdirSync(path + '/Skill').forEach(dir_name => {
+      fs.readdirSync(path + '/Skill').forEach((dir_name) => {
 
         paths.push({
           type: 'skills',

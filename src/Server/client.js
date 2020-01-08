@@ -253,7 +253,7 @@ module.exports = class Client {
  */
 	validate_client_secret(secret) {
 		var expecting = Config.read('clients.'+this.name+'.secret');
-		if(secret !== expecting) {
+		if(expecting !== secret) {
 			return false;
 		}
 		return true;
@@ -267,7 +267,7 @@ module.exports = class Client {
  * @returns {boolean} If the token is valid
  */
 	validate_auth_token(token) {
-		if(token !== this.auth_token) {
+		if(this.auth_token !== token) {
 			return false;
 		}
 		return true;

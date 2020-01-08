@@ -60,7 +60,7 @@ module.exports = class Skill {
 /**
  * Load skill intents
  *
- * @returns {*}
+ * @returns {*} If loading intents is promised
  */
 	load_intents() {
 		let options = {};
