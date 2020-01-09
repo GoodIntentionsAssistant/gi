@@ -63,7 +63,7 @@ module.exports = class Parameters {
  * The key might be set but it might not have a value
  * 
  * @param {string} key Parameter key
- * @returns {boolean}
+ * @returns {boolean} If the key exists
  */
 	has(key) {
 		let val = this.value(key);

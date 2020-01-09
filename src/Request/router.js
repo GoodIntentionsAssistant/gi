@@ -61,7 +61,7 @@ module.exports = class Router {
     }
 
     //Fetch error intent object
-    let identifier = 'App.Basics.Intent.'+type;
+    let identifier = 'Sys.Intent.'+type;
     let intent = this.app.IntentRegistry.get(identifier);
 
     if(!intent) {

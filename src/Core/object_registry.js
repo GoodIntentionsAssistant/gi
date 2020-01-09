@@ -9,6 +9,7 @@ _.mixin(require('underscore.inflections'));
 
 const Identifier = girequire('/src/Helpers/identifier');
 const Logger = girequire('/src/Helpers/logger');
+const Config = girequire('/src/Config/config');
 
 module.exports = class ObjectRegistry {
 
@@ -25,7 +26,7 @@ module.exports = class ObjectRegistry {
     this.type = null;
 
     //List of objects stored
-    this.objects = [];
+    this.objects = {};
     
     //Promises for events when loaded
 		this.promises = [];
@@ -253,6 +254,9 @@ module.exports = class ObjectRegistry {
       return false;
     }
 
+		//Change identifier is config has remapped it
+		identifier = this.identifier_mapping(identifier);
+
     if(!this.objects[identifier]) {
       Logger.error(`${this.type} ${identifier} not found in objects`);
       return false;
@@ -305,6 +309,23 @@ module.exports = class ObjectRegistry {
       return false;
     }
     return true;
+  }
+
+
+/**
+ * Exists object
+ *
+ * @param {string} identifier Identifier name to check if it needs to be remapped
+ * @returns {string} Remapped identifier name
+ */
+  identifier_mapping(identifier) {
+    let mapped = Config.read(['identifier_mapping', identifier]);
+
+    if(mapped) {
+      identifier = mapped;
+    }
+
+    return identifier;
   }
 
 

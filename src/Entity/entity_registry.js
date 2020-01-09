@@ -55,6 +55,9 @@ module.exports = class EntityRegistry extends ObjectRegistry {
 		};
 		options = extend(_options, options);
 
+		//Change identifier is config has remapped it
+		identifier = this.identifier_mapping(identifier);
+
 		//If the object doesn't exist already or caching if off
     if(!this.objects[identifier] || options.cache === false) {
 			let entity = this.load(identifier, options);

@@ -57,6 +57,27 @@
   "expects": {
     "expire": 60
   },
+  "identifier_mapping": {
+    "Sys.Entity.Cancel": "App.Basics.Entity.Cancel",
+    "Sys.Entity.City": "App.Basics.Entity.City",
+    "Sys.Entity.Confirm": "App.Basics.Entity.Confirm",
+    "Sys.Entity.Country": "App.Basics.Entity.Country",
+    "Sys.Entity.Date": "App.Basics.Entity.Date",
+    "Sys.Entity.Decimal": "App.Basics.Entity.Decimal",
+    "Sys.Entity.Dummy": "App.Basics.Entity.Dummy",
+    "Sys.Entity.Emotion": "App.Basics.Entity.Emotion",
+    "Sys.Entity.Greeting": "App.Basics.Entity.Greeting",
+    "Sys.Entity.Modifier": "App.Basics.Entity.Modifier",
+    "Sys.Entity.Number": "App.Basics.Entity.Number",
+    "Sys.Entity.Parting": "App.Basics.Entity.Parting",
+    "Sys.Entity.Percentage": "App.Basics.Entity.Percentage",
+    "Sys.Entity.TimeOfDay": "App.Basics.Entity.TimeOfDay",
+    "Sys.Intent.Again": "App.Basics.Intent.Again",
+    "Sys.Intent.Cancel": "App.Basics.Intent.Cancel",
+    "Sys.Intent.NoAuth": "App.Basics.Intent.NoAuth",
+    "Sys.Intent.NotFound": "App.Basics.Intent.NotFound",
+    "Sys.Intent.ParametersFailed": "App.Basics.Intent.ParametersFailed"
+  }, 
   "packages": {
     "url": "https://raw.githubusercontent.com/GoodIntentionsAssistant/gi-packages/master/gi-packages.json"
   },

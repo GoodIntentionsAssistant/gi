@@ -87,34 +87,28 @@ module.exports = class Expects {
 /**
  * Set expecting
  *
- * @param {Object} data Expecting settings
+ * @param {*} settings Expecting settings or pass empty for expecting any type of reply
  * @returns {boolean} Success of setting the expected
  */
-	set(data) {
+	set(settings = {}) {
 		//Default
-		let _data = {
-			expire: this.expire_default
+		let _settings = {
+			expire: this.expire_default			//Default seconds to keep the expected for
 		};
-		data = extend(_data, data);
-
-		//If the data is a string convert it to a string
-		if(typeof data === 'string' && data === 'reply') {
-			this.request.attachment('reply');
-			return true;
-		}
+		settings = extend(_settings, settings);
 
 		//Set expiry
-		data.expire_at = moment().add(data.expire, 'seconds');
+		settings.expire_at = moment().add(settings.expire, 'seconds');
 
 		//Set the intent to be the request intent name
-		data.intent = this.request.intent.identifier;
+		settings.intent = this.request.intent.identifier;
 
 		//Set the session to expect
 		//The next call from this user will read this in and check the user input
-		this.request.session.set('expecting', data);
+		this.request.session.set('expecting', settings);
 
 		//Expecting response log
-		Logger.info(`Expecting a response to "${data.intent}"`, { prefix: this.request.ident });
+		Logger.info(`Expecting a response to "${settings.intent}"`, { prefix: this.request.ident });
 
 		//Expect a reply attachment
 		this.request.attachment('reply');
@@ -125,24 +119,26 @@ module.exports = class Expects {
 
 /**
  * Check the request
+ * 
+ * When the rest is made, typically just for request messages before the text is checked
+ * the method will check to see if an expected key exists in the session data from a previous
+ * request.
+ * 
+ * This method should only be called if there is something in expected already chcking with the ::has method
  *
  * @todo Clean this code up, return bool
- * @param {Object} request Request object
  * @returns {boolean} Success of checking the request
  */
-	check(request) {
+	check() {
     Logger.info('Checking expects', { prefix:this.request.ident });
 
 		//Get the expecting settings for this request
 		this.expecting = this.get();
 
-		//Inputted text
-		this.text = this.request.input.text;
-
 		//Cancel commands to get out of expecting
 		//Using Understand and the cancel classifier to check if
 		//the user is trying to cancel the current expects.
-		//Cancel Entity and Intent are within the common skill.
+		//Cancel Entity and Intent are within the basics skill.
 		let cancel = this.app.Understand.process(this.request.utterance, ['cancel']);
 		if(cancel.success) {
 			this.reset();
@@ -157,10 +153,13 @@ module.exports = class Expects {
 			this.redirect = true;
 		}
 
-		//Parameter key
+		//Parameter key used for keeping the value on the user session
 		if(!this.expecting.key) {
 			this.expecting.key = 'expects';
 		}
+
+		//Utterance test from user
+		this.text = this.request.utterance.text();
 
 		//Check the results on entity data
 		this._check_entity_input();
@@ -169,7 +168,7 @@ module.exports = class Expects {
 		if(this.redirect) {
 			//Set the intent action
 			if(this.expecting.action) {
-				this._action(this.expecting.action, this.text);
+				this._set_intent_action(this.expecting.action);
 			}
 
 			//Save their response
@@ -203,8 +202,8 @@ module.exports = class Expects {
 		//dummy entity is created.
 		let entity = this.get_entity();
 
-		//Maybe no entity set so return out of here
-		//@todo Check this, I don't think it's going to check all other conditions like redirect
+		//No data to compare and check the new user input on
+		//This means the expected was probably set with no entity or data
 		if(!entity) {
 			this.finish = true;
 			return false;
@@ -220,39 +219,27 @@ module.exports = class Expects {
 			this.request.parameters.set(this.expecting.key, parsed.value);
 
 			Logger.info(`Expects value found, "${parsed.value}", stored parameter key "${this.expecting.key}"`, { prefix:this.request.ident });
-
-			//Reset last_expecting
-			this.request.session.remove('last_expecting');
-		}
-		else if(!this.expecting.force) {
-			//Reply is not forced
-			this.finish = true;
 		}
 		else if(this.expecting.force) {
-			//Expecting was forced but nothing was parsed
-			//Fetch the last expecting that triggered this expecting
-			let _last = this.request.session.get('last_expecting');
-			if(_last) {
-				this.expecting = _last;
-			}
+			//String match not found when parsing
 
-			//Make sure the answer is not saved
-			if(this.expecting) {
-				this.expecting.keep = false;
-			}
+			//Forced to expect an answer
+			this.expecting.action = 'response';
+			this.expecting.keep = false;
 
 			//When expects fails check if the action should be changed
 			//This is useful to show the user an error message
 			if(this.expecting.fail) {
 				this.expecting.action = this.expecting.fail;
 			}
-			else {
-				//Failed to get forced input, redirect them back to response
-				this.expecting.action = 'response';
-			}
 
 			this.redirect = true;
 			this.finish = false;
+		}
+		else {
+			//No incoming match found and the expected was not forced
+			//So no need to try and handle the response
+			this.finish = true;
 		}
 
 		return true;
@@ -262,11 +249,16 @@ module.exports = class Expects {
 /**
  * Get entity
  *
- * @todo Check registry get and move to config
  * @returns {Object} Entity instance
  */
 	get_entity() {
-		//No entity or data
+		//Expecting not set
+		if(!this.expecting) {
+			throw new Error('Expected data not set');
+		}
+
+		//No entity or data specified in the expects from intent
+		//This means it'll just call back to the same intent
 		if(!this.expecting.entity && !this.expecting.data) {
 			return false;
 		}
@@ -277,7 +269,7 @@ module.exports = class Expects {
 		}
 
 		//Load from data
-		let entity = this.app.EntityRegistry.get('App.Basics.Entity.Dummy', {
+		let entity = this.app.EntityRegistry.get('Sys.Entity.Dummy', {
 			cache: false
 		});
 		entity.set_data(this.expecting.data);
@@ -299,26 +291,15 @@ module.exports = class Expects {
 
 
 /**
- * Action
+ * Set Intent Action
+ * 
+ * Set the request action
  *
- * @todo Check if result param is needed
- * @param {*} expecting Expecting
- * @param {string} result Text result
- * @returns {boolean} Success of setting the action
+ * @param {string} action Action for the class
+ * @returns {boolean} Success of changing the action to be called on intent
  */
-	_action(expecting, result = '') {
-		//String
-		if(typeof expecting === 'string') {
-			this.request.action = expecting;
-			return true;
-		}
-
-		//Otherwise it'll be a object of result key and action
-		if(!expecting[this.text]) {
-			return false;
-		}
-
-		this.request.action = expecting[this.text];
+	_set_intent_action(action) {
+		this.request.action = action;
 		return true;
 	}
 

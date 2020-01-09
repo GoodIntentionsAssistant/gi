@@ -24,7 +24,8 @@
     "mocha": "^6.2.2",
     "nodemon": "^2.0.2",
     "npm-check": "^5.9.0",
-    "nyc": "^15.0.0"
+    "nyc": "^15.0.0",
+    "source-map-support": "^0.5.16"
   },
   "scripts": {
     "test": "mocha -w --recursive test/**/*.spec.js",
