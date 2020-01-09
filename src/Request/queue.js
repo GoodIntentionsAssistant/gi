@@ -102,7 +102,7 @@ module.exports = class Queue {
 /**
  * Check
  *
- * @returns {boolean}
+ * @returns {boolean} If check was successful
  */
 	check() {
 		//Find item in queue and do the request

@@ -188,9 +188,8 @@ module.exports = class App extends EventEmitter {
 		Promise.all(promises).then(() => {
 			this.load_queue();
 			this.load_server();
-		}).catch((err) => {
-			//@todo Catch error
-			console.log(err);
+		}).catch((error) => {
+			Logger.error('Skill promises failed to load', { error });
 		});
 
 		return true;

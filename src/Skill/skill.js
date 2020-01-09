@@ -29,8 +29,8 @@ module.exports = class Skill {
 /**
  * Load skill
  *
- * @todo Clean this method up and remove console logs
- * @returns {boolean}
+ * @todo Clean this method up and handle errors better
+ * @returns {boolean} If promise could be created for loading skill
  */
 	load() {
 		//Load
@@ -43,14 +43,12 @@ module.exports = class Skill {
 
 			Promise.all([intent_promises, entity_promises]).then(() => {
 				resolve();
-			}).catch((err) => {
-				//@todo Catch error
-				console.log(err);
+			}).catch((error) => {
+				Logger.error('Skill promises failed to load', { error });
 			});
 
-		}).catch((err) => {
-			//@todo Catch error
-			console.log(err);
+		}).catch((error) => {
+			Logger.error('Skill promises failed to load', { error });
 		});
 
 		return true;

@@ -176,8 +176,9 @@ module.exports = class ObjectRegistry {
     //file = file.replace(/\.js$/, '');
 
     //App and file
+    var Module;
     try {
-      var Module = require(file);
+      Module = require(file);
     }
     catch(e) {
       throw new Error([
@@ -189,8 +190,9 @@ module.exports = class ObjectRegistry {
 
     //Create the new module
     //If the file does not have an exported module it'll error
+    var object;
     try {
-      var object = new Module(this.app);
+      object = new Module(this.app);
     }
     catch(error) {
       throw new Error(['Failed to load', this.type, error.message, error.stack]);

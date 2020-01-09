@@ -47,7 +47,7 @@ module.exports = class Parameters {
  * Value of a parameter
  * 
  * @param {string} key Parameter key
- * @returns {*}
+ * @returns {*} Value of parameter
  */
 	value(key) {
 		if(!this.data[key]) {
@@ -158,7 +158,7 @@ module.exports = class Parameters {
 
 				//Check if entity is not an array
 				var entities = data[field]['entity'];
-				if(typeof entities == 'string') {
+				if(typeof entities === 'string') {
 					entities = [ entities ];
 				}
 
