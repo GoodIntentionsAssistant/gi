@@ -155,7 +155,7 @@ module.exports = class Response extends EventEmitter {
     for(let key in attachments) {
       for(let ii=0; ii<attachments[key].length; ii++) {
         let output = JSON.stringify(attachments[key][ii]);
-        Logger.info(`Reply ${key}: ${output}`, {
+        Logger.info(`Attachment: ${key}, ${output}`, {
           prefix: this.Request.ident
         });
       }

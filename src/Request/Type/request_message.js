@@ -50,7 +50,7 @@ module.exports = class RequestMessage extends Request {
     let text = this.utterance.text();
 
     //Logs
-    Logger.info(`Analyzing... ${original}`, { prefix:this.ident, new_line: true });
+    Logger.info(`Analyzing... "${original}"`, { prefix:this.ident, new_line: true });
 
     //Setup history
     this.history = new History(this);
@@ -61,12 +61,15 @@ module.exports = class RequestMessage extends Request {
       request: this
     });
 
+    //Cancelled
+    this.cancelled.check();
+
     //Expects
     //If expects is set then we're waiting for input. Could be a
     //simple question like what's your favorite colour or asking them to login
     //and we need their email and password. The previous intent sets expects.
-    if(this.expects.has()) {
-      this.expects.check(this);
+    if(this.expects.has() && !this.intent) {
+      this.expects.check();
     }
 
     //Understand input if expects didn't set it
