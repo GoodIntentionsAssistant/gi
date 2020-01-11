@@ -131,6 +131,14 @@ module.exports = class Response extends EventEmitter {
     //Get current attachments
     let attachments = this.attachments();
 
+    //No attachments could be built
+    //This is different than no attachments passed. Attachments might have been passed
+    //but they could have failed to build, maybe due to validation problems.
+    if(Object.keys(attachments).length === 0) {
+      Logger.warn(`Response had no attachments so nothing could be sent`, { prefix:this.Request.ident  });
+      return false;
+    }
+
     //Clear the attachments because we'll be sending them
     this.clearAttachments();
 
@@ -204,6 +212,12 @@ module.exports = class Response extends EventEmitter {
     //Build an object with the attachment object
     //This is not the same as this.build() !
     let result = obj.build(data, this.Template);
+
+    //Failed to build attachment
+    //Could be due to required data fields missing, check warn log
+    if(!result) {
+      return false;
+    }
 
     //Check if the attachment key has been added already, if not create a key
     //This will keep all attachments grouped together

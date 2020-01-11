@@ -131,6 +131,7 @@ module.exports = class Labeler {
 
     //
     const tag_to_type = {
+      'CD': 'number',
       'IN': 'preposition',
       'JJ': 'adjective',
       'JJR': 'adjective',
@@ -155,6 +156,8 @@ module.exports = class Labeler {
     for(let ii=0; ii<output[0].tags.length; ii++) {
       //Get the tag, e.g. JJ
       let label = output[0].tags[ii];
+
+      console.log(label);
 
       //See if we can match it up with a type
       let type = tag_to_type[label];

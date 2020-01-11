@@ -30,7 +30,7 @@ exports._init = function() {
 	let app_json = JSON.parse(app_data);
 
 	//Merge them together
-	let json = extend(default_json, app_json);
+	let json = extend(true, default_json, app_json);
 	global.gi_config = json;
 }
 

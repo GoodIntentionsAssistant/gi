@@ -5,6 +5,19 @@ const Attachment = girequire('/src/Attachment/attachment');
 
 module.exports = class FieldAttachment extends Attachment {
 
+
+/**
+ * Load
+ * 
+ * @returns boolean Success
+ */
+  load() {
+    this.validate('name');
+    this.validate('value');
+    return true;
+  }
+
+
 /**
  * Build
  * 

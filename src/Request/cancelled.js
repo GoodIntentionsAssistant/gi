@@ -25,7 +25,7 @@ module.exports = class Cancelled {
 	check() {
     //Check something should be cancelled
     //For this will will just change the intent
-    let cancel = this.app.Understand.process(this.request.utterance, ['cancel']);
+    const cancel = this.app.Understand.process(this.request.utterance, ['cancel']);
     
 		if(cancel.success) {
       Logger.info('Cancelling request', { prefix:this.request.ident });

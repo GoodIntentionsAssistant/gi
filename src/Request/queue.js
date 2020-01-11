@@ -35,10 +35,18 @@ module.exports = class Queue {
 		//It's suggested to keep this number low
 		this.max_consecutive = Config.read('queue.max_consecutive');
 
+		if(!this.max_consecutive) {
+			Logger.fatal('Queue max_consecutive out not defined in config');
+		}
+
 		//Request time out
 		//If a request takes too much time to process the request will time out
 		//This will free up the number of requests based on max_consecutive
 		this.queue_timeout = Config.read('queue.timeout');
+
+		if(!this.queue_timeout) {
+			Logger.fatal('Queue time out not defined in config');
+		}
 
 		//Listen to the main app loop
     app.on('app.loop', () => {
@@ -55,7 +63,7 @@ module.exports = class Queue {
  * @returns {boolean}
  */
 	start() {
-		Logger.success(`Queue started with ${this.max_consecutive} maximum consecutive requests`);
+		Logger.success(`Queue started with ${this.max_consecutive} maximum consecutive and ${this.queue_timeout}ms time out`);
 		this.active = true;
 		return true;
 	}
