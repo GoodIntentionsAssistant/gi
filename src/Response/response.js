@@ -139,6 +139,9 @@ module.exports = class Response extends EventEmitter {
       return false;
     }
 
+    //Add request attachments
+    this.requestAttachments();
+
     //Clear the attachments because we'll be sending them
     this.clearAttachments();
 
@@ -242,6 +245,30 @@ module.exports = class Response extends EventEmitter {
 
 
 /**
+ * Request attachments
+ * 
+ * @returns {boolean} Success of adding
+ */
+  requestAttachments() {
+    //Utterance information
+    if(this.Request.utterance) {
+      this.attachment('request',{ name: "text", value: this.Request.utterance.text() });
+      this.attachment('request',{ name: "labels", value: this.Request.utterance.labels() });
+    }
+
+    //If request has an intent
+    if(this.Request.intent) {
+      this.attachment('request',{ name: "collection", value: this.Request.collection });
+      this.attachment('request',{ name: "intent", value: this.Request.intent.identifier });
+      this.attachment('request',{ name: "action", value: this.Request.action });
+      this.attachment('request',{ name: "confidence", value: this.Request.confidence });
+    }
+    
+    return true;
+  }
+
+
+/**
  * Clear all attachments
  * 
  * @returns {boolean} Success of clearing the attachments
@@ -266,14 +293,6 @@ module.exports = class Response extends EventEmitter {
       user:   this.Request.input.user,
       attachments
     };
-
-    //Intent information
-    if(this.Request.intent) {
-      result.collection   = this.Request.collection;
-      result.intent       = this.Request.intent.identifier;
-      result.action       = this.Request.action;
-      result.confidence   = this.Request.confidence;
-    }
 
     return result;
   }

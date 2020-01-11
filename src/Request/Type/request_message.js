@@ -49,16 +49,6 @@ module.exports = class RequestMessage extends Request {
     let original = this.utterance.original();
     let text = this.utterance.text();
 
-    //Add utterance data to attachment
-		this.attachment('field',{
-			name: "utterance_text",
-			value: this.utterance.text()
-    });
-		this.attachment('field',{
-			name: "utterance_labels",
-			value: this.utterance.labels()
-    });
-
     //Logs
     Logger.info(`Analyzing... "${original}"`, { prefix:this.ident, new_line: true });
 

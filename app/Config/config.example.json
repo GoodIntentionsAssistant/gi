@@ -9,7 +9,9 @@
     "Sys.Attachment.Action",
     "Sys.Attachment.Field",
     "Sys.Attachment.Reply",
-    "Sys.Attachment.Voice"
+    "Sys.Attachment.Voice",
+    "Sys.Attachment.Ping",
+    "Sys.Attachment.Request"
   ],
 
   "clients": {
