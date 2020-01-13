@@ -157,8 +157,6 @@ module.exports = class Labeler {
       //Get the tag, e.g. JJ
       let label = output[0].tags[ii];
 
-      console.log(label);
-
       //See if we can match it up with a type
       let type = tag_to_type[label];
       if(!type) { continue; }

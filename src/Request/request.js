@@ -7,7 +7,7 @@ const Promise = require('promise');
 
 const Parameters  = girequire('src/Request/parameters');
 const Expects     = girequire('src/Request/expects');
-const Cancelled   = girequire('src/Request/cancelled');
+const Cancel      = girequire('src/Request/cancel');
 const Logger      = girequire('/src/Helpers/logger');
 
 
@@ -28,7 +28,7 @@ module.exports = class Request {
 		this.ident = ident;
 
 		//Cancel
-		this.cancelled = new Cancelled(this);
+		this.cancel = new Cancel(this);
 
 		//Expects
 		this.expects = new Expects(this);

@@ -5,7 +5,7 @@ const moment = require('moment');
 const Expects = girequire('src/Request/expects');
 const EntityRegistry = girequire('src/Entity/entity_registry');
 
-describe.only('Expects', function() {
+describe('Expects', function() {
 
   beforeEach(() => {
     this.FakeRequest = new Object();

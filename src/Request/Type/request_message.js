@@ -62,7 +62,7 @@ module.exports = class RequestMessage extends Request {
     });
 
     //Cancelled
-    this.cancelled.check();
+    this.cancel.check();
 
     //Expects
     //If expects is set then we're waiting for input. Could be a

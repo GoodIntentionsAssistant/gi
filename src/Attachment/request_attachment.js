@@ -9,7 +9,7 @@ module.exports = class FieldAttachment extends Attachment {
 /**
  * Load
  * 
- * @returns boolean Success
+ * @returns {boolean} Success
  */
   load() {
     this.validate('name');

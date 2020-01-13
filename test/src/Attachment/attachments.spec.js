@@ -57,7 +57,7 @@ describe('Attachments', function() {
 
   it('can handle fields', () => {
     let attachment = new FieldAttachment();
-    expect(attachment.build({ 'field1': 'value1', 'field2': 'value2' })).to.eql({ 'field1': 'value1', 'field2': 'value2' });
+    expect(attachment.build({ 'name': 'name1', 'value': 'value2' })).to.eql({ 'name': 'name1', 'value': 'value2' });
   });
 
   it('can handle actions', () => {

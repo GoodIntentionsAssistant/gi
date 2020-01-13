@@ -3,7 +3,7 @@
  */
 const Logger = girequire('/src/Helpers/logger');
 
-module.exports = class Cancelled {
+module.exports = class Cancel {
 
 /**
  * Constructor

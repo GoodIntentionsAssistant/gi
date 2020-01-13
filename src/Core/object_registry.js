@@ -169,7 +169,7 @@ module.exports = class ObjectRegistry {
     options = extend(_options, options);
 
     //
-    Logger.info(this.type + ' ' + identifier + ' Loading');
+    Logger.info(this.type + ' ' + identifier + ' Loading', { prefix:'ObjectRegistry' });
 
     //Try to find the real path
     //file = fs.realpathSync(file + '.js');

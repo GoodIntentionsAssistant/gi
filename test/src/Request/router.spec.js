@@ -100,7 +100,7 @@ describe('Router', function() {
 
 
   it('returns the error instance', () => {
-    this.FakeApp.IntentRegistry.objects['App.Basics.Intent.Foobar'] = { foo:'bar' };
+    this.FakeApp.IntentRegistry.objects['Sys.Intent.Foobar'] = { foo:'bar' };
 
     let router = new Router(this.FakeRequest);
     let result = router.error('Foobar');

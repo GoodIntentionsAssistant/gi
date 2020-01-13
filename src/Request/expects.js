@@ -168,6 +168,8 @@ module.exports = class Expects {
 		//Need to check
 		if(this.redirect) {
 			//Set the intent action
+			console.log('action');
+			console.log(this.expecting.action);
 			if(this.expecting.action) {
 				this._set_intent_action(this.expecting.action);
 			}
@@ -217,7 +219,18 @@ module.exports = class Expects {
 			this.text = parsed.value;
 			this.redirect = true;
 			this.finish = true;
+
 			this.request.parameters.set(this.expecting.key, parsed.value);
+
+			//Check action
+			//The action might be set in the data, e.g. if the parsed value is 'yes' then the action will be 'what_sport'
+			//action: {
+			//	'yes': 'what_sport',
+			//	'no': 'watch_online'
+			//}
+			if(typeof this.expecting.action === 'object') {
+				this.expecting.action = this.expecting.action[parsed.value];
+			}
 
 			Logger.info(`Expects value found, "${parsed.value}", stored parameter key "${this.expecting.key}"`, { prefix:this.request.ident });
 		}

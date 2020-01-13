@@ -102,10 +102,6 @@ describe('Response', function() {
     expect(result.ident).to.equal('foobar');
     expect(result.user).to.equal('darren');
     expect(result.attachments).to.eql({});
-    expect(result.collection).to.equal('test-collection');
-    expect(result.intent).to.equal('test-identifier');
-    expect(result.action).to.equal('test-action');
-    expect(result.confidence).to.equal(1);
   });
 
 
