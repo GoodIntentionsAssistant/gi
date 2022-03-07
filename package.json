@@ -38,7 +38,7 @@
     "commander": "^4.0.1",
     "compendium-js": "0.0.31",
     "convert-units": "^2.3.4",
-    "dotty": "0.1.0",
+    "dotty": "0.1.2",
     "extend": "^3.0.2",
     "fs-extra": "^8.1.0",
     "handlebars": "^4.3.0",
